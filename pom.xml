@@ -37,6 +37,30 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>com.github.blutorange</groupId>
+        <artifactId>closure-compiler-maven-plugin</artifactId>
+        <version>2.16.0</version>
+        <executions>
+          <execution>
+            <id>default-minify</id>
+            <configuration>
+              <encoding>UTF-8</encoding>
+              <includes>*/**.js</includes>
+              <closureCompilationLevel>ADVANCED_OPTIMIZATIONS
+              </closureCompilationLevel>
+              <closureLanguageIn>ECMASCRIPT6_TYPED</closureLanguageIn>
+              <closureLanguageOut>ECMASCRIPT5_STRICT</closureLanguageOut>
+              <outputFilename>bundle.min.js</outputFilename>
+            </configuration>
+            <goals>
+              <goal>minify</goal>
+            </goals>
+            <phase>generate-resources</phase>
+          </execution>
+        </executions>
+      </plugin>
+
       <!-- Provides `mvn package appengine:run` for local testing
            and `mvn package appengine:deploy` for deploying. -->
       <plugin>
