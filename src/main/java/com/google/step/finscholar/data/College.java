@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.step.finscholar.data_objects;
+package com.google.step.finscholar.data;
 
 /** An object representing a College. */
 public final class College {
