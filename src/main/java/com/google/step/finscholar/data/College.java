@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.step.finscholar.data;
+package com.google.step.finscholar;
 
 import java.util.List;
 import java.util.UUID;
 
 /** An object representing a College. */
-public final class College {
+public class College {
 
   private String schoolName;
   private UUID collegeUuid;
@@ -114,7 +114,7 @@ public final class College {
   /**
    * @param newInstitutionType - Public, private, for-profit, etc.
    */
-  public void setInstitutionType(String newInstitutionType) { this.institutionType = newInstitutionType; }
+  public void setInstitutionType(String newInstitutionType) { this.institutionType = newInstitutionType.toLowerCase(); }
 
   /**
    * @param newAcceptanceRate - Acceptance Rate - Total Accepted/Total applicants.
@@ -139,7 +139,7 @@ public final class College {
   /**
    * @param newNetCost - Average net cost for the income quintile between $0-$30,000.
    */
-  public void setNetCostForFirstQuintile(int newNetCostFirstQuintile) { this.netCostForFirstQuintile = newNetCost; }
+  public void setNetCostForFirstQuintile(int newNetCost) { this.netCostForFirstQuintile = newNetCost; }
 
   /**
    * @param newNetCost - Average net cost for the income quintile between $30,001-$48,000.
