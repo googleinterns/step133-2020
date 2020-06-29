@@ -24,13 +24,15 @@ public final class CollegeData {
 
   public static final List<College> COLLEGES = createColleges();
 
-  private List<College> createColleges() {
-    public static List<College> colleges = new ArrayList<College>();
-    public static College school = new College("Duke University");
+  private static List<College> createColleges() {
+    List<College> colleges = new ArrayList<College>();
+    College school = new College("Duke University");
     school.setInstitutionType("Private");
     school.setAcceptanceRate(0.07);
-    school.setAverageACTSCore(33);
-    public List<UUID> users = new ArrayList<UUID>(UUID.randomUUID(), UUID.randomUUID());
+    school.setAverageACTScore(33);
+    List<UUID> users = new ArrayList<UUID>();
+    users.add(UUID.randomUUID());
+    users.add(UUID.randomUUID());
     school.setUsersUUIDList(users);
     school.setTotalCostAttendance(75000);
     school.setNetCostForFirstQuintile(2000);
@@ -38,7 +40,7 @@ public final class CollegeData {
     school.setNetCostForThirdQuintile(10000);
     school.setNetCostForFourthQuintile(20000);
     school.setNetCostForFifthQuintile(30000);
-    
+
     for(int i = 0; i < 5; i++) {
       colleges.add(school);
     }
