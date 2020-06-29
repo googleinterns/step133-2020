@@ -75,7 +75,7 @@ public final class CollegeTest {
   public void usersList() {
     List<UUID> users = new ArrayList<>();
 
-    for(int i = 0; i < 5; i++){
+    for(int i = 0; i < 5; i++) {
       users.add(UUID.randomUUID());
     }
 
