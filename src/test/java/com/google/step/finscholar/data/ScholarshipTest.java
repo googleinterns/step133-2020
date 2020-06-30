@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,8 +27,6 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class ScholarshipTest {
-  private Scholarship scholarshipData1;
-  private Scholarship scholarshipData2;
   private Scholarship customScholarship;
 
   private static final String TEST_NAME = "Scholarship Name";
@@ -39,8 +36,6 @@ public class ScholarshipTest {
    
   @Before
   public void setup() {
-    scholarshipData1 = ScholarshipSamples.scholarshipSampleOne;
-    scholarshipData2 = ScholarshipSamples.scholarshipSampleTwo;
     customScholarship =  new Scholarship(TEST_NAME, TEST_ID, TEST_SCHOOLS, EMPTY_URL);
   }
 
