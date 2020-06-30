@@ -26,20 +26,22 @@ public final class CollegeData {
 
   private static List<College> createColleges() {
     List<College> colleges = new ArrayList<College>();
-    College school = new College("Duke University");
-    school.setInstitutionType("Private");
-    school.setAcceptanceRate(0.07);
-    school.setAverageACTScore(33);
+
     List<UUID> users = new ArrayList<UUID>();
     users.add(UUID.randomUUID());
     users.add(UUID.randomUUID());
-    school.setUsersUUIDList(users);
-    school.setTotalCostAttendance(75000);
-    school.setNetCostForFirstQuintile(2000);
-    school.setNetCostForSecondQuintile(5000);
-    school.setNetCostForThirdQuintile(10000);
-    school.setNetCostForFourthQuintile(20000);
-    school.setNetCostForFifthQuintile(30000);
+    
+    College school = new College("Duke University");
+    school.setInstitutionType("Private")
+      .setAcceptanceRate(0.07)
+      .setAverageACTScore(33)
+      .setUsersUUIDList(users)
+      .setTotalCostAttendance(75000)
+      .setNetCostForFirstQuintile(2000)
+      .setNetCostForSecondQuintile(5000)
+      .setNetCostForThirdQuintile(10000)
+      .setNetCostForFourthQuintile(20000)
+      .setNetCostForFifthQuintile(30000);
 
     for(int i = 0; i < 5; i++) {
       colleges.add(school);
