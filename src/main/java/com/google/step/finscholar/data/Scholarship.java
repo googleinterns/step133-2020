@@ -43,7 +43,7 @@ public class Scholarship {
 
   public Scholarship(String name, UUID uuid, List<UUID> schoolsList, String URL) {
     this.scholarshipName = name;
-    this.scholarshipUUID = UUID.fromString(name);
+    this.scholarshipUUID = uuid;
     this.schoolsList = schoolsList;
     this.URL = URL;
     this.amountPerYear = Optional.empty();
