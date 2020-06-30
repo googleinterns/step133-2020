@@ -32,3 +32,6 @@ cd src/main/webapp
   --outputDirectory js/include \
   --srcs templates/*.soy || exit $?
 cd - >/dev/null 2>&1
+
+# Remove target directory to build from scratch:
+rm -rf "./target"
