@@ -15,9 +15,12 @@
 package com.google.step.finscholar.data;
 
 import java.util.List;
+<<<<<<< HEAD
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
+=======
+>>>>>>> dd91dc4fd83ad46139f0529c04d148a7088900d5
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -161,4 +164,5 @@ public class ScholarshipTest {
     Assert.assertEquals(expected, 
         customScholarship.setOtherRequirements(expected).getOtherRequirements());
   }
+
 }
