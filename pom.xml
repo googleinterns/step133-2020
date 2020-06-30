@@ -45,6 +45,8 @@
           <execution>
             <id>default-minify</id>
             <configuration>
+              <!-- Set below to false before deploying. -->
+              <closureCreateSourceMap>true</closureCreateSourceMap>
               <encoding>UTF-8</encoding>
               <includes>**/*.js</includes>
               <closureCompilationLevel>ADVANCED_OPTIMIZATIONS
@@ -55,6 +57,13 @@
               <closureLanguageIn>ECMASCRIPT6_TYPED</closureLanguageIn>
               <closureLanguageOut>ECMASCRIPT5_STRICT</closureLanguageOut>
               <outputFilename>bundle.min.js</outputFilename>
+              <closureSourceMapLocationMappings>
+                <closureSourceMapLocationMapping>
+                  <name>js/</name>
+                  <value>../../../src/main/webapp/js</value>
+                </closureSourceMapLocationMapping>
+              </closureSourceMapLocationMappings>
+              <closureSourceMapName>bundle.min.map.js</closureSourceMapName>
             </configuration>
             <goals>
               <goal>minify</goal>

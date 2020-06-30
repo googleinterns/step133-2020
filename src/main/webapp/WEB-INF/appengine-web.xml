@@ -5,8 +5,11 @@
   <runtime>java8</runtime>
   <static-files>
     <!-- prevent unwanted caching when accessing via the web preview server -->
+    <!-- Comment out the js directory below before deploying. -->
+    <include path="/js/**" expiration="0s" />
     <include path="/css/**" expiration="0s" />
     <include path="/index.html" expiration="0s" />
     <include path="/js/bundle.min.js" expiration="0s" />
+    <include path="/js/bundle.min.map.js" expiration="0s" />
   </static-files>
 </appengine-web-app>
