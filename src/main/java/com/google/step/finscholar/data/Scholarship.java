@@ -56,10 +56,11 @@ public class Scholarship {
     this.financialRequirements = List.of();
     this.otherRequirements = List.of();
     this.isRenewable = Optional.empty();
+    this.introduction = Optional.empty();
   }
 
   /** 
-   * The getter of academic requirments list. 
+   * The getter of academic requirements list. 
    * @return The academic requirements list for the scholarship. 
    */
   public List<String> getAcademicRequirements() {
@@ -124,7 +125,7 @@ public class Scholarship {
 
   /**
    * The getter of the number of years the scholarship is offered to one student.
-   * @return The duraton of the scholarship in year.
+   * @return The duration of the scholarship in years.
    */
   public Optional<Integer> getNumberOfYears() {
     return this.numberOfYears;
@@ -211,8 +212,8 @@ public class Scholarship {
    * @param applicationProcess
    * @return The updated scholarship object.
    */
-  public Scholarship setApplicationProcess(Optional<String> applicationProcess) {
-    this.applicationProcess = applicationProcess;
+  public Scholarship setApplicationProcess(String applicationProcess) {
+    this.applicationProcess = Optional.of(applicationProcess);
     return this;
   }
 
