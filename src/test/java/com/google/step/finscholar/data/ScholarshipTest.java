@@ -27,6 +27,7 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class ScholarshipTest {
+
   private Scholarship customScholarship;
 
   private static final String TEST_NAME = "Scholarship Name";
