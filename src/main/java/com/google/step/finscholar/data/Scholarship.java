@@ -28,7 +28,7 @@ public class Scholarship {
   // irregular, such as "full tuition with extra $1000 bonus", "full tuition with room & board" etc..
   private Optional<String> amountPerYear;
   private Optional<String> applicationProcess;
-  private Optional<int> numberOfYears;
+  private Optional<Integer> numberOfYears;
   private List<String> ethnicityRaceRequirements;
   private List<String> genderRequirements;
   private List<String> nationalOriginRequirements;
@@ -38,7 +38,7 @@ public class Scholarship {
   private List<String> otherRequirements;
   // Introduction can be any background knowledge of the scholarship.
   private Optional<String> introduction;
-  private Optional<boolean> isRenewable;
+  private Optional<Boolean> isRenewable;
   private final String URL;
 
   public Scholarship(String name, UUID uuid, List<UUID> schoolsList, String URL) {
@@ -123,7 +123,7 @@ public class Scholarship {
   }
 
   /**
-   * The getter for the number of year available to one student.
+   * The getter of the number of years the scholarship is offered to one student.
    * @return The duraton of the scholarship in year.
    */
   public Optional<Integer> getNumberOfYears() {
@@ -131,7 +131,7 @@ public class Scholarship {
   }
 
   /**
-   * The getter for the list of other requirements.
+   * The getter of the list of other requirements.
    * @return The list of other requirements.
    */
   public List<String> getOtherRequirements() {
