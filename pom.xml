@@ -46,9 +46,12 @@
             <id>default-minify</id>
             <configuration>
               <encoding>UTF-8</encoding>
-              <includes>*/**.js</includes>
+              <includes>**/*.js</includes>
               <closureCompilationLevel>ADVANCED_OPTIMIZATIONS
               </closureCompilationLevel>
+              <closureDependencyEntryPoints>file:script.js
+              </closureDependencyEntryPoints>
+              <closureDependencyMode>PRUNE</closureDependencyMode>
               <closureLanguageIn>ECMASCRIPT6_TYPED</closureLanguageIn>
               <closureLanguageOut>ECMASCRIPT5_STRICT</closureLanguageOut>
               <outputFilename>bundle.min.js</outputFilename>

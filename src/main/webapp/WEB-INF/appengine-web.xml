@@ -7,5 +7,6 @@
     <!-- prevent unwanted caching when accessing via the web preview server -->
     <include path="/css/**" expiration="0s" />
     <include path="/index.html" expiration="0s" />
+    <include path="/js/bundle.min.js" expiration="0s" />
   </static-files>
 </appengine-web-app>
