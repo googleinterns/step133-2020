@@ -15,6 +15,8 @@
 package com.google.step.finscholar.data;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,22 +29,42 @@ import org.junit.runners.JUnit4;
 public class ScholarshipTest {
   private Scholarship scholarshipData1;
   private Scholarship scholarshipData2;
+  private Scholarship customScholarship;
+
+  private static final String TEST_NAME = "Scholarship Name";
+  private static final List<UUID> TEST_SCHOOLS = List.of(UUID.randomUUID());
+  private static final UUID TEST_ID = UUID.randomUUID();
+  private static final String EMPTY_URL = "";
    
   @Before
   public void setup() {
     scholarshipData1 = ScholarshipSamples.scholarshipSampleOne;
     scholarshipData2 = ScholarshipSamples.scholarshipSampleTwo;
+    customScholarship =  new Scholarship(TEST_NAME, TEST_ID, TEST_SCHOOLS, EMPTY_URL);
   }
 
   @Test
   public void testGetName() {
-    String expected = "Reginaldo Howard Memorial Scholars";
-    Assert.assertEquals(expected, scholarshipData1.getScholarshipName());
+    String expected1 = "Reginaldo Howard Memorial Scholars";
+    String expected2 = "Cornelius Vanderbilt Scholarship";
+    Assert.assertEquals(expected1, scholarshipData1.getScholarshipName());
+    Assert.assertEquals(expected2, scholarshipData2.getScholarshipName());
+    Assert.assertEquals(TEST_NAME, customScholarship.getScholarshipName());
   }
 
   @Test
-  public void testAmnoutPerYear() {
+  public void testEthnicityRaceRequirements() {
     List<String> expected = List.of(DemographicCategories.BLACK_OR_AFRICAN_AMERICAN);
     Assert.assertEquals(expected, scholarshipData1.getEthnicityRaceRequirements());
+  }
+
+  @Test
+  public void testAmountPerYear() {
+    Assert.assertEquals(Optional.empty(), scholarshipData1.getAmountPerYear());
+  }
+
+  @Test
+  public void testGetUUID() {
+    Assert.assertEquals(TEST_ID, customScholarship.getScholarshipUUID());
   }
 }
