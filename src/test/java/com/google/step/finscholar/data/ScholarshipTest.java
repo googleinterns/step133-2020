@@ -456,4 +456,14 @@ public class ScholarshipTest {
     Assert.assertEquals(expected, 
         customScholarship.setNationalOriginRequirements(expected).getNationalOriginRequirements());
   }
+
+  @Test
+  public void TestSetGetOtherRequirements(){
+    String testString1 = "requirement 1";
+    String testString2 = "requirement 2";
+    List<String> expected = List.of(testString1, testString2);
+    Assert.assertEquals(List.of(), customScholarship.getOtherRequirements());
+    Assert.assertEquals(expected, 
+        customScholarship.setOtherRequirements(expected).getOtherRequirements());
+  }
 }
