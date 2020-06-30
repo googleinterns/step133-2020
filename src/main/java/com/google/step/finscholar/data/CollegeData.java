@@ -20,7 +20,6 @@ import java.util.UUID;
 
 /** Holder for hardcoded College objects. */
 public final class CollegeData {
-  public CollegeData () {}
 
   public static final List<College> COLLEGES = createColleges();
 
