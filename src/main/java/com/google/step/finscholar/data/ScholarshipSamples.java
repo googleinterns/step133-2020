@@ -43,4 +43,5 @@ public class ScholarshipSamples {
       .setAcademicRequirements(ACADEMIC_REQUIREMENTS_2)
       .setIntroduction(SUMMARY_2)
       .setAmountPerYear(AMOUNT_2);
+      
 }
