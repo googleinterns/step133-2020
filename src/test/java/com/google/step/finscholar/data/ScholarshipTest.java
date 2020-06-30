@@ -577,4 +577,5 @@ public class ScholarshipTest {
     Assert.assertEquals(expected, 
         customScholarship.setOtherRequirements(expected).getOtherRequirements());
   }
+
 }
