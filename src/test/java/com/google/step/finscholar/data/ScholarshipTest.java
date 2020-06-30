@@ -185,5 +185,23 @@ public class ScholarshipTest {
     Assert.assertEquals(List.of(), customScholarship.getOtherRequirements());
     Assert.assertEquals(expected, 
         customScholarship.setOtherRequirements(expected).getOtherRequirements());
+=======
+  }
+
+  @Test
+  public void testEthnicityRaceRequirements() {
+    List<String> expected = List.of(DemographicCategories.BLACK_OR_AFRICAN_AMERICAN);
+    Assert.assertEquals(expected, scholarshipData1.getEthnicityRaceRequirements());
+>>>>>>> adds more tests
+  }
+
+  @Test
+  public void testAmountPerYear() {
+    Assert.assertEquals(Optional.empty(), scholarshipData1.getAmountPerYear());
+  }
+
+  @Test
+  public void testGetUUID() {
+    Assert.assertEquals(TEST_ID, customScholarship.getScholarshipUUID());
   }
 }
