@@ -63,7 +63,7 @@ public class Scholarship {
    * @return The academic requirements list for the scholarship. 
    */
   public List<String> getAcademicRequirements() {
-    return academicRequirements;
+    return this.academicRequirements;
   }
 
   /**
@@ -79,7 +79,7 @@ public class Scholarship {
    * @return The amount given to one individual per year.
    */
   public Optional<String> getAmountPerYear() {
-    return amountPerYear;
+    return this.amountPerYear;
   }
 
   /** 
@@ -87,7 +87,7 @@ public class Scholarship {
    * @return The list of ethnicity and race restrictions.
    */
   public List<String> getEthnicityRaceRequirements() {
-    return ethnicityRaceRequirements;
+    return this.ethnicityRaceRequirements;
   }
 
   /**
@@ -95,7 +95,7 @@ public class Scholarship {
    * @return The list of financial requirements.
    */
   public List<String> getFinancialRequirements() {
-    return financialRequirements;
+    return this.financialRequirements;
   }
 
   /**
@@ -103,7 +103,7 @@ public class Scholarship {
    * @return The list of gender requirements.
    */
   public List<String> getGenderRequirements() {
-    return genderRequirements;
+    return this.genderRequirements;
   }
 
   /**
@@ -111,7 +111,7 @@ public class Scholarship {
    * @return The list of location requirements.
    */
   public List<String> getLocationRequirements() {
-    return locationRequirements;
+    return this.locationRequirements;
   }
 
   /**
@@ -119,7 +119,7 @@ public class Scholarship {
    * @return The list of national origin requirements.
    */
   public List<String> getNationalOriginRequirements() {
-    return nationalOriginRequirements;
+    return this.nationalOriginRequirements;
   }
 
   /**
@@ -127,7 +127,7 @@ public class Scholarship {
    * @return The duraton of the scholarship in year.
    */
   public Optional<Integer> getNumberOfYears() {
-    return numberOfYears;
+    return this.numberOfYears;
   }
 
   /**
@@ -135,7 +135,7 @@ public class Scholarship {
    * @return The list of other requirements.
    */
   public List<String> getOtherRequirements() {
-    return otherRequirements;
+    return this.otherRequirements;
   }
 
   /**
@@ -143,7 +143,7 @@ public class Scholarship {
    * @return The name of the scholarship.
    */
   public String getScholarshipName() {
-    return scholarshipName;
+    return this.scholarshipName;
   }
 
   /**
@@ -151,7 +151,7 @@ public class Scholarship {
    * @return the UUID of the scholarship.
    */
   public UUID getScholarshipUUID() {
-    return scholarshipUUID;
+    return this.scholarshipUUID;
   }
   
   /**
@@ -159,7 +159,7 @@ public class Scholarship {
    * @return The schools list.
    */
   public List<UUID> getSchoolsList() {
-    return schoolsList;
+    return this.schoolsList;
   }
 
   /**
@@ -167,7 +167,7 @@ public class Scholarship {
    * @return The URL.
    */
   public String getURL() {
-    return URL;
+    return this.URL;
   }
 
   /**
@@ -175,7 +175,7 @@ public class Scholarship {
    * @return The optional containing introduction.
    */
   public Optional<String> getIntroduction() {
-    return introduction;
+    return this.introduction;
   }
 
   /**
@@ -183,7 +183,7 @@ public class Scholarship {
    * @return The Optional of boolean for isRenewable.
    */
   public Optional<Boolean> getIsRenewable() {
-    return isRenewable;
+    return this.isRenewable;
   }
 
   /**
