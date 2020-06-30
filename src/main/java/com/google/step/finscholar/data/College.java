@@ -49,115 +49,101 @@ public class College {
 
   // Getter methods.
 
-  /**
-   * @return - Name of the college.
-   */
+  /** @return - Name of the college. */
   public String getSchoolName() { return this.schoolName; }
 
-  /**
-   * @return - UUID for the college.
-   */
+  /** @return - UUID for the college. */
   public UUID getCollegeUuid() { return this.collegeUuid; }
 
-  /**
-   * @return - Institutiton Type: Public, private, for-profit, etc.
-   */
+  /** @return - Institutiton Type: Public, private, for-profit, etc. */
   public String getInstitutionType() { return this.institutionType; }
 
-  /**
-   * @return - Acceptance Rate - Total Accepted/Total applicants.
-   */
+  /** @return - Acceptance Rate - Total Accepted/Total applicants. */
   public double getAcceptanceRate() { return this.acceptanceRate; }
 
-  /**
-   * @return - Median ACT Score of students accepted.
-   */
+  /** @return - Median ACT Score of students accepted. */
   public double getAverageACTScore() { return this.averageACTScore; }
 
-  /**
-   * @return - Users associated with the college.
-   */
+  /** @return - Users associated with the college. */
   public List<UUID> getUsersUUIDList() { return this.usersUUIDList; }
 
-  /**
-   * @return - Average total cost of attendance without financial Aid.
-   */
+  /** @return - Average total cost of attendance without financial Aid. */
   public int getTotalCostAttendance() { return this.totalCostAttendance; }
 
-  /**
-   * @return - Average net cost for the income quintile between $0-$30,000.
-   */
+  /** @return - Average net cost for the income quintile between $0-$30,000. */
   public int getNetCostForFirstQuintile() { return this.netCostForFirstQuintile; }
 
-  /**
-   * @return - Average net cost for the income quintile between $30,001-$48,000.
-   */
+  /** @return - Average net cost for the income quintile between $30,001-$48,000. */
   public int getNetCostForSecondQuintile() { return this.netCostForSecondQuintile; }
 
-  /**
-   * @return - Average net cost for the income quintile between $48,001-$75,000.
-   */
+  /** @return - Average net cost for the income quintile between $48,001-$75,000. */
   public int getNetCostForThirdQuintile() { return this.netCostForThirdQuintile; }
 
-  /**
-   * @return - Average net cost for the income quintile between $75,001-$110,000.
-   */
+  /** @return - Average net cost for the income quintile between $75,001-$110,000. */
   public int getNetCostForFourthQuintile() { return this.netCostForFourthQuintile; }
 
-  /**
-   * @return - Average net cost for the income quintile between $110,000+.
-   */
+  /** @return - Average net cost for the income quintile between $110,000+. */
   public int getNetCostForFifthQuintile() { return this.netCostForFifthQuintile; }
 
   // Setter methods.
 
-  /**
-   * @param newInstitutionType - Public, private, for-profit, etc.
-   */
-  public void setInstitutionType(String newInstitutionType) { this.institutionType = newInstitutionType.toLowerCase(); }
+  /** @param newInstitutionType - Public, private, for-profit, etc. */
+  public College setInstitutionType(String newInstitutionType) { 
+    this.institutionType = newInstitutionType.toLowerCase(); 
+    return this;
+  }
 
-  /**
-   * @param newAcceptanceRate - Acceptance Rate - Total Accepted/Total applicants.
-   */
-  public void setAcceptanceRate(double newAcceptanceRate) { this.acceptanceRate = newAcceptanceRate; }
+  /** @param newAcceptanceRate - Acceptance Rate - Total Accepted/Total applicants. */
+  public College setAcceptanceRate(double newAcceptanceRate) { 
+    this.acceptanceRate = newAcceptanceRate; 
+    return this;
+  }
   
-  /**
-   * @param newACTScore - Median ACT Score of students accepted.
-   */
-  public void setAverageACTScore(double newACTScore) { this.averageACTScore = newACTScore; }
+  /** @param newACTScore - Median ACT Score of students accepted. */
+  public College setAverageACTScore(double newACTScore) { 
+    this.averageACTScore = newACTScore; 
+    return this;
+  }
 
-  /**
-   * @param newUsersList - Users associated with the college.
-   */
-  public void setUsersUUIDList(List<UUID> newUsersList) { this.usersUUIDList = newUsersList; }
+  /** @param newUsersList - Users associated with the college. */
+  public College setUsersUUIDList(List<UUID> newUsersList) { 
+    this.usersUUIDList = newUsersList; 
+    return this;
+  }
 
-  /**
-   * @param newTotalCost - Average total cost of attendance without financial Aid.
-   */
-  public void setTotalCostAttendance(int newTotalCost) { this.totalCostAttendance = newTotalCost; }
+  /** @param newTotalCost - Average total cost of attendance without financial Aid. */
+  public College setTotalCostAttendance(int newTotalCost) { 
+    this.totalCostAttendance = newTotalCost; 
+    return this;
+  }
 
-  /**
-   * @param newNetCost - Average net cost for the income quintile between $0-$30,000.
-   */
-  public void setNetCostForFirstQuintile(int newNetCost) { this.netCostForFirstQuintile = newNetCost; }
+  /** @param newNetCost - Average net cost for the income quintile between $0-$30,000. */
+  public College setNetCostForFirstQuintile(int newNetCost) { 
+    this.netCostForFirstQuintile = newNetCost; 
+    return this;
+  }
 
-  /**
-   * @param newNetCost - Average net cost for the income quintile between $30,001-$48,000.
-   */
-  public void setNetCostForSecondQuintile(int newNetCost) { this.netCostForSecondQuintile = newNetCost; }
+  /** @param newNetCost - Average net cost for the income quintile between $30,001-$48,000. */
+  public College setNetCostForSecondQuintile(int newNetCost) { 
+    this.netCostForSecondQuintile = newNetCost; 
+    return this;
+  }
 
-  /**
-   * @param newNetCost - Average net cost for the income quintile between $48,001-$75,000.
-   */
-  public void setNetCostForThirdQuintile(int newNetCost) { this.netCostForThirdQuintile = newNetCost; }
+  /** @param newNetCost - Average net cost for the income quintile between $48,001-$75,000. */
+  public College setNetCostForThirdQuintile(int newNetCost) { 
+    this.netCostForThirdQuintile = newNetCost; 
+    return this;
+  }
 
-  /**
-   * @param newNetCost - Average net cost for the income quintile between $75,001-$110,000.
-   */
-  public void setNetCostForFourthQuintile(int newNetCost) { this.netCostForFourthQuintile = newNetCost; }
+  /** @param newNetCost - Average net cost for the income quintile between $75,001-$110,000. */
+  public College setNetCostForFourthQuintile(int newNetCost) { 
+    this.netCostForFourthQuintile = newNetCost; 
+    return this;
+  }
 
-  /**
-   * @param newNetCost - Average net cost for the income quintile between $110,000+.
-   */
-  public void setNetCostForFifthQuintile(int newNetCost) { this.netCostForFifthQuintile = newNetCost; }
+  /** @param newNetCost - Average net cost for the income quintile between $110,000+. */
+  public College setNetCostForFifthQuintile(int newNetCost) { 
+    this.netCostForFifthQuintile = newNetCost; 
+    return this;
+  }
 }
