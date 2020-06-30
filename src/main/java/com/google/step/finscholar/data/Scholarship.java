@@ -52,6 +52,7 @@ public class Scholarship {
     this.ethnicityRaceRequirements = List.of();
     this.genderRequirements = List.of();
     this.nationalOriginRequirements = List.of();
+    this.academicRequirements = List.of();
     this.locationRequirements = List.of();
     this.financialRequirements = List.of();
     this.otherRequirements = List.of();
