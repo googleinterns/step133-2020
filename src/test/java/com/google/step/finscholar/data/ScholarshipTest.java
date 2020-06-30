@@ -90,7 +90,8 @@ public class ScholarshipTest {
   public void testSetGetAmountPerYear() {
     String expected = "full tuition";
     Assert.assertEquals(Optional.empty(), scholarshipData1.getAmountPerYear());
-    Assert.assertEquals(expected, customScholarship.setAmountPerYear(expected).getAmountPerYear());
+    Assert.assertEquals(expected, 
+        customScholarship.setAmountPerYear(expected).getAmountPerYear().get());
   }
 
   @Test
@@ -107,7 +108,7 @@ public class ScholarshipTest {
     Assert.assertEquals(expected1, scholarshipData1.getEthnicityRaceRequirements());
     List<String> expected2 = List.of(DemographicCategories.HISPANIC);
     Assert.assertEquals(expected2, 
-        scholarshipData2.setEthnicityRaceRequirements(expected2).getEthnicityRaceRequirements().get());
+        scholarshipData2.setEthnicityRaceRequirements(expected2).getEthnicityRaceRequirements());
   }
 
   @Test
