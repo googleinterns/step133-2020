@@ -3,6 +3,7 @@ package com.google.step.finscholar.data;
 import java.util.List;
 import java.util.UUID;
 
+/** The class with hard coded scholarship objects. */
 public class ScholarshipSamples {
   
   private static final String NAME_1 = "Reginaldo Howard Memorial Scholars";
