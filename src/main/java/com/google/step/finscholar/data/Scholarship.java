@@ -15,8 +15,8 @@
 package com.google.step.finscholar.data;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.Optional;
+import java.util.UUID;
 
 /** The Scholarship Class. */
 public class Scholarship {
@@ -28,7 +28,7 @@ public class Scholarship {
   // irregular, such as "full tuition with extra $1000 bonus", "full tuition with room & board" etc..
   private Optional<String> amountPerYear;
   private Optional<String> applicationProcess;
-  private Optional<Integer> numberOfYears;
+  private Optional<int> numberOfYears;
   private List<String> ethnicityRaceRequirements;
   private List<String> genderRequirements;
   private List<String> nationalOriginRequirements;
@@ -38,7 +38,7 @@ public class Scholarship {
   private List<String> otherRequirements;
   // Introduction can be any background knowledge of the scholarship.
   private Optional<String> introduction;
-  private Optional<Boolean> isRenewable;
+  private Optional<boolean> isRenewable;
   private final String URL;
 
   public Scholarship(String name, UUID uuid, List<UUID> schoolsList, String URL) {
@@ -59,8 +59,8 @@ public class Scholarship {
   }
 
   /** 
-   * The getter of academic requiments list. 
-   * @return The academic requiments list for the scholarship. 
+   * The getter of academic requirments list. 
+   * @return The academic requirements list for the scholarship. 
    */
   public List<String> getAcademicRequirements() {
     return academicRequirements;
@@ -91,31 +91,31 @@ public class Scholarship {
   }
 
   /**
-   * The getter of the list of finantial background requirments.
-   * @return The list of finantial requirements.
+   * The getter of the list of financial background requirements.
+   * @return The list of financial requirements.
    */
   public List<String> getFinancialRequirements() {
     return financialRequirements;
   }
 
   /**
-   * The getter for gender restriction of the scholarship.
-   * @return The list of gender requirement.
+   * The getter for gender restrictions of the scholarship.
+   * @return The list of gender requirements.
    */
   public List<String> getGenderRequirements() {
     return genderRequirements;
   }
 
   /**
-   * The getter for geographic restriction of the scholarship;
-   * @return The list of location requirement.
+   * The getter for geographic restrictions of the scholarship;
+   * @return The list of location requirements.
    */
   public List<String> getLocationRequirements() {
     return locationRequirements;
   }
 
   /**
-   * The getter for nationality restriction of the scholarship;
+   * The getter for nationality restrictions of the scholarship;
    * @return The list of national origin requirements.
    */
   public List<String> getNationalOriginRequirements() {
@@ -156,7 +156,7 @@ public class Scholarship {
   
   /**
    * The getter for the list of schools providing the scholarship.
-   * @return The schoollist.
+   * @return The schools list.
    */
   public List<UUID> getSchoolsList() {
     return schoolsList;
@@ -217,7 +217,7 @@ public class Scholarship {
   }
 
   /**
-   * The setter for ethnicityReaceRequirements.
+   * The setter for ethnicityRaceRequirements.
    * @param ethnicityRaceRequirements
    * @return The updated scholarship object.
    */
@@ -227,7 +227,7 @@ public class Scholarship {
   }
 
   /**
-   * The setter for finantial requirements.
+   * The setter for financial requirements.
    * @param financialRequirements
    * @return The updated scholarship object.
    */
