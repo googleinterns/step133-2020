@@ -28,5 +28,11 @@ public class DemographicCategories {
     public static final String INTERNATIONAL = "international student";
     public static final String FIRST_GENERATION = "first generation college student";
     public static final String LOW_INCOME = "low income student";  
+
+    public static final String MALE = "male";
+    public static final String FEMALE = "female";
+    public static final String TRANSGENDER = "transgender";
+    public static final String NON_BINARY = "non-binary";
+    public static final String GENDER_NEUTRAL = "gender neutral";
     
 }
