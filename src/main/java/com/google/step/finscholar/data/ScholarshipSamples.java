@@ -18,7 +18,6 @@ public class ScholarshipSamples {
   
   private static final String NAME_2 = "Cornelius Vanderbilt Scholarship";
   private static final List<UUID> SCHOOL_NAMES_2 = List.of(UUID.randomUUID());
-
   private static final UUID UUID_2 = UUID.randomUUID(); 
   private static final String SAMPLE_2_URL = 
       "https://www.vanderbilt.edu/scholarships/signature.php";
@@ -43,4 +42,5 @@ public class ScholarshipSamples {
       .setAcademicRequirements(ACADEMIC_REQUIREMENTS_2)
       .setIntroduction(SUMMARY_2)
       .setAmountPerYear(AMOUNT_2);
+      
 }
