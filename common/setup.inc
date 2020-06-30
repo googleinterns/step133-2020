@@ -29,7 +29,7 @@ cd - >/dev/null 2>&1
 cd src/main/webapp
 /usr/lib/jvm/java-1.8.0-openjdk-amd64/bin/java -jar ../../../deps/closure-templates/target/soy-2019-10-08-SoyToJsSrcCompiler.jar \
   --allowExternalCalls false \
-  --outputDirectory js/include \
+  --outputDirectory js \
   --srcs templates/*.soy || exit $?
 cd - >/dev/null 2>&1
 
