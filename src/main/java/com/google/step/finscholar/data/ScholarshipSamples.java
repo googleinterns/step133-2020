@@ -7,7 +7,7 @@ public class ScholarshipSamples {
   
   private static final String NAME_1 = "Reginaldo Howard Memorial Scholars";
   // Here it should be the UUID for Duke University, but we don't have the data yet;
-  private static final List<UUID> SCHOOL_NAMES_1 = List.of(UUID.fromString("Duke University")); 
+  private static final List<UUID> SCHOOL_NAMES_1 = List.of(UUID.randomUUID()); 
   private static final UUID UUID_1 = UUID.randomUUID();
   private static final String SAMPLE_1_URL = 
       "http://ousf.duke.edu/about-reggie-howard-scholars-program";
@@ -18,7 +18,7 @@ public class ScholarshipSamples {
   
   private static final String NAME_2 = "Cornelius Vanderbilt Scholarship";
   private static final List<UUID> SCHOOL_NAMES_2 = 
-      List.of(UUID.fromString("Vanderbilt University"));
+      List.of(UUID.randomUUID());
   private static final UUID UUID_2 = UUID.randomUUID(); 
   private static final String SAMPLE_2_URL = 
       "https://www.vanderbilt.edu/scholarships/signature.php";
@@ -43,4 +43,5 @@ public class ScholarshipSamples {
       .setAcademicRequirements(ACADEMIC_REQUIREMENTS_2)
       .setIntroduction(SUMMARY_2)
       .setAmountPerYear(AMOUNT_2);
+      
 }
