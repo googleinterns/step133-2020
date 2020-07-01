@@ -37,7 +37,7 @@ public final class CollegeTest {
   }
 
   @Test
-  public void schoolName() {
+  public void schoolNameCorrectlySet() {
     String expected = "Duke";
     String actual = college.getSchoolName();
     Assert.assertEquals(expected, actual);
@@ -50,7 +50,7 @@ public final class CollegeTest {
   }
 
   @Test
-  public void institutionType() {
+  public void institutionTypeCorrectlySet() {
     String expected = "public";
     college.setInstitutionType("Public");
     String actual = college.getInstitutionType();
@@ -58,7 +58,7 @@ public final class CollegeTest {
   }
 
   @Test
-  public void acceptanceRate() {
+  public void acceptanceRateCorrectlySet() {
     double expected = 0.07;
     college.setAcceptanceRate(0.07);
     double actual = college.getAcceptanceRate();
@@ -66,7 +66,7 @@ public final class CollegeTest {
   }
 
   @Test
-  public void ACTScore() {
+  public void ACTScoreCorrectlySet() {
     double expected = 34;
     college.setAverageACTScore(34);
     double actual = college.getAverageACTScore();
@@ -74,7 +74,7 @@ public final class CollegeTest {
   }
 
   @Test
-  public void usersList() {
+  public void usersListCorrectlySet() {
     List<UUID> users = new ArrayList<>();
 
     for(int i = 0; i < 5; i++) {
@@ -87,7 +87,7 @@ public final class CollegeTest {
   }
 
   @Test
-  public void totalCost() {
+  public void totalCostCorrectlySet() {
     int expected = 75000;
     college.setTotalCostAttendance(75000);
     int actual = college.getTotalCostAttendance();
@@ -95,7 +95,7 @@ public final class CollegeTest {
   }
 
   @Test
-  public void firstNetCost() {
+  public void firstNetCostCorrectlySet() {
     int expected = 2000;
     college.setNetCostForFirstQuintile(2000);
     int actual = college.getNetCostForFirstQuintile();
@@ -103,7 +103,7 @@ public final class CollegeTest {
   }
 
   @Test
-  public void secondNetCost() {
+  public void secondNetCostCorrectlySet() {
     int expected = 5000;
     college.setNetCostForSecondQuintile(5000);
     int actual = college.getNetCostForSecondQuintile();
@@ -111,7 +111,7 @@ public final class CollegeTest {
   }
 
   @Test
-  public void thirdNetCost() {
+  public void thirdNetCostCorrectlySet() {
     int expected = 10000;
     college.setNetCostForThirdQuintile(10000);
     int actual = college.getNetCostForThirdQuintile();
@@ -119,7 +119,7 @@ public final class CollegeTest {
   }
 
   @Test
-  public void fourthNetCost() {
+  public void fourthNetCostCorrectlySet() {
     int expected = 20000;
     college.setNetCostForFourthQuintile(20000);
     int actual = college.getNetCostForFourthQuintile();
@@ -127,7 +127,7 @@ public final class CollegeTest {
   }
 
   @Test
-  public void fifthNetCost() {
+  public void fifthNetCostCorrectlySet() {
     int expected = 40000;
     college.setNetCostForFifthQuintile(40000);
     int actual = college.getNetCostForFifthQuintile();
@@ -135,7 +135,7 @@ public final class CollegeTest {
   }
 
   @Test
-  public void medianDebt() {
+  public void medianDebtCorrectlySet() {
     int expected = 40000;
     college.setCumulativeMedianDebt(40000);
     int actual = college.getCumulativeMedianDebt();
