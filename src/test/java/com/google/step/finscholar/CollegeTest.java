@@ -133,5 +133,13 @@ public final class CollegeTest {
     int actual = college.getNetCostForFifthQuintile();
     Assert.assertEquals(expected, actual);
   }
+
+  @Test
+  public void medianDebt() {
+    int expected = 40000;
+    college.setCumulativeMedianDebt(40000);
+    int actual = college.getCumulativeMedianDebt();
+    Assert.assertEquals(expected, actual);
+  }
  
 }

@@ -85,6 +85,9 @@ public class College {
   /** @return - Average net cost for the income quintile between $110,000+. */
   public int getNetCostForFifthQuintile() { return this.netCostForFifthQuintile; }
 
+  /** @return - The accumulated median debt once the student has graduated. */
+  public int getCumulativeMedianDebt() { return this.cumulativeMedianDebt; }
+
   // Setter methods.
 
   /** @param newInstitutionType - Public, private, for-profit, etc. */
@@ -144,6 +147,12 @@ public class College {
   /** @param newNetCost - Average net cost for the income quintile between $110,000+. */
   public College setNetCostForFifthQuintile(int newNetCost) { 
     this.netCostForFifthQuintile = newNetCost; 
+    return this;
+  }
+
+  /** @param newCumulativeMedianDebt - The accumulated median debt once the student has graduated. */
+  public College setCumulativeMedianDebt(int newCumulativeMedianDebt) {
+    this.cumulativeMedianDebt = newCumulativeMedianDebt; 
     return this;
   }
 }
