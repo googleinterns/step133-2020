@@ -51,7 +51,7 @@
               <includes>**/*.js</includes>
               <closureCompilationLevel>ADVANCED_OPTIMIZATIONS
               </closureCompilationLevel>
-              <closureDependencyEntryPoints>file:script.js
+              <closureDependencyEntryPoints>file:finscholar/init.js
               </closureDependencyEntryPoints>
               <closureDependencyMode>PRUNE</closureDependencyMode>
               <closureLanguageIn>ECMASCRIPT6_TYPED</closureLanguageIn>
