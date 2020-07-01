@@ -12,16 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @fileoverview Main entry point for the app. */
+/** @fileoverview Base class for the page controller. */
 
-goog.module('finscholar');
+goog.module('pagecontroller');
 
 const GoogDom = goog.require('goog.dom');
-const {HomePageController} = goog.require('finscholar.homepagecontroller');
+const {test} = goog.require('pagecontroller.templates');
 
-const init = () => {
-  console.log('TODO: implement this.');
-  const homeController = new HomePageController();
-};
+/**
+ * Base class for a page controller.
+ * @public
+*/
+class PageController {
+  constructor() {
+  }
+}
 
-goog.exportSymbol('onload', init);
+exports = {PageController};

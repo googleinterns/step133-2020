@@ -21,17 +21,19 @@ git submodule update
 cd deps/closure-templates/
 # Check to see if we have already build the soy jars.
 if ! test -d "target"; then
+echo "Building soy compiler..."
   mvn package
 fi
 cd - >/dev/null 2>&1
 # We must change the working directory to set the working directory for the path
 # of the generated js files.
-cd src/main/webapp
-/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin/java -jar ../../../deps/closure-templates/target/soy-2019-10-08-SoyToJsSrcCompiler.jar \
-  --allowExternalCalls false \
-  --outputDirectory js \
-  --srcs templates/*.soy || exit $?
+cd src/main/webapp/js
+echo "Removing old generated soy JS..."
+rm -rf "soy_generated"
+echo "Compiling soy sources..."
+./../../../../common/soy_srcs.py
 cd - >/dev/null 2>&1
 
 # Remove target directory to build from scratch:
+echo "Cleaning old target directory..."
 rm -rf "./target"
