@@ -18,29 +18,26 @@ import com.google.gson.Gson;
 import com.google.step.finscholar.data.College;
 import com.google.step.finscholar.data.CollegeData;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /** Servlet that returns colleges and their associated data. */
 @WebServlet("/college-data")
 public class CollegeServlet extends HttpServlet {
 
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    
-    // Redirect back to the HTML page.
-    response.sendRedirect(Params.INDEX_PATH);
-  }
+  public static final String JSON_CONTENT_TYPE = "application/json;";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-  
+    List<College> listOfColleges = CollegeData.COLLEGES;
+    String json = convertToJson(listOfColleges);
+    
     // Send the list of comments as the response.
-    response.setContentType(Params.JSON_CONTENT_TYPE);
+    response.setContentType(JSON_CONTENT_TYPE);
     response.getWriter().println(json);
   }
 
