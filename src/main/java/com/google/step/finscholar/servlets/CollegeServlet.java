@@ -17,7 +17,7 @@ package com.google.step.finscholar.servlets;
 import com.google.gson.Gson;
 import com.google.step.finscholar.data.College;
 import com.google.step.finscholar.data.CollegeData;
-import com.google.step.finscholar.servlets.JsonConverter;
+import com.google.step.finscholar.data.ServletConstantValues;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
@@ -30,16 +30,17 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/college-data")
 public class CollegeServlet extends HttpServlet {
 
-  public static final String JSON_CONTENT_TYPE = "application/json;";
+   private final Gson gson = new Gson();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
     // Convert list of colleges to JSON.
     List<College> listOfColleges = CollegeData.COLLEGES;
-    String json = JsonConverter.convertToJson(listOfColleges);
+    String json = gson.toJson(listOfColleges);
     
     // Send the list of colleges as the response.
-    response.setContentType(JSON_CONTENT_TYPE);
+    response.setContentType(ServletConstantValues.JSON_CONTENT_TYPE);
     response.getWriter().println(json);
   }
 }
