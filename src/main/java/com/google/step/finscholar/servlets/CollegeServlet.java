@@ -30,10 +30,24 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/college-data")
 public class CollegeServlet extends HttpServlet {
 
+<<<<<<< HEAD
    private final Gson gson = new Gson();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+=======
+  public static final String JSON_CONTENT_TYPE = "application/json;";
+
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    List<College> listOfColleges = CollegeData.COLLEGES;
+    String json = convertToJson(listOfColleges);
+    
+    // Send the list of comments as the response.
+    response.setContentType(JSON_CONTENT_TYPE);
+    response.getWriter().println(json);
+  }
+>>>>>>> 5311969... Implement doGet() for CollegeServlet
 
     // Convert list of colleges to JSON.
     List<College> listOfColleges = CollegeData.COLLEGES;
