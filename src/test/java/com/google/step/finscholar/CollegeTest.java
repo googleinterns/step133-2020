@@ -14,6 +14,8 @@
 
 package com.google.step.finscholar;
 
+
+import com.google.step.finscholar.data.College;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
