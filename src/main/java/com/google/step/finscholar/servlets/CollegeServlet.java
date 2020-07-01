@@ -33,10 +33,11 @@ public class CollegeServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Convert list of colleges to JSON.
     List<College> listOfColleges = CollegeData.COLLEGES;
     String json = convertToJson(listOfColleges);
     
-    // Send the list of comments as the response.
+    // Send the list of colleges as the response.
     response.setContentType(JSON_CONTENT_TYPE);
     response.getWriter().println(json);
   }
