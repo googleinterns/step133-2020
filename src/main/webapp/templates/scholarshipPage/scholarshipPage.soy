@@ -33,34 +33,34 @@
                          introduction: string,
                          URL: uri]}
   <div id="scholarship-name">
-    <p>{$scholarshipName}</p>
-    <a href={$URL}>Visit official website</a>
+    <p>{$introduction.scholarshipName}</p>
+    <a href={$introduction.URL}>Visit official website</a>
   </div>
   <div id="schools">
     {call .joinedList}
-      {param strlist: introduction.schoolsList /}
+      {param stringList: introduction.schoolsList /}
     {/call}
   </div>
   <div id="introduction">
-    <p>{$introduction}</p>
+    <p>{$introduction.introduction}</p>
   </div>
 {/template}
 
 {template .scholarshipRequirements}
-  {@param requirements: [?academicRequirements: list<string>, 
-                         ?financialRequirements: list<string>,
-                         ?ethnicityRaceRequirements: list<string>,
-                         ?genderRequirements: list<string>,
+  {@param requirements: [academicRequirements: list<string>, 
+                         financialRequirements: list<string>,
+                         ethnicityRaceRequirements: list<string>,
+                         genderRequirements: list<string>,
                          locationRequirements: list<string>,
                          nationalOriginRequirements: list<string>,
-                         otherRequirements: list<string>}
-  {foreach $key in keys($requirements)}
+                         otherRequirements: list<string>]}
+  {for $key in keys($requirements)}
     <p> {$key} : 
     {call .joinedList} 
-      {param strlist: $requirements[$key] /}
+      {param stringList: $requirements.{$key} /}
     {/call}
     </p>
-  {/foreach} 
+  {/for} 
 {/template}
 
 {template .scholarshipApplication}
@@ -69,19 +69,21 @@
                               applicationProcess: string,
                               numberOfYears: int]}
   <div id="amount-and-duration">
-    <p> Amount per year: {$amountPerYear}</p>
-    <p> Duration: {$numberOfYears $numberOfYears > 1 ? years : year} </p>
+    <p> Amount per year: {$applicationNotes.amountPerYear}</p>
+    <p> Duration: $applicationNotes.numberOfYears 
+        {$applicationNotes.numberOfYears > 1 ? years : year} 
+    </p>
   </div>
   <div id="application-process">
-    <p> Application process: {$applicationProcess} </p>
+    <p> Application process: {$applicationNotes.applicationProcess} </p>
   </div>
   <div id="is-renewable">
-    <p>Renewable: {$isRenewable}</p>
+    <p>Renewable: {$applicationNotes.isRenewable}</p>
   </div>
 {/template}
 
 {template .joinedList}
-  {@param stringList: List<string>}
+  {@param stringList: list<string>}
     <p>
     {for $str in $stringList}
       {$str}{if not isLast($str)}, {/if}
