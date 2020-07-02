@@ -1,2 +1,6 @@
 src/main/webapp/js/soy_generated/
 target/
+.classpath
+.factorypath
+.project
+.settings/
