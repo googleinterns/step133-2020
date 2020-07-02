@@ -1,44 +1,45 @@
 {namespace example.templates.scholarshipPage}
 {template .scholarshipPage}
-  {@param scholarship: [scholarshipName: string, 
-                        scholarshipUUID: string, 
-                        schoolsList:list<string>,
-                        introduction: string,
-                        isRenewable: bool,
-                        URL: uri,
-                        academicRequirements: list<string>,
-                        amountPerYear: string,
-                        applicationProcess: string,
-                        ethnicityRaceRequirements: list<string>,
-                        financialRequirements: list<string>,
-                        genderRequirements: list<string>,
-                        locationRequirements: list<string>,
-                        nationalOriginRequirements: list<string>,
-                        numberOfYears: int,
-                        otherRequirements: list<string>,
+  {@param scholarship: [introduction: [scholarshipName: string,  
+                                       schoolsList:list<string>,
+                                       introduction: string,
+                                       URL: uri],
+                        requirements: [academicRequirements: list<string>,
+                                       ethnicityRaceRequirements: list<string>,
+                                       financialRequirements: list<string>,
+                                       genderRequirements: list<string>,
+                                       locationRequirements: list<string>,
+                                       nationalOriginRequirements: list<string>,
+                                       otherRequirements: list<string>],
+                        applicationNotes: [isRenewable: bool,
+                                           amountPerYear: string,
+                                           applicationProcess: string,
+                                           numberOfYears: int]
                         ]}
   {call .scholarshipIntroduction}
-    {param scholarshipName: $scholarship.scholarshipName /}
-    {param uuid: $scholarship.scholarshipUUID /}
     {param introduction: $scholarship.introduction /}
-    {param schoolsList: $scholarship.schoolsList /}
-    {param URL: $scholarship.URL /}
+  {/call}
+  {call .scholarshipRequirements}
+    {param requirements: $scholarship.requirements /}
+  {/call}
+  {call .scholarshipApplication}
+    {param applicationNotes: $scholarship.applicationNotes /}
   {/call}
 {/template}
 
 {template .scholarshipIntroduction}
-  {@param scholarshipName: string}
-  {@param uuid: string}
-  {@param? introduction: string}
-  {@param schoolsList: list<string>}
-  {@param URL: uri}
+  {@param introduction: [scholarshipName: string,  
+                         schoolsList:list<string>,
+                         introduction: string,
+                         URL: uri]}
   <div id="scholarship-name">
     <p>{$scholarshipName}</p>
     <a href={$URL}>Visit official website</a>
   </div>
   <div id="schools">
-    <p>{$schoolsList}</p>
-    <p>{$uuid}</p>
+    {call .joinedList}
+      {param strlist: introduction.schoolsList /}
+    {/call}
   </div>
   <div id="introduction">
     <p>{$introduction}</p>
@@ -46,28 +47,44 @@
 {/template}
 
 {template .scholarshipRequirements}
-  {@param? academicRequirements: list<string>}
-  {@param? financialRequirements: list<string>}
-  {@param? ethnicityRaceRequirements: list<string>}
-  {@param? genderRequirements: list<string>}
-  {@param? locationRequirements: list<string>}
-  {@param? nationalOriginRequirements: list<string>}
-  {@param? otherRequirements: list<string>}
-  {if academicRequirements.length > 0}
-  {/if}
-  {if financialRequirements.length > 0}
-  {/if}
-  {if ethnicityRaceRequirements.length > 0}
-  {/if}
-  {if genderRequirements.length}
+  {@param requirements: [?academicRequirements: list<string>, 
+                         ?financialRequirements: list<string>,
+                         ?ethnicityRaceRequirements: list<string>,
+                         ?genderRequirements: list<string>,
+                         locationRequirements: list<string>,
+                         nationalOriginRequirements: list<string>,
+                         otherRequirements: list<string>}
+  {foreach $key in keys($requirements)}
+    <p> {$key} : 
+    {call .joinedList} 
+      {param strlist: $requirements[$key] /}
+    {/call}
+    </p>
+  {/foreach} 
+{/template}
+
+{template .scholarshipApplication}
+  {@param applicationNotes : [isRenewable: bool,
+                              amountPerYear: string,
+                              applicationProcess: string,
+                              numberOfYears: int]}
+  <div id="amount-and-duration">
+    <p> Amount per year: {$amountPerYear}</p>
+    <p> Duration: {$numberOfYears $numberOfYears > 1 ? years : year} </p>
+  </div>
+  <div id="application-process">
+    <p> Application process: {$applicationProcess} </p>
+  </div>
+  <div id="is-renewable">
+    <p>Renewable: {$isRenewable}</p>
+  </div>
 {/template}
 
 {template .joinedList}
   {@param stringList: List<string>}
-  <div class="string-list">
     <p>
     {for $str in $stringList}
       {$str}{if not isLast($str)}, {/if}
     {/for}
-  </div>
+    </p>
 {/template}
