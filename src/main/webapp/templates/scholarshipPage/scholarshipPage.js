@@ -39,10 +39,5 @@ const wrapApplicationNote = ({isRenewable, applicationProcess, amountPerYear, nu
                                   isRenewable,
                                   numberOfYears,
                                 });
-const test = {
-  scholarshipName : 'name',
-  scholarshipUUID : 'uuid',
-  scholarshipSchool : 'abc',
-}
 
-console.log(unwrapIntro(test));
+export {restructureScholarshipObject};
