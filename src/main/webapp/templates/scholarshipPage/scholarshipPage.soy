@@ -16,15 +16,23 @@
                                            applicationProcess: string,
                                            numberOfYears: int]
                         ]}
-  {call .scholarshipIntroduction}
-    {param introduction: $scholarship.introduction /}
-  {/call}
-  {call .scholarshipRequirements}
-    {param requirements: $scholarship.requirements /}
-  {/call}
-  {call .scholarshipApplication}
-    {param applicationNotes: $scholarship.applicationNotes /}
-  {/call}
+  <main class="mdl-layout__content">
+    <button class="mdl-button mdl-js-button mdl-button--raised 
+        mdl-js-ripple-effect mdl-button--accent">
+      back
+    </button>
+    <div class="page-content">
+      {call .scholarshipIntroduction}
+        {param introduction: $scholarship.introduction /}
+      {/call}
+      {call .scholarshipRequirements}
+        {param requirements: $scholarship.requirements /}
+      {/call}
+      {call .scholarshipApplication}
+        {param applicationNotes: $scholarship.applicationNotes /}
+      {/call}
+    </div>
+  </main>
 {/template}
 
 {template .scholarshipIntroduction}
@@ -32,14 +40,16 @@
                          schoolsList:list<string>,
                          introduction: string,
                          URL: uri]}
-  <div id="scholarship-name">
-    <p>{$introduction.scholarshipName}</p>
-    <a href={$introduction.URL}>Visit official website</a>
-  </div>
-  <div id="schools">
-    {call .joinedList}
-      {param stringList: introduction.schoolsList /}
-    {/call}
+  {let $separator: ", " /}
+  <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet 
+      mdl-cell--4-col-phone">
+    <div id="scholarship-header">
+      <h4>{$introduction.scholarshipName}</h4>
+      <a href={$introduction.URL}>Visit official website</a>
+    </div>
+    <div id="schools">
+      <p> Provided by {join($introduction.schoolsList, $separator)}. </p>
+    </div>
   </div>
   <div id="introduction">
     <p>{$introduction.introduction}</p>
@@ -54,13 +64,28 @@
                          locationRequirements: list<string>,
                          nationalOriginRequirements: list<string>,
                          otherRequirements: list<string>]}
-  {for $key in keys($requirements)}
-    <p> {$key} : 
-    {call .joinedList} 
-      {param stringList: $requirements.{$key} /}
-    {/call}
-    </p>
-  {/for} 
+  {let $separator: ", " /}
+  <div id="requirements-panel "mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet 
+      mdl-cell--4-col-phone"">
+    <div class="requirement">
+      <p> Academic Requirements: {join($requirements.academicRequirements, $separator)} </p>
+    </div>
+    <div id="requirement">
+      <p> Ethnicity Race Requirements: {join($requirements.ethnicityRaceRequirements, $separator)}</p>
+    </div>
+    <div id="requirement">
+      <p> Financial Race Requirements: {join($requirements.financialRequirements, $separator)}</p>
+    </div>
+    <div id="requirement">
+      <p> Location Requirements: {join($requirements.locationRequirements, $separator)}</p>
+    </div>
+    <div id="requirement">
+      <p> National Origin Requirements: {join($requirements.nationalOriginRequirements, $separator)}</p>
+    </div>
+    <div id="requirement">
+      <p> Other Requirements: {join($requirements.otherRequirements, $separator)}</p>
+    </div>
+  </div>
 {/template}
 
 {template .scholarshipApplication}
@@ -71,7 +96,7 @@
   <div id="amount-and-duration">
     <p> Amount per year: {$applicationNotes.amountPerYear}</p>
     <p> Duration: $applicationNotes.numberOfYears 
-        {$applicationNotes.numberOfYears > 1 ? years : year} 
+        {$applicationNotes.numberOfYears > 1 ? "years" : "year"} 
     </p>
   </div>
   <div id="application-process">
@@ -80,13 +105,4 @@
   <div id="is-renewable">
     <p>Renewable: {$applicationNotes.isRenewable}</p>
   </div>
-{/template}
-
-{template .joinedList}
-  {@param stringList: list<string>}
-    <p>
-    {for $str in $stringList}
-      {$str}{if not isLast($str)}, {/if}
-    {/for}
-    </p>
 {/template}
