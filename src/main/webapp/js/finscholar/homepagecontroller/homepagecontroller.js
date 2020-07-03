@@ -26,8 +26,8 @@ const {PageController} = goog.require('pagecontroller');
  */
 class HomePageController extends PageController {
   constructor() {
-    test()
     super();
+    this.content = test();
   }
 }
 

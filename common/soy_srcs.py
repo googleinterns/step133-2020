@@ -33,12 +33,17 @@ def buildCmdline():
         '--allowExternalCalls', 'false', '--inputRoots',
         os.getcwd(), '--outputDirectory', 'soy_generated'
     ]
-    for filename in listFiles(os.getcwd()):
+    cmdline.append('--srcs')
+    soyPaths = ""
+    for filename in listFiles(os.path.abspath(os.path.join(os.getcwd(), os.pardir))):
         if filename[-4:] == '.soy':
-            cmdline.append('--srcs')
-            cmdline.append(filename)
+            print(filename)
+            soyPaths += filename + ","
+
+    cmdline.append(soyPaths)
     return cmdline
 
 
 cmdline = buildCmdline()
+print(cmdline)
 call(cmdline)

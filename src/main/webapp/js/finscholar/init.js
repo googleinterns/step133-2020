@@ -22,6 +22,11 @@ const {HomePageController} = goog.require('finscholar.homepagecontroller');
 const init = () => {
   console.log('TODO: implement this.');
   const homeController = new HomePageController();
+  console.log(GoogDom);
+  GoogDom.getElement('main').innerHTML = homeController.content;
+
 };
+
+window['onload'] = init;
 
 goog.exportSymbol('onload', init);
