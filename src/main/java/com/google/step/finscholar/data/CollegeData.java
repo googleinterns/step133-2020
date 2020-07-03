@@ -40,11 +40,9 @@ public final class CollegeData {
       .setNetCostForSecondQuintile(5000)
       .setNetCostForThirdQuintile(10000)
       .setNetCostForFourthQuintile(20000)
-      .setNetCostForFifthQuintile(30000);
-
-    for(int i = 0; i < 5; i++) {
-      colleges.add(school);
-    }
+      .setNetCostForFifthQuintile(30000)
+      .setCumulativeMedianDebt(5000);
+    colleges.add(school);
     return colleges;
   }
 }
