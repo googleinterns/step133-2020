@@ -18,13 +18,19 @@ goog.module('finscholar');
 
 const GoogDom = goog.require('goog.dom');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
+const {CollegePageView} = goog.require('finscholar.collegepageview');
+
+const renderCollege = () => {
+  const collegePage = new CollegePageView();
+  GoogDom.getElement('college').innerHTML = collegePage.content;
+}
 
 const init = () => {
   console.log('TODO: implement this.');
   const homeController = new HomePageController();
   console.log(GoogDom);
   GoogDom.getElement('main').innerHTML = homeController.content;
-
+  renderCollege();
 };
 
 window['onload'] = init;
