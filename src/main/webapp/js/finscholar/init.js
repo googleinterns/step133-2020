@@ -12,21 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @fileoverview main entry point for the app */
+/** @fileoverview Main entry point for the app. */
 
 goog.module('finscholar');
 
 const GoogDom = goog.require('goog.dom');
-const {welcome} = goog.require('example.templates');
+const {HomePageController} = goog.require('finscholar.homepagecontroller');
 
-/** @param {!string} message */
-const sayHello = (message) => {
-  const data = {greeting: message, year: new Date().getFullYear()};
-  const html = welcome(data);
-  GoogDom.getElement('hello').innerHTML = html;
+const init = () => {
+  console.log('TODO: implement this.');
+  const homeController = new HomePageController();
+  console.log(GoogDom);
+  GoogDom.getElement('main').innerHTML = homeController.content;
+
 };
 
+window['onload'] = init;
 
-window['onload'] = () => {
-  sayHello('Carlos Medrano');
-};
+goog.exportSymbol('onload', init);
