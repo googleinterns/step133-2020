@@ -16,7 +16,8 @@
 
 goog.module('finscholar.homepagecontroller');
 
-const {test} = goog.require('finscholar.homepagecontroller.templates');
+const {homepage} = goog.require('finscholar.homepagecontroller.templates');
+const {singleScholarship} = goog.require('example.templates.singleScholarship');
 const GoogDom = goog.require('goog.dom');
 const {PageController} = goog.require('pagecontroller');
 
@@ -25,9 +26,41 @@ const {PageController} = goog.require('pagecontroller');
  * @public
  */
 class HomePageController extends PageController {
+
   constructor() {
     super();
-    this.content = test();
+    this.data = { scholarship: {
+    introduction: {
+      scholarshipName: 'test name',
+      schoolsList: ['a', 'b', 'c'],
+      URL: 'https://www.google.com',
+      introduction: 'This is the introduction of the scholarship',
+    },
+    requirements: {
+      academicRequirements: ['gpa >= 3.0', 'attendance'],
+      ethnicityRaceRequirements: ['all races', 'aliens'],
+      genderRequirements: ['non-binary'],
+      nationalOriginRequirements: ['India', 'Thailand'],
+      locationRequirements: ['South East Asia'],
+      financialRequirements: ['net income <= $9,200'],
+      otherRequirements: [],
+    },
+    applicationNotes: {
+      isRenewable: false,
+      numberOfYears: 1,
+      amountPerYear: "full tuition and room & board",
+    },
+   },
+  };
+  }
+
+  getContent() {
+    return homepage();
+  }
+
+  renderSection(index) {
+    GoogDom.getElement('content').innerHTML = singleScholarship(this.data);
+
   }
 }
 

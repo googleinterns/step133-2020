@@ -37,7 +37,7 @@ def buildCmdline():
     soyPaths = ""
     for filename in listFiles(os.path.abspath(os.path.join(os.getcwd(), os.pardir))):
         if filename[-4:] == '.soy':
-            print(filename)
+            print("find template ", filename)
             soyPaths += filename + ","
 
     cmdline.append(soyPaths)
@@ -45,5 +45,4 @@ def buildCmdline():
 
 
 cmdline = buildCmdline()
-print(cmdline)
 call(cmdline)
