@@ -20,17 +20,22 @@ const GoogDom = goog.require('goog.dom');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
 const {CollegePageView} = goog.require('finscholar.collegepageview');
 
-const renderCollege = () => {
-  const collegePage = new CollegePageView();
-  GoogDom.getElement('college').innerHTML = collegePage.content;
-}
-
-const init = () => {
+const init = async () => {
   console.log('TODO: implement this.');
   const homeController = new HomePageController();
   console.log(GoogDom);
   GoogDom.getElement('main').innerHTML = homeController.content;
-  renderCollege();
+  try {
+    await renderCollege(GoogDom.getElement('college'));
+  } catch(err) {
+    alert('Failed to initialize page. College page could not be rendered.');
+    console.log(err);
+  }
+};
+
+const renderCollege = async (element) => {
+  const collegePage = new CollegePageView(element);
+  await collegePage.renderPage();
 };
 
 window['onload'] = init;

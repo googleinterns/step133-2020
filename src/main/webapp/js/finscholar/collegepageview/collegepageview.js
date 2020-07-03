@@ -16,19 +16,24 @@
 
 goog.module('finscholar.collegepageview');
 
-const {collegePagePopulator} = goog.require('finscholar.collegepageview.datahandler');
+const {loadCollegeData} = goog.require('finscholar.collegepageview.datahandler');
 const {collegepage} = goog.require('finscholar.collegepageview.templates');
 const GoogDom = goog.require('goog.dom');
-const collegeContent = collegePagePopulator();
+
 
 /**
  * Class for the college page view.
  * @public
  */
 class CollegePageView {
-  constructor() {
-    this.content = collegepage(collegeContent);
+  constructor(element) {
+    this.element = element;
   }
+
+  async renderPage() {
+    await loadCollegeData(this.element);
+  }
+
 }
 
 exports = {CollegePageView};

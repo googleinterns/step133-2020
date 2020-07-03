@@ -15,17 +15,38 @@
 /** @fileoverview This class handles populating the college page view with data from the servlet. */
 
 goog.module('finscholar.collegepageview.datahandler');
+const {collegepage} = goog.require('finscholar.collegepageview.templates');
 
 const ENDPOINT = "/college-data";
 
-const loadSingleCollege = async () => {
+const loadCollegeData = async (element) => {
   try{
     const response = await fetch(ENDPOINT);
-    const json = response.json();
+    const json = await response.json();
+    const params = await this.convertFromJsonToTemplate(json, element);
   } catch(err) {
     alert('Failed to retrieve data from a single college.');
     console.log(err);
   }
 }
 
-exports = {getSingleCollegeData};
+const convertFromJsonToTemplate = async (json, element) => {
+  const data = {
+    schoolName : json.schoolName,
+    institutionType: json.institutionType,
+    acceptanceRate: json.acceptanceRate,
+    averageACTScore: json.averageACTScore,
+    totalCostAttendance: json.totalCostAttendance,
+    netCostForFirstQuintile: json.netCostForFirstQuintile,
+    netCostForSecondQuintile: json.netCostForSecondQuintile,
+    netCostForThirdQuintile: json.netCostForThirdQuintile,
+    netCostForFourthQuintile: json.netCostForFourthQuintile,
+    netCostForFifthQuintile: json.netCostForFifthQuintile,
+    cumulativeMedianDebt: json.cumulativeMedianDebt
+  };
+
+  const html = collegepage(data);
+  element.innerHTML = html;
+}
+
+exports = {loadCollegeData};

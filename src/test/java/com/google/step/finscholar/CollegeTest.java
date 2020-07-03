@@ -52,7 +52,7 @@ public final class CollegeTest {
   @Test
   public void institutionTypeCorrectlySet() {
     String expected = "public";
-    college.setInstitutionType("Public");
+    college.setInstitutionType("public");
     String actual = college.getInstitutionType();
     Assert.assertEquals(expected, actual);
   }
