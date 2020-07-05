@@ -51,7 +51,7 @@ public final class CollegeTest {
 
   @Test
   public void institutionTypeCorrectlySet() {
-    String expected = "public";
+    String expected = "Public";
     college.setInstitutionType("Public");
     String actual = college.getInstitutionType();
     Assert.assertEquals(expected, actual);
