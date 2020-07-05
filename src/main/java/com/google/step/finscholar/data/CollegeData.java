@@ -26,7 +26,6 @@ public final class CollegeData {
   private static College createCollege() {
     List<UUID> users = new ArrayList<UUID>();
     users.add(UUID.randomUUID());
-    users.add(UUID.randomUUID());
     
     College school = new College("Duke University");
     school.setInstitutionType("Private")
