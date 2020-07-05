@@ -16,7 +16,7 @@ package com.google.step.finscholar.data;
 
 public class ServletConstantValues {
 
-    public static final String JSON_CONTENT_TYPE = "application/json";
+    public static final String JSON_CONTENT_TYPE = "application/json;";
     public static final String INDEX_PATH = "/index.html";
     // The default value for undefined fields.
     public static final String DEFAULT_VALUE = "";
