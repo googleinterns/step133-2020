@@ -26,22 +26,74 @@
   {@param netCostForFifthQuintile: int}
   {@param cumulativeMedianDebt: int}
   <div id="information">
-    <p>School Name: {$schoolName}</p>
-    <p>Institution Type: {$institutionType}</p>
-    <p>Acceptance Rate: {$acceptanceRate}</p>
-    <p>Average ACT Score: {$averageACTScore}</p>
-    <p>Total Cost of Attendance: {$totalCostAttendance}</p>
-    <p>Net Cost for students with family incomes between
-      $0-$30,000: {$netCostForFirstQuintile}</p>
-    <p>Net Cost for students with family incomes between
-      $30,001-$48,000: {$netCostForSecondQuintile}</p>
-    <p>Net Cost for students with family incomes between 
-      $48,001-$75,000: {$netCostForThirdQuintile}</p>
-    <p>Net Cost for students with family incomes between
-      $75,001-$110,000: {$netCostForFourthQuintile}</p>
-    <p>Net Cost for students with family incomes above
-      $110,000: {$netCostForFifthQuintile}</p>
-    <p>Cumulative Median Student Debt right after graduation:
-      {$cumulativeMedianDebt}</p>
+    <ul class="demo-list-item mdl-list">
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content">
+          School Name: {$schoolName}
+        </span>
+      </li>
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content">
+          Institution Type: {$institutionType}
+        </span>
+      </li>
+       <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content">
+          Acceptance Rate: {$acceptanceRate}
+        </span>
+      </li>
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content">
+          Average ACT Score: {$averageACTScore}
+        </span>
+      </li>
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content">
+          Total Cost of Attendance: {$totalCostAttendance}
+        </span>
+      </li>
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content">
+          Net Cost for students with family incomes between
+          $0-$30,000: {$netCostForFirstQuintile}
+        </span>
+      </li>
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content">
+          Net Cost for students with family incomes between
+          $30,001-$48,000: {$netCostForSecondQuintile}
+        </span>
+      </li>
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content">
+          Net Cost for students with family incomes between 
+          $48,001-$75,000: {$netCostForThirdQuintile}
+        </span>
+      </li>
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content">
+          Net Cost for students with family incomes between
+          $30,001-$48,000: {$netCostForSecondQuintile}
+        </span>
+      </li>
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content">
+          Net Cost for students with family incomes between
+          $75,001-$110,000: {$netCostForFourthQuintile}
+        </span>
+      </li>
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content">
+          Net Cost for students with family incomes above
+          $110,000: {$netCostForFifthQuintile}
+        </span>
+      </li>
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content">
+          Cumulative Median Student Debt right after graduation: 
+          {$cumulativeMedianDebt}</p>
+        </span>
+      </li>
+    </ul>
   </div>
 {/template}
