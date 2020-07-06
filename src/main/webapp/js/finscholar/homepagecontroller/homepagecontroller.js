@@ -18,7 +18,8 @@ goog.module('finscholar.homepagecontroller');
 
 const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const GoogDom = goog.require('goog.dom');
-const jsaction = goog.require('jsaction');
+const {EventContract} = goog.require('jsaction.EventContract');
+const {Dispatcher} = goog.require('jsaction.Dispatcher');
 const {PageController} = goog.require('pagecontroller');
 
 /**
@@ -29,7 +30,7 @@ class HomePageController extends PageController {
 
   constructor() {
     super();
-    this.eventContract_ = new jsaction.EventContract();
+    this.eventContract_ = new EventContract();
 
     // Events will be handled for all elements under this container.
     this.eventContract_.addContainer(GoogDom.getElement('main'));
@@ -37,7 +38,7 @@ class HomePageController extends PageController {
     // Register the event types we care about.
     this.eventContract.addEvent('click');
 
-    this.dispatcher_ = new jsaction.Dispatcher();
+    this.dispatcher_ = new Dispatcher();
     this.eventContract_.dispatchTo(this.dispatcher_.dispatch.bind(this.dispatcher_));
 
     this.dispatcher_.registerHandlers(
