@@ -4,3 +4,6 @@
 [submodule "deps/closure-library"]
 	path = deps/closure-library
 	url = https://github.com/google/closure-library
+[submodule "deps/jsaction"]
+	path = deps/jsaction
+	url = https://github.com/google/jsaction.git
