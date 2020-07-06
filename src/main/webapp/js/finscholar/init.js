@@ -38,6 +38,4 @@ const init = async () => {
   }
 };
 
-window['onload'] = init;
-
 goog.exportSymbol('onload', init);

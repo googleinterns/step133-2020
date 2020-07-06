@@ -44,7 +44,6 @@ class CollegePageView {
   /**
    * Render the college page.
    * @public
-   * @param {Element} element - The DOM element to attach the college page to.
    */
   async renderCollege() {
     await loadCollegeData(this.element);
