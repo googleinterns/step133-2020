@@ -18,6 +18,7 @@ goog.module('finscholar.homepagecontroller');
 
 const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const GoogDom = goog.require('goog.dom');
+const jsaction = goog.require('jsaction');
 const {PageController} = goog.require('pagecontroller');
 
 /**
@@ -28,6 +29,23 @@ class HomePageController extends PageController {
 
   constructor() {
     super();
+    this.eventContract_ = new jsaction.EventContract();
+
+    // Events will be handled for all elements under this container.
+    this.eventContract_.addContainer(GoogDom.getElement('main'));
+
+    // Register the event types we care about.
+    this.eventContract.addEvent('click');
+
+    this.dispatcher_ = new jsaction.Dispatcher();
+    this.eventContract_.dispatchTo(this.dispatcher_.dispatch.bind(this.dispatcher_));
+
+    this.dispatcher_.registerHandlers(
+      'homepagecontroller',            // the namespace
+      null,                            // handler object
+      {                                // action map
+      'clickAction' : this.doStuff,
+    });
   }
 
   /**
@@ -36,6 +54,16 @@ class HomePageController extends PageController {
   getContent() {
     return homepage();
   }
+
+  /**
+   * Do stuff when actions happen.
+   * @param {!jsaction.ActionFlow} flow Contains the data related to the action
+   *     and more. See actionflow.js.
+   */
+  doStuff(flow) {
+    // do stuff
+    console.log('doStuff called!');
+  };
 }
 
 exports = {HomePageController};
