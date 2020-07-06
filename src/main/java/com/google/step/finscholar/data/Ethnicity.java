@@ -31,7 +31,7 @@ public enum Ethnicity {
     this.ethnicity = ethnicity;
   }
 
-  public String geValue() {
+  public String getValue() {
     return this.ethnicity;
   }
     

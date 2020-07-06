@@ -27,14 +27,15 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class ScholarshipTest {
+    
+  private Scholarship testScholarship;
 
-  private Scholarship customScholarship;
 
   private static final String TEST_NAME = "Scholarship Name";
   private static final List<UUID> TEST_SCHOOLS = List.of(UUID.randomUUID());
   private static final UUID TEST_ID = UUID.randomUUID();
   private static final String EMPTY_URL = "";
-   
+
   @Before
   public void setup() {
     customScholarship =  new Scholarship(TEST_NAME, TEST_ID, TEST_SCHOOLS, EMPTY_URL);
@@ -68,53 +69,67 @@ public class ScholarshipTest {
   public void testGetURL() {
     Assert.assertEquals(EMPTY_URL, customScholarship.getURL());
   }
+=======
+    testScholarship = new Scholarship(TEST_NAME, TEST_ID, TEST_SCHOOLS, EMPTY_URL);
+>>>>>>> changed tests
 
-  @Test
-  public void testGetSchoolsList() {
-    Assert.assertEquals(TEST_SCHOOLS, customScholarship.getSchoolsList());
   }
-
+  
   @Test
-  public void testSetGetAcademicRequirements() {
-    List<String> expected = List.of("maintain 'respectable GPA'");
-    Assert.assertEquals(expected, scholarshipData1.getAcademicRequirements());
-    Assert.assertEquals(List.of(), customScholarship.getAcademicRequirements());
-    Assert.assertEquals(expected, 
-        customScholarship.setAcademicRequirements(expected).getAcademicRequirements());
-  }
+  public void fullScholarshipForHispanicFemaleAndTrans() {
 
-    @Test
-  public void testSetGetAmountPerYear() {
-    String expected = "full tuition";
-    Assert.assertEquals(Optional.empty(), scholarshipData1.getAmountPerYear());
-    Assert.assertEquals(expected, 
-        customScholarship.setAmountPerYear(expected).getAmountPerYear().get());
-  }
-
-  @Test
-  public void testSetGetApplicationProcess() {
-    String expected = "Test parameter for application setter and getter.";
-    Assert.assertEquals(Optional.empty(), customScholarship.getApplicationProcess());
-    Assert.assertEquals(expected,
-        customScholarship.setApplicationProcess(expected).getApplicationProcess().get());
+    List<String> gpaRequirement = List.of("maintain 'respectable GPA'");
+    String amount = "full tuition";
+    List<String> genders = List.of(Gender.FEMALE.getValue(), Gender.TRANSGENDER.getValue());
+    List<String> ethnicity = List.of(Ethnicity.HISPANIC.getValue());
+    testScholarship.setAcademicRequirements(gpaRequirement)
+                   .setAmountPerYear(amount)
+                   .setGenderRequirements(genders)
+                   .setEthnicityRaceRequirements(ethnicity);
+    Assert.assertEquals(ethnicity, testScholarship.getEthnicityRaceRequirements());
+    Assert.assertEquals(genders, testScholarship.getGenderRequirements());
+    Assert.assertEquals(gpaRequirement, testScholarship.getAcademicRequirements());
+    Assert.assertEquals(amount, testScholarship.getAmountPerYear().get());
   }
 
   @Test
-  public void testSetGetEthnicityRaceRequirements() {
-    List<String> expected1 = List.of(DemographicCategories.BLACK_OR_AFRICAN_AMERICAN);
-    Assert.assertEquals(expected1, scholarshipData1.getEthnicityRaceRequirements());
-    List<String> expected2 = List.of(DemographicCategories.HISPANIC);
-    Assert.assertEquals(expected2, 
-        scholarshipData2.setEthnicityRaceRequirements(expected2).getEthnicityRaceRequirements());
+  public void scholarshipWithIntroAndApplicationProcess() {
+    int years = 4;
+    String applicationProcess = "Test parameter for application setter.";
+    String intro = "Test parameter for introduction.";
+    testScholarship.setNumberOfYears(years)
+                   .setApplicationProcess(applicationProcess)
+                   .setIntroduction(intro);
+    Assert.assertEquals(years, (int) testScholarship.getNumberOfYears().get());
+    Assert.assertEquals(intro, testScholarship.getIntroduction().get());
+    Assert.assertEquals(applicationProcess, testScholarship.getApplicationProcess().get());
   }
 
   @Test
-  public void TestSetGetFinancialRequirements(){
-    List<String> expected = List.of(DemographicCategories.LOW_INCOME);
-    Assert.assertEquals(List.of(), customScholarship.getGenderRequirements());
-    Assert.assertEquals(expected, 
-        customScholarship.setGenderRequirements(expected).getGenderRequirements());
+  public void renewableScholarshipWithFinancialAndLocationRequirements() {
+    List<String> finance = List.of("Year net income less than $1,0000");
+    List<String> location = List.of("the South Pole");
+    testScholarship.setIsRenewable(true)
+                   .setFinancialRequirements(finance)
+                   .setLocationRequirements(location);
+    Assert.assertEquals(true, testScholarship.getIsRenewable().get());
+    Assert.assertEquals(finance, testScholarship.getFinancialRequirements());
+    Assert.assertEquals(location, testScholarship.getLocationRequirements());
   }
+
+  @Test
+  public void scholarshipWithNationalOriginAndOtherRequirements(){
+    String nation = "South Africa";
+    String requirement1 = "other requirement 1";
+    String requirement2 = "other requirement 2";
+    List<String> otherRequirements = List.of(requirement1, requirement2);
+    List<String> nations = List.of(nation);
+    testScholarship.setNationalOriginRequirements(nations)
+                   .setOtherRequirements(otherRequirements)
+    Assert.assertEquals(nations, testScholarship.getNationalOriginRequirements());
+    Assert.assertEquals(otherRequirements, testScholarship.getOtherRequirements());
+  }
+<<<<<<< HEAD
 
   @Test
   public void testSetGetGenderRequirements() {

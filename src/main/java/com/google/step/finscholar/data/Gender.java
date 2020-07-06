@@ -14,7 +14,7 @@
 
 package com.google.step.finscholar.data;
 
-/** The enumerator for gender. */
+/** The enumerator for genders. */
 public enum Gender {
   
     MALE("male"),
