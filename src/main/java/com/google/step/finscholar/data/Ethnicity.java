@@ -31,6 +31,7 @@ public enum Ethnicity {
     this.ethnicity = ethnicity;
   }
 
+  /** @return The string associated with this constant */
   public String getValue() {
     return this.ethnicity;
   }
