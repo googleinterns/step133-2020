@@ -22,10 +22,6 @@ const {HomePageController} = goog.require('finscholar.homepagecontroller');
 const init = () => {
   const homeController = new HomePageController();
   GoogDom.getElement('main').innerHTML = homeController.getContent();
-  homeController.renderSection(3);
 };
 
 window['onload'] = init;
-
-//This command doesn't work in this case. Hope we'll fix it later.
-// goog.exportSymbol('onload', init);
