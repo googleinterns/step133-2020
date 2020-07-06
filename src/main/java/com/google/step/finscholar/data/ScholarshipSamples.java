@@ -29,7 +29,7 @@ public class ScholarshipSamples {
   private static final List<String> ACADEMIC_REQUIREMENTS_1 = 
       List.of("maintain 'respectable GPA'");
   private static final List<String> ETHNICITY_1 = 
-      List.of(Ethnicity.BLACK_OR_AFRICAN_AMERICAN.geValue());
+      List.of(Ethnicity.BLACK_OR_AFRICAN_AMERICAN.getValue());
   
   private static final String NAME_2 = "Cornelius Vanderbilt Scholarship";
   private static final List<UUID> SCHOOL_NAMES_2 = List.of(UUID.randomUUID());
