@@ -23,12 +23,12 @@ const ENDPOINT = "/college-data";
 /**
  * This method converts from JSON to a JS object map, 
  *  which will be used to populate the college page soy template.
- * @public
+ * @private
  * @param {*} json - The JSON object to be converted.
  * @return {Object} - The object map representing a college's data.
  */
 const convertFromJsonToTemplate = async (json) => {
-  return data = {
+  return {
     schoolName : json["schoolName"],
     institutionType: json["institutionType"],
     acceptanceRate: json["acceptanceRate"],
@@ -45,7 +45,7 @@ const convertFromJsonToTemplate = async (json) => {
 
 /**
  * Fetch request to the data servlet and return the JSON response.
- * @public
+ * @private
  * @return {*} - The JSON response.
  */
 const loadCollegeJson = async () => {
@@ -68,8 +68,7 @@ const loadCollegeData = async (element) => {
   try {
     json = await loadCollegeJson();
   } catch(err) {
-    alert(err);
-    console.log(`Failed to load college data: ${err}`);
+    alert(`Failed to load college data: ${err}`);
   }
 
   const data = await convertFromJsonToTemplate(json);

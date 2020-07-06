@@ -30,20 +30,12 @@ const init = async () => {
   // Render the college page by loading in the data and rendering the 
   // associated soy template.
   try {
-    await renderCollege(GoogDom.getElement('college'));
+    const collegePage = new CollegePageView(GoogDom.getElement('college'));
+    await collegePage.renderCollege();
   } catch(err) {
     alert('Failed to initialize page. College page could not be rendered.');
     console.log(err);
   }
-};
-
-/**
- * Render the college page.
- * @param {Element} element - The DOM element to attach the college page to.
- */
-const renderCollege = async (element) => {
-  const collegePage = new CollegePageView(element);
-  await collegePage.renderPage();
 };
 
 window['onload'] = init;

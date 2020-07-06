@@ -26,18 +26,29 @@ const {loadCollegeData} = goog.require('datahandlers');
 class CollegePageView {
   /**
    * @constructor
-   * @param {Element} element - The element to render the college page to.
+   * @param {Element} element - The DOM element to render the college page to.
    */
   constructor(element) {
-    this.element = element;
+    /** @private {Element} - The DOM element where the CollegePageView will be rendered. */
+    this.element_ = element;
   }
 
   /**
-   * Renders the college page with data from the servlet. 
+   * @public 
+   * @return {Element} - The DOM element associated with this view. 
    */
-  async renderPage() {
-    await loadCollegeData(this.element);
+  get element() {
+    return this.element_;
   }
+
+  /**
+   * Render the college page.
+   * @public
+   * @param {Element} element - The DOM element to attach the college page to.
+   */
+  async renderCollege() {
+    await loadCollegeData(this.element);
+  };
 }
 
 exports = {CollegePageView};
