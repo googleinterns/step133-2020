@@ -26,7 +26,6 @@ const ENDPOINT = "/college-data";
  * @return {*} - The object map representing a college's data.
  */
 const convertFromJsonToTemplate = async (json) => {
-
   const data = {
     schoolName : json["schoolName"],
     institutionType: json["institutionType"],
@@ -40,7 +39,6 @@ const convertFromJsonToTemplate = async (json) => {
     netCostForFifthQuintile: json["netCostForFifthQuintile"],
     cumulativeMedianDebt: json["cumulativeMedianDebt"]
   };
-
   return data;
 };
 

@@ -20,7 +20,6 @@ const {loadCollegeData} = goog.require('finscholar.collegepageview.datahandler')
 const {collegepage} = goog.require('finscholar.collegepageview.templates');
 const GoogDom = goog.require('goog.dom');
 
-
 /**
  * Class for the college page view.
  * @public
@@ -36,7 +35,6 @@ class CollegePageView {
   async renderPage() {
     await loadCollegeData(this.element);
   }
-
 }
 
 exports = {CollegePageView};
