@@ -44,55 +44,55 @@ public class ScholarshipTest {
   @Test
   public void fullScholarshipForHispanicFemaleAndTrans() {
 
-    List<String> gpaRequirement = List.of("maintain 'respectable GPA'");
-    String amount = "full tuition";
-    List<String> genders = List.of(Gender.FEMALE.getValue(), Gender.TRANSGENDER.getValue());
-    List<String> ethnicity = List.of(Ethnicity.HISPANIC.getValue());
-    testScholarship.setAcademicRequirements(gpaRequirement)
-                   .setAmountPerYear(amount)
-                   .setGenderRequirements(genders)
-                   .setEthnicityRaceRequirements(ethnicity);
-    Assert.assertEquals(ethnicity, testScholarship.getEthnicityRaceRequirements());
-    Assert.assertEquals(genders, testScholarship.getGenderRequirements());
-    Assert.assertEquals(gpaRequirement, testScholarship.getAcademicRequirements());
-    Assert.assertEquals(amount, testScholarship.getAmountPerYear().get());
+    List<String> GPA = List.of("maintain 'respectable GPA'");
+    String AMOUNT = "full tuition";
+    List<String> GENDERS = List.of(Gender.FEMALE.getValue(), Gender.TRANSGENDER.getValue());
+    List<String> ETHNICITY = List.of(Ethnicity.HISPANIC.getValue());
+    testScholarship.setAcademicRequirements(GPA)
+                   .setAmountPerYear(AMOUNT)
+                   .setGenderRequirements(GENDERS)
+                   .setEthnicityRaceRequirements(ETHNICITY);
+    Assert.assertEquals(ETHNICITY, testScholarship.getEthnicityRaceRequirements());
+    Assert.assertEquals(GENDERS, testScholarship.getGenderRequirements());
+    Assert.assertEquals(GPA, testScholarship.getAcademicRequirements());
+    Assert.assertEquals(AMOUNT, testScholarship.getAmountPerYear().get());
   }
 
   @Test
   public void scholarshipWithIntroAndApplicationProcess() {
-    int years = 4;
-    String applicationProcess = "Test parameter for application setter.";
-    String intro = "Test parameter for introduction.";
-    testScholarship.setNumberOfYears(years)
-                   .setApplicationProcess(applicationProcess)
-                   .setIntroduction(intro);
-    Assert.assertEquals(years, (int) testScholarship.getNumberOfYears().get());
-    Assert.assertEquals(intro, testScholarship.getIntroduction().get());
-    Assert.assertEquals(applicationProcess, testScholarship.getApplicationProcess().get());
+    int YEARS = 4;
+    String APPLICARION = "Test parameter for application setter.";
+    String INTRO = "Test parameter for introduction.";
+    testScholarship.setNumberOfYears(YEARS)
+                   .setApplicationProcess(APPLICARION)
+                   .setIntroduction(INTRO);
+    Assert.assertEquals(YEARS, (int) testScholarship.getNumberOfYears().get());
+    Assert.assertEquals(INTRO, testScholarship.getIntroduction().get());
+    Assert.assertEquals(APPLICARION, testScholarship.getApplicationProcess().get());
   }
 
   @Test
   public void renewableScholarshipWithFinancialAndLocationRequirements() {
-    List<String> finance = List.of("Year net income less than $1,0000");
-    List<String> location = List.of("the South Pole");
+    List<String> FINANCE = List.of("Year net income less than $1,0000");
+    List<String> LOCATION = List.of("the South Pole");
     testScholarship.setIsRenewable(true)
-                   .setFinancialRequirements(finance)
-                   .setLocationRequirements(location);
+                   .setFinancialRequirements(FINANCE)
+                   .setLocationRequirements(LOCATION);
     Assert.assertEquals(true, testScholarship.getIsRenewable().get());
-    Assert.assertEquals(finance, testScholarship.getFinancialRequirements());
-    Assert.assertEquals(location, testScholarship.getLocationRequirements());
+    Assert.assertEquals(FINANCE, testScholarship.getFinancialRequirements());
+    Assert.assertEquals(LOCATION, testScholarship.getLocationRequirements());
   }
 
   @Test
   public void scholarshipWithNationalOriginAndOtherRequirements(){
-    String nation = "South Africa";
-    String requirement1 = "other requirement 1";
-    String requirement2 = "other requirement 2";
-    List<String> otherRequirements = List.of(requirement1, requirement2);
-    List<String> nations = List.of(nation);
-    testScholarship.setNationalOriginRequirements(nations)
-                   .setOtherRequirements(otherRequirements)
-    Assert.assertEquals(nations, testScholarship.getNationalOriginRequirements());
-    Assert.assertEquals(otherRequirements, testScholarship.getOtherRequirements());
+    String NATION = "South Africa";
+    String REQUIREMENT1 = "other requirement 1";
+    String REQUIREMENT2 = "other requirement 2";
+    List<String> REQUIREMENTS = List.of(REQUIREMENT1, REQUIREMENT2);
+    List<String> NATIONS = List.of(NATION);
+    testScholarship.setNationalOriginRequirements(NATIONS)
+                   .setOtherRequirements(REQUIREMENTS);
+    Assert.assertEquals(NATIONS, testScholarship.getNationalOriginRequirements());
+    Assert.assertEquals(REQUIREMENTS, testScholarship.getOtherRequirements());
   }
 }
