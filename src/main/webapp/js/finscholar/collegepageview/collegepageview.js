@@ -30,6 +30,9 @@ class CollegePageView {
     this.element = element;
   }
 
+  /**
+   * Renders the college page with data from the servlet. 
+   */
   async renderPage() {
     await loadCollegeData(this.element);
   }

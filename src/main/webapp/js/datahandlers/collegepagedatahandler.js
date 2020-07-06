@@ -19,6 +19,12 @@ const {collegepage} = goog.require('finscholar.collegepageview.templates');
 
 const ENDPOINT = "/college-data";
 
+/**
+ * This method converts from JSON to a JS object map, 
+ *  which will be used to populate the college page soy template.
+ * @param {*} json - The JSON object to be converted.
+ * @return {*} - The object map representing a college's data.
+ */
 const convertFromJsonToTemplate = async (json) => {
 
   const data = {
@@ -38,6 +44,10 @@ const convertFromJsonToTemplate = async (json) => {
   return data;
 };
 
+/**
+ * Fetch request to the data servlet and return the JSON response.
+ * @return - The JSON response.
+ */
 const loadCollegeJson = async () => {
   try{
     const response = await fetch(ENDPOINT);
@@ -49,6 +59,10 @@ const loadCollegeJson = async () => {
   }
 };
 
+/**
+ * Render the soy template's html by attaching it to the desired DOM element.
+ * @param {*} element - The DOM element where the template should be rendered to.
+ */
 const loadCollegeData = async (element) => {
   let json = await loadCollegeJson();
   let data = await convertFromJsonToTemplate(json);

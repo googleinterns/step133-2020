@@ -20,11 +20,16 @@ const GoogDom = goog.require('goog.dom');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
 const {CollegePageView} = goog.require('finscholar.collegepageview');
 
+/**
+ * Initialize the main web page. 
+ */
 const init = async () => {
-  console.log('TODO: implement this.');
   const homeController = new HomePageController();
   console.log(GoogDom);
   GoogDom.getElement('main').innerHTML = homeController.content;
+
+  // Render the college page by loading in the data and rendering the 
+  // associated soy template.
   try {
     await renderCollege(GoogDom.getElement('college'));
   } catch(err) {
@@ -33,6 +38,10 @@ const init = async () => {
   }
 };
 
+/**
+ * Render the college page.
+ * @param {*} element - The DOM element to attach the college page to.
+ */
 const renderCollege = async (element) => {
   const collegePage = new CollegePageView(element);
   await collegePage.renderPage();
