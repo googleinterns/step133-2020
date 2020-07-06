@@ -17,15 +17,14 @@
 goog.module('finscholar');
 
 const GoogDom = goog.require('goog.dom');
-const {HomePageController} = goog.require('finscholar.homepagecontroller');
 const {CollegePageView} = goog.require('finscholar.collegepageview');
+const {HomePageController} = goog.require('finscholar.homepagecontroller');
 
 /**
  * Initialize the main web page. 
  */
 const init = async () => {
   const homeController = new HomePageController();
-  console.log(GoogDom);
   GoogDom.getElement('main').innerHTML = homeController.content;
 
   // Render the college page by loading in the data and rendering the 
@@ -40,7 +39,7 @@ const init = async () => {
 
 /**
  * Render the college page.
- * @param {*} element - The DOM element to attach the college page to.
+ * @param {Element} element - The DOM element to attach the college page to.
  */
 const renderCollege = async (element) => {
   const collegePage = new CollegePageView(element);

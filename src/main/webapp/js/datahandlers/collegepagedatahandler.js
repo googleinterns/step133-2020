@@ -14,19 +14,21 @@
 
 /** @fileoverview This class handles populating the college page view with data from the servlet. */
 
-goog.module('finscholar.collegepageview.datahandler');
+goog.module('datahandlers');
 const {collegepage} = goog.require('finscholar.collegepageview.templates');
 
+/** This constant is the endpoint to send a fetch request to. */
 const ENDPOINT = "/college-data";
 
 /**
  * This method converts from JSON to a JS object map, 
  *  which will be used to populate the college page soy template.
+ * @public
  * @param {*} json - The JSON object to be converted.
- * @return {*} - The object map representing a college's data.
+ * @return {Object} - The object map representing a college's data.
  */
 const convertFromJsonToTemplate = async (json) => {
-  const data = {
+  return data = {
     schoolName : json["schoolName"],
     institutionType: json["institutionType"],
     acceptanceRate: json["acceptanceRate"],
@@ -39,32 +41,38 @@ const convertFromJsonToTemplate = async (json) => {
     netCostForFifthQuintile: json["netCostForFifthQuintile"],
     cumulativeMedianDebt: json["cumulativeMedianDebt"]
   };
-  return data;
 };
 
 /**
  * Fetch request to the data servlet and return the JSON response.
- * @return - The JSON response.
+ * @public
+ * @return {*} - The JSON response.
  */
 const loadCollegeJson = async () => {
-  try{
     const response = await fetch(ENDPOINT);
-    let json = await response.json();
-    return json;
-  } catch(err) {
-    alert('Failed to retrieve data from a single college.');
-    console.log(err);
-  }
+    if(response.ok) {
+      return await response.json();
+    } else {
+      throw new Error(`${response.statusText}. Status: ${response.status}`);
+    }
 };
 
 /**
  * Render the soy template's html by attaching it to the desired DOM element.
- * @param {*} element - The DOM element where the template should be rendered to.
+ * @public
+ * @param {Element} element - The DOM element where the template should be rendered to.
  */
 const loadCollegeData = async (element) => {
-  let json = await loadCollegeJson();
-  let data = await convertFromJsonToTemplate(json);
-  console.log(data);
+  let json = undefined;
+
+  try {
+    json = await loadCollegeJson();
+  } catch(err) {
+    alert(err);
+    console.log(`Failed to load college data: ${err}`);
+  }
+
+  const data = await convertFromJsonToTemplate(json);
   const html = collegepage(data);
   element.innerHTML = html;
 }
