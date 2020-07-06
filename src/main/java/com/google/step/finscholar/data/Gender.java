@@ -29,7 +29,7 @@ public enum Gender {
     this.gender = gender;
   }
 
-  /** @return The string associated with this constant */
+  /** @return The string associated with this constant. */
   public String getValue() {
     return this.gender;
   }
