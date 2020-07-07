@@ -23,6 +23,7 @@ const GoogDom = goog.require('goog.dom');
 const GoogSoy = goog.require('goog.soy');
 const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const {PageController} = goog.require('pagecontroller');
+const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 
 /**
  * Class for the home page controller.
@@ -31,22 +32,13 @@ const {PageController} = goog.require('pagecontroller');
 class HomePageController extends PageController {
   constructor() {
     super();
-    this.eventContract_ = new JsactionEventContract();
-    // Events will be handled for all elements under this container.
-    this.eventContract_.addContainer(
-        /** @type {!Element} */ (GoogDom.getElement('main')));
-    // Register the event types we care about.
-    this.eventContract_.addEvent('click');
-    this.dispatcher_ = new JsactionDispatcher();
-    this.eventContract_.dispatchTo(
-        this.dispatcher_.dispatch.bind(this.dispatcher_));
-    this.dispatcher_.registerHandlers(
-        'homepagecontroller',  // the namespace
-        null,                  // handler object
-        {
-          // action map
-          'clickAction': this.doStuff,
-        });
+    /**
+     * @private @constant
+     * @type {!ScholarshipPageView} 
+     * The object loading single Scholarship page.
+     */
+    this.scholarshipPageHandler_ = new ScholarshipPageView(GoogDom.getElement('content'));
+    // this.renderScholarshipPage.bind(this);
   }
 
   /**
@@ -57,13 +49,17 @@ class HomePageController extends PageController {
   }
 
   /**
-   * Do stuff when actions happen.
-   * @param {!JsactionActionFlow} flow Contains the data related to the action
-   *     and more. See actionflow.js.
+   * Renders a view for a scholarship object, which is specified by the uuid.
+   * @public
+   * @param {string} id The uuid of the scholarship to be rendered.
    */
-  doStuff(flow) {
-    // do stuff
-    console.log('doStuff called!');
+  async renderScholarshipPage(id) {
+    console.log(this);
+    try {
+      await this.scholarshipPageHandler_.renderScholarship(id);
+    } catch(e) {
+      alert(e);
+    }
   }
 }
 

@@ -18,11 +18,14 @@ goog.module('datahandlers.scholarshipdatahandler');
 
 class ScholarshipDataHandler {
 
-  /** 
-   * This constant is the endpoint to send a fetch request to. 
-   * @private @const
-   */
-  static ENDPOINT_ = "/scholarship-data";
+
+  constructor() {
+    /** 
+     * This constant is the endpoint to send a fetch request to. 
+     * @private @const
+     */
+    this.ENDPOINT_ = '/scholarship-data';
+  }
 
   /**
    * This method converts from scholarship JSON object to a JS object map, 
@@ -32,17 +35,18 @@ class ScholarshipDataHandler {
    * @return {Object} - The object map representing a college's data.
    */
   async convertFromJsonToTemplate_(data) {
-    for (key in data) {
-      if (data[key] === [] || data[key] === {value: null}) {
-        delete data.key;
-      }
-    }
-    return {
+    let key = undefined;
+    // for (key in data) {
+    //   if (data[key] === {value: null}) {
+    //     delete data.key;
+    //   }
+    // }
+    const d = {
       generalInfo: {
         scholarshipName: data['scholarshipName'], 
         scholarshipUUID: data['scholarshipUUID'], 
         introduction: data['introduction'], 
-        URL: data[URL],
+        URL: data['URL'],
       },
       requirements: {
         academicReuirements: data['academicRequirement'], 
@@ -53,13 +57,15 @@ class ScholarshipDataHandler {
         nationalOriginRequirements: data['nationalOriginRequirements'],
         otherRequirements: data['otherRequirements'],
       },
-      applicationNote: {
+      applicationNotes: {
         amountPerYear: data['amountPerYear'],
         applicationProcess: data['applicationProcess'],
         isRenewable: data['isRenewable'],
-        numberOfYears: numberOfYears['numberOfYears'],
+        numberOfYears: data['numberOfYears'],
       }, 
     };
+    console.log(d);
+    return d;
   };
 
   /**
@@ -77,7 +83,7 @@ class ScholarshipDataHandler {
     
     // If data is undefined, bring user to an error page.
     // This case will be handled in ScholarshipPageView.
-    return this.convertFromJsonToTemplate_(data);
+    return this.convertFromJsonToTemplate_(data[0]);
     
   }
 
@@ -88,11 +94,12 @@ class ScholarshipDataHandler {
    * @return {*} - The JSON response.
    */
   async fetchScholarshipJson(id) {
-    const response = await fetch(ScholarshipDataHandler.ENDPOINT_, {'id': id });
+    const response = await fetch(this.ENDPOINT_, {'id': id });
     let data = undefined;
     if (response.ok) {
       try {
         data = await response.json();
+        console.log(data);
         return data;
       } catch (e) {
         throw new Error(`Failed to parse response from server: ${e}`);
@@ -104,3 +111,5 @@ class ScholarshipDataHandler {
   };
 
 }
+
+exports = {ScholarshipDataHandler};
