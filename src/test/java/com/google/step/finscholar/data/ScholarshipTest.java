@@ -33,6 +33,7 @@ public class ScholarshipTest {
   private static final String TEST_NAME = "Scholarship Name";
   private static final List<UUID> TEST_SCHOOLS = List.of(UUID.randomUUID());
   private static final UUID TEST_ID = UUID.randomUUID();
+  private static final String EMPTY_URL = "";
   
   @Test
   public void fullScholarshipForHispanicFemaleAndTrans() {
