@@ -42,6 +42,7 @@ public class ScholarshipTest {
     String AMOUNT = "full tuition";
     List<String> GENDERS = List.of(Gender.FEMALE.getValue(), Gender.TRANSGENDER.getValue());
     List<String> ETHNICITY = List.of(Ethnicity.HISPANIC.getValue());
+    testScholarship = new Scholarship(TEST_NAME, TEST_ID, TEST_SCHOOLS, EMPTY_URL);
     testScholarship.setAcademicRequirements(GPA)
                    .setAmountPerYear(AMOUNT)
                    .setGenderRequirements(GENDERS)
@@ -57,6 +58,7 @@ public class ScholarshipTest {
     int YEARS = 4;
     String APPLICARION = "Test parameter for application setter.";
     String INTRO = "Test parameter for introduction.";
+    testScholarship = new Scholarship(TEST_NAME, TEST_ID, TEST_SCHOOLS, EMPTY_URL);
     testScholarship.setNumberOfYears(YEARS)
                    .setApplicationProcess(APPLICARION)
                    .setIntroduction(INTRO);
@@ -69,6 +71,7 @@ public class ScholarshipTest {
   public void renewableScholarshipWithFinancialAndLocationRequirements() {
     List<String> FINANCE = List.of("Year net income less than $1,0000");
     List<String> LOCATION = List.of("the South Pole");
+    testScholarship = new Scholarship(TEST_NAME, TEST_ID, TEST_SCHOOLS, EMPTY_URL);
     testScholarship.setIsRenewable(true)
                    .setFinancialRequirements(FINANCE)
                    .setLocationRequirements(LOCATION);
@@ -84,6 +87,7 @@ public class ScholarshipTest {
     String REQUIREMENT2 = "other requirement 2";
     List<String> REQUIREMENTS = List.of(REQUIREMENT1, REQUIREMENT2);
     List<String> NATIONS = List.of(NATION);
+    testScholarship = new Scholarship(TEST_NAME, TEST_ID, TEST_SCHOOLS, EMPTY_URL);
     testScholarship.setNationalOriginRequirements(NATIONS)
                    .setOtherRequirements(REQUIREMENTS);
     Assert.assertEquals(NATIONS, testScholarship.getNationalOriginRequirements());
