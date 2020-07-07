@@ -14,6 +14,7 @@
 
 package com.google.step.finscholar.data;
 
+/** This class is a holder class for constant values used by the servlets. */
 public class ServletConstantValues {
 
     public static final String JSON_CONTENT_TYPE = "application/json;";
