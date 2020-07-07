@@ -30,8 +30,8 @@ public final class CollegeData {
     users.add(UUID.randomUUID());
     users.add(UUID.randomUUID());
     
-    College school = new College("Duke University");
-    school.setInstitutionType("Private")
+    College school = new College.CollegeBuilder("Duke University")
+      .setInstitutionType("Private")
       .setAcceptanceRate(0.07)
       .setAverageACTScore(33)
       .setUsersUUIDList(users)
@@ -40,7 +40,9 @@ public final class CollegeData {
       .setNetCostForSecondQuintile(5000)
       .setNetCostForThirdQuintile(10000)
       .setNetCostForFourthQuintile(20000)
-      .setNetCostForFifthQuintile(30000);
+      .setNetCostForFifthQuintile(30000)
+      .setCumulativeMedianDebt(10000)
+      .build();
 
     for(int i = 0; i < 5; i++) {
       colleges.add(school);
