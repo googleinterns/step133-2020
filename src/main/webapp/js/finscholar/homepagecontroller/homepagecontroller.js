@@ -27,9 +27,9 @@ const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 
 /**
  * Class for the home page controller.
- * @public
  */
 class HomePageController extends PageController {
+
   constructor() {
     super();
     /**
@@ -57,6 +57,7 @@ class HomePageController extends PageController {
       await this.scholarshipPageHandler_.renderScholarship(id, GoogDom.getElement('content'));
     } catch(e) {
       alert(e);
+      console.log(e);
     }
   }
 }
