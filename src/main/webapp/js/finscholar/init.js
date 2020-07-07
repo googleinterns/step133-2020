@@ -23,7 +23,7 @@ const init = async () => {
   const homeController = new HomePageController();
   GoogDom.getElement('main').innerHTML = homeController.getContent();
   // The input should be uuid but now it's set to 0 for testing.
-  // This method will be called in homecontroller in actual project.
+  // This method will be called an onclick handler in homecontroller in actual project.
   await homeController.renderScholarshipPage('0');
 };
 

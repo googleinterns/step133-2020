@@ -32,40 +32,34 @@ class ScholarshipDataHandler {
    *  which will be used to render the scholarship page soy template.
    * @private
    * @param {*} data - The JSON object to be converted.
-   * @return {Object} - The object map representing a college's data.
+   * @return {Object} - The object map representing a scholarship's data.
    */
   async convertFromJsonToTemplate_(data) {
-    let key = undefined;
-    // for (key in data) {
-    //   if (data[key] === {value: null}) {
-    //     delete data.key;
-    //   }
-    // }
-    const d = {
+    const separator = ', ';
+    return {
       generalInfo: {
         scholarshipName: data['scholarshipName'], 
         scholarshipUUID: data['scholarshipUUID'], 
-        introduction: data['introduction'], 
+        schoolsList: data['schoolsList'].join(separator),
+        introduction: data['introduction']['value'] || 'N/A', 
         URL: data['URL'],
       },
       requirements: {
-        academicReuirements: data['academicRequirement'], 
-        ethnicityRaceRequirements: data['ethnicityRaceRequirements'], 
-        financialRequirements: data['financialRequirements'],
-        genderRequirements: data['genderRequirements'],
-        locationrequirements: data['locationrequirements'],
-        nationalOriginRequirements: data['nationalOriginRequirements'],
-        otherRequirements: data['otherRequirements'],
+        academicRequirements: data['academicRequirements'].join(separator) || 'N/A', 
+        ethnicityRaceRequirements: data['ethnicityRaceRequirements'].join(separator) || 'N/A', 
+        financialRequirements: data['financialRequirements'].join(separator) || 'N/A',
+        genderRequirements: data['genderRequirements'].join(separator) || 'N/A',
+        locationRequirements: data['locationRequirements'].join(separator) || 'N/A',
+        nationalOriginRequirements: data['nationalOriginRequirements'].join(separator) || 'N/A',
+        otherRequirements: data['otherRequirements'].join(separator) || 'N/A',
       },
       applicationNotes: {
-        amountPerYear: data['amountPerYear'],
-        applicationProcess: data['applicationProcess'],
-        isRenewable: data['isRenewable'],
-        numberOfYears: data['numberOfYears'],
+        amountPerYear: data['amountPerYear']['value'] || 'unknown',
+        applicationProcess: data['applicationProcess']['value'] || 'unknown',
+        isRenewable: data['isRenewable']['value'] || 'unknown',
+        numberOfYears: data['numberOfYears']['value'],
       }, 
     };
-    console.log(d);
-    return d;
   };
 
   /**
@@ -83,7 +77,8 @@ class ScholarshipDataHandler {
     
     // If data is undefined, bring user to an error page.
     // This case will be handled in ScholarshipPageView.
-    return this.convertFromJsonToTemplate_(data[0]);
+    // Later after we support querying by uuid, data will be a acholarship object.
+    return this.convertFromJsonToTemplate_(data[id]);
     
   }
 

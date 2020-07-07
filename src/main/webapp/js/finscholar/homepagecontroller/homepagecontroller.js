@@ -37,8 +37,7 @@ class HomePageController extends PageController {
      * @type {!ScholarshipPageView} 
      * The object loading single Scholarship page.
      */
-    this.scholarshipPageHandler_ = new ScholarshipPageView(GoogDom.getElement('content'));
-    // this.renderScholarshipPage.bind(this);
+    this.scholarshipPageHandler_ = new ScholarshipPageView();
   }
 
   /**
@@ -54,9 +53,8 @@ class HomePageController extends PageController {
    * @param {string} id The uuid of the scholarship to be rendered.
    */
   async renderScholarshipPage(id) {
-    console.log(this);
     try {
-      await this.scholarshipPageHandler_.renderScholarship(id);
+      await this.scholarshipPageHandler_.renderScholarship(id, GoogDom.getElement('content'));
     } catch(e) {
       alert(e);
     }

@@ -28,41 +28,33 @@ class ScholarshipPageView {
 
   /**
    * @constructor
-   * @param {Element} container - The DOM element for single scholarship page.
    */
-  constructor(container) {
+  constructor() {
     /** 
      * @private @const 
      * @type {!ScholarshipDataHandler} The object fetches and formats scholarship data.
      */
     this.dataHandler_ = new ScholarshipDataHandler();
-    /**
-     * @private @const
-     * @type {Element} The DOM element for single scholarship page.
-     */
-    this.container_ = container;
   }
 
   /**
    * Render the scholarship page.
    * @public
    * @param {string} id The string uuid of the scholarship object to be rendered.
+   * @param {!Element} container - The DOM element for single scholarship page.
    */
-  async renderScholarship(id) {
-    console.log('render scholarship by id');
+  async renderScholarship(id, container) {
     let scholarshipData = undefined;
     try {
       scholarshipData = await this.dataHandler_.fetchAndFormatSingleScholarshipData(id);
     } catch (e) {
       alert(e);
       // Throws the error to the caller, and the caller will render an error page instead.
-      throw new Error(`Cannot get data for scholarship ${id}`);
+      throw new Error(`Cannot get data for scholarship ${id}, message: ${e}`);
     }
     try {
-      console.log('scholarship data' + scholarshipData);
-      GoogDom.getElement('content').innerHTML = scholarshippage({scholarship: scholarshipData});      
+      container.innerHTML = scholarshippage({scholarship: scholarshipData});      
     } catch(e) {
-      console.log(e);
       throw new Error(`Failed to generate html: ${e}`);
     }
   }
