@@ -1,9 +1,9 @@
-[submodule "closure-templates"]
+[submodule "deps/closure-templates"]
 	path = deps/closure-templates
 	url = https://github.com/google/closure-templates
 [submodule "deps/closure-library"]
 	path = deps/closure-library
-	url = https://github.com/google/closure-library
+	url = https://github.com/CarlosM10011/closure-library
 [submodule "deps/jsaction"]
 	path = deps/jsaction
-	url = https://github.com/google/jsaction.git
+	url = https://github.com/CarlosM10011/jsaction

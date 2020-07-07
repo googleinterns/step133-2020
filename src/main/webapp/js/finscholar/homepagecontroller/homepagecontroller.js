@@ -16,9 +16,12 @@
 
 goog.module('finscholar.homepagecontroller');
 
-const {homepage} = goog.require('finscholar.homepagecontroller.templates');
+const JsactionActionFlow = goog.require('jsaction.ActionFlow');
+const JsactionDispatcher = goog.require('jsaction.Dispatcher');
+const JsactionEventContract = goog.require('jsaction.EventContract');
 const GoogDom = goog.require('goog.dom');
-const jsaction = goog.require('jsaction');
+const GoogSoy = goog.require('goog.soy');
+const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const {PageController} = goog.require('pagecontroller');
 
 /**
@@ -26,30 +29,28 @@ const {PageController} = goog.require('pagecontroller');
  * @public
  */
 class HomePageController extends PageController {
-
   constructor() {
     super();
-    this.eventContract_ = new jsaction.EventContract();
-
+    this.eventContract_ = new JsactionEventContract();
     // Events will be handled for all elements under this container.
-    this.eventContract_.addContainer(GoogDom.getElement('main'));
-
+    this.eventContract_.addContainer(
+        /** @type {!Element} */ (GoogDom.getElement('main')));
     // Register the event types we care about.
-    this.eventContract.addEvent('click');
-
-    this.dispatcher_ = new jsaction.Dispatcher();
-    this.eventContract_.dispatchTo(this.dispatcher_.dispatch.bind(this.dispatcher_));
-
+    this.eventContract_.addEvent('click');
+    this.dispatcher_ = new JsactionDispatcher();
+    this.eventContract_.dispatchTo(
+        this.dispatcher_.dispatch.bind(this.dispatcher_));
     this.dispatcher_.registerHandlers(
-      'homepagecontroller',            // the namespace
-      null,                            // handler object
-      {                                // action map
-      'clickAction' : this.doStuff,
-    });
+        'homepagecontroller',  // the namespace
+        null,                  // handler object
+        {
+          // action map
+          'clickAction': this.doStuff,
+        });
   }
 
   /**
-   * @returns {HTML} The rendered HTML of the common framework.
+   * @return {!GoogSoy.data.SanitizedHtml} The rendered HTML of the common framework.
    */
   getContent() {
     return homepage();
@@ -57,13 +58,13 @@ class HomePageController extends PageController {
 
   /**
    * Do stuff when actions happen.
-   * @param {!jsaction.ActionFlow} flow Contains the data related to the action
+   * @param {!JsactionActionFlow} flow Contains the data related to the action
    *     and more. See actionflow.js.
    */
   doStuff(flow) {
     // do stuff
     console.log('doStuff called!');
-  };
+  }
 }
 
 exports = {HomePageController};
