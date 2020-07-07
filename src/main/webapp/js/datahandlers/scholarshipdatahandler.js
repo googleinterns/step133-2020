@@ -73,7 +73,7 @@ class ScholarshipDataHandler {
   async fetchAndFormatSingleScholarshipData(id) {
     let data = undefined;
     try {
-      data = await this.fetchScholarshipJson(id);
+      data = await this.fetchScholarshipJson_(id);
     } catch (e) {
       console.log(e);
       throw(e);
@@ -91,7 +91,7 @@ class ScholarshipDataHandler {
    * @return {*} - The JSON response.
    * @private
    */
-  async fetchScholarshipJson(id) {
+  async fetchScholarshipJson_(id) {
     const response = await fetch(this.SCHOLARSHIP_ENDPOINT_, {'id': id });
     let data = undefined;
     if (response.ok) {
