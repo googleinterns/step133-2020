@@ -21,32 +21,18 @@ const {loadCollegeData} = goog.require('datahandlers.collegepage');
 
 /**
  * Class for the college page view.
- * @public
  */
 class CollegePageView {
   /**
-   * @constructor
-   * @param {Element} element - The DOM element to render the college page to.
+   * Default constructor.
    */
-  constructor(element) {
-    /** @private {Element} - The DOM element where the CollegePageView will be rendered. */
-    this.element_ = element;
-  }
-
-  /**
-   * @public 
-   * @return {Element} - The DOM element associated with this view. 
-   */
-  get element() {
-    return this.element_;
-  }
+  constructor() {}
 
   /**
    * Render the college page.
-   * @public
    */
-  async renderCollege() {
-    await loadCollegeData(this.element);
+  async renderCollege(element) {
+    await loadCollegeData(element);
   };
 }
 
