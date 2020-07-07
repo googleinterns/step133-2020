@@ -92,6 +92,5 @@ public class ScholarshipTest {
                    .setOtherRequirements(REQUIREMENTS);
     Assert.assertEquals(NATIONS, testScholarship.getNationalOriginRequirements());
     Assert.assertEquals(REQUIREMENTS, testScholarship.getOtherRequirements());
-
   }
 }
