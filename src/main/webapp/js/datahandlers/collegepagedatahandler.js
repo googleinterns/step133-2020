@@ -14,7 +14,7 @@
 
 /** @fileoverview This class handles populating the college page view with data from the servlet. */
 
-goog.module('datahandlers');
+goog.module('datahandlers.collegepage');
 const {collegepage} = goog.require('finscholar.collegepageview.templates');
 
 /** This constant is the endpoint to send a fetch request to. */

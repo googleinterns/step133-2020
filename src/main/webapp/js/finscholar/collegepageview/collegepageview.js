@@ -17,7 +17,7 @@
 goog.module('finscholar.collegepageview');
 
 const GoogDom = goog.require('goog.dom');
-const {loadCollegeData} = goog.require('datahandlers');
+const {loadCollegeData} = goog.require('datahandlers.collegepage');
 
 /**
  * Class for the college page view.
