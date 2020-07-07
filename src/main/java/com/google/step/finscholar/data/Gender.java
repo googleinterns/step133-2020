@@ -33,5 +33,4 @@ public enum Gender {
   public String getValue() {
     return this.gender;
   }
-
 }

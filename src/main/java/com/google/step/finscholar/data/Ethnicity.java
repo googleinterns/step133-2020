@@ -35,5 +35,4 @@ public enum Ethnicity {
   public String getValue() {
     return this.ethnicity;
   }
-    
 }
