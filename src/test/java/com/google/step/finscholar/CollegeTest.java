@@ -29,11 +29,11 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class CollegeTest {
  
-  private College college;
-  private List<UUID> users = new ArrayList<UUID>();
+  private static College college;
+  private static List<UUID> users = new ArrayList<UUID>();
 
   @BeforeClass
-  public void setUp() {
+  public static void setUp() {
     users.add(UUID.randomUUID());
     users.add(UUID.randomUUID());
     

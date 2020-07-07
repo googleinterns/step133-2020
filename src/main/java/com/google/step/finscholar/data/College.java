@@ -74,7 +74,7 @@ public class College {
 
     /** @param newInstitutionType - Public, private, for-profit, etc. */
     public CollegeBuilder setInstitutionType(String newInstitutionType) {
-      this.institutionType = newInstitutionType.toLowerCase();
+      this.institutionType = newInstitutionType;
       return this;
     }
 
