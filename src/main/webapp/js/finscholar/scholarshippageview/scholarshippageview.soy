@@ -1,0 +1,111 @@
+{namespace example.templates.scholarshippageviews}
+{template .scholarshippage}
+  {@param scholarship: [generalInfo: [scholarshipName: string,  
+                                       schoolsList:list<string>,
+                                       introduction: string,
+                                       URL: uri],
+                        requirements: [academicRequirements: list<string>,
+                                       ethnicityRaceRequirements: list<string>,
+                                       financialRequirements: list<string>,
+                                       genderRequirements: list<string>,
+                                       locationRequirements: list<string>,
+                                       nationalOriginRequirements: list<string>,
+                                       otherRequirements: list<string>],
+                        applicationNotes: [isRenewable: bool,
+                                           amountPerYear: string,
+                                           applicationProcess: string,
+                                           numberOfYears: int]
+                        ]}
+  <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
+      <div class="page-content">
+        {call .scholarshipIntroduction}
+          {param introduction: $scholarship.introduction /}
+        {/call}
+        {call .scholarshipRequirements}
+          {param requirements: $scholarship.requirements /}
+        {/call}
+        {call .scholarshipApplication}
+          {param applicationNotes: $scholarship.applicationNotes /}
+        {/call}
+      </div>
+    </div>
+  </section>
+{/template}
+
+{template .scholarshipIntroduction}
+  {@param introduction: [scholarshipName: string,  
+                         schoolsList:list<string>,
+                         introduction: string,
+                         URL: uri]}
+  {let $separator: ", " /}
+  <div class="mdl-card mdl-cell mdl-cell--12-col">
+    <div id="scholarship-header">
+      <h4>{$introduction.scholarshipName}</h4>
+      <a href={$introduction.URL}>Visit official website</a>
+    </div>
+    <div id="schools">
+      <p> Provided by {join($introduction.schoolsList, $separator)}. </p>
+    </div>
+  </div>
+  <div id="introduction">
+    <p>{$introduction.introduction}</p>
+  </div>
+{/template}
+
+{template .scholarshipRequirements}
+  {@param requirements: [academicRequirements: list<string>, 
+                         financialRequirements: list<string>,
+                         ethnicityRaceRequirements: list<string>,
+                         genderRequirements: list<string>,
+                         locationRequirements: list<string>,
+                         nationalOriginRequirements: list<string>,
+                         otherRequirements: list<string>]}
+  {let $separator: ", " /}
+  <div class="mdl-card mdl-cell mdl-cell--10-col">
+    <h4 class="mdl-cell mdl-cell--12-col">Requirements</h4>
+    <div class="requirement section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+      <h6> Academic Requirements </h6>
+      <p> {join($requirements.academicRequirements, $separator)} </p>
+    </div>
+    <div class="requirement section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+      <h6> Ethnicity Race Requirements </h6> 
+      <p> {join($requirements.ethnicityRaceRequirements, $separator)}</p>
+    </div>
+    <div class="requirement section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+      <h6> Financial Race Requirements </h6> 
+      <p> {join($requirements.financialRequirements, $separator)}</p>
+    </div>
+    <div class="requirement section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+      <h6> Location Requirements </h6>
+      <p> {join($requirements.locationRequirements, $separator)}</p>
+    </div>
+    <div class="requirement section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+      <h6> National Origin Requirements </h6>
+      <p> {join($requirements.nationalOriginRequirements, $separator)}</p>
+    </div>
+    <div class="requirement section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+      <h6> Other Requirements </h6>
+      <p>{join($requirements.otherRequirements, $separator)}</p>
+    </div>
+  </div>
+{/template}
+
+{template .scholarshipApplication}
+  {@param applicationNotes : [isRenewable: bool,
+                              amountPerYear: string,
+                              applicationProcess: string,
+                              numberOfYears: int]}
+  <div id="amount-and-duration">
+    <p> Amount per year: {$applicationNotes.amountPerYear}</p>
+    <p> Duration: $applicationNotes.numberOfYears 
+        {$applicationNotes.numberOfYears > 1 ? "years" : "year"} 
+    </p>
+  </div>
+  <div id="application-process">
+    <p> Application process: {$applicationNotes.applicationProcess} </p>
+  </div>
+  <div id="is-renewable">
+    <p>Renewable: {$applicationNotes.isRenewable}</p>
+  </div>
+{/template}
