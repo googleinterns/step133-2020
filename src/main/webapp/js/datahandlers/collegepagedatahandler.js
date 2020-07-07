@@ -18,7 +18,7 @@ goog.module('datahandlers.collegepage');
 const {collegepage} = goog.require('finscholar.collegepageview.templates');
 
 /** This constant is the endpoint to send a fetch request to. */
-const ENDPOINT = "/college-data";
+const COLLEGE_SERVLET_ENDPOINT = "/college-data";
 
 /**
  * This method converts from JSON to a JS object map, 
@@ -49,7 +49,7 @@ const convertFromJsonToTemplate = async (json) => {
  * @return {*} - The JSON response.
  */
 const loadCollegeJson = async () => {
-    const response = await fetch(ENDPOINT);
+    const response = await fetch(COLLEGE_SERVLET_ENDPOINT);
     if(response.ok) {
       return await response.json();
     } else {
