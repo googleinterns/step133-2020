@@ -18,7 +18,6 @@ goog.module('datahandlers.scholarshipdatahandler');
 
 class ScholarshipDataHandler {
 
-
   constructor() {
     /** 
      * This constant is the endpoint to send a fetch request to. 
@@ -79,7 +78,6 @@ class ScholarshipDataHandler {
     // This case will be handled in ScholarshipPageView.
     // Later after we support querying by uuid, data will be a acholarship object.
     return this.convertFromJsonToTemplate_(data[id]);
-    
   }
 
   /**
@@ -94,7 +92,6 @@ class ScholarshipDataHandler {
     if (response.ok) {
       try {
         data = await response.json();
-        console.log(data);
         return data;
       } catch (e) {
         throw new Error(`Failed to parse response from server: ${e}`);
@@ -104,7 +101,6 @@ class ScholarshipDataHandler {
           ${response.statusText}. Status: ${response.status}`);
     }
   };
-
 }
 
 exports = {ScholarshipDataHandler};

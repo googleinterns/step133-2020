@@ -62,3 +62,4 @@ class ScholarshipPageView {
 }
 
 exports = {ScholarshipPageView};
+
