@@ -20,25 +20,41 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/** */
+/** This class tests the College object's methods and behavior. */
 @RunWith(JUnit4.class)
 public final class CollegeTest {
  
-  private College college;
+  private static College college;
+  private static List<UUID> users = new ArrayList<UUID>();
 
-  @Before
-  public void setUp() {
-    college = new College("Duke");
+  @BeforeClass
+  public static void setUp() {
+    users.add(UUID.randomUUID());
+    users.add(UUID.randomUUID());
+    
+    college = new College.CollegeBuilder("Duke University")
+      .setInstitutionType("Private")
+      .setAcceptanceRate(0.07)
+      .setAverageACTScore(33)
+      .setUsersUUIDList(users)
+      .setTotalCostAttendance(75000)
+      .setNetCostForFirstQuintile(2000)
+      .setNetCostForSecondQuintile(5000)
+      .setNetCostForThirdQuintile(10000)
+      .setNetCostForFourthQuintile(20000)
+      .setNetCostForFifthQuintile(30000)
+      .setCumulativeMedianDebt(10000)
+      .build();
   }
 
   @Test
   public void schoolNameCorrectlySet() {
-    String expected = "Duke";
+    String expected = "Duke University";
     String actual = college.getSchoolName();
     Assert.assertEquals(expected, actual);
   }
@@ -51,8 +67,7 @@ public final class CollegeTest {
 
   @Test
   public void institutionTypeCorrectlySet() {
-    String expected = "public";
-    college.setInstitutionType("Public");
+    String expected = "Private";
     String actual = college.getInstitutionType();
     Assert.assertEquals(expected, actual);
   }
@@ -60,28 +75,19 @@ public final class CollegeTest {
   @Test
   public void acceptanceRateCorrectlySet() {
     double expected = 0.07;
-    college.setAcceptanceRate(0.07);
     double actual = college.getAcceptanceRate();
     Assert.assertEquals(expected, actual, 0);
   }
 
   @Test
   public void ACTScoreCorrectlySet() {
-    double expected = 34;
-    college.setAverageACTScore(34);
+    double expected = 33;
     double actual = college.getAverageACTScore();
     Assert.assertEquals(expected, actual, 0);
   }
 
   @Test
   public void usersListCorrectlySet() {
-    List<UUID> users = new ArrayList<>();
-
-    for(int i = 0; i < 5; i++) {
-      users.add(UUID.randomUUID());
-    }
-
-    college.setUsersUUIDList(users);
     List<UUID> actual = college.getUsersUUIDList();
     Assert.assertEquals(users, actual);
   }
@@ -89,7 +95,6 @@ public final class CollegeTest {
   @Test
   public void totalCostCorrectlySet() {
     int expected = 75000;
-    college.setTotalCostAttendance(75000);
     int actual = college.getTotalCostAttendance();
     Assert.assertEquals(expected, actual);
   }
@@ -97,7 +102,6 @@ public final class CollegeTest {
   @Test
   public void firstNetCostCorrectlySet() {
     int expected = 2000;
-    college.setNetCostForFirstQuintile(2000);
     int actual = college.getNetCostForFirstQuintile();
     Assert.assertEquals(expected, actual);
   }
@@ -105,7 +109,6 @@ public final class CollegeTest {
   @Test
   public void secondNetCostCorrectlySet() {
     int expected = 5000;
-    college.setNetCostForSecondQuintile(5000);
     int actual = college.getNetCostForSecondQuintile();
     Assert.assertEquals(expected, actual);
   }
@@ -113,7 +116,6 @@ public final class CollegeTest {
   @Test
   public void thirdNetCostCorrectlySet() {
     int expected = 10000;
-    college.setNetCostForThirdQuintile(10000);
     int actual = college.getNetCostForThirdQuintile();
     Assert.assertEquals(expected, actual);
   }
@@ -121,23 +123,20 @@ public final class CollegeTest {
   @Test
   public void fourthNetCostCorrectlySet() {
     int expected = 20000;
-    college.setNetCostForFourthQuintile(20000);
     int actual = college.getNetCostForFourthQuintile();
     Assert.assertEquals(expected, actual);
   }
 
   @Test
   public void fifthNetCostCorrectlySet() {
-    int expected = 40000;
-    college.setNetCostForFifthQuintile(40000);
+    int expected = 30000;
     int actual = college.getNetCostForFifthQuintile();
     Assert.assertEquals(expected, actual);
   }
 
   @Test
   public void medianDebtCorrectlySet() {
-    int expected = 40000;
-    college.setCumulativeMedianDebt(40000);
+    int expected = 10000;
     int actual = college.getCumulativeMedianDebt();
     Assert.assertEquals(expected, actual);
   }
