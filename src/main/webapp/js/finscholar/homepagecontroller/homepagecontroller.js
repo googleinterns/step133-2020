@@ -22,6 +22,8 @@ const JsactionEventContract = goog.require('jsaction.EventContract');
 const GoogDom = goog.require('goog.dom');
 const GoogSoy = goog.require('goog.soy');
 const {homepage} = goog.require('finscholar.homepagecontroller.templates');
+const {CollegeListView} = goog.require('finscholar.collegelistview');
+const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
 const {PageController} = goog.require('pagecontroller');
 
 /**
@@ -29,41 +31,79 @@ const {PageController} = goog.require('pagecontroller');
  * @public
  */
 class HomePageController extends PageController {
-  constructor() {
+
+  /** 
+   * @constructor
+   * @param {!Element} container The HTML div where the main frame is rendered.
+   */
+  constructor(container) {
     super();
+    /** @private @const @type {!Element} */
+    this.container_ = container;
+    /** @private @const @type {!JsactionEventContract} */
     this.eventContract_ = new JsactionEventContract();
+    /** @private @const @type {!JsactionDispatcher} */
+    this.dispatcher_ = new JsactionDispatcher();
+    /** @private @const bindedNavbarOnclickHandler_ The binded navbar onclick event handler. */
+    this.bindedNavbarOnclickHandler_ = this.handleNavbarOnclickEvent_.bind(this);
+    this.initJsaction_();
+    /** @private */
+    this.navbarPageIndex_ = 0;
+    /** @private @const */
+    this.TEMPLATE_HANDLERS_ = [new CollegeListView(), new ScholarshipListView()];
+    this.container_.innerHTML = this.getContent_();
+    this.subView_ = GoogDom.getElement('content');
+    this.renderPage_();
+  }
+
+  /**
+   * Sets up the event handlers for elements in the main frame.
+   * @private
+   */
+  initJsaction_() {
     // Events will be handled for all elements under this container.
     this.eventContract_.addContainer(
         /** @type {!Element} */ (GoogDom.getElement('main')));
     // Register the event types we care about.
     this.eventContract_.addEvent('click');
-    this.dispatcher_ = new JsactionDispatcher();
+    this.eventContract_.addEvent('dblclick');
     this.eventContract_.dispatchTo(
         this.dispatcher_.dispatch.bind(this.dispatcher_));
     this.dispatcher_.registerHandlers(
-        'homepagecontroller',  // the namespace
-        null,                  // handler object
-        {
-          // action map
-          'clickAction': this.doStuff,
-        });
+      'homepagecontroller',  // the namespace
+      null,                  // handler object
+      {
+        // action map
+        'clickAction': this.bindedNavbarOnclickHandler_,
+        'doubleClickAction' : this.bindedNavbarOnclickHandler_,
+      });
   }
 
   /**
    * @return {!GoogSoy.data.SanitizedHtml} The rendered HTML of the common framework.
+   * @private
    */
-  getContent() {
+  getContent_() {
     return homepage();
   }
 
   /**
-   * Do stuff when actions happen.
+   * Handles click and double click events on navbar.
    * @param {!JsactionActionFlow} flow Contains the data related to the action
    *     and more. See actionflow.js.
    */
-  doStuff(flow) {
-    // do stuff
-    console.log('doStuff called!');
+  handleNavbarOnclickEvent_(flow) {
+    const index = flow.node().getAttribute('index');
+    this.navbarPageIndex_ = index;
+    this.renderPage_();
+  }
+
+  /**
+   * Render the div with id 'content' based on the click event navber buttons.
+   * @private
+   */
+  renderPage_() {
+    this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_);
   }
 }
 
