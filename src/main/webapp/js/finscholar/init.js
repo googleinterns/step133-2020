@@ -20,8 +20,7 @@ const GoogDom = goog.require('goog.dom');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
 
 const init = () => {
-  const homeController = new HomePageController();
-  GoogDom.getElement('main').innerHTML = homeController.getContent();
+  const homeController = new HomePageController(GoogDom.getElement('main'));
 };
 
 window['onload'] = init;
