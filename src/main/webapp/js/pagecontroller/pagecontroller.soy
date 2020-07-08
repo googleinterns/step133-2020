@@ -12,21 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @fileoverview main entry point for the app */
-
-goog.module('finscholar');
-
-const GoogDom = goog.require('goog.dom');
-const {welcome} = goog.require('example.templates');
-
-/** @param {!string} message */
-const sayHello = (message) => {
-  const data = {greeting: message, year: new Date().getFullYear()};
-  const html = welcome(data);
-  GoogDom.getElement('hello').innerHTML = html;
-};
-
-
-window['onload'] = () => {
-  sayHello('Carlos Medrano');
-};
+{namespace pagecontroller.templates}
+{template .test}
+  <p>test paragraph.</p>
+{/template}
