@@ -14,23 +14,23 @@
 
 package com.google.step.finscholar.data;
 
-/** The enumerator for gender. */
+/** The enumerator for genders. */
 public enum Gender {
   
-    MALE("male"),
-    FEMALE("female"),
-    TRANSGENDER("transgender"),
-    NON_BINARY("non-binary"),
-    GENDER_NEUTRAL("gender neutral");
+  MALE("male"),
+  FEMALE("female"),
+  TRANSGENDER("transgender"),
+  NON_BINARY("non-binary"),
+  GENDER_NEUTRAL("gender neutral");
 
-    private String gender;
+  private String gender;
 
-    private Gender(String gender) {
-      this.gender = gender;
-    }
+  private Gender(String gender) {
+    this.gender = gender;
+  }
 
-    public String getValue() {
-      return this.gender;
-    }
-
+  /** @return The string associated with this constant. */
+  public String getValue() {
+    return this.gender;
+  }
 }

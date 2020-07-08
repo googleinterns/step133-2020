@@ -29,7 +29,7 @@ public class ScholarshipSamples {
   private static final List<String> ACADEMIC_REQUIREMENTS_1 = 
       List.of("maintain 'respectable GPA'");
   private static final List<String> ETHNICITY_1 = 
-      List.of(Ethnicity.BLACK_OR_AFRICAN_AMERICAN.geValue());
+      List.of(Ethnicity.BLACK_OR_AFRICAN_AMERICAN.getValue());
   
   private static final String NAME_2 = "Cornelius Vanderbilt Scholarship";
   private static final List<UUID> SCHOOL_NAMES_2 = List.of(UUID.randomUUID());
@@ -46,16 +46,16 @@ public class ScholarshipSamples {
                                          "following the sophomore or junior year.";
   
   public static Scholarship scholarshipSampleOne = 
-      new Scholarship(NAME_1, UUID_1, SCHOOL_NAMES_1, SAMPLE_1_URL)
-      .setIsRenewable(true)
-      .setAcademicRequirements(ACADEMIC_REQUIREMENTS_1)
-      .setEthnicityRaceRequirements(ETHNICITY_1);
+      new Scholarship(new ScholarshipBuilder(NAME_1, UUID_1, SCHOOL_NAMES_1, SAMPLE_1_URL)
+                    .setIsRenewable(true)
+                    .setAcademicRequirements(ACADEMIC_REQUIREMENTS_1)
+                    .setEthnicityRaceRequirements(ETHNICITY_1));
   
   public static Scholarship scholarshipSampleTwo = 
-      new Scholarship(NAME_2, UUID_2, SCHOOL_NAMES_2, SAMPLE_2_URL)
-      .setIsRenewable(true)
-      .setAcademicRequirements(ACADEMIC_REQUIREMENTS_2)
-      .setIntroduction(SUMMARY_2)
-      .setAmountPerYear(AMOUNT_2);
+      new Scholarship(new ScholarshipBUilder(NAME_2, UUID_2, SCHOOL_NAMES_2, SAMPLE_2_URL)
+                        .setIsRenewable(true)
+                        .setAcademicRequirements(ACADEMIC_REQUIREMENTS_2)
+                        .setIntroduction(SUMMARY_2)
+                        .setAmountPerYear(AMOUNT_2));
 
 }
