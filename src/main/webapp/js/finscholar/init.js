@@ -25,7 +25,7 @@ const {HomePageController} = goog.require('finscholar.homepagecontroller');
  */
 const init = async () => {
   const homeController = new HomePageController();
-  GoogDom.getElement('main').innerHTML = homeController.content;
+  GoogDom.getElement('main').innerHTML = homeController.getContent();
 
   // Render the college page by loading in the data and rendering the 
   // associated soy template.
