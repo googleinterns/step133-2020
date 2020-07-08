@@ -17,45 +17,31 @@
 goog.module('finscholar.errorpageview');
 
 const GoogDom = goog.require('goog.dom');
+const {errorpage} = goog.require('finscholar.errorpageview.templates');
 
 /**
  * Class for the error page view.
  * @public
  */
 class ErrorPageView {
-  /**
-   * @constructor
-   * @param {Element} element - The DOM element to render the college page to.
-   * @param {Error} error - The error message for the error that was thrown when something failed to load.
-   */
-  constructor(element, error) {
-    /** @private {Element} - The DOM element where the CollegePageView will be rendered. */
-    this.element_ = element;
-    this.error_ = error;
-  }
-
-  /**
-   * @public 
-   * @return {Element} - The DOM element associated with this view. 
-   */
-  get element() {
-    return this.element_;
-  }
-
-  /**
-   * @public 
-   * @return {Error} - The error message for the error that was thrown when something failed to load. 
-   */
-  get error() {
-    return this.error_;
-  }
+  /** Default constructor. */
+  constructor() {}
 
   /**
    * Render the error page.
-   * @public
+   * @param {Element} element - The element to render the error page to.
+   * @param {string} newOccurrence - Message explaining what happened.
+   * @param {string} newAction - Action to be taken upon receiving the error message.
+   * @param {string} newErrorMessage - The error message that was thrown when the error occurred.
    */
-  async renderError() {
-   // TODO: Render error page.
+  async renderErrorPage(element, newOccurrence, newAction, newErrorMessage) {
+    const data = {
+      occurrence : newOccurrence,
+      action : newAction,
+      errorMessage : newErrorMessage
+    }
+    const html = collegepage(data);
+    element.innerHTML = html;
   };
 }
 
