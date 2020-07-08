@@ -15,6 +15,7 @@
 /** @fileoverview This class loads scholarship data from the servlet. */
 
 goog.module('datahandlers.scholarshipdatahandler');
+const {DataLoadingError} = goog.require('errors.dataloadingerror')
 
 /** This class loads scholarship data from backend and format it for soy template. */
 class ScholarshipDataHandler {
@@ -39,6 +40,7 @@ class ScholarshipDataHandler {
    */
   async convertFromJsonToTemplate_(data) {
     const SEPARATOR = ', ';
+    data = undefined;
     return {
       generalInfo: {
         scholarshipName: data['scholarshipName'], 
@@ -82,6 +84,10 @@ class ScholarshipDataHandler {
     // If data is undefined, bring user to an error page.
     // This check will be done in ScholarshipPageView.
     // Later after we support querying by uuid, data will be a acholarship object.
+    if (data === undefined) {
+      // This error will be handled and logged by the caller.
+      throw new Error('Cannot get data from remote.');
+    }
     return this.convertFromJsonToTemplate_(data[id]);
   }
 
@@ -99,11 +105,10 @@ class ScholarshipDataHandler {
         data = await response.json();
         return data;
       } catch (e) {
-        console.log(e);
+        console.log(`Failed to parse response from server: ${e}`);
         throw new Error(`Failed to parse response from server: ${e}`);
       }
     } else {
-      console.log(e);
       throw new Error(`Failed to get response from server: 
           ${response.statusText}. Status: ${response.status}`);
     }
