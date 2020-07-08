@@ -18,13 +18,7 @@
                                        schoolsList:string,
                                        introduction: string,
                                        URL: uri],
-                        requirements: [academicRequirements: string,
-                                       ethnicityRaceRequirements: string,
-                                       financialRequirements: string,
-                                       genderRequirements: string,
-                                       locationRequirements: string,
-                                       nationalOriginRequirements: string,
-                                       otherRequirements: string],
+                        requirements: map<string, string>,
                         applicationNotes: [isRenewable: bool,
                                            amountPerYear: string,
                                            applicationProcess: string,
@@ -53,52 +47,28 @@
                          introduction: string,
                          URL: uri]}
   <div class="mdl-card mdl-cell mdl-cell--12-col">
-    <div id="scholarship-header">
-      <h4>{$generalInfo.scholarshipName}</h4>
-      <a href={$generalInfo.URL}>Visit official website</a>
-      <p> {$generalInfo.schoolsList} </p>
+    <div id="scholarship-header" class="mdl-card__title">
+      <h1 class="mdl-card__title-text scholarship-title">{$generalInfo.scholarshipName}</h1>
     </div>
-
-  </div>
-  <div id="introduction">
-    <p>Introduction: {$generalInfo.introduction}</p>
+    <div class="mdl-card__supporting-text">
+      <p> <a href={$generalInfo.URL}>Visit official website</a></p>
+      <p> Schools: {$generalInfo.schoolsList} </p>
+      <p> Introduction: {$generalInfo.introduction}</p>
+    </div>
   </div>
 {/template}
 
 {template .scholarshipRequirements}
-  {@param requirements: [academicRequirements: string, 
-                         financialRequirements: string,
-                         ethnicityRaceRequirements: string,
-                         genderRequirements: string,
-                         locationRequirements: string,
-                         nationalOriginRequirements: string,
-                         otherRequirements: string]}
-  <div class="mdl-card mdl-cell mdl-cell--10-col">
-    <h4 class="mdl-cell mdl-cell--12-col">Requirements</h4>
-    <div class="requirement section__text mdl-cell mdl-cell--10-col-desktop">
-      <h6> Academic Requirements </h6>
-      <p> {$requirements.academicRequirements} </p>
+  {@param requirements:  map<string, string>}
+  <div class="mdl-card mdl-cell mdl-cell--12-col">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text scholarship-title">Requirements</h2>
     </div>
-    <div class="requirement section__text mdl-cell mdl-cell--10-col-desktop">
-      <h6> Ethnicity Race Requirements </h6> 
-      <p> {$requirements.ethnicityRaceRequirements}</p>
-    </div>
-    <div class="requirement section__text mdl-cell mdl-cell--10-col-desktop">
-      <h6> Financial Race Requirements </h6> 
-      <p> {$requirements.financialRequirements}</p>
-    </div>
-    <div class="requirement section__text mdl-cell mdl-cell--10-col-desktop">
-      <h6> Location Requirements </h6>
-      <p> {$requirements.locationRequirements}</p>
-    </div>
-    <div class="requirement section__text mdl-cell mdl-cell--10-col-desktop">
-      <h6> National Origin Requirements </h6>
-      <p> {$requirements.nationalOriginRequirements}</p>
-    </div>
-    <div class="requirement section__text mdl-cell mdl-cell--10-col-desktop">
-      <h6> Other Requirements </h6>
-      <p>{$requirements.otherRequirements}</p>
-    </div>
+    {for $key in mapKeys($requirements)}
+      <div class="requirement mdl-card__supporting-text">
+        <p><b> {$key} : </b> {$requirements[$key]}</p>
+      </div>
+    {/for}
   </div>
 {/template}
 
@@ -107,17 +77,23 @@
                               amountPerYear: string,
                               applicationProcess: string,
                               numberOfYears: int]}
-  <h4 class="mdl-cell mdl-cell--12-col"> Application Notes </h4>
-  <div id="amount-and-duration" class ="mdl-card__supporting-text">
-    <p> Amount per year: {$applicationNotes.amountPerYear}</p>
-    <p> Duration: {$applicationNotes.numberOfYears} 
+  <div class="mdl-card mdl-cell mdl-cell--12-col">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text scholarship-title"> Application Notes </h2>
+    </div>
+    <div id="amount-and-duration" class ="mdl-card__supporting-text">
+      <p><b> Amount per year: </b> {$applicationNotes.amountPerYear} </p>
+      <p><b> Duration: </b> {$applicationNotes.numberOfYears} 
         { $applicationNotes.numberOfYears > 1 ? " years" : " year"} 
-    </p>
-  </div>
-  <div id="application-process" class="mdl-card__supporting-text">
-    <p> Application process: {$applicationNotes.applicationProcess} </p>
-  </div>
-  <div id="is-renewable" class="mdl-card__supporting-text">
-    <p>Renewable: {$applicationNotes.isRenewable}</p>
+      </p>
+    </div>
+    <div id="application-process" class="mdl-card__supporting-text">
+      <p><b> Application process: </b> {$applicationNotes.applicationProcess} </p>
+    </div>
+    <div id="is-renewable" class="mdl-card__supporting-text">
+      <p><b> Renewable: </b> {$applicationNotes.isRenewable}</p>
+    </div>
   </div>
 {/template}
+
+

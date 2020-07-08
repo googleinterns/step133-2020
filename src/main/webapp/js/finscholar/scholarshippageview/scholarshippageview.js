@@ -22,6 +22,7 @@ const {ScholarshipDataHandler} = goog.require('datahandlers.scholarshipdatahandl
 
 /**
  * Class for scholarship page view.
+ * @public
  */
 class ScholarshipPageView {
 
@@ -38,6 +39,7 @@ class ScholarshipPageView {
 
   /**
    * Render the scholarship page.
+   * @public
    * @param {string} id The string uuid of the scholarship object to be rendered.
    * @param {!Element} container - The DOM element for single scholarship page.
    */
@@ -46,7 +48,6 @@ class ScholarshipPageView {
     try {
       scholarshipData = await this.dataHandler_.fetchAndFormatSingleScholarshipData(id);
     } catch (e) {
-      alert(e);
       console.log(e);
       // Throws the error to the caller, and the caller will render an error page instead.
       throw new Error(`Cannot get data for scholarship ${id}, message: ${e}`);
@@ -55,6 +56,7 @@ class ScholarshipPageView {
       container.innerHTML = scholarshippage({scholarship: scholarshipData});      
     } catch(e) {
       console.log(e);
+      // Throws the error to the caller, and the caller will render an error page instead.
       throw new Error(`Failed to generate html: ${e}`);
     }
   }
