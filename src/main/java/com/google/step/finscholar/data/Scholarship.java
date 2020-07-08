@@ -82,6 +82,7 @@ public class Scholarship {
       this.URL = URL;
     }
 
+    /** @return The scholarship object constructed with this builder. */
     public Scholarship build() {
       return new Scholarship(this);
     }
