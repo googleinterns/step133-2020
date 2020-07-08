@@ -15,20 +15,16 @@
 /** @fileoverview This class loads scholarship data from the servlet. */
 
 goog.module('datahandlers.scholarshipdatahandler');
-const {DataLoadingError} = goog.require('errors.dataloadingerror')
 
-/** This class loads scholarship data from backend and format it for soy template. */
+/** This class loads scholarship data from the backend and formats it for soy templates.  */
 class ScholarshipDataHandler {
 
-  /**
-   * @constructor
+  /** 
+   * @return The string path of the endpoint to send a fetch request to. 
+   * @private 
    */
-  constructor() {
-    /** 
-     * This constant is the endpoint to send a fetch request to. 
-     * @private @const
-     */
-    this.SCHOLARSHIP_ENDPOINT_ = '/scholarship-data';
+  get scholarshipEndPoint_() {
+    return '/scholarship-data';
   }
 
   /**
@@ -40,7 +36,6 @@ class ScholarshipDataHandler {
    */
   async convertFromJsonToTemplate_(data) {
     const SEPARATOR = ', ';
-    data = undefined;
     return {
       generalInfo: {
         scholarshipName: data['scholarshipName'], 
@@ -82,12 +77,13 @@ class ScholarshipDataHandler {
     }
     
     // If data is undefined, bring user to an error page.
-    // This check will be done in ScholarshipPageView.
+    // This case will be done in ScholarshipPageView.
     // Later after we support querying by uuid, data will be a acholarship object.
     if (data === undefined) {
       // This error will be handled and logged by the caller.
       throw new Error('Cannot get data from remote.');
     }
+    //In actual project here the data will just be one scholarship object.
     return this.convertFromJsonToTemplate_(data[id]);
   }
 
@@ -98,14 +94,14 @@ class ScholarshipDataHandler {
    * @private
    */
   async fetchScholarshipJson_(id) {
-    const response = await fetch(this.SCHOLARSHIP_ENDPOINT_, {'id': id });
+    const response = await fetch(this.scholarshipEndPoint_, {'id': id });
     let data = undefined;
     if (response.ok) {
       try {
         data = await response.json();
         return data;
       } catch (e) {
-        console.log(`Failed to parse response from server: ${e}`);
+        console.log(e.stack);
         throw new Error(`Failed to parse response from server: ${e}`);
       }
     } else {
