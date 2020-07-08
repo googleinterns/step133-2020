@@ -30,6 +30,9 @@ const COLLEGE_SERVLET_ENDPOINT = '/college-data';
  */
 const convertFromJsonToTemplate_ = async (json) => {
   if(json !== undefined) {
+    // Unfortunately, JSON bracket notation requires double quotes.
+    // Can't use dot notation here since there is no way to verify
+    //   that json is indeed a JSON object. (Per the Closure compiler).
     return {
       schoolName : json["schoolName"],
       institutionType: json["institutionType"],

@@ -21,7 +21,6 @@ const {loadCollegeData} = goog.require('datahandlers.collegepage');
 
 /** Class for the college page view. */
 class CollegePageView {
-  /** Default constructor. */
   constructor() {}
 
   /** Render the college page. */
