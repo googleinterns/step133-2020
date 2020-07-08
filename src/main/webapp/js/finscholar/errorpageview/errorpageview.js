@@ -36,7 +36,7 @@ class ErrorPageView {
       action : newAction,
       errorMessage : newErrorMessage
     }
-    const html = collegepage(data);
+    const html = errorpage(data);
     element.innerHTML = html;
   };
 }
