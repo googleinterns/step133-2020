@@ -14,66 +14,79 @@
 
 /** @fileoverview This class handles populating the college page view with data from the servlet. */
 
-goog.module('datahandlers');
+goog.module('datahandlers.collegepage');
 const {collegepage} = goog.require('finscholar.collegepageview.templates');
 
 /** This constant is the endpoint to send a fetch request to. */
-const ENDPOINT = "/college-data";
+const COLLEGE_SERVLET_ENDPOINT = '/college-data';
 
 /**
  * This method converts from JSON to a JS object map, 
  *  which will be used to populate the college page soy template.
- * @private
  * @param {*} json - The JSON object to be converted.
  * @return {Object} - The object map representing a college's data.
+ * @private
  */
-const convertFromJsonToTemplate = async (json) => {
-  return {
-    schoolName : json["schoolName"],
-    institutionType: json["institutionType"],
-    acceptanceRate: json["acceptanceRate"],
-    averageACTScore: json["averageACTScore"],
-    totalCostAttendance: json["totalCostAttendance"],
-    netCostForFirstQuintile: json["netCostForFirstQuintile"],
-    netCostForSecondQuintile: json["netCostForSecondQuintile"],
-    netCostForThirdQuintile: json["netCostForThirdQuintile"],
-    netCostForFourthQuintile: json["netCostForFourthQuintile"],
-    netCostForFifthQuintile: json["netCostForFifthQuintile"],
-    cumulativeMedianDebt: json["cumulativeMedianDebt"]
-  };
+const convertFromJsonToTemplate_ = async (json) => {
+  if(json !== undefined) {
+    return {
+      schoolName : json["schoolName"],
+      institutionType: json["institutionType"],
+      acceptanceRate: json["acceptanceRate"],
+      averageACTScore: json["averageACTScore"],
+      totalCostAttendance: json["totalCostAttendance"],
+      netCostForFirstQuintile: json["netCostForFirstQuintile"],
+      netCostForSecondQuintile: json["netCostForSecondQuintile"],
+      netCostForThirdQuintile: json["netCostForThirdQuintile"],
+      netCostForFourthQuintile: json["netCostForFourthQuintile"],
+      netCostForFifthQuintile: json["netCostForFifthQuintile"],
+      cumulativeMedianDebt: json["cumulativeMedianDebt"]
+    };
+  } else {
+    throw new Error('JSON object undefined.');
+  }
 };
 
 /**
  * Fetch request to the data servlet and return the JSON response.
- * @private
  * @return {*} - The JSON response.
+ * @private
  */
-const loadCollegeJson = async () => {
-    const response = await fetch(ENDPOINT);
-    if(response.ok) {
-      return await response.json();
-    } else {
-      throw new Error(`${response.statusText}. Status: ${response.status}`);
-    }
+const loadCollegeJson_ = async () => {
+  const response = await fetch(COLLEGE_SERVLET_ENDPOINT);
+  if (response.ok) {
+    return await response.json();
+  } else {
+    throw new Error(`${response.statusText}. Status: ${response.status}.`);
+  }
 };
 
 /**
  * Render the soy template's html by attaching it to the desired DOM element.
- * @public
  * @param {Element} element - The DOM element where the template should be rendered to.
  */
 const loadCollegeData = async (element) => {
   let json = undefined;
 
   try {
-    json = await loadCollegeJson();
+    json = await loadCollegeJson_();
   } catch(err) {
-    alert(`Failed to load college data: ${err}`);
+    console.log(`Failed to load college data: ${err}`);
+    // TODO: Add a call to render an error message template to 
+    //   the DOM in place of the college template.
   }
 
-  const data = await convertFromJsonToTemplate(json);
-  const html = collegepage(data);
-  element.innerHTML = html;
+  try {
+    const data = await convertFromJsonToTemplate_(json);
+    const html = collegepage(data);
+    element.innerHTML = html;
+  } catch(err) {
+    console.log(`Failed to render college data: ${err} `)
+    // TODO: Add a call to render an error message template to 
+    //   the DOM in place of the college template.
+  }
+    
+
 }
 
 exports = {loadCollegeData};
