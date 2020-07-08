@@ -19,12 +19,8 @@ goog.module('finscholar.errorpageview');
 const GoogDom = goog.require('goog.dom');
 const {errorpage} = goog.require('finscholar.errorpageview.templates');
 
-/**
- * Class for the error page view.
- * @public
- */
+/** Class for the error page view. */
 class ErrorPageView {
-  /** Default constructor. */
   constructor() {}
 
   /**
