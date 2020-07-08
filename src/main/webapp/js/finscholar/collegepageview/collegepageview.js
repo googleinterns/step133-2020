@@ -19,18 +19,12 @@ goog.module('finscholar.collegepageview');
 const GoogDom = goog.require('goog.dom');
 const {loadCollegeData} = goog.require('datahandlers.collegepage');
 
-/**
- * Class for the college page view.
- */
+/** Class for the college page view. */
 class CollegePageView {
-  /**
-   * Default constructor.
-   */
+  /** Default constructor. */
   constructor() {}
 
-  /**
-   * Render the college page.
-   */
+  /** Render the college page. */
   async renderCollege(element) {
     await loadCollegeData(element);
   };
