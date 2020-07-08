@@ -31,8 +31,8 @@ class ScholarshipPageView {
    */
   constructor() {
     /** 
-     * @private @const 
-     * @type {!ScholarshipDataHandler} The object fetches and formats scholarship data.
+     * @private @const {!ScholarshipDataHandler} dataHandler_ 
+     * The object fetches and formats scholarship data.
      */
     this.dataHandler_ = new ScholarshipDataHandler();
   }
