@@ -19,34 +19,14 @@ goog.module('finscholar.collegepageview');
 const GoogDom = goog.require('goog.dom');
 const {loadCollegeData} = goog.require('datahandlers.collegepage');
 
-/**
- * Class for the college page view.
- * @public
- */
+/** Class for the college page view. */
 class CollegePageView {
-  /**
-   * @constructor
-   * @param {Element} element - The DOM element to render the college page to.
-   */
-  constructor(element) {
-    /** @private {Element} - The DOM element where the CollegePageView will be rendered. */
-    this.element_ = element;
-  }
+  /** Default constructor. */
+  constructor() {}
 
-  /**
-   * @public 
-   * @return {Element} - The DOM element associated with this view. 
-   */
-  get element() {
-    return this.element_;
-  }
-
-  /**
-   * Render the college page.
-   * @public
-   */
-  async renderCollege() {
-    await loadCollegeData(this.element);
+  /** Render the college page. */
+  async renderCollege(element) {
+    await loadCollegeData(element);
   };
 }
 
