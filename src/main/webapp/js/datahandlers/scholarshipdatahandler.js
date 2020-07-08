@@ -15,6 +15,7 @@
 /** @fileoverview This class loads scholarship data from the servlet. */
 
 goog.module('datahandlers.scholarshipdatahandler');
+const {Map: SoyMap} = goog.require('soy.map');
 
 /** This class loads scholarship data from the backend and formats it for soy templates.  */
 class ScholarshipDataHandler {
@@ -36,6 +37,21 @@ class ScholarshipDataHandler {
    */
   async convertFromJsonToTemplate_(data) {
     const SEPARATOR = ', ';
+    const requirementsMap = new Map();
+    requirementsMap.set('Academic Requirements', 
+                        data['academicRequirements'].join(SEPARATOR) || 'N/A');
+    requirementsMap.set('Ethnicity Race Requirements', 
+                        data['ethnicityRaceRequirements'].join(SEPARATOR) || 'N/A');
+    requirementsMap.set('Financial Requirements', 
+                        data['financialRequirements'].join(SEPARATOR) || 'N/A');
+    requirementsMap.set('Gender Requirements', 
+                        data['genderRequirements'].join(SEPARATOR) || 'N/A');
+    requirementsMap.set('Location Requirements', 
+                        data['locationRequirements'].join(SEPARATOR) || 'N/A');
+    requirementsMap.set('National Origin Requirements', 
+                        data['nationalOriginRequirements'].join(SEPARATOR) || 'N/A');
+    requirementsMap.set('Other Requirements', 
+                        data['otherRequirements'].join(SEPARATOR) || 'N/A');
     return {
       generalInfo: {
         scholarshipName: data['scholarshipName'], 
@@ -44,20 +60,12 @@ class ScholarshipDataHandler {
         introduction: data['introduction']['value'] || 'N/A', 
         URL: data['URL'],
       },
-      requirements: {
-        academicRequirements: data['academicRequirements'].join(SEPARATOR) || 'N/A', 
-        ethnicityRaceRequirements: data['ethnicityRaceRequirements'].join(SEPARATOR) || 'N/A', 
-        financialRequirements: data['financialRequirements'].join(SEPARATOR) || 'N/A',
-        genderRequirements: data['genderRequirements'].join(SEPARATOR) || 'N/A',
-        locationRequirements: data['locationRequirements'].join(SEPARATOR) || 'N/A',
-        nationalOriginRequirements: data['nationalOriginRequirements'].join(SEPARATOR) || 'N/A',
-        otherRequirements: data['otherRequirements'].join(SEPARATOR) || 'N/A',
-      },
+      requirements: requirementsMap,
       applicationNotes: {
-        amountPerYear: data['amountPerYear']['value'] || 'unknown',
-        applicationProcess: data['applicationProcess']['value'] || 'unknown',
-        isRenewable: data['isRenewable']['value'] || 'unknown',
-        numberOfYears: data['numberOfYears']['value'],
+        amountPerYear: data['amountPerYear'] || 'unknown',
+        applicationProcess: data['applicationProcess'] || 'unknown',
+        isRenewable: data['isRenewable'] || 'unknown',
+        numberOfYears: data['numberOfYears'],
       }, 
     };
   };
@@ -77,7 +85,7 @@ class ScholarshipDataHandler {
     }
     
     // If data is undefined, bring user to an error page.
-    // This case will be done in ScholarshipPageView.
+    // This case will be handled in ScholarshipPageView.
     // Later after we support querying by uuid, data will be a acholarship object.
     if (data === undefined) {
       // This error will be handled and logged by the caller.
@@ -105,8 +113,10 @@ class ScholarshipDataHandler {
         throw new Error(`Failed to parse response from server: ${e}`);
       }
     } else {
-      throw new Error(`Failed to get response from server: 
-          ${response.statusText}. Status: ${response.status}`);
+      const WARNING = `Failed to get response from server: 
+          ${response.statusText}. Status: ${response.status}`;
+      console.log(WARNING);
+      throw new Error(WARNING);
     }
   };
 }
