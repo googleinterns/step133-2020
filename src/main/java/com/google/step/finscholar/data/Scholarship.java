@@ -24,40 +24,183 @@ public class Scholarship {
   private final String scholarshipName;
   private final UUID scholarshipUUID;
   private final List<UUID> schoolsList;
-  // For amountPerYear, I use String instead of integer because lots of expression for amount is 
-  // irregular, such as "full tuition with extra $1000 bonus", "full tuition with room & board" etc..
-  private Optional<String> amountPerYear;
-  private Optional<String> applicationProcess;
-  private Optional<Integer> numberOfYears;
-  private List<String> ethnicityRaceRequirements;
-  private List<String> genderRequirements;
-  private List<String> nationalOriginRequirements;
-  private List<String> locationRequirements;
-  private List<String> financialRequirements;
-  private List<String> academicRequirements;
-  private List<String> otherRequirements;
-  // Introduction can be any background knowledge of the scholarship.
-  private Optional<String> introduction;
-  private Optional<Boolean> isRenewable;
+  private final String amountPerYear;
+  private final String applicationProcess;
+  private final Integer numberOfYears;
+  private final List<String> ethnicityRaceRequirements;
+  private final List<String> genderRequirements;
+  private final List<String> nationalOriginRequirements;
+  private final List<String> locationRequirements;
+  private final List<String> financialRequirements;
+  private final List<String> academicRequirements;
+  private final List<String> otherRequirements;
+  private final String introduction;
+  private final Boolean isRenewable;
   private final String URL;
 
-  public Scholarship(String name, UUID uuid, List<UUID> schoolsList, String URL) {
-    this.scholarshipName = name;
-    this.scholarshipUUID = uuid;
-    this.schoolsList = schoolsList;
-    this.URL = URL;
-    this.amountPerYear = Optional.empty();
-    this.applicationProcess = Optional.empty();
-    this.numberOfYears = Optional.empty();
-    this.ethnicityRaceRequirements = List.of();
-    this.genderRequirements = List.of();
-    this.nationalOriginRequirements = List.of();
-    this.academicRequirements = List.of();
-    this.locationRequirements = List.of();
-    this.financialRequirements = List.of();
-    this.otherRequirements = List.of();
-    this.isRenewable = Optional.empty();
-    this.introduction = Optional.empty();
+  public Scholarship(ScholarshipBuilder builder) {
+    this.scholarshipName = builder.scholarshipName;
+    this.scholarshipUUID = builder.scholarshipUUID;
+    this.schoolsList = builder.schoolsList;
+    this.URL = builder.URL;
+    this.amountPerYear = builder.amountPerYear;
+    this.applicationProcess = builder.applicationProcess;
+    this.numberOfYears = builder.numberOfYears;
+    this.ethnicityRaceRequirements = builder.ethnicityRaceRequirements;
+    this.genderRequirements = builder.genderRequirements;
+    this.nationalOriginRequirements = builder.nationalOriginRequirements;
+    this.academicRequirements = builder.academicRequirements;
+    this.locationRequirements = builder.locationRequirements;
+    this.financialRequirements = builder.financialRequirements;
+    this.otherRequirements = builder.otherRequirements;
+    this.isRenewable = builder.isRenewable;
+    this.introduction = builder.introduction;
+  }
+
+  public static class ScholarshipBuilder {
+    private String scholarshipName;
+    private UUID scholarshipUUID;
+    private List<UUID> schoolsList;
+    private String amountPerYear;
+    private String applicationProcess;
+    private Integer numberOfYears;
+    private List<String> ethnicityRaceRequirements;
+    private List<String> genderRequirements;
+    private List<String> nationalOriginRequirements;
+    private List<String> locationRequirements;
+    private List<String> financialRequirements;
+    private List<String> academicRequirements;
+    private List<String> otherRequirements;
+    private String introduction;
+    private Boolean isRenewable;
+    private String URL;
+
+    public ScholarshipBuilder(String scholarshipName, UUID scholarshipUUID, List<UUID> schoolsList, String URL) {
+      this.scholarshipName = scholarshipName;
+      this.scholarshipUUID = scholarshipUUID;
+      this.schoolsList = schoolsList;
+      this.URL = URL;
+    }
+
+    /**
+   * The setter for academicRequirements.
+   * @param academicRequirements
+   * @return The updated scholarship object.
+   */
+  public ScholarshipBuilder setAcademicRequirements(List<String> academicRequirements) {
+    this.academicRequirements = academicRequirements;
+    return this;
+  }
+
+  /**
+   * The setter for amountPerYear.
+   * @param amount2
+   * @return The updated scholarship object.
+   */
+  public ScholarshipBuilder setAmountPerYear(String amountPerYear) {
+    this.amountPerYear = amountPerYear;
+    return this;
+  }
+
+  /**
+   * The setter for applicationProcess.
+   * @param applicationProcess
+   * @return The updated scholarship object.
+   */
+  public ScholarshipBuilder setApplicationProcess(String applicationProcess) {
+    this.applicationProcess = applicationProcess;
+    return this;
+  }
+
+  /**
+   * The setter for ethnicityRaceRequirements.
+   * @param ethnicityRaceRequirements
+   * @return The updated scholarship object.
+   */
+  public ScholarshipBuilder setEthnicityRaceRequirements(List<String> ethnicityRaceRequirements) {
+    this.ethnicityRaceRequirements = ethnicityRaceRequirements;
+    return this;
+  }
+
+  /**
+   * The setter for financial requirements.
+   * @param financialRequirements
+   * @return The updated scholarship object.
+   */
+  public ScholarshipBuilder setFinancialRequirements(List<String> financialRequirements) {
+    this.financialRequirements = financialRequirements;
+    return this;
+  }
+
+  /**
+   * The setter for genderRequirement.
+   * @param genderRequirements A list of genders.
+   * @return The updated scholarship object.
+   */
+  public ScholarshipBuilder setGenderRequirements(List<String> genderRequirements) {
+    this.genderRequirements = genderRequirements;
+    return this;
+  }
+
+  /**
+   * The setter for location requirements.
+   * @param locationRequirements A list of locations.
+   * @return The updated scholarship object.
+   */
+  public ScholarshipBuilder setLocationRequirements(List<String> locationRequirements) {
+    this.locationRequirements = locationRequirements;
+    return this;
+  }
+
+  /**
+   * The setter for nationalOriginRequirements.
+   * @param nationalOriginRequirements A list of nationalities.
+   * @return The updated scholarship object.
+   */
+  public ScholarshipBuilder setNationalOriginRequirements(List<String> nationalOriginRequirements) {
+    this.nationalOriginRequirements = nationalOriginRequirements;
+    return this;
+  }
+
+  /**
+   * The setter for numberOfYears.
+   * @param numberOfYears The number of years the scholarship is provided to one student.
+   * @return The updated scholarship object.
+   */
+  public ScholarshipBuilder setNumberOfYears(int numberOfYears) {
+    this.numberOfYears = numberOfYears;
+    return this;
+  }
+  
+  /**
+   * The setter for otherRequirements.
+   * @param otherRequirements A list of requirements that don't have clear category.
+   * @return The updated scholarship object.
+   */
+  public ScholarshipBuilder setOtherRequirements(List<String> otherRequirements) {
+    this.otherRequirements = otherRequirements;
+    return this;
+  }
+
+  /**
+   * The setter for isRenewable.
+   * @param isRenewable The new isRenewable boolean value.
+   * @return The updated scholarship object.
+   */
+  public ScholarshipBuilder setIsRenewable(boolean isRenewable) {
+    this.isRenewable = isRenewable;
+    return this;
+  }
+
+  /**
+   * The setter for introduction.
+   * @param intro The new introduction.
+   * @return The renewed scholarship object.
+   */
+  public ScholarshipBuilder setIntroduction(String introduction) {
+    this.introduction = introduction;
+    return this;
+  }
   }
 
   /** 
@@ -72,7 +215,7 @@ public class Scholarship {
    * The getter of applicationProcess.
    * @return The string overview of application process.
    */
-  public Optional<String> getApplicationProcess() {
+  public String getApplicationProcess() {
     return this.applicationProcess;
   }
 
@@ -80,7 +223,7 @@ public class Scholarship {
    * The getter of the amount of money sponsored per year. 
    * @return The amount given to one individual per year.
    */
-  public Optional<String> getAmountPerYear() {
+  public String getAmountPerYear() {
     return this.amountPerYear;
   }
 
@@ -128,7 +271,7 @@ public class Scholarship {
    * The getter of the number of years the scholarship is offered to one student.
    * @return The duration of the scholarship in years.
    */
-  public Optional<Integer> getNumberOfYears() {
+  public Integer getNumberOfYears() {
     return this.numberOfYears;
   }
 
@@ -176,7 +319,7 @@ public class Scholarship {
    * The getter of the introduction.
    * @return The optional containing introduction.
    */
-  public Optional<String> getIntroduction() {
+  public String getIntroduction() {
     return this.introduction;
   }
 
@@ -184,127 +327,7 @@ public class Scholarship {
    * The getter of isRenewable.
    * @return The Optional of boolean for isRenewable.
    */
-  public Optional<Boolean> getIsRenewable() {
+  public Boolean getIsRenewable() {
     return this.isRenewable;
-  }
-
-  /**
-   * The setter for academicRequirements.
-   * @param academicRequirements
-   * @return The updated scholarship object.
-   */
-  public Scholarship setAcademicRequirements(List<String> academicRequirements) {
-    this.academicRequirements = academicRequirements;
-    return this;
-  }
-
-  /**
-   * The setter for amountPerYear.
-   * @param amount2
-   * @return The updated scholarship object.
-   */
-  public Scholarship setAmountPerYear(String amount2) {
-    this.amountPerYear = Optional.of(amount2);
-    return this;
-  }
-
-  /**
-   * The setter for applicationProcess.
-   * @param applicationProcess
-   * @return The updated scholarship object.
-   */
-  public Scholarship setApplicationProcess(String applicationProcess) {
-    this.applicationProcess = Optional.of(applicationProcess);
-    return this;
-  }
-
-  /**
-   * The setter for ethnicityRaceRequirements.
-   * @param ethnicityRaceRequirements
-   * @return The updated scholarship object.
-   */
-  public Scholarship setEthnicityRaceRequirements(List<String> ethnicityRaceRequirements) {
-    this.ethnicityRaceRequirements = ethnicityRaceRequirements;
-    return this;
-  }
-
-  /**
-   * The setter for financial requirements.
-   * @param financialRequirements
-   * @return The updated scholarship object.
-   */
-  public Scholarship setFinancialRequirements(List<String> financialRequirements) {
-    this.financialRequirements = financialRequirements;
-    return this;
-  }
-
-  /**
-   * The setter for genderRequirement.
-   * @param genderRequirements A list of genders.
-   * @return The updated scholarship object.
-   */
-  public Scholarship setGenderRequirements(List<String> genderRequirements) {
-    this.genderRequirements = genderRequirements;
-    return this;
-  }
-
-  /**
-   * The setter for location requirements.
-   * @param locationRequirements A list of locations.
-   * @return The updated scholarship object.
-   */
-  public Scholarship setLocationRequirements(List<String> locationRequirements) {
-    this.locationRequirements = locationRequirements;
-    return this;
-  }
-
-  /**
-   * The setter for nationalOriginRequirements.
-   * @param nationalOriginRequirements A list of nationalities.
-   * @return The updated scholarship object.
-   */
-  public Scholarship setNationalOriginRequirements(List<String> nationalOriginRequirements) {
-    this.nationalOriginRequirements = nationalOriginRequirements;
-    return this;
-  }
-
-  /**
-   * The setter for numberOfYears.
-   * @param numberOfYears The number of years the scholarship is provided to one student.
-   * @return The updated scholarship object.
-   */
-  public Scholarship setNumberOfYears(int numberOfYears) {
-    this.numberOfYears = Optional.of(numberOfYears);
-    return this;
-  }
-  
-  /**
-   * The setter for otherRequirements.
-   * @param otherRequirements A list of requirements that don't have clear category.
-   * @return The updated scholarship object.
-   */
-  public Scholarship setOtherRequirements(List<String> otherRequirements) {
-    this.otherRequirements = otherRequirements;
-    return this;
-  }
-
-  /**
-   * The setter for isRenewable.
-   * @param isRenewable The new isRenewable boolean value.
-   * @return The updated scholarship object.
-   */
-  public Scholarship setIsRenewable(boolean isRenewable) {
-    this.isRenewable = Optional.of(isRenewable);
-    return this;
-  }
-
-  /**
-   * The setter for introduction.
-   * @param intro The new introduction.
-   * @return The renewed scholarship object.
-   */
-  public Scholarship setIntroduction(String intro) {
-    this.introduction = Optional.of(intro);
-    return this;
   }
 }
