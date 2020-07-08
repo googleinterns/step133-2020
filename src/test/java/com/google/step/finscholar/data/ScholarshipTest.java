@@ -43,7 +43,7 @@ public class ScholarshipTest {
     List<String> GENDERS = List.of(Gender.FEMALE.getValue(), Gender.TRANSGENDER.getValue());
     List<String> ETHNICITY = List.of(Ethnicity.HISPANIC.getValue());
     testScholarship = new Scholarship(
-        new ScholarshipBuilder(TEST_NAME, TEST_ID, TEST_SCHOOLS, EMPTY_URL)
+        new Scholarship.ScholarshipBuilder(TEST_NAME, TEST_ID, TEST_SCHOOLS, EMPTY_URL)
         .setAcademicRequirements(GPA)
         .setAmountPerYear(AMOUNT)
         .setGenderRequirements(GENDERS)
@@ -51,7 +51,7 @@ public class ScholarshipTest {
     Assert.assertEquals(ETHNICITY, testScholarship.getEthnicityRaceRequirements());
     Assert.assertEquals(GENDERS, testScholarship.getGenderRequirements());
     Assert.assertEquals(GPA, testScholarship.getAcademicRequirements());
-    Assert.assertEquals(AMOUNT, testScholarship.getAmountPerYear().get());
+    Assert.assertEquals(AMOUNT, testScholarship.getAmountPerYear());
   }
 
   @Test
@@ -60,13 +60,13 @@ public class ScholarshipTest {
     String APPLICARION = "Test parameter for application setter.";
     String INTRO = "Test parameter for introduction.";
     testScholarship = new Scholarship(
-        new ScholarshipBuilder(TEST_NAME, TEST_ID, TEST_SCHOOLS, EMPTY_URL)
+        new Scholarship.ScholarshipBuilder(TEST_NAME, TEST_ID, TEST_SCHOOLS, EMPTY_URL)
             .setNumberOfYears(YEARS)
             .setApplicationProcess(APPLICARION)
             .setIntroduction(INTRO));
-    Assert.assertEquals(YEARS, (int) testScholarship.getNumberOfYears().get());
-    Assert.assertEquals(INTRO, testScholarship.getIntroduction().get());
-    Assert.assertEquals(APPLICARION, testScholarship.getApplicationProcess().get());
+    Assert.assertEquals(YEARS, (int) testScholarship.getNumberOfYears());
+    Assert.assertEquals(INTRO, testScholarship.getIntroduction());
+    Assert.assertEquals(APPLICARION, testScholarship.getApplicationProcess());
   }
 
   @Test
@@ -74,11 +74,11 @@ public class ScholarshipTest {
     List<String> FINANCE = List.of("Year net income less than $1,0000");
     List<String> LOCATION = List.of("the South Pole");
     testScholarship = new Scholarship(
-        new ScholarshipBuilder(TEST_NAME, TEST_ID, TEST_SCHOOLS, EMPTY_URL);
-        .testScholarship.setIsRenewable(true)
+        new Scholarship.ScholarshipBuilder(TEST_NAME, TEST_ID, TEST_SCHOOLS, EMPTY_URL)
+        .setIsRenewable(true)
         .setFinancialRequirements(FINANCE)
         .setLocationRequirements(LOCATION));
-    Assert.assertEquals(true, testScholarship.getIsRenewable().get());
+    Assert.assertEquals(true, testScholarship.getIsRenewable());
     Assert.assertEquals(FINANCE, testScholarship.getFinancialRequirements());
     Assert.assertEquals(LOCATION, testScholarship.getLocationRequirements());
   }
@@ -91,7 +91,7 @@ public class ScholarshipTest {
     List<String> REQUIREMENTS = List.of(REQUIREMENT1, REQUIREMENT2);
     List<String> NATIONS = List.of(NATION);
     testScholarship = new Scholarship(
-        new ScholarshipBuilder(TEST_NAME, TEST_ID, TEST_SCHOOLS, EMPTY_URL);
+        new Scholarship.ScholarshipBuilder(TEST_NAME, TEST_ID, TEST_SCHOOLS, EMPTY_URL)
         .setNationalOriginRequirements(NATIONS)
         .setOtherRequirements(REQUIREMENTS));
     Assert.assertEquals(NATIONS, testScholarship.getNationalOriginRequirements());
