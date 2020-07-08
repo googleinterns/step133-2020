@@ -77,6 +77,7 @@ const loadCollegeData = async (element) => {
     console.log(`Failed to load college data: ${err}`);
     // TODO: Add a call to render an error message template to 
     //   the DOM in place of the college template.
+    // Github Issue: https://github.com/googleinterns/step133-2020/issues/30
   }
 
   try {
@@ -87,6 +88,7 @@ const loadCollegeData = async (element) => {
     console.log(`Failed to render college data: ${err} `)
     // TODO: Add a call to render an error message template to 
     //   the DOM in place of the college template.
+    // Github Issue: https://github.com/googleinterns/step133-2020/issues/30
   }
     
 
