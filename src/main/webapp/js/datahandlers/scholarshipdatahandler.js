@@ -81,7 +81,7 @@ class ScholarshipDataHandler {
       data = await this.fetchScholarshipJson_(id);
     } catch (e) {
       console.log(e);
-      throw(e);
+      throw(`Failed to fetch scholarship object ${e}`);
     }
     
     // If data is undefined, bring user to an error page.
@@ -109,7 +109,7 @@ class ScholarshipDataHandler {
         data = await response.json();
         return data;
       } catch (e) {
-        console.log(e.stack);
+        console.log(e);
         throw new Error(`Failed to parse response from server: ${e}`);
       }
     } else {
