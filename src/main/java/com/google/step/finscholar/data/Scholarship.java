@@ -38,7 +38,7 @@ public class Scholarship {
   private final Boolean isRenewable;
   private final String URL;
 
-  public Scholarship(ScholarshipBuilder builder) {
+  private Scholarship(ScholarshipBuilder builder) {
     this.scholarshipName = builder.scholarshipName;
     this.scholarshipUUID = builder.scholarshipUUID;
     this.schoolsList = builder.schoolsList;
@@ -82,125 +82,130 @@ public class Scholarship {
       this.URL = URL;
     }
 
+    /** @return The scholarship object constructed with this builder. */
+    public Scholarship build() {
+      return new Scholarship(this);
+    }
+
     /**
-   * The setter for academicRequirements.
-   * @param academicRequirements
-   * @return The updated scholarship object.
-   */
-  public ScholarshipBuilder setAcademicRequirements(List<String> academicRequirements) {
-    this.academicRequirements = academicRequirements;
-    return this;
-  }
+     * The setter for academicRequirements.
+     * @param academicRequirements
+     * @return The updated scholarship object.
+     */
+    public ScholarshipBuilder setAcademicRequirements(List<String> academicRequirements) {
+      this.academicRequirements = academicRequirements;
+      return this;
+    }
 
-  /**
-   * The setter for amountPerYear.
-   * @param amount2
-   * @return The updated scholarship object.
-   */
-  public ScholarshipBuilder setAmountPerYear(String amountPerYear) {
-    this.amountPerYear = amountPerYear;
-    return this;
-  }
+    /**
+     * The setter for amountPerYear.
+     * @param amount2
+     * @return The updated scholarship object.
+     */
+    public ScholarshipBuilder setAmountPerYear(String amountPerYear) {
+      this.amountPerYear = amountPerYear;
+      return this;
+    }
 
-  /**
-   * The setter for applicationProcess.
-   * @param applicationProcess
-   * @return The updated scholarship object.
-   */
-  public ScholarshipBuilder setApplicationProcess(String applicationProcess) {
-    this.applicationProcess = applicationProcess;
-    return this;
-  }
+    /**
+     * The setter for applicationProcess.
+     * @param applicationProcess
+     * @return The updated scholarship object.
+     */
+    public ScholarshipBuilder setApplicationProcess(String applicationProcess) {
+      this.applicationProcess = applicationProcess;
+      return this;
+    }
 
-  /**
-   * The setter for ethnicityRaceRequirements.
-   * @param ethnicityRaceRequirements
-   * @return The updated scholarship object.
-   */
-  public ScholarshipBuilder setEthnicityRaceRequirements(List<String> ethnicityRaceRequirements) {
-    this.ethnicityRaceRequirements = ethnicityRaceRequirements;
-    return this;
-  }
+    /**
+     * The setter for ethnicityRaceRequirements.
+     * @param ethnicityRaceRequirements
+     * @return The updated scholarship object.
+     */
+    public ScholarshipBuilder setEthnicityRaceRequirements(List<String> ethnicityRaceRequirements) {
+      this.ethnicityRaceRequirements = ethnicityRaceRequirements;
+      return this;
+    }
 
-  /**
-   * The setter for financial requirements.
-   * @param financialRequirements
-   * @return The updated scholarship object.
-   */
-  public ScholarshipBuilder setFinancialRequirements(List<String> financialRequirements) {
-    this.financialRequirements = financialRequirements;
-    return this;
-  }
+    /**
+     * The setter for financial requirements.
+     * @param financialRequirements
+     * @return The updated scholarship object.
+     */
+    public ScholarshipBuilder setFinancialRequirements(List<String> financialRequirements) {
+      this.financialRequirements = financialRequirements;
+      return this;
+    }
 
-  /**
-   * The setter for genderRequirement.
-   * @param genderRequirements A list of genders.
-   * @return The updated scholarship object.
-   */
-  public ScholarshipBuilder setGenderRequirements(List<String> genderRequirements) {
-    this.genderRequirements = genderRequirements;
-    return this;
-  }
+    /**
+     * The setter for genderRequirement.
+     * @param genderRequirements A list of genders.
+     * @return The updated scholarship object.
+     */
+    public ScholarshipBuilder setGenderRequirements(List<String> genderRequirements) {
+      this.genderRequirements = genderRequirements;
+      return this;
+    }
 
-  /**
-   * The setter for location requirements.
-   * @param locationRequirements A list of locations.
-   * @return The updated scholarship object.
-   */
-  public ScholarshipBuilder setLocationRequirements(List<String> locationRequirements) {
-    this.locationRequirements = locationRequirements;
-    return this;
-  }
+    /**
+     * The setter for location requirements.
+     * @param locationRequirements A list of locations.
+     * @return The updated scholarship object.
+     */
+    public ScholarshipBuilder setLocationRequirements(List<String> locationRequirements) {
+      this.locationRequirements = locationRequirements;
+      return this;
+    }
 
-  /**
-   * The setter for nationalOriginRequirements.
-   * @param nationalOriginRequirements A list of nationalities.
-   * @return The updated scholarship object.
-   */
-  public ScholarshipBuilder setNationalOriginRequirements(List<String> nationalOriginRequirements) {
-    this.nationalOriginRequirements = nationalOriginRequirements;
-    return this;
-  }
+    /**
+     * The setter for nationalOriginRequirements.
+     * @param nationalOriginRequirements A list of nationalities.
+     * @return The updated scholarship object.
+     */
+    public ScholarshipBuilder setNationalOriginRequirements(List<String> nationalOriginRequirements) {
+      this.nationalOriginRequirements = nationalOriginRequirements;
+      return this;
+    }
 
-  /**
-   * The setter for numberOfYears.
-   * @param numberOfYears The number of years the scholarship is provided to one student.
-   * @return The updated scholarship object.
-   */
-  public ScholarshipBuilder setNumberOfYears(int numberOfYears) {
-    this.numberOfYears = numberOfYears;
-    return this;
-  }
+    /**
+     * The setter for numberOfYears.
+     * @param numberOfYears The number of years the scholarship is provided to one student.
+     * @return The updated scholarship object.
+     */
+    public ScholarshipBuilder setNumberOfYears(int numberOfYears) {
+      this.numberOfYears = numberOfYears;
+      return this;
+    }
   
-  /**
-   * The setter for otherRequirements.
-   * @param otherRequirements A list of requirements that don't have clear category.
-   * @return The updated scholarship object.
-   */
-  public ScholarshipBuilder setOtherRequirements(List<String> otherRequirements) {
-    this.otherRequirements = otherRequirements;
-    return this;
-  }
+    /**
+     * The setter for otherRequirements.
+     * @param otherRequirements A list of requirements that don't have clear category.
+     * @return The updated scholarship object.
+     */
+    public ScholarshipBuilder setOtherRequirements(List<String> otherRequirements) {
+      this.otherRequirements = otherRequirements;
+      return this;
+    }
 
-  /**
-   * The setter for isRenewable.
-   * @param isRenewable The new isRenewable boolean value.
-   * @return The updated scholarship object.
-   */
-  public ScholarshipBuilder setIsRenewable(boolean isRenewable) {
-    this.isRenewable = isRenewable;
-    return this;
-  }
+    /**
+     * The setter for isRenewable.
+     * @param isRenewable The new isRenewable boolean value.
+     * @return The updated scholarship object.
+     */
+    public ScholarshipBuilder setIsRenewable(boolean isRenewable) {
+      this.isRenewable = isRenewable;
+      return this;
+    }
 
-  /**
-   * The setter for introduction.
-   * @param intro The new introduction.
-   * @return The renewed scholarship object.
-   */
-  public ScholarshipBuilder setIntroduction(String introduction) {
-    this.introduction = introduction;
-    return this;
-  }
+    /**
+     * The setter for introduction.
+     * @param intro The new introduction.
+     * @return The renewed scholarship object.
+     */
+    public ScholarshipBuilder setIntroduction(String introduction) {
+      this.introduction = introduction;
+      return this;
+    }
   }
 
   /** 
