@@ -12,16 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @fileoverview Main entry point for the app. */
-
-goog.module('finscholar');
-
-const GoogDom = goog.require('goog.dom');
-const {HomePageController} = goog.require('finscholar.homepagecontroller');
-
-const init = () => {
-  const homeController = new HomePageController();
-  GoogDom.getElement('main').innerHTML = homeController.getContent();
-};
-
-window['onload'] = init;
+{namespace pagecontroller.templates}
+{template .test}
+  <p>test paragraph.</p>
+{/template}
