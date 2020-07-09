@@ -49,7 +49,7 @@ class HomePageController extends PageController {
     /** @private */
     this.navbarPageIndex_ = 0;
     /** @private @const */
-    this.TEMPLATE_HANDLERS_ = [new CollegeListView(), new ScholarshipListView()];
+    this.TEMPLATE_HANDLERS_ = [new CollegeListView(), new ScholarshipListView(), new ScholarshipPageView()];
     this.container_.innerHTML = this.getContent_();
     this.subView_ = GoogDom.getElement('content');
     this.renderPage_();
