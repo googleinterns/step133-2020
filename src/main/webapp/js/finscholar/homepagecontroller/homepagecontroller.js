@@ -25,10 +25,10 @@ const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const {CollegeListView} = goog.require('finscholar.collegelistview');
 const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
 const {PageController} = goog.require('pagecontroller');
+const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 
 /**
  * Class for the home page controller.
- * @public
  */
 class HomePageController extends PageController {
 
