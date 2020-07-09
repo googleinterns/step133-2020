@@ -33,7 +33,6 @@ const {PageController} = goog.require('pagecontroller');
 class HomePageController extends PageController {
 
   /** 
-   * @constructor
    * @param {!Element} container The HTML div where the main frame is rendered.
    */
   constructor(container) {
