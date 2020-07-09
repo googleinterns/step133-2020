@@ -88,8 +88,8 @@ const loadCollegeData = async (element) => {
     element.innerHTML = html;
   } catch(err) {
     const occurrence = 'A database error occurred. Failed to render college data.';
-    const action = 'The database failed to retrieve the college. \
-      This college may not exist. Please reload the page or select a different college.';
+    const action = `The database failed to retrieve the college.
+      This college may not exist. Please reload the page or select a different college.`;
     console.log(`${occurrence} Error Message: ${err}.`);
     const errorPage = new ErrorPageView();
     errorPage.renderView(element, occurrence, action, err.toString());

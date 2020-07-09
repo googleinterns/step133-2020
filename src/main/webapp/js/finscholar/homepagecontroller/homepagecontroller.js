@@ -104,7 +104,7 @@ class HomePageController extends PageController {
    * @private
    */
   renderPage_() {
-    if (this.navbarPageIndex_ === 4) {
+    if (this.navbarPageIndex_ == 4) {
       this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_, 
         'A network error has occurred. Failed to load college data.',
         'Please reload the page or select a different college.',
