@@ -12,15 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.step.finscholar.data;
+/** @fileoverview Base class for College View. */
 
-/** This class is a holder class for constant values used by the servlets. */
-public class ServletConstantValues {
+goog.module('finscholar.collegepageview');
 
-    public static final String JSON_CONTENT_TYPE = "application/json;";
-    public static final String INDEX_PATH = "/index.html";
+const GoogDom = goog.require('goog.dom');
+const {loadCollegeData} = goog.require('datahandlers.collegepage');
 
-    // The default value for undefined fields.
-    public static final String DEFAULT_VALUE = "";
+/** Class for the college page view. */
+class CollegePageView {
+  constructor() {}
 
+  /** Render the college page. */
+  async renderView(element) {
+    await loadCollegeData(element);
+  };
 }
+
+exports = {CollegePageView};

@@ -1,0 +1,71 @@
+// Copyright 2019 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+{namespace finscholar.collegepageview.templates}
+{template .collegepage}
+  {@param schoolName: string}
+  {@param institutionType: string}
+  {@param acceptanceRate: float}
+  {@param averageACTScore: float}
+  {@param totalCostAttendance: int}
+  {@param netCostForFirstQuintile: int}
+  {@param netCostForSecondQuintile: int}
+  {@param netCostForThirdQuintile: int}
+  {@param netCostForFourthQuintile: int}
+  {@param netCostForFifthQuintile: int}
+  {@param cumulativeMedianDebt: int}
+  <div id="information">
+    <div class="mdl-card mdl-shadow--2dp">
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">{$schoolName}</h2>
+      </div>
+      <div class="mdl-card__supporting-text">
+        Institution Type: {$institutionType}
+      </div> 
+      <div class="mdl-card__supporting-text">
+        Acceptance Rate: {$acceptanceRate}
+      </div> 
+      <div class="mdl-card__supporting-text">
+        Average ACT Score: {$averageACTScore}
+      </div> 
+      <div class="mdl-card__supporting-text">
+        Total Cost of Attendance: ${$totalCostAttendance}
+      </div> 
+      <div class="mdl-card__supporting-text">
+        Net Cost for students with family incomes between
+          $0-$30,000: ${$netCostForFirstQuintile}
+      </div> 
+      <div class="mdl-card__supporting-text">
+        Net Cost for students with family incomes between
+          $30,001-$48,000: ${$netCostForSecondQuintile}
+      </div>
+      <div class="mdl-card__supporting-text">
+        Net Cost for students with family incomes between 
+          $48,001-$75,000: ${$netCostForThirdQuintile}
+      </div>  
+      <div class="mdl-card__supporting-text">
+        Net Cost for students with family incomes between
+          $75,001-$110,000: ${$netCostForFourthQuintile}
+      </div> 
+      <div class="mdl-card__supporting-text">
+        Net Cost for students with family incomes above 
+          $110,000: ${$netCostForFifthQuintile}
+      </div>
+      <div class="mdl-card__supporting-text">
+        Cumulative Median Student Debt right after 
+        graduation: ${$cumulativeMedianDebt}
+      </div>  
+    </div>
+  </div>
+{/template}

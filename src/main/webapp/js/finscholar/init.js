@@ -17,10 +17,11 @@
 goog.module('finscholar');
 
 const GoogDom = goog.require('goog.dom');
+const {CollegePageView} = goog.require('finscholar.collegepageview');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
 
 const init = () => {
   const homeController = new HomePageController(GoogDom.getElement('main'));
 };
 
-window['onload'] = init;
+goog.exportSymbol('onload', init);

@@ -23,6 +23,7 @@ const GoogDom = goog.require('goog.dom');
 const GoogSoy = goog.require('goog.soy');
 const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const {CollegeListView} = goog.require('finscholar.collegelistview');
+const {CollegePageView} = goog.require('finscholar.collegepageview');
 const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
 const {PageController} = goog.require('pagecontroller');
 const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
@@ -49,7 +50,7 @@ class HomePageController extends PageController {
     /** @private */
     this.navbarPageIndex_ = 0;
     /** @private @const */
-    this.TEMPLATE_HANDLERS_ = [new CollegeListView(), new ScholarshipListView(), new ScholarshipPageView()];
+    this.TEMPLATE_HANDLERS_ = [new CollegeListView(), new ScholarshipListView(), new CollegePageView(), new ScholarshipPageView()];
     this.container_.innerHTML = this.getContent_();
     this.subView_ = GoogDom.getElement('content');
     this.renderPage_();
