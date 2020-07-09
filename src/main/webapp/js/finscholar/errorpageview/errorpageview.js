@@ -41,4 +41,4 @@ class ErrorPageView {
   };
 }
 
-exports = {CollegePageView};
+exports = {ErrorPageView};

@@ -16,7 +16,7 @@
 
 goog.module('datahandlers.collegepage');
 const {collegepage} = goog.require('finscholar.collegepageview.templates');
-const {renderErrorPage} = goog.require('finscholar.errorpageview');
+const {ErrorPageView} = goog.require('finscholar.errorpageview');
 
 /** This constant is the endpoint to send a fetch request to. */
 const COLLEGE_SERVLET_ENDPOINT = '/college-data';
@@ -78,7 +78,8 @@ const loadCollegeData = async (element) => {
     const occurrence = 'A network error has occurred. Failed to load college data.';
     const action = 'Please reload the page or select a different college.';
     console.log(`${occurrence} Error Message: ${err}.`);
-    renderErrorPage(element, occurrence, action, err);
+    const errorPage = new ErrorPageView();
+    errorPage.renderErrorPage(element, occurrence, action, err);
   }
 
   try {
@@ -90,7 +91,8 @@ const loadCollegeData = async (element) => {
     const action = 'The database failed to retrieve the college. \
       This college may not exist. Please reload the page or select a different college.';
     console.log(`${occurrence} Error Message: ${err}.`);
-    renderErrorPage(element, occurrence, action, err);
+    const errorPage = new ErrorPageView();
+    errorPage.renderErrorPage(element, occurrence, action, err);
   }
     
 }
