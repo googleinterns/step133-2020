@@ -24,8 +24,9 @@ const GoogSoy = goog.require('goog.soy');
 const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const {CollegeListView} = goog.require('finscholar.collegelistview');
 const {CollegePageView} = goog.require('finscholar.collegepageview');
-const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
+const {ErrorPageView} = goog.require('finscholar.errorpageview');
 const {PageController} = goog.require('pagecontroller');
+const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
 const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 
 /**
@@ -50,7 +51,7 @@ class HomePageController extends PageController {
     /** @private */
     this.navbarPageIndex_ = 0;
     /** @private @const */
-    this.TEMPLATE_HANDLERS_ = [new CollegeListView(), new ScholarshipListView(), new CollegePageView(), new ScholarshipPageView()];
+    this.TEMPLATE_HANDLERS_ = [new CollegeListView(), new ScholarshipListView(), new CollegePageView(), new ScholarshipPageView(), new ErrorPageView()];
     this.container_.innerHTML = this.getContent_();
     this.subView_ = GoogDom.getElement('content');
     this.renderPage_();
@@ -103,7 +104,14 @@ class HomePageController extends PageController {
    * @private
    */
   renderPage_() {
-    this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_);
+    if (this.navbarPageIndex_ === 4) {
+      this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_, 
+        'A network error has occurred. Failed to load college data.',
+        'Please reload the page or select a different college.',
+        'JSON object undefined.');
+    } else {
+      this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_);
+    }
   }
 }
 

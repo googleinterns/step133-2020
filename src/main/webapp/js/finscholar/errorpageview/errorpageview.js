@@ -30,7 +30,7 @@ class ErrorPageView {
    * @param {string} newAction - Action to be taken upon receiving the error message.
    * @param {string} newErrorMessage - The error message that was thrown when the error occurred.
    */
-  async renderErrorPage(element, newOccurrence, newAction, newErrorMessage) {
+  async renderView(element, newOccurrence, newAction, newErrorMessage) {
     const data = {
       occurrence : newOccurrence,
       action : newAction,
