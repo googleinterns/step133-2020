@@ -24,7 +24,7 @@ class CollegePageView {
   constructor() {}
 
   /** Render the college page. */
-  async renderCollege(element) {
+  async renderView(element) {
     await loadCollegeData(element);
   };
 }

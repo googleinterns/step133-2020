@@ -30,7 +30,7 @@ const init = async () => {
   // Render the college page by loading in the data and rendering the 
   // associated soy template.
   const collegePage = new CollegePageView();
-  await collegePage.renderCollege(GoogDom.getElement('college'));
+  await collegePage.renderView(GoogDom.getElement('college'));
 };
 
 goog.exportSymbol('onload', init);
