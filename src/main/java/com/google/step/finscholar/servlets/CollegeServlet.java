@@ -14,12 +14,15 @@
 
 package com.google.step.finscholar.servlets;
 
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.step.finscholar.data.College;
 import com.google.step.finscholar.data.CollegeData;
 import com.google.step.finscholar.data.ServletConstantValues;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
@@ -36,12 +39,14 @@ public class CollegeServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Start Firebase service.
-    FirebaseApp app = FirebaseApp.initializeApp();
-    System.out.println(app.getName());
+    FileInputStream serviceAccount = new FileInputStream("path/to/serviceAccountKey.json");
 
-    // Retrieve database service.
-    FirebaseDatabase database = FirebaseDatabase.getInstance(app);
+    FirebaseOptions options = new FirebaseOptions.Builder()
+      .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+      .setDatabaseUrl("https://viewing-step-2020-v2.firebaseio.com")
+      .build();
+
+    FirebaseApp app = FirebaseApp.initializeApp(options);
 
     // Convert the college to JSON.
     College college = CollegeData.COLLEGE;
