@@ -14,6 +14,8 @@
 
 package com.google.step.finscholar.servlets;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.step.finscholar.data.College;
 import com.google.step.finscholar.data.CollegeData;
@@ -34,6 +36,12 @@ public class CollegeServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Start Firebase service.
+    FirebaseApp app = FirebaseApp.initializeApp();
+    System.out.println(app.getName());
+
+    // Retrieve database service.
+    FirebaseDatabase database = FirebaseDatabase.getInstance(app);
 
     // Convert the college to JSON.
     College college = CollegeData.COLLEGE;
