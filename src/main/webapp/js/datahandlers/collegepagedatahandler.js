@@ -16,6 +16,7 @@
 
 goog.module('datahandlers.collegepage');
 const {collegepage} = goog.require('finscholar.collegepageview.templates');
+const {ErrorPageView} = goog.require('finscholar.errorpageview');
 
 /** This constant is the endpoint to send a fetch request to. */
 const COLLEGE_SERVLET_ENDPOINT = '/college-data';
@@ -74,9 +75,11 @@ const loadCollegeData = async (element) => {
   try {
     json = await loadCollegeJson_();
   } catch(err) {
-    // TODO: Add a call to render an error message template to 
-    //   the DOM in place of the college template.
-    // Github Issue: https://github.com/googleinterns/step133-2020/issues/30
+    const occurrence = 'A network error has occurred. Failed to load college data.';
+    const action = 'Please reload the page or select a different college.';
+    console.log(`${occurrence} Error Message: ${err}.`);
+    const errorPage = new ErrorPageView();
+    errorPage.renderErrorPage(element, occurrence, action, err.toString());
   }
 
   try {
@@ -84,12 +87,13 @@ const loadCollegeData = async (element) => {
     const html = collegepage(data);
     element.innerHTML = html;
   } catch(err) {
-    // TODO: Add a call to render an error message template to 
-    //   the DOM in place of the college template.
-    // Github Issue: https://github.com/googleinterns/step133-2020/issues/30
-  }
-    
-
+    const occurrence = 'A database error occurred. Failed to render college data.';
+    const action = 'The database failed to retrieve the college. \
+      This college may not exist. Please reload the page or select a different college.';
+    console.log(`${occurrence} Error Message: ${err}.`);
+    const errorPage = new ErrorPageView();
+    errorPage.renderErrorPage(element, occurrence, action, err.toString());
+  }  
 }
 
 exports = {loadCollegeData};
