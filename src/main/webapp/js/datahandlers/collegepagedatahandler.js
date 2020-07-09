@@ -79,7 +79,7 @@ const loadCollegeData = async (element) => {
     const action = 'Please reload the page or select a different college.';
     console.log(`${occurrence} Error Message: ${err}.`);
     const errorPage = new ErrorPageView();
-    errorPage.renderErrorPage(element, occurrence, action, err);
+    errorPage.renderErrorPage(element, occurrence, action, err.toString());
   }
 
   try {
@@ -92,9 +92,8 @@ const loadCollegeData = async (element) => {
       This college may not exist. Please reload the page or select a different college.';
     console.log(`${occurrence} Error Message: ${err}.`);
     const errorPage = new ErrorPageView();
-    errorPage.renderErrorPage(element, occurrence, action, err);
-  }
-    
+    errorPage.renderErrorPage(element, occurrence, action, err.toString());
+  }  
 }
 
 exports = {loadCollegeData};
