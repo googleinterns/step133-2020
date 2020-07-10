@@ -14,7 +14,7 @@
 
 {namespace example.templates.scholarshippageviews}
 {template .scholarshippage}
-  {@param scholarship: [generalInfo: [scholarshipName: string,  
+  {@param! scholarship: [generalInfo: [scholarshipName: string,  
                                        schoolsList:string,
                                        introduction: string,
                                        URL: uri],
@@ -42,7 +42,7 @@
 {/template}
 
 {template .scholarshipIntroduction}
-  {@param generalInfo: [scholarshipName: string,  
+  {@param! generalInfo: [scholarshipName: string,  
                          schoolsList: string,
                          introduction: string,
                          URL: uri]}
@@ -59,7 +59,7 @@
 {/template}
 
 {template .scholarshipRequirements}
-  {@param requirements:  map<string, string>}
+  {@param! requirements:  map<string, string>}
   <div class="mdl-card mdl-cell mdl-cell--12-col">
     <div class="mdl-card__title">
       <h2 class="mdl-card__title-text scholarship-title">Requirements</h2>
@@ -73,7 +73,7 @@
 {/template}
 
 {template .scholarshipApplication}
-  {@param applicationNotes : [isRenewable: bool,
+  {@param! applicationNotes : [isRenewable: bool,
                               amountPerYear: string,
                               applicationProcess: string,
                               numberOfYears: int]}

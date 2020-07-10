@@ -40,10 +40,11 @@ class ScholarshipPageView {
   /**
    * Render the scholarship page.
    * @public
-   * @param {string} id The string uuid of the scholarship object to be rendered.
    * @param {!Element} container - The DOM element for single scholarship page.
    */
-  async renderScholarship(id, container) {
+  async renderScholarship(container) {
+    // In the prototype, the id is set to 0 by default. Later we'll pass in id as parameter.
+    const id = 0;
     let scholarshipData = undefined;
     try {
       scholarshipData = await this.dataHandler_.fetchAndFormatSingleScholarshipData(id);
