@@ -46,7 +46,7 @@ class ScholarshipDataHandler {
       if (REQUIREMENTS[requirement] != undefined) {
         requirementsMap.set(addSpaceToCamelCase(requirement), REQUIREMENTS[requirement].join(SEPARATOR));
       } else {
-        requirement.set(addSpaceToCamelCase(requirement), NA);
+        requirementsMap.set(addSpaceToCamelCase(requirement), NA);
       }
     }
 

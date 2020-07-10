@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/** @fileoverview This file contains util functions. */
+
 goog.module('datahandlers.utils');
 
 /** 
