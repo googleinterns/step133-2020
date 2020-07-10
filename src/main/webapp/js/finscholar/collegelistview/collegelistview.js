@@ -21,7 +21,6 @@ const {collegelist} = goog.require('finscholar.collegelistview.templates');
 class CollegeListView {
   
   constructor() {
-    // TODO: In MVP we'll add member variables such as pages, the array of colleges etc.
   }
 
   /**

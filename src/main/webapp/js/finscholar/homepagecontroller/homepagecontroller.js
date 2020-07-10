@@ -23,11 +23,11 @@ const jsactionDispatcher = goog.require('jsaction.Dispatcher');
 const jsactionEventContract = goog.require('jsaction.EventContract');
 const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const {CollegeListView} = goog.require('finscholar.collegelistview');
-const {CollegePageView} = goog.require('finscholar.collegepageview');
-const {ErrorPageView} = goog.require('finscholar.errorpageview');
+// const {CollegePageView} = goog.require('finscholar.collegepageview');
+// const {ErrorPageView} = goog.require('finscholar.errorpageview');
 const {PageController} = goog.require('pagecontroller');
 const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
-const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
+// const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 
 /**
  * Class for the home page controller.
@@ -52,19 +52,22 @@ class HomePageController extends PageController {
     /** @private @const {!function(jsaction.ActionFlow): undefined} */
     this.bindedNavbarOnclickHandler_ = this.handleNavbarOnclickEvent_.bind(this);
 
-    this.initJsaction_();
-
     /** @private {number} */
     this.navbarPageIndex_ = 0;
 
-    /** @private @const {!Array<CollegeListView, ScholarshipListView, CollegePageView, ScholarshipPageView, ErrorPageView>} */
+    /** @private @const 
+     * {!Array<CollegeListView, ScholarshipListView, 
+     *     CollegePageView, ScholarshipPageView, ErrorPageView>} 
+     */
     this.TEMPLATE_HANDLERS_ = [
-                               new CollegeListView(), 
-                               new ScholarshipListView(), 
-                               new CollegePageView(), 
-                               new ScholarshipPageView(), 
-                               new ErrorPageView()
+                               CollegeListView, 
+                               ScholarshipListView, 
+                            //    CollegePageView, 
+                            //    ScholarshipPageView, 
+                            //    ErrorPageView
                                ];
+    
+    this.initJsaction_();
 
     this.container_.innerHTML = this.getContent_();
 
@@ -122,7 +125,7 @@ class HomePageController extends PageController {
    * @private
    */
   renderPage_() {
-    // This if statement is tempoaray added to enable showing the error page.
+    // This if statement is temporarily added to enable showing the error page.
     if (this.navbarPageIndex_ == 4) {
       this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_, 
         'A network error has occurred. Failed to load college data.',
@@ -130,7 +133,7 @@ class HomePageController extends PageController {
         'JSON object undefined.');
     } else {
       // In actual product we'll only have this line in this function.
-      this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_);
+      (new this.TEMPLATE_HANDLERS_[this.navbarPageIndex_]).renderView(this.subView_);
     }
   }
 }
