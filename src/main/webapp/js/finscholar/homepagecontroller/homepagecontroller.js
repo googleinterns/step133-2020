@@ -21,9 +21,9 @@ const JsactionDispatcher = goog.require('jsaction.Dispatcher');
 const JsactionEventContract = goog.require('jsaction.EventContract');
 const GoogDom = goog.require('goog.dom');
 const GoogSoy = goog.require('goog.soy');
-const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const {PageController} = goog.require('pagecontroller');
 const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
+const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 
 /**
  * Class for the home page controller.
