@@ -16,10 +16,17 @@
 
 goog.module('datahandlers.scholarshipdatahandler');
 const {Map: SoyMap} = goog.require('soy.map');
-const NA_ = 'N/A';
-const SEPARATOR_ = ', ';
-const SCHOLARSHIP_ENDPOINT_ = '/scholarship-data';
 const {addSpaceToCamelCase} = goog.require('datahandlers.utils');
+const NA = 'N/A';
+const REQUIREMENTS = ['academicRequirements', 
+                      'ethnicityRaceRequirements', 
+                      'financialRequirements', 
+                      'genderRequirements',
+                      'locationRequirements',
+                      'nationalOriginRequirements',
+                      'otherRequirements'];
+const SEPARATOR = ', ';
+const SCHOLARSHIP_ENDPOINT = '/scholarship-data';
 
 /** This class loads scholarship data from the backend and formats it for soy templates.  */
 class ScholarshipDataHandler {
@@ -33,26 +40,28 @@ class ScholarshipDataHandler {
    */
   async convertFromJsonToTemplate_(data) {
     const requirementsMap = new Map();
-    const REQUIREMENTS_ = ['academicRequirements', 
-                           'ethnicityRaceRequirements', 
-                           'financialRequirements', 
-                           'genderRequirements',
-                           'locationRequirements',
-                           'nationalOriginRequirements',
-                           'otherRequirements']
+                           
     let requirement = undefined;
-    for (requirement of REQUIREMENTS_) {
-      if (REQUIREMENTS_[requirement] != undefined) {
-        requirementsMap.set(addSpaceToCamelCase(requirement), REQUIREMENTS_[requirement].join(SEPARATOR_));
+    for (requirement of REQUIREMENTS) {
+      if (REQUIREMENTS[requirement] != undefined) {
+        requirementsMap.set(addSpaceToCamelCase(requirement), REQUIREMENTS[requirement].join(SEPARATOR));
       } else {
-        requirement.set(addSpaceToCamelCase(requirement), NA_);
+        requirement.set(addSpaceToCamelCase(requirement), NA);
       }
     }
+
+    let key = undefined;
+    for (key in data) {
+      if (data.key == undefined) {
+        data.key = NA;
+      }
+    }
+
     return {
       generalInfo: {
         scholarshipName: data['scholarshipName'], 
         scholarshipUUID: data['scholarshipUUID'], 
-        schoolsList: (data['schoolsList'] || [NA_]).join(SEPARATOR_),
+        schoolsList: (data['schoolsList'] || [NA]).join(SEPARATOR),
         introduction: data['introduction'], 
         URL: data['URL'],
       },
@@ -94,7 +103,7 @@ class ScholarshipDataHandler {
    * @private
    */
   async fetchScholarshipJson_(id) {
-    const response = await fetch(this.SCHOLARSHIP_ENDPOINT_, {'id': id });
+    const response = await fetch(SCHOLARSHIP_ENDPOINT, {'id': id });
     let data = undefined;
     if (response.ok) {
       try {
