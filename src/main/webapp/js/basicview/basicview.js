@@ -12,26 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @fileoverview The mini controller for college list view. */
+/** Basic view class for all view objects. */
 
-goog.module('finscholar.collegelistview');
-const {BasicView} = goog.require('basicview');
-const {collegelist} = goog.require('finscholar.collegelistview.templates');
+goog.module('basicview');
 
-/** The mini controller for college list view. */
-class CollegeListView extends BasicView {
-  constructor() {
-    super();
-  }
+/** Basic view class for all view objects. */
+class BasicView {
+  constructor() {}
 
   /**
    * Renders a college list view to the container.
    * @param {!Element} container The HTML container to load the view.
-   * @override
    */
-  async renderView(container) {
-    container.innerHTML = collegelist();
-  }
+  async renderView(container) {}
 }
 
-exports = {CollegeListView}
+exports = {BasicView}

@@ -16,9 +16,10 @@
 
 goog.module('finscholar.homepagecontroller');
 
+const {BasicView} = goog.require('basicview');
 const {CollegeListView} = goog.require('finscholar.collegelistview');
 const {CollegePageView} = goog.require('finscholar.collegepageview');
-const {ErrorPageView} = goog.require('finscholar.errorpageview');
+const {ErrorData, ErrorPageView} = goog.require('finscholar.errorpageview');
 const {PageController} = goog.require('pagecontroller');
 const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
 const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
@@ -29,7 +30,8 @@ const jsactionActionFlow = goog.require('jsaction.ActionFlow');
 const jsactionDispatcher = goog.require('jsaction.Dispatcher');
 const jsactionEventContract = goog.require('jsaction.EventContract');
 
-const TEST_ERR_INPUT1 = 'A network error has occurred. Failed to load college data.';
+const TEST_ERR_INPUT1 =
+    'A network error has occurred. Failed to load college data.';
 const TEST_ERR_INPUT2 = 'Please reload the page or select a different college.';
 const TEST_ERR_INPUT3 = 'Thanks!';
 
@@ -37,8 +39,7 @@ const TEST_ERR_INPUT3 = 'Thanks!';
  * Class for the home page controller.
  */
 class HomePageController extends PageController {
-
-  /** 
+  /**
    * @param {!Element} container The HTML div where the main frame is rendered.
    */
   constructor(container) {
@@ -53,23 +54,18 @@ class HomePageController extends PageController {
     this.dispatcher_ = new jsactionDispatcher();
 
     /** @private @const {!function(jsaction.ActionFlow): undefined} */
-    this.bindedNavbarOnclickHandler_ = this.handleNavbarOnclickEvent_.bind(this);
+    this.bindedNavbarOnclickHandler_ =
+        this.handleNavbarOnclickEvent_.bind(this);
 
-    /** @private {number} */
+    /** @private @type {number} */
     this.navbarPageIndex_ = 0;
 
-    /** @private @const 
-     * {!Array<CollegeListView, ScholarshipListView, 
-     *     CollegePageView, ScholarshipPageView, ErrorPageView>} 
-     */
+    /** @private @const {!Array<!BasicView>} */
     this.TEMPLATE_HANDLERS_ = [
-                               CollegeListView, 
-                               ScholarshipListView, 
-                               CollegePageView, 
-                               ScholarshipPageView, 
-                               ErrorPageView
-                               ];
-    
+      CollegeListView, ScholarshipListView, CollegePageView,
+      ScholarshipPageView, ErrorPageView
+    ];
+
     this.initJsaction_();
 
     this.container_.innerHTML = this.getContent_();
@@ -94,13 +90,13 @@ class HomePageController extends PageController {
     this.eventContract_.dispatchTo(
         this.dispatcher_.dispatch.bind(this.dispatcher_));
     this.dispatcher_.registerHandlers(
-      'homepagecontroller',  // the namespace
-      null,                  // handler object
-      {
-        // action map
-        'clickAction': this.bindedNavbarOnclickHandler_,
-        'doubleClickAction' : this.bindedNavbarOnclickHandler_,
-      });
+        'homepagecontroller',  // the namespace
+        null,                  // handler object
+        {
+          // action map
+          'clickAction': this.bindedNavbarOnclickHandler_,
+          'doubleClickAction': this.bindedNavbarOnclickHandler_,
+        });
   }
 
   /**
@@ -130,13 +126,17 @@ class HomePageController extends PageController {
   renderPage_() {
     // This if statement is temporarily added to enable showing the error page.
     if (this.navbarPageIndex_ == 4) {
-      this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_, 
-        TEST_ERR_INPUT1,
-        TEST_ERR_INPUT2,
-        TEST_ERR_INPUT3);
+      /** @type {!ErrorPageView} */
+      (new this.TEMPLATE_HANDLERS_[this.navbarPageIndex_](
+              /** @type {!ErrorData} */ ({
+                occurrence: TEST_ERR_INPUT1,
+                action: TEST_ERR_INPUT2,
+                errorMessage: TEST_ERR_INPUT3
+              })).renderView(this.subView_);
     } else {
       // In actual product we'll only have this line in this function.
-      (new this.TEMPLATE_HANDLERS_[this.navbarPageIndex_]).renderView(this.subView_);
+      (new this.TEMPLATE_HANDLERS_[this.navbarPageIndex_])
+          .renderView(this.subView_);
     }
   }
 }
