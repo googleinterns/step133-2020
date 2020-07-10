@@ -17,21 +17,16 @@
 goog.module('finscholar.scholarshippageview');
 
 const GoogDom = goog.require('goog.dom');
+const {BasicView} = goog.require('basicview');
 const {scholarshippage} = goog.require('example.templates.scholarshippageviews');
 const {ScholarshipDataHandler} = goog.require('datahandlers.scholarshipdatahandler');
 
-/**
- * Class for scholarship page view.
- * @public
- */
-class ScholarshipPageView {
-
-  /**
-   * @constructor
-   */
+/** Class for scholarship page view. */
+class ScholarshipPageView extends BasicView {
   constructor() {
-    /** 
-     * @private @const {!ScholarshipDataHandler} dataHandler_ 
+    super();
+    /**
+     * @private @const {!ScholarshipDataHandler} dataHandler_
      * The object fetches and formats scholarship data.
      */
     this.dataHandler_ = new ScholarshipDataHandler();
@@ -39,30 +34,30 @@ class ScholarshipPageView {
 
   /**
    * Render the scholarship page.
-   * @public
-   * @param {string} id The string uuid of the scholarship object to be rendered.
    * @param {!Element} container - The DOM element for single scholarship page.
+   * @override
    */
   async renderView(container) {
-    let id = 0;
+    let id = '0';
     let scholarshipData = undefined;
     try {
-      scholarshipData = await this.dataHandler_.fetchAndFormatSingleScholarshipData(id);
+      scholarshipData =
+          await this.dataHandler_.fetchAndFormatSingleScholarshipData(id);
     } catch (e) {
       console.log(e);
-      // Throws the error to the caller, and the caller will render an error page instead.
+      // Throws the error to the caller, and the caller will render an error
+      // page instead.
       throw new Error(`Cannot get data for scholarship ${id}, message: ${e}`);
     }
     try {
-      container.innerHTML = scholarshippage({scholarship: scholarshipData});      
-    } catch(e) {
+      container.innerHTML = scholarshippage({scholarship: scholarshipData});
+    } catch (e) {
       console.log(e);
-      // Throws the error to the caller, and the caller will render an error page instead.
+      // Throws the error to the caller, and the caller will render an error
+      // page instead.
       throw new Error(`Failed to generate html: ${e}`);
     }
   }
-
 }
 
 exports = {ScholarshipPageView};
-
