@@ -46,20 +46,6 @@ class HomePageController extends PageController {
   getContent() {
     return homepage();
   }
-
-  /**
-   * Renders a view for a scholarship object, which is specified by the uuid.
-   * @public
-   * @param {string} id The uuid of the scholarship to be rendered.
-   */
-  async renderScholarshipPage(id) {
-    try {
-      await this.scholarshipPageHandler_.renderScholarship(id, GoogDom.getElement('content'));
-    } catch(e) {
-      alert(e);
-      console.log(e);
-    }
-  }
 }
 
 exports = {HomePageController};
