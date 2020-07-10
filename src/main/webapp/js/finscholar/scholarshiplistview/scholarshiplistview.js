@@ -21,7 +21,7 @@ const {scholarshiplist} = goog.require('finscholar.scholarshiplistview.templates
 class ScholarshipListView {
   
   constructor() {
-    // Later we'll add member variables such as pages, the array of scholarship etc.
+    // TODO: In MVP, we'll add member variables such as pages, the array of scholarship etc.
   }
 
   /**

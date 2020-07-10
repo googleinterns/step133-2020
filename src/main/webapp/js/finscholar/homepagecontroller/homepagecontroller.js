@@ -16,15 +16,18 @@
 
 goog.module('finscholar.homepagecontroller');
 
+const GoogDom = goog.require('goog.dom');
+const GoogSoy = goog.require('goog.soy');
 const JsactionActionFlow = goog.require('jsaction.ActionFlow');
 const JsactionDispatcher = goog.require('jsaction.Dispatcher');
 const JsactionEventContract = goog.require('jsaction.EventContract');
-const GoogDom = goog.require('goog.dom');
-const GoogSoy = goog.require('goog.soy');
 const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const {CollegeListView} = goog.require('finscholar.collegelistview');
-const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
+const {CollegePageView} = goog.require('finscholar.collegepageview');
+const {ErrorPageView} = goog.require('finscholar.errorpageview');
 const {PageController} = goog.require('pagecontroller');
+const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
+const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 
 /**
  * Class for the home page controller.
@@ -38,20 +41,25 @@ class HomePageController extends PageController {
    */
   constructor(container) {
     super();
-    /** @private @const @type {!Element} */
+    /** @private @const {!Element} */
     this.container_ = container;
-    /** @private @const @type {!JsactionEventContract} */
+    /** @private @const {!JsactionEventContract} */
     this.eventContract_ = new JsactionEventContract();
-    /** @private @const @type {!JsactionDispatcher} */
+    /** @private @const {!JsactionDispatcher} */
     this.dispatcher_ = new JsactionDispatcher();
-    /** @private @const bindedNavbarOnclickHandler_ The binded navbar onclick event handler. */
+    /** @private @const {!function(): undefined} */
     this.bindedNavbarOnclickHandler_ = this.handleNavbarOnclickEvent_.bind(this);
     this.initJsaction_();
-    /** @private */
+    /** @private {int} */
     this.navbarPageIndex_ = 0;
-    /** @private @const */
-    this.TEMPLATE_HANDLERS_ = [new CollegeListView(), new ScholarshipListView()];
+    /** @private @const {!Array} */
+    this.TEMPLATE_HANDLERS_ = [new CollegeListView(), 
+                               new ScholarshipListView(), 
+                               new CollegePageView(), 
+                               new ScholarshipPageView(), 
+                               new ErrorPageView()];
     this.container_.innerHTML = this.getContent_();
+    /** @private @const {!Element} subView_*/
     this.subView_ = GoogDom.getElement('content');
     this.renderPage_();
   }
@@ -89,8 +97,9 @@ class HomePageController extends PageController {
 
   /**
    * Handles click and double click events on navbar.
-   * @param {!JsactionActionFlow} flow Contains the data related to the action
+   * @param {!JsactionActionFlow} flow Contains the data related to the action.
    *     and more. See actionflow.js.
+   * @private
    */
   handleNavbarOnclickEvent_(flow) {
     const index = flow.node().getAttribute('index');
@@ -103,7 +112,16 @@ class HomePageController extends PageController {
    * @private
    */
   renderPage_() {
-    this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_);
+    // This if statement is tempoaray added to enable showing the error page.
+    if (this.navbarPageIndex_ == 4) {
+      this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_, 
+        'A network error has occurred. Failed to load college data.',
+        'Please reload the page or select a different college.',
+        'JSON object undefined.');
+    } else {
+      // In actual product we'll only have this line in this function.
+      this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_);
+    }
   }
 }
 
