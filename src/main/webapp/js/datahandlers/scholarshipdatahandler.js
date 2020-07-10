@@ -61,7 +61,7 @@ class ScholarshipDataHandler {
       generalInfo: {
         scholarshipName: data['scholarshipName'], 
         scholarshipUUID: data['scholarshipUUID'], 
-        schoolsList: (data['schoolsList'] || [NA]).join(SEPARATOR),
+        schoolsList: data['schoolsList'],
         introduction: data['introduction'], 
         URL: data['URL'],
       },
