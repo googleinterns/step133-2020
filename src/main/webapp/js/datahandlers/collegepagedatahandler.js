@@ -20,6 +20,13 @@ const {ErrorPageView} = goog.require('finscholar.errorpageview');
 
 /** This constant is the endpoint to send a fetch request to. */
 const COLLEGE_SERVLET_ENDPOINT = '/college-data';
+const ERROR_MESSAGE_JSON_UNDEFINED = '';
+const OCCURRENCE_JSON_UNDEFINED = '';
+const ACTION_JSON_UNDEFINED = '';
+const ERROR_MESSAGE_SERVER_ERROR = '';
+const OCCURRENCE_SERVER_ERROR = '';
+const ACTION_SERVER_ERROR = '';
+
 
 /**
  * This method converts from JSON to a JS object map, 
