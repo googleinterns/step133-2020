@@ -16,18 +16,21 @@
 
 goog.module('finscholar.homepagecontroller');
 
+const {CollegeListView} = goog.require('finscholar.collegelistview');
+const {CollegePageView} = goog.require('finscholar.collegepageview');
+const {ErrorPageView} = goog.require('finscholar.errorpageview');
+const {PageController} = goog.require('pagecontroller');
+const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
+const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 const googDom = goog.require('goog.dom');
 const googSoy = goog.require('goog.soy');
 const jsactionActionFlow = goog.require('jsaction.ActionFlow');
 const jsactionDispatcher = goog.require('jsaction.Dispatcher');
 const jsactionEventContract = goog.require('jsaction.EventContract');
 const {homepage} = goog.require('finscholar.homepagecontroller.templates');
-const {CollegeListView} = goog.require('finscholar.collegelistview');
-// const {CollegePageView} = goog.require('finscholar.collegepageview');
-// const {ErrorPageView} = goog.require('finscholar.errorpageview');
-const {PageController} = goog.require('pagecontroller');
-const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
-// const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
+const TEST_ERR_INPUT1 = 'A network error has occurred. Failed to load college data.';
+const TEST_ERR_INPUT2 = 'Please reload the page or select a different college.';
+const TEST_ERR_INPUT3 = 'Thanks!';
 
 /**
  * Class for the home page controller.
@@ -62,9 +65,9 @@ class HomePageController extends PageController {
     this.TEMPLATE_HANDLERS_ = [
                                CollegeListView, 
                                ScholarshipListView, 
-                            //    CollegePageView, 
-                            //    ScholarshipPageView, 
-                            //    ErrorPageView
+                               CollegePageView, 
+                               ScholarshipPageView, 
+                               ErrorPageView
                                ];
     
     this.initJsaction_();
@@ -128,9 +131,9 @@ class HomePageController extends PageController {
     // This if statement is temporarily added to enable showing the error page.
     if (this.navbarPageIndex_ == 4) {
       this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_, 
-        'A network error has occurred. Failed to load college data.',
-        'Please reload the page or select a different college.',
-        'JSON object undefined.');
+        TEST_ERR_INPUT1,
+        TEST_ERR_INPUT2,
+        TEST_ERR_INPUT3);
     } else {
       // In actual product we'll only have this line in this function.
       (new this.TEMPLATE_HANDLERS_[this.navbarPageIndex_]).renderView(this.subView_);
