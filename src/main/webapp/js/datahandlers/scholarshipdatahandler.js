@@ -37,27 +37,28 @@ class ScholarshipDataHandler {
    */
   async convertFromJsonToTemplate_(data) {
     const SEPARATOR = ', ';
+    const NALIST = ['N/A'];
     const requirementsMap = new Map();
     requirementsMap.set('Academic Requirements', 
-                        data['academicRequirements'].join(SEPARATOR) || 'N/A');
+                        (data['academicRequirements'] || NALIST).join(SEPARATOR));
     requirementsMap.set('Ethnicity Race Requirements', 
-                        data['ethnicityRaceRequirements'].join(SEPARATOR) || 'N/A');
+                        (data['ethnicityRaceRequirements'] || NALIST).join(SEPARATOR));
     requirementsMap.set('Financial Requirements', 
-                        data['financialRequirements'].join(SEPARATOR) || 'N/A');
+                        (data['financialRequirements'] || NALIST).join(SEPARATOR));
     requirementsMap.set('Gender Requirements', 
-                        data['genderRequirements'].join(SEPARATOR) || 'N/A');
+                        (data['genderRequirements'] || NALIST).join(SEPARATOR));
     requirementsMap.set('Location Requirements', 
-                        data['locationRequirements'].join(SEPARATOR) || 'N/A');
+                        (data['locationRequirements'] || NALIST).join(SEPARATOR));
     requirementsMap.set('National Origin Requirements', 
-                        data['nationalOriginRequirements'].join(SEPARATOR) || 'N/A');
+                        (data['nationalOriginRequirements'] || NALIST).join(SEPARATOR));
     requirementsMap.set('Other Requirements', 
-                        data['otherRequirements'].join(SEPARATOR) || 'N/A');
+                        (data['otherRequirements'] || NALIST).join(SEPARATOR));
     return {
       generalInfo: {
         scholarshipName: data['scholarshipName'], 
         scholarshipUUID: data['scholarshipUUID'], 
-        schoolsList: data['schoolsList'].join(SEPARATOR),
-        introduction: data['introduction']['value'] || 'N/A', 
+        schoolsList: (data['schoolsList'] || ['N/A']).join(SEPARATOR),
+        introduction: data['introduction'] || 'N/A', 
         URL: data['URL'],
       },
       requirements: requirementsMap,
@@ -69,6 +70,8 @@ class ScholarshipDataHandler {
       }, 
     };
   };
+      
+    
 
   /**
    * Fetch the scholarship data with the specified uuid and format it.
