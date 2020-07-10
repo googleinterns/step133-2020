@@ -16,11 +16,11 @@
 
 goog.module('finscholar.homepagecontroller');
 
-const GoogDom = goog.require('goog.dom');
-const GoogSoy = goog.require('goog.soy');
-const JsactionActionFlow = goog.require('jsaction.ActionFlow');
-const JsactionDispatcher = goog.require('jsaction.Dispatcher');
-const JsactionEventContract = goog.require('jsaction.EventContract');
+const googDom = goog.require('goog.dom');
+const googSoy = goog.require('goog.soy');
+const jsactionActionFlow = goog.require('jsaction.ActionFlow');
+const jsactionDispatcher = goog.require('jsaction.Dispatcher');
+const jsactionEventContract = goog.require('jsaction.EventContract');
 const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const {CollegeListView} = goog.require('finscholar.collegelistview');
 const {CollegePageView} = goog.require('finscholar.collegepageview');
@@ -36,31 +36,41 @@ const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 class HomePageController extends PageController {
 
   /** 
-   * @constructor
    * @param {!Element} container The HTML div where the main frame is rendered.
    */
   constructor(container) {
     super();
     /** @private @const {!Element} */
     this.container_ = container;
-    /** @private @const {!JsactionEventContract} */
-    this.eventContract_ = new JsactionEventContract();
-    /** @private @const {!JsactionDispatcher} */
-    this.dispatcher_ = new JsactionDispatcher();
-    /** @private @const {!function(): undefined} */
+
+    /** @private @const {!jsactionEventContract} */
+    this.eventContract_ = new jsactionEventContract();
+
+    /** @private @const {!jsactionDispatcher} */
+    this.dispatcher_ = new jsactionDispatcher();
+
+    /** @private @const {!function(jsaction.ActionFlow): undefined} */
     this.bindedNavbarOnclickHandler_ = this.handleNavbarOnclickEvent_.bind(this);
+
     this.initJsaction_();
-    /** @private {int} */
+
+    /** @private {number} */
     this.navbarPageIndex_ = 0;
-    /** @private @const {!Array} */
-    this.TEMPLATE_HANDLERS_ = [new CollegeListView(), 
+
+    /** @private @const {!Array<CollegeListView, ScholarshipListView, CollegePageView, ScholarshipPageView, ErrorPageView>} */
+    this.TEMPLATE_HANDLERS_ = [
+                               new CollegeListView(), 
                                new ScholarshipListView(), 
                                new CollegePageView(), 
                                new ScholarshipPageView(), 
-                               new ErrorPageView()];
+                               new ErrorPageView()
+                               ];
+
     this.container_.innerHTML = this.getContent_();
+
     /** @private @const {!Element} subView_*/
-    this.subView_ = GoogDom.getElement('content');
+    this.subView_ = /** @type {!Element} */ (googDom.getElement('content'));
+
     this.renderPage_();
   }
 
@@ -71,7 +81,7 @@ class HomePageController extends PageController {
   initJsaction_() {
     // Events will be handled for all elements under this container.
     this.eventContract_.addContainer(
-        /** @type {!Element} */ (GoogDom.getElement('main')));
+        /** @type {!Element} */ (googDom.getElement('main')));
     // Register the event types we care about.
     this.eventContract_.addEvent('click');
     this.eventContract_.addEvent('dblclick');
@@ -88,7 +98,7 @@ class HomePageController extends PageController {
   }
 
   /**
-   * @return {!GoogSoy.data.SanitizedHtml} The rendered HTML of the common framework.
+   * @return {!googSoy.data.SanitizedHtml} The rendered HTML of the common framework.
    * @private
    */
   getContent_() {
@@ -97,13 +107,13 @@ class HomePageController extends PageController {
 
   /**
    * Handles click and double click events on navbar.
-   * @param {!JsactionActionFlow} flow Contains the data related to the action.
+   * @param {!jsactionActionFlow} flow Contains the data related to the action.
    *     and more. See actionflow.js.
    * @private
    */
   handleNavbarOnclickEvent_(flow) {
     const index = flow.node().getAttribute('index');
-    this.navbarPageIndex_ = index;
+    this.navbarPageIndex_ = parseInt(index, 10);
     this.renderPage_();
   }
 

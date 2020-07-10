@@ -16,11 +16,12 @@
 
 goog.module('finscholar');
 
-const GoogDom = goog.require('goog.dom');
+const googDom = goog.require('goog.dom');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
 
 const init = () => {
-  const homeController = new HomePageController(GoogDom.getElement('main'));
+  const homeController = new HomePageController(
+        /** @type {!Element} */ (googDom.getElement('main')));
 };
 
 window['onload'] = init;
