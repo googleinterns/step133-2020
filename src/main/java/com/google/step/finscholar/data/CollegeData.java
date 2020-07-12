@@ -21,13 +21,10 @@ import java.util.UUID;
 /** Holder for hardcoded College objects. */
 public final class CollegeData {
 
-  public static final List<College> COLLEGES = createColleges();
+  public static final College COLLEGE = createCollege();
 
-  private static List<College> createColleges() {
-    List<College> colleges = new ArrayList<College>();
-
+  private static College createCollege() {
     List<UUID> users = new ArrayList<UUID>();
-    users.add(UUID.randomUUID());
     users.add(UUID.randomUUID());
     
     College school = new College.CollegeBuilder("Duke University")
@@ -43,10 +40,6 @@ public final class CollegeData {
       .setNetCostForFifthQuintile(30000)
       .setCumulativeMedianDebt(10000)
       .build();
-
-    for(int i = 0; i < 5; i++) {
-      colleges.add(school);
-    }
-    return colleges;
+    return school;
   }
 }
