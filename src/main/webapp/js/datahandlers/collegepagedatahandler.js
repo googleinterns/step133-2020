@@ -20,12 +20,12 @@ const {ErrorPageView} = goog.require('finscholar.errorpageview');
 
 /** This constant is the endpoint to send a fetch request to. */
 const COLLEGE_SERVLET_ENDPOINT = '/college-data';
-const ERROR_MESSAGE_JSON_UNDEFINED = '';
-const OCCURRENCE_JSON_UNDEFINED = '';
-const ACTION_JSON_UNDEFINED = '';
-const ERROR_MESSAGE_SERVER_ERROR = '';
-const OCCURRENCE_SERVER_ERROR = '';
-const ACTION_SERVER_ERROR = '';
+const ERROR_MESSAGE_JSON_UNDEFINED = 'JSON object undefined.';
+const OCCURRENCE_JSON_UNDEFINED = 'A network error has occurred. Failed to load college data.';
+const ACTION_JSON_UNDEFINED = 'Please reload the page or select a different college.';
+const OCCURRENCE_SERVER_ERROR = 'A database error occurred. Failed to render college data.';
+const ACTION_SERVER_ERROR = 'The database failed to retrieve the college. \
+      This college may not exist. Please reload the page or select a different college.';
 
 
 /**
@@ -54,7 +54,7 @@ const convertFromJsonToTemplate_ = async (json) => {
       cumulativeMedianDebt: json["cumulativeMedianDebt"]
     };
   } else {
-    throw new Error('JSON object undefined.');
+    throw new Error(ERROR_MESSAGE_JSON_UNDEFINED);
   }
 };
 
@@ -82,11 +82,7 @@ const loadCollegeData = async (element) => {
   try {
     json = await loadCollegeJson_();
   } catch(err) {
-    const occurrence = 'A network error has occurred. Failed to load college data.';
-    const action = 'Please reload the page or select a different college.';
-    console.log(`${occurrence} Error Message: ${err}.`);
-    const errorPage = new ErrorPageView();
-    errorPage.renderErrorPage(element, occurrence, action, err.toString());
+    loadErrorPage_(element, OCCURRENCE_JSON_UNDEFINED, ACTION_JSON_UNDEFINED, err);
   }
 
   try {
@@ -94,13 +90,18 @@ const loadCollegeData = async (element) => {
     const html = collegepage(data);
     element.innerHTML = html;
   } catch(err) {
-    const occurrence = 'A database error occurred. Failed to render college data.';
-    const action = 'The database failed to retrieve the college. \
-      This college may not exist. Please reload the page or select a different college.';
-    console.log(`${occurrence} Error Message: ${err}.`);
-    const errorPage = new ErrorPageView();
-    errorPage.renderErrorPage(element, occurrence, action, err.toString());
+    loadErrorPage_(element, OCCURRENCE_SERVER_ERROR, ACTION_SERVER_ERROR, err);
   }  
+}
+
+/**
+ * Loads the error page.
+ * @param 
+ * @private
+ */
+const loadErrorPage_ = (element,  occurrence, action, error) => { 
+  const errorPage = new ErrorPageView();
+  errorPage.renderErrorPage(element, occurrence, action, error.toString());
 }
 
 exports = {loadCollegeData};
