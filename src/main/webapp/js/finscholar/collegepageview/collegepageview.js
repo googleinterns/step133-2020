@@ -12,16 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @fileoverview Main entry point for the app. */
+/** @fileoverview Base class for College View. */
 
-goog.module('finscholar');
+goog.module('finscholar.collegepageview');
 
-const googDom = goog.require('goog.dom');
-const {HomePageController} = goog.require('finscholar.homepagecontroller');
+const GoogDom = goog.require('goog.dom');
+const {loadCollegeData} = goog.require('datahandlers.collegepage');
 
-const init = () => {
-  const homeController = new HomePageController(
-        /** @type {!Element} */ (googDom.getElement('main')));
-};
+/** Class for the college page view. */
+class CollegePageView {
+  constructor() {}
 
-goog.exportSymbol('onload', init);
+  /** Render the college page. */
+  async renderView(element) {
+    await loadCollegeData(element);
+  };
+}
+
+exports = {CollegePageView};

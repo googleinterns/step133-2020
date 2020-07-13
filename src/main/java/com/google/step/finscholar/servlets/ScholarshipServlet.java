@@ -41,5 +41,4 @@ public class ScholarshipServlet extends HttpServlet {
     response.getWriter().println(gson.toJson(scholarships));	
 
   }	
-
 } 

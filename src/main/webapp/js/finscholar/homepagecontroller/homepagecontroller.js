@@ -16,47 +16,127 @@
 
 goog.module('finscholar.homepagecontroller');
 
-const JsactionActionFlow = goog.require('jsaction.ActionFlow');
-const JsactionDispatcher = goog.require('jsaction.Dispatcher');
-const JsactionEventContract = goog.require('jsaction.EventContract');
-const GoogDom = goog.require('goog.dom');
-const GoogSoy = goog.require('goog.soy');
+const {CollegeListView} = goog.require('finscholar.collegelistview');
+const {CollegePageView} = goog.require('finscholar.collegepageview');
+const {ErrorPageView} = goog.require('finscholar.errorpageview');
 const {PageController} = goog.require('pagecontroller');
+const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
 const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 const {homepage} = goog.require('finscholar.homepagecontroller.templates');
+const googDom = goog.require('goog.dom');
+const googSoy = goog.require('goog.soy');
+const jsactionActionFlow = goog.require('jsaction.ActionFlow');
+const jsactionDispatcher = goog.require('jsaction.Dispatcher');
+const jsactionEventContract = goog.require('jsaction.EventContract');
+
+const TEST_ERR_INPUT1 = 'A network error has occurred. Failed to load college data.';
+const TEST_ERR_INPUT2 = 'Please reload the page or select a different college.';
+const TEST_ERR_INPUT3 = 'Thanks!';
 
 /**
  * Class for the home page controller.
- * @public
  */
 class HomePageController extends PageController {
-  constructor() {
+
+  /** 
+   * @param {!Element} container The HTML div where the main frame is rendered.
+   */
+  constructor(container) {
     super();
-    /**
-     * @private @constant
-     * @type {!ScholarshipPageView} 
-     * The object loading single Scholarship page.
+    /** @private @const {!Element} */
+    this.container_ = container;
+
+    /** @private @const {!jsactionEventContract} */
+    this.eventContract_ = new jsactionEventContract();
+
+    /** @private @const {!jsactionDispatcher} */
+    this.dispatcher_ = new jsactionDispatcher();
+
+    /** @private @const {!function(jsaction.ActionFlow): undefined} */
+    this.bindedNavbarOnclickHandler_ = this.handleNavbarOnclickEvent_.bind(this);
+
+    /** @private {number} */
+    this.navbarPageIndex_ = 0;
+
+    /** @private @const 
+     * {!Array<CollegeListView, ScholarshipListView, 
+     *     CollegePageView, ScholarshipPageView, ErrorPageView>} 
      */
-    this.scholarshipPageHandler_ = new ScholarshipPageView();
+    this.TEMPLATE_HANDLERS_ = [
+                               CollegeListView, 
+                               ScholarshipListView, 
+                               CollegePageView, 
+                               ScholarshipPageView, 
+                               ErrorPageView
+                               ];
+    
+    this.initJsaction_();
+
+    this.container_.innerHTML = this.getContent_();
+
+    /** @private @const {!Element} subView_*/
+    this.subView_ = /** @type {!Element} */ (googDom.getElement('content'));
+
+    this.renderPage_();
   }
 
   /**
-   * @return {!GoogSoy.data.SanitizedHtml} The rendered HTML of the common framework.
+   * Sets up the event handlers for elements in the main frame.
+   * @private
    */
-  getContent() {
+  initJsaction_() {
+    // Events will be handled for all elements under this container.
+    this.eventContract_.addContainer(
+        /** @type {!Element} */ (googDom.getElement('main')));
+    // Register the event types we care about.
+    this.eventContract_.addEvent('click');
+    this.eventContract_.addEvent('dblclick');
+    this.eventContract_.dispatchTo(
+        this.dispatcher_.dispatch.bind(this.dispatcher_));
+    this.dispatcher_.registerHandlers(
+      'homepagecontroller',  // the namespace
+      null,                  // handler object
+      {
+        // action map
+        'clickAction': this.bindedNavbarOnclickHandler_,
+        'doubleClickAction' : this.bindedNavbarOnclickHandler_,
+      });
+  }
+
+  /**
+   * @return {!googSoy.data.SanitizedHtml} The rendered HTML of the common framework.
+   * @private
+   */
+  getContent_() {
     return homepage();
   }
 
   /**
-   * Renders a view for a scholarship object, which is specified by the uuid.
-   * @public
-   * @param {string} id The uuid of the scholarship to be rendered.
+   * Handles click and double click events on navbar.
+   * @param {!jsactionActionFlow} flow Contains the data related to the action.
+   *     and more. See actionflow.js.
+   * @private
    */
-  async renderScholarshipPage(id) {
-    try {
-      await this.scholarshipPageHandler_.renderScholarship(id, GoogDom.getElement('content'));
-    } catch(e) {
-      alert(e);
+  handleNavbarOnclickEvent_(flow) {
+    const index = flow.node().getAttribute('index');
+    this.navbarPageIndex_ = parseInt(index, 10);
+    this.renderPage_();
+  }
+
+  /**
+   * Render the div with id 'content' based on the click event navber buttons.
+   * @private
+   */
+  renderPage_() {
+    // This if statement is temporarily added to enable showing the error page.
+    if (this.navbarPageIndex_ == 4) {
+      this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_, 
+        TEST_ERR_INPUT1,
+        TEST_ERR_INPUT2,
+        TEST_ERR_INPUT3);
+    } else {
+      // In actual product we'll only have this line in this function.
+      (new this.TEMPLATE_HANDLERS_[this.navbarPageIndex_]).renderView(this.subView_);
     }
   }
 }
