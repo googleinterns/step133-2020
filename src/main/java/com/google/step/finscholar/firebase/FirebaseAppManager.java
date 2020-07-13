@@ -26,8 +26,15 @@ import java.util.List;
 
 // Only create app one time
 public class FirebaseAppManager {
+  /** This is the FirebaseApp object to be used for Firestore and Authentication. */
   private static FirebaseApp app = null;
 
+  /**
+   * This method initializes the Google Credentials needed to start up the Firebase service.
+   *   If the app initializes in production, we return credentials associated with the app.
+   *   Else, we use the default application credentials.
+   * @return - A GoogleCredentials object representing the credentials needed to start up the Firebase service.
+   */
   private static GoogleCredentials getCredentials() throws IOException {
     if(SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
       List<String> scopes =
@@ -41,6 +48,10 @@ public class FirebaseAppManager {
     }
   }
 
+  /** 
+   * Initialize the Firebase app.
+   * @return - A FirebaseApp object that has been initialized to work with the current running build.
+   */
   public static FirebaseApp getApp() throws IOException {
     if(app == null) {
       FirebaseOptions options =
