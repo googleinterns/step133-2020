@@ -61,7 +61,6 @@ class ScholarshipPageView {
       throw new Error(`Failed to generate html: ${e}`);
     }
   }
-
 }
 
 exports = {ScholarshipPageView};
