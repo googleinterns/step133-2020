@@ -35,7 +35,6 @@ const TEST_ERR_INPUT3 = 'Thanks!';
 
 /**
  * Class for the home page controller.
- * @public
  */
 class HomePageController extends PageController {
 
