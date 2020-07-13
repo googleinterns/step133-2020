@@ -28,6 +28,7 @@ const googSoy = goog.require('goog.soy');
 const jsactionActionFlow = goog.require('jsaction.ActionFlow');
 const jsactionDispatcher = goog.require('jsaction.Dispatcher');
 const jsactionEventContract = goog.require('jsaction.EventContract');
+
 const TEST_ERR_INPUT1 = 'A network error has occurred. Failed to load college data.';
 const TEST_ERR_INPUT2 = 'Please reload the page or select a different college.';
 const TEST_ERR_INPUT3 = 'Thanks!';
