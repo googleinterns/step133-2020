@@ -17,6 +17,7 @@
 goog.module('datahandlers.scholarshipdatahandler');
 const {Map: SoyMap} = goog.require('soy.map');
 const {addSpaceToCamelCase} = goog.require('datahandlers.utils');
+
 const NA = 'N/A';
 const REQUIREMENTS = ['academicRequirements', 
                       'ethnicityRaceRequirements', 
