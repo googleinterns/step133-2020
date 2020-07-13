@@ -17,11 +17,20 @@
 goog.module('finscholar');
 
 const GoogDom = goog.require('goog.dom');
+const {CollegePageView} = goog.require('finscholar.collegepageview');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
 
-const init = () => {
+/**
+ * Initialize the main web page. 
+ */
+const init = async () => {
   const homeController = new HomePageController();
   GoogDom.getElement('main').innerHTML = homeController.getContent();
+
+  // Render the college page by loading in the data and rendering the 
+  // associated soy template.
+  const collegePage = new CollegePageView();
+  await collegePage.renderView(GoogDom.getElement('college'));
 };
 
-window['onload'] = init;
+goog.exportSymbol('onload', init);
