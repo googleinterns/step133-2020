@@ -46,16 +46,18 @@ public class ScholarshipSamples {
                                          "following the sophomore or junior year.";
   
   public static Scholarship scholarshipSampleOne = 
-      new Scholarship(NAME_1, UUID_1, SCHOOL_NAMES_1, SAMPLE_1_URL)
-      .setIsRenewable(true)
-      .setAcademicRequirements(ACADEMIC_REQUIREMENTS_1)
-      .setEthnicityRaceRequirements(ETHNICITY_1);
+      new Scholarship.ScholarshipBuilder(NAME_1, UUID_1, SCHOOL_NAMES_1, SAMPLE_1_URL)
+                    .setIsRenewable(true)
+                    .setAcademicRequirements(ACADEMIC_REQUIREMENTS_1)
+                    .setEthnicityRaceRequirements(ETHNICITY_1)
+                    .build();
   
   public static Scholarship scholarshipSampleTwo = 
-      new Scholarship(NAME_2, UUID_2, SCHOOL_NAMES_2, SAMPLE_2_URL)
-      .setIsRenewable(true)
-      .setAcademicRequirements(ACADEMIC_REQUIREMENTS_2)
-      .setIntroduction(SUMMARY_2)
-      .setAmountPerYear(AMOUNT_2);
+      new Scholarship.ScholarshipBuilder(NAME_2, UUID_2, SCHOOL_NAMES_2, SAMPLE_2_URL)
+                    .setIsRenewable(true)
+                    .setAcademicRequirements(ACADEMIC_REQUIREMENTS_2)
+                    .setIntroduction(SUMMARY_2)
+                    .setAmountPerYear(AMOUNT_2)
+                    .build();
 
 }

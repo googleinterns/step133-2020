@@ -12,16 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @fileoverview Main entry point for the app. */
+/** @fileoverview The mini controller for college list view. */
 
-goog.module('finscholar');
+goog.module('finscholar.collegelistview');
+const {collegelist} = goog.require('finscholar.collegelistview.templates');
 
-const googDom = goog.require('goog.dom');
-const {HomePageController} = goog.require('finscholar.homepagecontroller');
+/** The mini controller for college list view. */
+class CollegeListView {
+  
+  constructor() {
+  }
 
-const init = () => {
-  const homeController = new HomePageController(
-        /** @type {!Element} */ (googDom.getElement('main')));
-};
+  /**
+   * Renders a college list view to the container.
+   * @param {!Element} container The HTML container to load the view.
+   */
+  renderView(container) {
+    container.innerHTML = collegelist();
+  }
+}
 
-goog.exportSymbol('onload', init);
+exports = {CollegeListView}
