@@ -14,17 +14,26 @@
 
 package com.google.step.finscholar.servlets;
 
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceConfig;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.UserRecord;
 import com.google.gson.Gson;
 import com.google.step.finscholar.data.College;
 import com.google.step.finscholar.data.CollegeData;
 import com.google.step.finscholar.data.ServletConstantValues;
-import java.io.FileInputStream;33 
+import com.google.step.finscholar.firebase.FirebaseAppManager;
+import java.io.FileInputStream; 
 import java.io.IOException;
 import java.util.List;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,19 +43,25 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns colleges and their associated data. */
 @WebServlet("/college-data")
 public class CollegeServlet extends HttpServlet {
+  private FirebaseAuth authInstance;
+  private DatastoreService datastore;
+  private Gson gson;
 
-  private final Gson gson = new Gson();
+  @Override
+  public void init(ServletConfig config) throws ServletException {
+    try {
+      authInstance = FirebaseAuth.getInstance(FirebaseAppManager.getApp());
+      gson = new Gson();
+    } catch (IOException e) {
+      throw new ServletException(e);
+    }
+  }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    FileInputStream serviceAccount = new FileInputStream("path/to/serviceAccountKey.json");
-
-    FirebaseOptions options = new FirebaseOptions.Builder()
-      .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-      .setDatabaseUrl("https://viewing-step-2020-v2.firebaseio.com")
-      .build();
-
-    FirebaseApp app = FirebaseApp.initializeApp(options);
+    // Start datastore service.
+    datastore = DatastoreServiceFactory.getDatastoreService();
+    System.setProperty(DatastoreServiceConfig.DATASTORE_EMPTY_LIST_SUPPORT, Boolean.TRUE.toString());
 
     // Convert the college to JSON.
     College college = CollegeData.COLLEGE;
