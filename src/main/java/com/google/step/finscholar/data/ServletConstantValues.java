@@ -12,16 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @fileoverview Main entry point for the app. */
+package com.google.step.finscholar.data;
 
-goog.module('finscholar');
+/** This class is a holder class for constant values used by the servlets. */
+public class ServletConstantValues {
 
-const googDom = goog.require('goog.dom');
-const {HomePageController} = goog.require('finscholar.homepagecontroller');
+    public static final String JSON_CONTENT_TYPE = "application/json;";
+    public static final String INDEX_PATH = "/index.html";
+    
+    // The default value for undefined fields.
+    public static final String DEFAULT_VALUE = "";
 
-const init = () => {
-  const homeController = new HomePageController(
-        /** @type {!Element} */ (googDom.getElement('main')));
-};
-
-goog.exportSymbol('onload', init);
+}
