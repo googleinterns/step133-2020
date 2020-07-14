@@ -51,14 +51,13 @@ public class CollegeServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Initialize the Firestore database. 
+    // Initialize the Firestore document. 
     DocumentReference documentRef = database.collection(ServletConstantValues.COLLEGE_COLLECTION_NAME).document("Duke");
     
     // Add college document to Firestore with hashmap.
     ApiFuture<WriteResult> result = documentRef.set(CollegeData.COLLEGE);
 
-    // Check result to see update time.
-    // System.out.println("Update Time: " + result.get().getUpdateTime());
+    // Update college document.
 
     // Convert the college to JSON.
     College college = CollegeData.COLLEGE;
