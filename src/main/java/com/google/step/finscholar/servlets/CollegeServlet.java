@@ -15,7 +15,9 @@
 package com.google.step.finscholar.servlets;
 
 import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
@@ -51,17 +53,36 @@ public class CollegeServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Initialize the Firestore document. 
-    DocumentReference documentRef = database.collection(ServletConstantValues.COLLEGE_COLLECTION_NAME).document("Duke");
+    // Access the correct collection.
+    CollectionReference collectionRef = database.collection(ServletConstantValues.COLLEGE_COLLECTION_NAME);
     
-    // Add college document to Firestore with hashmap.
+    // Create a new document in the collection.
+    DocumentReference documentRef = collectionRef.document();
+
+    // Update the document with a new object.
     ApiFuture<WriteResult> result = documentRef.set(CollegeData.COLLEGE);
 
-    // Update college document.
+    // Get the document.
+
+    DocumentReference dukeReference = database.collection(ServletConstantValues.COLLEGE_COLLECTION_NAME).document("Duke");
+    ApiFuture<DocumentSnapshot> snapshotFuture = dukeReference.get();
+    DocumentSnapshot document;
+    College collegeFromDatabase;
+    try {
+      document = snapshotFuture.get();
+      if(document.exists()) {
+        collegeFromDatabase = document.toObject(College.class);
+      } else {
+        collegeFromDatabase = null;
+      }
+    } catch (Exception e) {
+      // Do something with the exception.
+    }
+    
 
     // Convert the college to JSON.
     College college = CollegeData.COLLEGE;
-    String json = gson.toJson(college);
+    String json = gson.toJson(collegeFromDatabase);
     
     // Send the list of colleges as the response.
     response.setContentType(ServletConstantValues.JSON_CONTENT_TYPE);

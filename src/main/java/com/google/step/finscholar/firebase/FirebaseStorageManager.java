@@ -14,6 +14,24 @@
 
 package com.google.step.finscholar.firebase;
 
+import com.google.gson.Gson;
+
 public class FirebaseStorageManager {
+  private static Gson gson = new Gson();
   
+  public static void storeDocument() {
+
+  }
+
+  public static void getDocument() {
+
+  }
+
+  public static void getCollection() {
+
+  }
+
+  public static void getCollectionAsJson() {
+
+  }
 }
