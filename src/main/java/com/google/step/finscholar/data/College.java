@@ -14,17 +14,13 @@
 
 package com.google.step.finscholar.data;
 
-import java.util.List;
-import java.util.UUID;
-
 /** An object representing a College using the Builder design pattern. */
 public class College {
   private String schoolName;
-  private UUID collegeUUID;
+  private String collegeUUID;
   private String institutionType;
   private double acceptanceRate;
   private double averageACTScore;
-  private List<UUID> usersUUIDList;
   private int totalCostAttendance;
   private int netCostForFirstQuintile; // $0-$30,000.
   private int netCostForSecondQuintile; // $30,001-$48,000.
@@ -44,7 +40,6 @@ public class College {
     this.institutionType = builder.institutionType;
     this.acceptanceRate = builder.acceptanceRate;
     this.averageACTScore = builder.averageACTScore;
-    this.usersUUIDList = builder.usersUUIDList;
     this.totalCostAttendance = builder.totalCostAttendance;
     this.netCostForFirstQuintile = builder.netCostForFirstQuintile;
     this.netCostForSecondQuintile = builder.netCostForSecondQuintile;
@@ -57,12 +52,11 @@ public class College {
   
 
   public static class CollegeBuilder {
-    private final String schoolName; // Required
-    private final UUID collegeUUID; // Required. 
+    private final String schoolName; // Required 
+    private final String collegeUUID;
     private String institutionType; // The rest are optional.
     private double acceptanceRate;
     private double averageACTScore;
-    private List<UUID> usersUUIDList;
     private int totalCostAttendance;
     private int netCostForFirstQuintile; // $0-$30,000.
     private int netCostForSecondQuintile; // $30,001-$48,000.
@@ -71,9 +65,9 @@ public class College {
     private int netCostForFifthQuintile; // $110,000+.
     private int cumulativeMedianDebt;
 
-    public CollegeBuilder(String schoolName) {
+    public CollegeBuilder(String schoolName, String collegeUUID) {
       this.schoolName = schoolName;
-      this.collegeUUID = UUID.randomUUID();
+      this.collegeUUID = collegeUUID;
     }
 
     // Setter methods.
@@ -95,12 +89,6 @@ public class College {
     /** @param newACTScore - Median ACT Score of students accepted. */
     public CollegeBuilder setAverageACTScore(double newACTScore) {
       this.averageACTScore = newACTScore;
-      return this;
-    }
-
-    /** @param newUsersList - Users associated with the college. */
-    public CollegeBuilder setUsersUUIDList(List<UUID> newUsersList) {
-      this.usersUUIDList = newUsersList;
       return this;
     }
 
@@ -182,7 +170,7 @@ public class College {
   }
 
   /** @return - UUID for the college. */
-  public UUID getCollegeUuid() {
+  public String getCollegeUuid() {
     return this.collegeUUID;
   }
 
@@ -199,11 +187,6 @@ public class College {
   /** @return - Median ACT Score of students accepted. */
   public double getAverageACTScore() {
     return this.averageACTScore;
-  }
-
-  /** @return - Users associated with the college. */
-  public List<UUID> getUsersUUIDList() {
-    return this.usersUUIDList;
   }
 
   /** @return - Average total cost of attendance without financial Aid. */
