@@ -71,10 +71,14 @@ public class CollegeServlet extends HttpServlet {
     try {
       document = snapshotFuture.get();
       if(document.exists()) {
+        System.out.println("Document exists");
         collegeFromDatabase = document.toObject(College.class);
+      } else {
+        System.out.println("Document does not exist.");
       }
     } catch (Exception e) {
       // Do something with the exception.
+      System.out.println("Error: " + e.toString());
     }
     
 
