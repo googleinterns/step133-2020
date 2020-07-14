@@ -19,22 +19,26 @@ import java.util.UUID;
 
 /** An object representing a College using the Builder design pattern. */
 public class College {
-  // All instance variables are final since the class is immutable after everything is set.
-  private final String schoolName;
-  private final UUID collegeUUID;
-  private final String institutionType;
-  private final double acceptanceRate;
-  private final double averageACTScore;
-  private final List<UUID> usersUUIDList;
-  private final int totalCostAttendance;
-  private final int netCostForFirstQuintile; // $0-$30,000.
-  private final int netCostForSecondQuintile; // $30,001-$48,000.
-  private final int netCostForThirdQuintile; // $48,001-$75,000.
-  private final int netCostForFourthQuintile; // $75,001-$110,000.
-  private final int netCostForFifthQuintile; // $110,000+.
-  private final int cumulativeMedianDebt;
+  private String schoolName;
+  private UUID collegeUUID;
+  private String institutionType;
+  private double acceptanceRate;
+  private double averageACTScore;
+  private List<UUID> usersUUIDList;
+  private int totalCostAttendance;
+  private int netCostForFirstQuintile; // $0-$30,000.
+  private int netCostForSecondQuintile; // $30,001-$48,000.
+  private int netCostForThirdQuintile; // $48,001-$75,000.
+  private int netCostForFourthQuintile; // $75,001-$110,000.
+  private int netCostForFifthQuintile; // $110,000+.
+  private int cumulativeMedianDebt;
 
-  private College(CollegeBuilder builder) {
+  // We need a public, no argument constructor to deserialize an object.
+  public College() {
+    
+  }
+
+  public College(CollegeBuilder builder) {
     this.schoolName = builder.schoolName;
     this.collegeUUID = builder.collegeUUID;
     this.institutionType = builder.institutionType;
@@ -49,6 +53,8 @@ public class College {
     this.netCostForFifthQuintile = builder.netCostForFifthQuintile;
     this.cumulativeMedianDebt = builder.cumulativeMedianDebt;
   }
+
+  
 
   public static class CollegeBuilder {
     private final String schoolName; // Required
