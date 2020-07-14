@@ -23,4 +23,10 @@ public class ServletConstantValues {
     // The default value for undefined fields.
     public static final String DEFAULT_VALUE = "";
 
+    // Constants for the different Firestore Collection names.
+    public static final String SCHOLARSHIP_COLLECTION_NAME = "scholarships";
+    public static final String COLLEGE_COLLECTION_NAME = "colleges";
+    public static final String FORUM_POST_COLLECTION_NAME = "forumPosts";
+    public static final String FORUM_COMMENT_COLLECTION_NAME = "forumCommments";
+
 }

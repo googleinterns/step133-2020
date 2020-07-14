@@ -14,7 +14,10 @@
 
 package com.google.step.finscholar.servlets;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.gson.Gson;
 import com.google.step.finscholar.data.College;
@@ -48,6 +51,14 @@ public class CollegeServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Initialize the Firestore database. 
+    DocumentReference documentRef = database.collection(ServletConstantValues.COLLEGE_COLLECTION_NAME).document("Duke");
+    
+    // Add college document to Firestore with hashmap.
+    ApiFuture<WriteResult> result = documentRef.set(CollegeData.COLLEGE);
+
+    // Check result to see update time.
+    // System.out.println("Update Time: " + result.get().getUpdateTime());
 
     // Convert the college to JSON.
     College college = CollegeData.COLLEGE;
