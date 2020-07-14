@@ -67,13 +67,11 @@ public class CollegeServlet extends HttpServlet {
     DocumentReference dukeReference = database.collection(ServletConstantValues.COLLEGE_COLLECTION_NAME).document("Duke");
     ApiFuture<DocumentSnapshot> snapshotFuture = dukeReference.get();
     DocumentSnapshot document;
-    College collegeFromDatabase;
+    College collegeFromDatabase = null;
     try {
       document = snapshotFuture.get();
       if(document.exists()) {
         collegeFromDatabase = document.toObject(College.class);
-      } else {
-        collegeFromDatabase = null;
       }
     } catch (Exception e) {
       // Do something with the exception.
