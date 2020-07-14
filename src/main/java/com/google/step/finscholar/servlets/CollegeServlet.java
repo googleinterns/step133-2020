@@ -14,16 +14,9 @@
 
 package com.google.step.finscholar.servlets;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceConfig;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.UserRecord;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.gson.Gson;
 import com.google.step.finscholar.data.College;
 import com.google.step.finscholar.data.CollegeData;
@@ -43,14 +36,13 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns colleges and their associated data. */
 @WebServlet("/college-data")
 public class CollegeServlet extends HttpServlet {
-  private FirebaseAuth authInstance;
-  private DatastoreService datastore;
+  private FirebaseDatabase database;
   private Gson gson;
 
   @Override
   public void init(ServletConfig config) throws ServletException {
     try {
-      authInstance = FirebaseAuth.getInstance(FirebaseAppManager.getApp());
+      database = FirebaseDatabase.getInstance(FirebaseAppManager.getApp());
       gson = new Gson();
     } catch (IOException e) {
       throw new ServletException(e);
@@ -59,16 +51,26 @@ public class CollegeServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Start datastore service.
-    datastore = DatastoreServiceFactory.getDatastoreService();
-    System.setProperty(DatastoreServiceConfig.DATASTORE_EMPTY_LIST_SUPPORT, Boolean.TRUE.toString());
-
+    // Start firestore.
+    DatabaseReference rootReference = database.getReference();
+    DatabaseReference collegesReference = rootReference.child("colleges");
+    collegesReference.child("Duke").setValueAsync(CollegeData.COLLEGE);
+    collegesReference.setValue("I'm writing data.", new DatabaseReference.CompletionListener() {
+       @Override
+       public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+         if (databaseError != null) {
+           System.out.println("Data could not be saved " + databaseError.getMessage());
+         } else {
+           System.out.println("Data saved successfully.");
+         }
+       }
+    });
     // Convert the college to JSON.
-    College college = CollegeData.COLLEGE;
-    String json = gson.toJson(college);
+    // College college = CollegeData.COLLEGE;
+    // String json = gson.toJson(college);
     
     // Send the list of colleges as the response.
     response.setContentType(ServletConstantValues.JSON_CONTENT_TYPE);
-    response.getWriter().println(json);
+    // response.getWriter().println(json);
   }
 }
