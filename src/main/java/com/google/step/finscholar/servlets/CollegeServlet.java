@@ -22,9 +22,12 @@ import com.google.step.finscholar.data.College;
 import com.google.step.finscholar.data.CollegeData;
 import com.google.step.finscholar.data.ServletConstantValues;
 import com.google.step.finscholar.firebase.FirebaseAppManager;
-import java.io.FileInputStream; 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -54,17 +57,22 @@ public class CollegeServlet extends HttpServlet {
     // Start firestore.
     DatabaseReference rootReference = database.getReference();
     DatabaseReference collegesReference = rootReference.child("colleges");
-    collegesReference.child("Duke").setValueAsync(CollegeData.COLLEGE);
-    collegesReference.setValue("I'm writing data.", new DatabaseReference.CompletionListener() {
-       @Override
-       public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-         if (databaseError != null) {
-           System.out.println("Data could not be saved " + databaseError.getMessage());
-         } else {
-           System.out.println("Data saved successfully.");
-         }
-       }
-    });
+    Map<String, College> colleges = new HashMap<>();
+    colleges.put("Duke", CollegeData.COLLEGE);
+    collegesReference.setValueAsync(colleges);
+    // DatabaseReference dukeReference = collegesReference.child("Duke");
+
+
+    // collegesReference.setValue("I'm writing data.", new DatabaseReference.CompletionListener() {
+    //    @Override
+    //    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+    //      if (databaseError != null) {
+    //        System.out.println("Data could not be saved " + databaseError.getMessage());
+    //      } else {
+    //        System.out.println("Data saved successfully.");
+    //      }
+    //    }
+    // });
     // Convert the college to JSON.
     // College college = CollegeData.COLLEGE;
     // String json = gson.toJson(college);
