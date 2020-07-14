@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -54,31 +53,13 @@ public class CollegeServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Start firestore.
-    DatabaseReference rootReference = database.getReference();
-    DatabaseReference collegesReference = rootReference.child("colleges");
-    Map<String, College> colleges = new HashMap<>();
-    colleges.put("Duke", CollegeData.COLLEGE);
-    collegesReference.setValueAsync(colleges);
-    // DatabaseReference dukeReference = collegesReference.child("Duke");
 
-
-    // collegesReference.setValue("I'm writing data.", new DatabaseReference.CompletionListener() {
-    //    @Override
-    //    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-    //      if (databaseError != null) {
-    //        System.out.println("Data could not be saved " + databaseError.getMessage());
-    //      } else {
-    //        System.out.println("Data saved successfully.");
-    //      }
-    //    }
-    // });
     // Convert the college to JSON.
-    // College college = CollegeData.COLLEGE;
-    // String json = gson.toJson(college);
+    College college = CollegeData.COLLEGE;
+    String json = gson.toJson(college);
     
     // Send the list of colleges as the response.
     response.setContentType(ServletConstantValues.JSON_CONTENT_TYPE);
-    // response.getWriter().println(json);
+    response.getWriter().println(json);
   }
 }
