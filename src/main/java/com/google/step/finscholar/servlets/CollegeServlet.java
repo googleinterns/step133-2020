@@ -14,21 +14,14 @@
 
 package com.google.step.finscholar.servlets;
 
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.gson.Gson;
 import com.google.step.finscholar.data.College;
 import com.google.step.finscholar.data.CollegeData;
 import com.google.step.finscholar.data.ServletConstantValues;
 import com.google.step.finscholar.firebase.FirebaseAppManager;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
