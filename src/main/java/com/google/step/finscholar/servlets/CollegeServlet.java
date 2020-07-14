@@ -15,6 +15,8 @@
 package com.google.step.finscholar.servlets;
 
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.cloud.firestore.Firestore;
+import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.gson.Gson;
@@ -39,13 +41,13 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns colleges and their associated data. */
 @WebServlet("/college-data")
 public class CollegeServlet extends HttpServlet {
-  private FirebaseDatabase database;
+  private Firestore database;
   private Gson gson;
 
   @Override
   public void init(ServletConfig config) throws ServletException {
     try {
-      database = FirebaseDatabase.getInstance(FirebaseAppManager.getApp());
+      database = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
       gson = new Gson();
     } catch (IOException e) {
       throw new ServletException(e);
@@ -54,31 +56,13 @@ public class CollegeServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Start firestore.
-    DatabaseReference rootReference = database.getReference();
-    DatabaseReference collegesReference = rootReference.child("colleges");
-    Map<String, College> colleges = new HashMap<>();
-    colleges.put("Duke", CollegeData.COLLEGE);
-    collegesReference.setValueAsync(colleges);
-    // DatabaseReference dukeReference = collegesReference.child("Duke");
 
-
-    // collegesReference.setValue("I'm writing data.", new DatabaseReference.CompletionListener() {
-    //    @Override
-    //    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-    //      if (databaseError != null) {
-    //        System.out.println("Data could not be saved " + databaseError.getMessage());
-    //      } else {
-    //        System.out.println("Data saved successfully.");
-    //      }
-    //    }
-    // });
     // Convert the college to JSON.
-    // College college = CollegeData.COLLEGE;
-    // String json = gson.toJson(college);
+    College college = CollegeData.COLLEGE;
+    String json = gson.toJson(college);
     
     // Send the list of colleges as the response.
     response.setContentType(ServletConstantValues.JSON_CONTENT_TYPE);
-    // response.getWriter().println(json);
+    response.getWriter().println(json);
   }
 }
