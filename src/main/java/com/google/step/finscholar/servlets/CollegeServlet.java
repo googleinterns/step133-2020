@@ -60,27 +60,27 @@ public class CollegeServlet extends HttpServlet {
 
     // Get the document.
 
-    DocumentReference dukeReference = database.collection(ServletConstantValues.COLLEGE_COLLECTION_NAME).document("Duke");
-    ApiFuture<DocumentSnapshot> snapshotFuture = dukeReference.get();
-    DocumentSnapshot document;
-    College collegeFromDatabase = null;
-    try {
-      document = snapshotFuture.get();
-      if(document.exists()) {
-        System.out.println("Document exists");
-        collegeFromDatabase = document.toObject(College.class);
-      } else {
-        System.out.println("Document does not exist.");
-      }
-    } catch (Exception e) {
-      // Do something with the exception.
-      System.out.println("Error: " + e.toString());
-    }
+    // DocumentReference dukeReference = database.collection(ServletConstantValues.COLLEGE_COLLECTION_NAME).document();
+    // ApiFuture<DocumentSnapshot> snapshotFuture = dukeReference.get();
+    // DocumentSnapshot document;
+    // College collegeFromDatabase = null;
+    // try {
+    //   document = snapshotFuture.get();
+    //   if(document.exists()) {
+    //     System.out.println("Document exists");
+    //     collegeFromDatabase = document.toObject(College.class);
+    //   } else {
+    //     System.out.println("Document does not exist.");
+    //   }
+    // } catch (Exception e) {
+    //   // Do something with the exception.
+    //   System.out.println("Error: " + e.toString());
+    // }
     
 
     // Convert the college to JSON.
     College college = CollegeData.COLLEGE;
-    String json = gson.toJson(collegeFromDatabase);
+    String json = gson.toJson(college);
     
     // Send the list of colleges as the response.
     response.setContentType(ServletConstantValues.JSON_CONTENT_TYPE);
