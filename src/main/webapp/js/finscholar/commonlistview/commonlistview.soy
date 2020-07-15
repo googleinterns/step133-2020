@@ -13,6 +13,56 @@
 // limitations under the License.
 
 {namespace finscholar.commonlistview.templates}
+
 {template .commonlistview}
-  <p> This is the common list view. </p>
+  {@param pageIndex : string}
+  <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+    <thead>
+      {if $pageIndex == '1'}
+        {call .scholarshiplistheader /}
+      {else}
+        {call .collegelistheader /}
+      {/if}
+    </thead>
+    <tbody id="table-body">
+    </tbody>
+  </table>
+{/template}
+
+{template .scholarshiplistheader}
+  <tr>
+    <th class="mdl-data-table__cell--non-numeric">Scholarship Name</th>
+    <th>Schools</th>
+    <th>Amount</th>
+  </tr>
+{/template}
+
+{template .collegelistheader}
+  <tr>
+    <th class="mdl-data-table__cell--non-numeric">College Name</th>
+    <th>Acceptance Rate</th>
+    <th>Average ACT</th>
+  </tr>
+{/template}
+
+{template .scholarshiplistitems}
+  {@param scholarships: list<[name: string, schools: string, amount: string]>}
+  {for $item in $scholarships}
+    <tr>
+      <td class="mdl-data-table__cell--non-numeric">{$item.name}</td>
+      <td>{$item.schools}</td>
+      <td>{$item.amount}</td>
+    </tr>
+  {/for}
+{/template}
+
+{template .collegelistitems}
+  {@param colleges: list<[name: string, acceptanceRate: string, averageACT: string]>}
+  {for $item in $colleges}
+    <tr>
+      <td class="mdl-data-table__cell--non-numeric">{$item.name}</td>
+      <td>{$item.acceptanceRate}</td>
+      <td>{$item.averageACT}</td>
+    </tr>
+  {/for}
 {/template}

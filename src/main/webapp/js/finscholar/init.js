@@ -19,9 +19,10 @@ goog.module('finscholar');
 const googDom = goog.require('goog.dom');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
 
-const init = () => {
+const init = async () => {
   const homeController = new HomePageController(
         /** @type {!Element} */ (googDom.getElement('main')));
+  homeController.renderPage();
 };
 
 window['onload'] = init;

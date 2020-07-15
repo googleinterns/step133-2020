@@ -15,19 +15,22 @@
 /** @fileoverview The mini controller for scholarship list view. */
 
 goog.module('finscholar.commonlistview');
-const {commonlistview} = goog.require('finscholar.commonlistview.templates');
-const googDom = goog.require('goog.dom');
-const NUMBER_PER_BATCH = 10;
 
+const {commonlistview, scholarshiplistitems, collegelistitems} = goog.require('finscholar.commonlistview.templates');
+const googDom = goog.require('goog.dom');
+
+const ITEM_CONTAINER_ID = 'table-body';
 
 /** The mini controller for scholarship list view. */
 class CommonListView {
   
-  constructor(dataHandler, template) {
+  constructor(dataHandler, optionIndex) {
     /** @private @const {ScholarshipListDataHandler} */
     this.dataHandler_ = dataHandler;
-    /** @private @const {function():Element} */
-    this.template_ = template;
+    /** @private @const {string} */
+    this.optionIndex_ = optionIndex;
+    /** @private @const {function(!Array<{}>):Element} */
+    this.template_ = this.optionIndex_ == '0' ? collegelistitems : scholarshiplistitems;
     /** @private The number of batch of data has been loaded into the view. */
     this.batch_ = 0;
     /** @private {Element|null} The container for all list items. */
@@ -36,27 +39,31 @@ class CommonListView {
     this.bindedScrollHandler_ = this.loadNextBatch_.bind(this);
     /** @private @const {!function():undefined} */
     this.bindedScholarshipLoader_ = this.renderNextBatch_.bind(this);
+    /** @private {number} */
+    this.itemsPerBatch_ = 15;
   }
 
   /** 
    * Loads the first two batches of list item to page. 
    * @param {!Element} container 
    */
-  init(container) {
+  async init(tableContainer) {
+    tableContainer.innerHTML = commonlistview({pageIndex: this.optionIndex_});
     const totalNumberOfItems = this.dataHandler_.getTotalNumber();
-    this.container_ = container;
-    window.addEventListener('scroll', this.bindedScrollHandler_);
-    this.renderNextBatch_();
-    this.renderNextBatch_();
+    this.container_ = googDom.getElement(ITEM_CONTAINER_ID)
+    window.addEventListener('scroll', await this.bindedScrollHandler_);
+    this.renderNextBatch_(this.itemsPerBatch_ * 2);
   }
 
   /**
    * Loads the next batch of data and render to the view.
+   * @param {number} itemsPerBatch The number of objects to be loaded from server.
    */
-  renderNextBatch_() {
-    const dataList = this.dataHandler_.getNextBatch(this.batch_);
-    console.log(dataList);
+  async renderNextBatch_(numberOfItems) {
+    console.log('render');
+    const dataList = await this.dataHandler_.getNextBatch(this.batch_, numberOfItems);
     try {
+      console.log('call template');
       this.container_.innerHTML += this.template_({scholarships: dataList});
     } catch (e) {
       console.log(e);
@@ -65,16 +72,17 @@ class CommonListView {
   }
 
   /**
-   * Check if the page is about to reach the bottom,
+   * Checks if the page is about to reach the bottom,
    * if so, load one more batch of data.
    */
-  loadNextBatch_() {
+  async loadNextBatch_() {
+    console.log('load next batch');
     const totalHeight = document.body.clientHeight;
     const scrolledHeight = window.scrollY;
     const browserHeight = window.innerHeight;
     const ratio = (browserHeight + scrolledHeight)/totalHeight;
     if (ratio > (this.batch_ - 1)/this.batch_) {
-      this.bindedScholarshipLoader_();
+      await this.bindedScholarshipLoader_(this.itemsPerBatch_);
     }
   }
 }

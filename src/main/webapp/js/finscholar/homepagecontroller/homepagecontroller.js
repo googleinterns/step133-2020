@@ -17,21 +17,17 @@
 goog.module('finscholar.homepagecontroller');
 
 const {CollegeListView} = goog.require('finscholar.collegelistview');
-const {CollegePageView} = goog.require('finscholar.collegepageview');
-const {ErrorPageView} = goog.require('finscholar.errorpageview');
+// const {CollegePageView} = goog.require('finscholar.collegepageview');
+// const {ErrorPageView} = goog.require('finscholar.errorpageview');
 const {PageController} = goog.require('pagecontroller');
 const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
-const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
+// const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const googDom = goog.require('goog.dom');
 const googSoy = goog.require('goog.soy');
 const jsactionActionFlow = goog.require('jsaction.ActionFlow');
 const jsactionDispatcher = goog.require('jsaction.Dispatcher');
 const jsactionEventContract = goog.require('jsaction.EventContract');
-
-const TEST_ERR_INPUT1 = 'A network error has occurred. Failed to load college data.';
-const TEST_ERR_INPUT2 = 'Please reload the page or select a different college.';
-const TEST_ERR_INPUT3 = 'Thanks!';
 
 /**
  * Class for the home page controller.
@@ -65,10 +61,7 @@ class HomePageController extends PageController {
      */
     this.TEMPLATE_HANDLERS_ = [
                                CollegeListView, 
-                               ScholarshipListView, 
-                               CollegePageView, 
-                               ScholarshipPageView, 
-                               ErrorPageView
+                                ScholarshipListView, 
                                ];
     
     this.initJsaction_();
@@ -77,8 +70,6 @@ class HomePageController extends PageController {
 
     /** @private @const {!Element} subView_*/
     this.subView_ = /** @type {!Element} */ (googDom.getElement('content'));
-
-    this.renderPage_();
   }
 
   /**
@@ -118,27 +109,17 @@ class HomePageController extends PageController {
    *     and more. See actionflow.js.
    * @private
    */
-  handleNavbarOnclickEvent_(flow) {
+  async handleNavbarOnclickEvent_(flow) {
     const index = flow.node().getAttribute('index');
     this.navbarPageIndex_ = parseInt(index, 10);
-    this.renderPage_();
+    await this.renderPage();
   }
 
   /**
    * Render the div with id 'content' based on the click event navber buttons.
-   * @private
    */
-  renderPage_() {
-    // This if statement is temporarily added to enable showing the error page.
-    if (this.navbarPageIndex_ == 4) {
-      this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_, 
-        TEST_ERR_INPUT1,
-        TEST_ERR_INPUT2,
-        TEST_ERR_INPUT3);
-    } else {
-      // In actual product we'll only have this line in this function.
-      (new this.TEMPLATE_HANDLERS_[this.navbarPageIndex_]).renderView(this.subView_);
-    }
+  async renderPage() {
+    await (new this.TEMPLATE_HANDLERS_[this.navbarPageIndex_]).renderView(this.subView_);
   }
 }
 
