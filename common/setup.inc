@@ -18,6 +18,11 @@
 git submodule init
 git submodule update
 
+# Get deps for the _test.html page generator:
+cd deps/closure-library/closure/bin/generate_closure_unit_tests
+npm update || exit $?
+cd - >/dev/null 2>&1
+
 cd deps/closure-templates/
 # Check to see if we have already build the soy jars.
 if ! test -d "target"; then
@@ -34,6 +39,14 @@ echo "Compiling soy sources..."
 ./../../../../common/soy_srcs.py
 cd - >/dev/null 2>&1
 
+# Generate deps for JS tests.
+./deps/closure-library/closure/bin/build/depswriter.py \
+  --root "deps/closure-library/closure/goog" \
+  --root_with_prefix "deps/closure-templates/javascript ../soy/" \
+  --root_with_prefix "deps/jsaction ../jsaction/" \
+  --root_with_prefix "src/main/webapp/js ../" \
+  --root_with_prefix "src/test/javascript ../../jstests" \
+  --output_file "src/test/javascript/deps.js" || exit $?
 # Remove target directory to build from scratch:
 echo "Cleaning old target directory..."
 rm -rf "./target"

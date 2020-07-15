@@ -80,6 +80,63 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>copy-js-tests</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+
+            <configuration>
+              <outputDirectory>
+                ${project.build.directory}/${project.build.finalName}/jstests
+              </outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/test/javascript</directory>
+                  <includes>
+                    <include> **/*.js</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>generate-js-test-pages</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>node</executable>
+              <workingDirectory>
+                ${project.build.directory}/${project.build.finalName}
+              </workingDirectory>
+              <arguments>
+                <argument>
+                  ../../deps/closure-library/closure/bin/generate_closure_unit_tests/generate_closure_unit_tests.js
+                </argument>
+                <argument>--recursive</argument>
+                <argument>--base=js/goog/base.js</argument>
+                <!--		<argument>==dep_file=jstests/deps.js</argument> -->
+                <argument>--relative_path_to_dep_file</argument>
+                <argument>jstests</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
       <!-- Provides `mvn package appengine:run` for local testing
            and `mvn package appengine:deploy` for deploying. -->

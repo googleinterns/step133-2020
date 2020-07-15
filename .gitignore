@@ -1,4 +1,5 @@
 src/main/webapp/js/soy_generated/
+src/test/javascript/deps.js
 target/
 .classpath
 .factorypath
