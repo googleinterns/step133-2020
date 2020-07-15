@@ -33,11 +33,11 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns colleges and their associated data. */
 @WebServlet("/college-data")
 public class CollegeServlet extends HttpServlet {
-  private Firestore database;
   private Gson gson = new Gson();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Firestore database;
     try {
       database = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
     } catch (Exception e) {
