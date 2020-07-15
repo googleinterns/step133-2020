@@ -31,10 +31,11 @@ public final class CollegeData {
     List<UUID> users = new ArrayList<UUID>();
     users.add(UUID.randomUUID());
     
-    College school = new College.CollegeBuilder("Duke University", "ID")
+    College school = new College.CollegeBuilder("Duke University")
       .setInstitutionType("Private")
       .setAcceptanceRate(0.07)
       .setAverageACTScore(33)
+      .setUsersUUIDList(users)
       .setTotalCostAttendance(75000)
       .setNetCostForFirstQuintile(2000)
       .setNetCostForSecondQuintile(5000)

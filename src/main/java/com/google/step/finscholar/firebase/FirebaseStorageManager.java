@@ -69,13 +69,9 @@ public class FirebaseStorageManager {
    * @param database - The database I want to retrieve my data from.
    * @param collectionToGetFrom - The collection of documents I want to retrieve my data from.
    * @param documentID - The unique ID of the datapoint I want to retrieve.
-   * @param objectClass - The class type to convert the response to so that it can be serialized into JSON.
-   *   This parameter is designated as <ObjectType>.class. So if I want to retrieve a Scholarship, I would set
-   *   the objectClass parameter equal to Scholarship.class, if I want to retrieve a College, I would set the 
-   *   objectClass parameter to College.class, etc.
    * @return - The JSON string representing the datapoint I just retrieved.
    */
-  public static String getDocument(Firestore database, String collectionToGetFrom, String documentID, Class<?> objectClass) throws FirebaseException {
+  public static String getDocument(Firestore database, String collectionToGetFrom, String documentID) throws FirebaseException {
     // Retrieve a reference to the document representing the datapoint I want to retrieve.
     DocumentReference documentReference = database.collection(collectionToGetFrom).document(documentID);
 
@@ -88,7 +84,7 @@ public class FirebaseStorageManager {
       document = snapshotFuture.get();
 
       if(document.exists()) {
-        // If the document snapshot exists, then convert the snapshot to a serializeable class.
+        // If the document snapshot exists, then convert the snapshot to a serializeable Object class.
         Object objectFromDatabase = document.toObject(Object.class);
 
         // Convert the object to JSON.

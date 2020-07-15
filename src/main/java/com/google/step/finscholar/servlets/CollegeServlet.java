@@ -14,20 +14,13 @@
 
 package com.google.step.finscholar.servlets;
 
-import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.CollectionReference;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.gson.Gson;
 import com.google.step.finscholar.data.College;
 import com.google.step.finscholar.data.CollegeData;
 import com.google.step.finscholar.data.ServletConstantValues;
 import com.google.step.finscholar.firebase.FirebaseAppManager;
-import com.google.step.finscholar.firebase.FirebaseStorageManager;
 import java.io.IOException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -55,23 +48,10 @@ public class CollegeServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Store a new document.
-    try {
-      FirebaseStorageManager.storeDocument(database, ServletConstantValues.COLLEGE_COLLECTION_NAME, CollegeData.COLLEGE);
-    } catch(FirebaseException e){
 
-    }
-
-    String json = "";
-    // Get the document in json.
-    try {
-      json = FirebaseStorageManager.getDocument(database, ServletConstantValues.COLLEGE_COLLECTION_NAME, "Duke", College.class);
-    } catch(FirebaseException e) {
-
-    }
     // Convert the college to JSON.
     College college = CollegeData.COLLEGE;
-    // String json = gson.toJson(college);
+    String json = gson.toJson(college);
     
     // Send the list of colleges as the response.
     response.setContentType(ServletConstantValues.JSON_CONTENT_TYPE);

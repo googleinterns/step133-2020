@@ -14,25 +14,25 @@
 
 package com.google.step.finscholar.data;
 
+import java.util.List;
+import java.util.UUID;
+
 /** An object representing a College using the Builder design pattern. */
 public class College {
-  private String schoolName;
-  private String collegeUUID;
-  private String institutionType;
-  private double acceptanceRate;
-  private double averageACTScore;
-  private int totalCostAttendance;
-  private int netCostForFirstQuintile; // $0-$30,000.
-  private int netCostForSecondQuintile; // $30,001-$48,000.
-  private int netCostForThirdQuintile; // $48,001-$75,000.
-  private int netCostForFourthQuintile; // $75,001-$110,000.
-  private int netCostForFifthQuintile; // $110,000+.
-  private int cumulativeMedianDebt;
-
-  // We need a public, no argument constructor to deserialize an object.
-  public College() {
-    
-  }
+  // All instance variables are final since the class is immutable after everything is set.
+  private final String schoolName;
+  private final UUID collegeUUID;
+  private final String institutionType;
+  private final double acceptanceRate;
+  private final double averageACTScore;
+  private final List<UUID> usersUUIDList;
+  private final int totalCostAttendance;
+  private final int netCostForFirstQuintile; // $0-$30,000.
+  private final int netCostForSecondQuintile; // $30,001-$48,000.
+  private final int netCostForThirdQuintile; // $48,001-$75,000.
+  private final int netCostForFourthQuintile; // $75,001-$110,000.
+  private final int netCostForFifthQuintile; // $110,000+.
+  private final int cumulativeMedianDebt;
 
   private College(CollegeBuilder builder) {
     this.schoolName = builder.schoolName;
@@ -40,6 +40,7 @@ public class College {
     this.institutionType = builder.institutionType;
     this.acceptanceRate = builder.acceptanceRate;
     this.averageACTScore = builder.averageACTScore;
+    this.usersUUIDList = builder.usersUUIDList;
     this.totalCostAttendance = builder.totalCostAttendance;
     this.netCostForFirstQuintile = builder.netCostForFirstQuintile;
     this.netCostForSecondQuintile = builder.netCostForSecondQuintile;
@@ -49,14 +50,13 @@ public class College {
     this.cumulativeMedianDebt = builder.cumulativeMedianDebt;
   }
 
-  
-
   public static class CollegeBuilder {
-    private final String schoolName; // Required 
-    private final String collegeUUID;
+    private final String schoolName; // Required
+    private final UUID collegeUUID; // Required. 
     private String institutionType; // The rest are optional.
     private double acceptanceRate;
     private double averageACTScore;
+    private List<UUID> usersUUIDList;
     private int totalCostAttendance;
     private int netCostForFirstQuintile; // $0-$30,000.
     private int netCostForSecondQuintile; // $30,001-$48,000.
@@ -65,9 +65,9 @@ public class College {
     private int netCostForFifthQuintile; // $110,000+.
     private int cumulativeMedianDebt;
 
-    public CollegeBuilder(String schoolName, String collegeUUID) {
+    public CollegeBuilder(String schoolName) {
       this.schoolName = schoolName;
-      this.collegeUUID = collegeUUID;
+      this.collegeUUID = UUID.randomUUID();
     }
 
     // Setter methods.
@@ -89,6 +89,12 @@ public class College {
     /** @param newACTScore - Median ACT Score of students accepted. */
     public CollegeBuilder setAverageACTScore(double newACTScore) {
       this.averageACTScore = newACTScore;
+      return this;
+    }
+
+    /** @param newUsersList - Users associated with the college. */
+    public CollegeBuilder setUsersUUIDList(List<UUID> newUsersList) {
+      this.usersUUIDList = newUsersList;
       return this;
     }
 
@@ -170,7 +176,7 @@ public class College {
   }
 
   /** @return - UUID for the college. */
-  public String getCollegeUuid() {
+  public UUID getCollegeUuid() {
     return this.collegeUUID;
   }
 
@@ -188,6 +194,11 @@ public class College {
 
   public double getAverageACTScore() {
     return this.averageACTScore;
+  }
+
+  /** @return - Users associated with the college. */
+  public List<UUID> getUsersUUIDList() {
+    return this.usersUUIDList;
   }
 
   /** @return - Average total cost of attendance without financial Aid. */
