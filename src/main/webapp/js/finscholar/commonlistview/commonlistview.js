@@ -51,7 +51,6 @@ class CommonListView {
    */
   async init(tableContainer) {
     tableContainer.innerHTML = commonlistview({pageIndex: this.optionIndex_});
-    const totalNumberOfItems = this.dataHandler_.getTotalNumber();
     this.container_ = googDom.getElement(ITEM_CONTAINER_ID)
     window.addEventListener('scroll', await this.bindedScrollHandler_);
     this.renderNextBatch_(this.itemsPerBatch_ * 2);
@@ -76,12 +75,11 @@ class CommonListView {
    * if so, load one more batch of data.
    */
   async loadNextBatch_() {
-    console.log('load next batch');
-    const totalHeight = document.body.clientHeight;
+    const cellHeight = googDom.getFirstElementChild(this.container_).offsetHeight;
     const scrolledHeight = window.scrollY;
     const browserHeight = window.innerHeight;
-    const ratio = (browserHeight + scrolledHeight)/totalHeight;
-    if (ratio > (this.batch_ - 1)/this.batch_) {
+    const threshold = this.batch_ * this.itemsPerBatch_ * cellHeight;
+    if (scrolledHeight + browserHeight > threshold) {
       await this.bindedScholarshipLoader_(this.itemsPerBatch_);
     }
   }
