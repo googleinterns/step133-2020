@@ -55,7 +55,12 @@ class CommonListView {
    */
   renderNextBatch_() {
     const dataList = this.dataHandler_.getNextBatch(this.batch_);
-    dataList.forEach(e => this.container_.innerHTML += this.template_(e));
+    console.log(dataList);
+    try {
+      this.container_.innerHTML += this.template_({scholarships: dataList});
+    } catch (e) {
+      console.log(e);
+    }
     this.batch_ += 1;
   }
 
