@@ -23,4 +23,7 @@ public class ServletConstantValues {
     // The default value for undefined fields.
     public static final String DEFAULT_VALUE = "";
 
+    // Constants for exceptions when retrieving data from the Firestore database.
+    public static final String UNABLE_TO_LOAD_FIREBASE = "Unable to load firebase: ";
+
 }

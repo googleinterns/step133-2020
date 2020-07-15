@@ -34,20 +34,15 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/college-data")
 public class CollegeServlet extends HttpServlet {
   private Firestore database;
-  private Gson gson;
-
-  @Override
-  public void init(ServletConfig config) throws ServletException {
-    try {
-      database = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
-      gson = new Gson();
-    } catch (IOException e) {
-      throw new ServletException(e);
-    }
-  }
+  private Gson gson = new Gson();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    try {
+      database = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
+    } catch (Exception e) {
+      response.sendError(HttpServletResponse.SC_BAD_GATEWAY, ServletConstantValues.UNABLE_TO_LOAD_FIREBASE + e);
+    }
 
     // Convert the college to JSON.
     College college = CollegeData.COLLEGE;
