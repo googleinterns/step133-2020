@@ -12,28 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @fileoverview Base class for College View. */
+/** @fileoverview The mini controller for scholarship list view. */
 
-goog.module('finscholar.collegepageview');
+goog.module('finscholar.scholarshiplistview');
 
-const GoogDom = goog.require('goog.dom');
 const {BasicView} = goog.require('basicview');
-const {loadCollegeData} = goog.require('datahandlers.collegepage');
+const {scholarshiplist} = goog.require('finscholar.scholarshiplistview.templates');
 
-/** Class for the college page view. */
-class CollegePageView extends BasicView {
+/** The mini controller for scholarship list view. */
+class ScholarshipListView extends BasicView {
   constructor() {
     super();
+    // Later we'll add member variables such as pages, the array of scholarship
+    // etc.
   }
 
   /**
-   * Render the college page.
-   * @param {!Element} element
+   * Renders a scholarship list view to the container.
+   * @param {!Element} container The HTML container to load the view.
    * @override
    */
-  async renderView(element) {
-    await loadCollegeData(element);
+  async renderView(container) {
+    container.innerHTML = scholarshiplist();
   }
 }
 
-exports = {CollegePageView};
+exports = {ScholarshipListView};

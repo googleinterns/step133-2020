@@ -12,17 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @fileoverview Main entry point for the app. */
+package com.google.step.finscholar.data;
 
-goog.module('finscholar');
+/** The enumerator for genders. */
+public enum Gender {
+  
+  MALE("male"),
+  FEMALE("female"),
+  TRANSGENDER("transgender"),
+  NON_BINARY("non-binary"),
+  GENDER_NEUTRAL("gender neutral");
 
-const GoogDom = goog.require('goog.dom');
-const {CollegePageView} = goog.require('finscholar.collegepageview');
-const {HomePageController} = goog.require('finscholar.homepagecontroller');
+  private String gender;
 
-const init = () => {
-  const homeController = new HomePageController(
-      /** @type {!Element} */ (GoogDom.getElement('main')));
-};
+  private Gender(String gender) {
+    this.gender = gender;
+  }
 
-goog.exportSymbol('onload', init);
+  /** @return The string associated with this constant. */
+  public String getValue() {
+    return this.gender;
+  }
+}

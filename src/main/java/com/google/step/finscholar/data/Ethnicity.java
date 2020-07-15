@@ -14,13 +14,25 @@
 
 package com.google.step.finscholar.data;
 
-/** This class is a holder class for constant values used by the servlets. */
-public class ServletConstantValues {
+/** The enumorator for the smain ethnic groups in the U.S.. */ 
+public enum Ethnicity {
 
-    public static final String JSON_CONTENT_TYPE = "application/json;";
-    public static final String INDEX_PATH = "/index.html";
+  HISPANIC("Hispanic"),
+  WHITE("White"),
+  BLACK_OR_AFRICAN_AMERICAN("Black or African American"),
+  AMERICAN_INDIAN("American Indian"),
+  ALASKA_NATIVE ("Alaska Native"),
+  ASIAN("Asian"),
+  PACIFIC_ISLANDER("Native Hawaiian or Other Pacific Islander");
 
-    // The default value for undefined fields.
-    public static final String DEFAULT_VALUE = "";
+  private String ethnicity;
 
+  private Ethnicity(String ethnicity) {
+    this.ethnicity = ethnicity;
+  }
+
+  /** @return The string associated with this constant. */
+  public String getValue() {
+    return this.ethnicity;
+  }
 }

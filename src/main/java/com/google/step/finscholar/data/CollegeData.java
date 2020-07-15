@@ -23,6 +23,10 @@ public final class CollegeData {
 
   public static final College COLLEGE = createCollege();
 
+  /**
+   * This helper method is used to create a new College object constant.
+   * @return - A college object representing a single university.
+   */
   private static College createCollege() {
     List<UUID> users = new ArrayList<UUID>();
     users.add(UUID.randomUUID());
@@ -38,7 +42,7 @@ public final class CollegeData {
       .setNetCostForThirdQuintile(10000)
       .setNetCostForFourthQuintile(20000)
       .setNetCostForFifthQuintile(30000)
-      .setCumulativeMedianDebt(10000)
+      .setCumulativeMedianDebt(5000)
       .build();
     return school;
   }

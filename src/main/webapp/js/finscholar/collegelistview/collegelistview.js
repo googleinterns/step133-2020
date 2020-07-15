@@ -12,28 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @fileoverview Base class for College View. */
+/** @fileoverview The mini controller for college list view. */
 
-goog.module('finscholar.collegepageview');
-
-const GoogDom = goog.require('goog.dom');
+goog.module('finscholar.collegelistview');
 const {BasicView} = goog.require('basicview');
-const {loadCollegeData} = goog.require('datahandlers.collegepage');
+const {collegelist} = goog.require('finscholar.collegelistview.templates');
 
-/** Class for the college page view. */
-class CollegePageView extends BasicView {
+/** The mini controller for college list view. */
+class CollegeListView extends BasicView {
   constructor() {
     super();
+    // Later we'll add member variables such as pages, the array of colleges
+    // etc.
   }
 
   /**
-   * Render the college page.
-   * @param {!Element} element
+   * Renders a college list view to the container.
+   * @param {!Element} container The HTML container to load the view.
    * @override
    */
-  async renderView(element) {
-    await loadCollegeData(element);
+  async renderView(container) {
+    container.innerHTML = collegelist();
   }
 }
 
-exports = {CollegePageView};
+exports = {CollegeListView}
