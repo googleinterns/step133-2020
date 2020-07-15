@@ -21,7 +21,6 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.gson.Gson;
-import com.google.step.finscholar.data.College;
 
 public class FirebaseStorageManager {
   private static Gson gson = new Gson();
@@ -45,6 +44,7 @@ public class FirebaseStorageManager {
   }
 
   public static String getDocument(Firestore database, String collectionToGetFrom, String documentID, Class<?> objectClass) {
+    
     DocumentReference documentReference = database.collection(collectionToGetFrom).document(documentID);
     ApiFuture<DocumentSnapshot> snapshotFuture = documentReference.get();
     DocumentSnapshot document;
