@@ -23,58 +23,52 @@ const NUMBER_PER_BATCH = 10;
 /** The mini controller for scholarship list view. */
 class CommonListView {
   
-  constructor(dataHandler, template, containerID) {
+  constructor(dataHandler, template) {
+    /** @private @const {ScholarshipListDataHandler} */
     this.dataHandler_ = dataHandler;
+    /** @private @const {function():Element} */
     this.template_ = template;
-    this.containerID_ = containerID;
+    /** @private The number of batch of data has been loaded into the view. */
     this.batch_ = 0;
-    this.container_ = undefined;
+    /** @private {Element|null} The container for all list items. */
+    this.container_ = null;
+    /** @private @const {!function(jsaction.ActionFlow):undefined} */
     this.bindedScrollHandler_ = this.loadNextBatch_.bind(this);
+    /** @private @const {!function():undefined} */
     this.bindedScholarshipLoader_ = this.renderNextBatch_.bind(this);
   }
 
-  /**
-   * Renders a scholarship list view to the container.
-   * @param {!Element} container The HTML container to load the view.
+  /** 
+   * Loads the first two batches of list item to page. 
+   * @param {!Element} container 
    */
-  renderView(container) {
-    container.innerHTML = commonlistview(null);
-  }
-
   init(container) {
     const totalNumberOfItems = this.dataHandler_.getTotalNumber();
     this.container_ = container;
     window.addEventListener('scroll', this.bindedScrollHandler_);
     this.renderNextBatch_();
     this.renderNextBatch_();
-    this.setContainerHeight_();
   }
 
-  setContainerHeight_() {
-    this.container_.style.height = '5000px';
-  }
-
+  /**
+   * Loads the next batch of data and render to the view.
+   */
   renderNextBatch_() {
-    const dataList = this.dataHandler_.getNextBatch(this.batch_ + 1);
+    const dataList = this.dataHandler_.getNextBatch(this.batch_);
     dataList.forEach(e => this.container_.innerHTML += this.template_(e));
     this.batch_ += 1;
   }
 
+  /**
+   * Check if the page is about to reach the bottom,
+   * if so, load one more batch of data.
+   */
   loadNextBatch_() {
-    // const body = document.body,
-    // const html = document.documentElement;
-
-    // const height = Math.max( body.scrollHeight, body.offsetHeight, 
-    //                    html.clientHeight, html.scrollHeight, html.offsetHeight );
     const totalHeight = document.body.clientHeight;
     const scrolledHeight = window.scrollY;
     const browserHeight = window.innerHeight;
     const ratio = (browserHeight + scrolledHeight)/totalHeight;
-    console.log(ratio);
-    console.log(this.batch_);
-    console.log((this.batch_ - 1)/this.batch_);
     if (ratio > (this.batch_ - 1)/this.batch_) {
-      
       this.bindedScholarshipLoader_();
     }
   }
