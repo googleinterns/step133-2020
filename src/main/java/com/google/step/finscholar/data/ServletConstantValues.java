@@ -29,4 +29,9 @@ public class ServletConstantValues {
     public static final String FORUM_POST_COLLECTION_NAME = "forumPosts";
     public static final String FORUM_COMMENT_COLLECTION_NAME = "forumCommments";
 
+    // Constants for Object Types.
+    public static final String SCHOLARSHIP_OBJECT_TYPE = "Scholarship";
+    public static final String COLLEGE_OBJECT_TYPE = "College";
+    public static final String FORUM_POST_OBJECT_TYPE = "ForumPost";
+    public static final String FORUM_COMMENT_OBJECT_TYPE = "ForumComment";
 }

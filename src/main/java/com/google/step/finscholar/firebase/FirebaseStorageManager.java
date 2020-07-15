@@ -17,9 +17,11 @@ package com.google.step.finscholar.firebase;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.gson.Gson;
+import com.google.step.finscholar.data.College;
 
 public class FirebaseStorageManager {
   private static Gson gson = new Gson();
@@ -29,7 +31,7 @@ public class FirebaseStorageManager {
     CollectionReference collectionRef = database.collection(collectionToWriteTo);
     
     // Create a new document in the collection.
-    DocumentReference documentRef = collectionRef.document("Duke");
+    DocumentReference documentRef = collectionRef.document();
 
     // Update the document with a new object.
     ApiFuture<WriteResult> result = documentRef.set(object);
@@ -46,8 +48,25 @@ public class FirebaseStorageManager {
 
   }
 
-  public static void getDocument() {
-
+  public static String getDocument(Firestore database, String collectionToGetFrom, String documentID, String objectType) {
+    DocumentReference documentReference = database.collection(collectionToGetFrom).document(documentID);
+    ApiFuture<DocumentSnapshot> snapshotFuture = documentReference.get();
+    DocumentSnapshot document;
+    try {
+      document = snapshotFuture.get();
+      if(document.exists()) {
+        System.out.println("Document exists");
+        College objectFromDatabase = document.toObject(College.class);
+        String json = gson.toJson(objectFromDatabase);
+        return json;
+      } else {
+        System.out.println("Document does not exist.");
+      }
+    } catch (Exception e) {
+      // Do something with the exception.
+      System.out.println("Error: " + e.toString());
+    }
+    return "";
   }
 
   public static void getCollection() {
