@@ -17,6 +17,7 @@
 goog.module('finscholar.commonlistview');
 const {commonlistview} = goog.require('finscholar.commonlistview.templates');
 const googDom = goog.require('goog.dom');
+const NUMBER_PER_BATCH = 10;
 
 
 /** The mini controller for scholarship list view. */
@@ -26,26 +27,55 @@ class CommonListView {
     this.dataHandler_ = dataHandler;
     this.template_ = template;
     this.containerID_ = containerID;
+    this.batch_ = 0;
+    this.container_ = undefined;
+    this.bindedScrollHandler_ = this.loadNextBatch_.bind(this);
+    this.bindedScholarshipLoader_ = this.renderNextBatch_.bind(this);
   }
 
   /**
    * Renders a scholarship list view to the container.
    * @param {!Element} container The HTML container to load the view.
    */
-  renderView(container, itemTemplate) {
+  renderView(container) {
     container.innerHTML = commonlistview(null);
   }
 
   init(container) {
-    window.addEventListener('scroll', () => console.log(window.scrollY));
-    let i = 0;
-    const data = {
-      name: 'Scholarship Name', 
-      schools: 'Schools offering the scholarship', 
-      amount: 'amount',
-    }
-    for (i = 0; i < 20; i++) {
-      container.innerHTML += this.template_(data);
+    const totalNumberOfItems = this.dataHandler_.getTotalNumber();
+    this.container_ = container;
+    window.addEventListener('scroll', this.bindedScrollHandler_);
+    this.renderNextBatch_();
+    this.renderNextBatch_();
+    this.setContainerHeight_();
+  }
+
+  setContainerHeight_() {
+    this.container_.style.height = '5000px';
+  }
+
+  renderNextBatch_() {
+    const dataList = this.dataHandler_.getNextBatch(this.batch_ + 1);
+    dataList.forEach(e => this.container_.innerHTML += this.template_(e));
+    this.batch_ += 1;
+  }
+
+  loadNextBatch_() {
+    // const body = document.body,
+    // const html = document.documentElement;
+
+    // const height = Math.max( body.scrollHeight, body.offsetHeight, 
+    //                    html.clientHeight, html.scrollHeight, html.offsetHeight );
+    const totalHeight = document.body.clientHeight;
+    const scrolledHeight = window.scrollY;
+    const browserHeight = window.innerHeight;
+    const ratio = (browserHeight + scrolledHeight)/totalHeight;
+    console.log(ratio);
+    console.log(this.batch_);
+    console.log((this.batch_ - 1)/this.batch_);
+    if (ratio > (this.batch_ - 1)/this.batch_) {
+      
+      this.bindedScholarshipLoader_();
     }
   }
 }
