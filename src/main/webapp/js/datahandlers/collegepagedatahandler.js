@@ -23,6 +23,13 @@ const {ErrorData, ErrorPageView} = goog.require('finscholar.errorpageview');
 
 /** This constant is the endpoint to send a fetch request to. */
 const COLLEGE_SERVLET_ENDPOINT = '/college-data';
+const ERROR_MESSAGE_JSON_UNDEFINED = 'JSON object undefined.';
+const OCCURRENCE_JSON_UNDEFINED = 'A network error has occurred. Failed to load college data.';
+const ACTION_JSON_UNDEFINED = 'Please reload the page or select a different college.';
+const OCCURRENCE_SERVER_ERROR = 'A database error occurred. Failed to render college data.';
+const ACTION_SERVER_ERROR = 'The database failed to retrieve the college. \
+      This college may not exist. Please reload the page or select a different college.';
+
 
 /**
  * @typedef {{
@@ -64,7 +71,7 @@ const convertFromJsonToTemplate_ = async (json) => {
       cumulativeMedianDebt: json['cumulativeMedianDebt']
     });
   } else {
-    throw new Error('JSON object undefined.');
+    throw new Error(ERROR_MESSAGE_JSON_UNDEFINED);
   }
 };
 
