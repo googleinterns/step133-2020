@@ -29,7 +29,7 @@ public class FirebaseStorageManager {
     CollectionReference collectionRef = database.collection(collectionToWriteTo);
     
     // Create a new document in the collection.
-    DocumentReference documentRef = collectionRef.document();
+    DocumentReference documentRef = collectionRef.document("Duke");
 
     // Update the document with a new object.
     ApiFuture<WriteResult> result = documentRef.set(object);
