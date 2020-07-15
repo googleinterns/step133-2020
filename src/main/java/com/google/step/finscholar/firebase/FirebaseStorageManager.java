@@ -14,18 +14,36 @@
 
 package com.google.step.finscholar.firebase;
 
+import javax.servlet.Servlet;
+
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
+import com.google.firebase.FirebaseException;
 import com.google.gson.Gson;
+import com.google.step.finscholar.data.ServletConstantValues;
 
+
+/** This class handles writing to and reading from a Cloud Firestore database. */
 public class FirebaseStorageManager {
+  /** This is used to convert Objects into JSON strings to send to the frontend. */
   private static Gson gson = new Gson();
   
-  public static void storeDocument(Firestore database, String collectionToWriteTo, Object object) {
+  /** 
+   * This method stores an object as a DocumentReference (a data point) 
+   *   inside a Collection (of DocumentReferences) in Firestore. 
+   * @param database - This is the database I want to write my data point to.
+   * @param collectionToWriteTo - This is the collection of Documents I want to write to.
+   * @param object - The object that will be stored as a new Document in the collectionToWriteTo.
+   *   It doesn't matter what type the object is as DocumentReference.set() is type-agnostic and will
+   *   store any serializable object. This object is required to have a public, no-parameter constructor.
+   *   Also, the instance variables for that object should not be declared as final. 
+   *   There are no other requirements for the object.
+   */
+  public static void storeDocument(Firestore database, String collectionToWriteTo, Object object) throws FirebaseException {
     // Access the correct collection.
     CollectionReference collectionRef = database.collection(collectionToWriteTo);
     
@@ -33,35 +51,56 @@ public class FirebaseStorageManager {
     DocumentReference documentRef = collectionRef.document();
 
     // Update the document with a new object.
-    ApiFuture<WriteResult> result = documentRef.set(object);
-
-    // Print to console whenever the document has been successfully added to Firestore.
+    ApiFuture<WriteResult> future = documentRef.set(object);
     try {
-      System.out.println("Update time : " + result.get().getUpdateTime());
-    } catch(Exception e) {
-      System.out.printf("An error adding a new document to Firestore occurred: %s.", e);
+      // Print to console which Collection I added to and when.
+      System.out.println(ServletConstantValues.NEW_DOCUMENT_ADDED + 
+        collectionToWriteTo + ServletConstantValues.AT + future.get().getUpdateTime());
+    } catch (Exception e) {
+      // Throws a FirebaseException if unsuccessful in adding new document.
+      String message = ServletConstantValues.UNABLE_TO_WRITE_TO_FIRESTORE + collectionToWriteTo;
+      throw new FirebaseException(message, e);
     }
   }
-
-  public static String getDocument(Firestore database, String collectionToGetFrom, String documentID, Class<?> objectClass) {
-    
+  
+  /**
+   * This method retrieves a specified datapoint from the database based on which Collection 
+   *    it is located in and a document ID. Then it converts the database's response to JSON.
+   * @param database - The database I want to retrieve my data from.
+   * @param collectionToGetFrom - The collection of documents I want to retrieve my data from.
+   * @param documentID - The unique ID of the datapoint I want to retrieve.
+   * @param objectClass - The class type to convert the response to so that it can be serialized into JSON.
+   *   This parameter is designated as <ObjectType>.class. So if I want to retrieve a Scholarship, I would set
+   *   the objectClass parameter equal to Scholarship.class, if I want to retrieve a College, I would set the 
+   *   objectClass parameter to College.class, etc.
+   * @return - The JSON string representing the datapoint I just retrieved.
+   */
+  public static String getDocument(Firestore database, String collectionToGetFrom, String documentID, Class<?> objectClass) throws FirebaseException {
+    // Retrieve a reference to the document representing the datapoint I want to retrieve.
     DocumentReference documentReference = database.collection(collectionToGetFrom).document(documentID);
+
+    // Get a "Future" for the document, which will be used to generate a DocumentSnapshot of the data point.
     ApiFuture<DocumentSnapshot> snapshotFuture = documentReference.get();
+
     DocumentSnapshot document;
     try {
+      // Retrieve a document snapshot of the data point.
       document = snapshotFuture.get();
+
       if(document.exists()) {
-        System.out.println("Document exists");
-        Object objectFromDatabase = document.toObject(objectClass);
-        String json = gson.toJson(objectFromDatabase);
-        return json;
+        // If the document snapshot exists, then convert the snapshot to a serializeable class.
+        Object objectFromDatabase = document.toObject(Object.class);
+
+        // Convert the object to JSON.
+        return gson.toJson(objectFromDatabase);
       } else {
-        System.out.println("Document does not exist.");
+        // Throws a Firebase Exception if the document does not exist.
+        String message = ServletConstantValues.DOCUMENT + documentID + ServletConstantValues.DNE;
+        throw new FirebaseException(message);
       }
     } catch (Exception e) {
-      // Do something with the exception.
-      System.out.println("Error: " + e.toString());
+      // Throws a FirebaseException if we can't connect to firestore.
+      throw new FirebaseException(ServletConstantValues.UNABLE_TO_READ_FROM_FIRESTORE, e);
     }
-    return "";
   }
 }

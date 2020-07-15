@@ -29,9 +29,11 @@ public class ServletConstantValues {
     public static final String FORUM_POST_COLLECTION_NAME = "forumPosts";
     public static final String FORUM_COMMENT_COLLECTION_NAME = "forumCommments";
 
-    // Constants for Object Types.
-    public static final String SCHOLARSHIP_OBJECT_TYPE = "Scholarship";
-    public static final String COLLEGE_OBJECT_TYPE = "College";
-    public static final String FORUM_POST_OBJECT_TYPE = "ForumPost";
-    public static final String FORUM_COMMENT_OBJECT_TYPE = "ForumComment";
+    // Constants for exceptions when retrieving data from the Firestore Database.
+    public static final String UNABLE_TO_WRITE_TO_FIRESTORE = "Unable to write new object to collection with name: ";
+    public static final String UNABLE_TO_READ_FROM_FIRESTORE = "Unable to retrieve data from Firestore.";
+    public static final String DOCUMENT = "Document with ID: ";
+    public static final String NEW_DOCUMENT_ADDED = "New Document added to: ";
+    public static final String AT = " at: ";
+    public static final String DNE = " does not exist.";
 }
