@@ -12,17 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @fileoverview Main entry point for the app. */
+/** Basic view class for all view objects. */
 
-goog.module('finscholar');
+goog.module('basicview');
 
-const GoogDom = goog.require('goog.dom');
-const {CollegePageView} = goog.require('finscholar.collegepageview');
-const {HomePageController} = goog.require('finscholar.homepagecontroller');
+/** Basic view class for all view objects. */
+class BasicView {
+  constructor() {}
 
-const init = () => {
-  const homeController = new HomePageController(
-      /** @type {!Element} */ (GoogDom.getElement('main')));
-};
+  /**
+   * Renders a college list view to the container.
+   * @param {!Element} container The HTML container to load the view.
+   */
+  async renderView(container) {}
+}
 
-goog.exportSymbol('onload', init);
+exports = {BasicView}

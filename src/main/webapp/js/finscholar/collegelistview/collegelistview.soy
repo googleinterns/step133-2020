@@ -12,17 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @fileoverview Main entry point for the app. */
-
-goog.module('finscholar');
-
-const GoogDom = goog.require('goog.dom');
-const {CollegePageView} = goog.require('finscholar.collegepageview');
-const {HomePageController} = goog.require('finscholar.homepagecontroller');
-
-const init = () => {
-  const homeController = new HomePageController(
-      /** @type {!Element} */ (GoogDom.getElement('main')));
-};
-
-goog.exportSymbol('onload', init);
+{namespace finscholar.collegelistview.templates}
+{template .collegelist}
+  <div class="mdl-card__supporting-text">
+    <p> This is the college list view. </p>
+  </div>
+{/template}
