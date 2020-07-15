@@ -44,10 +44,6 @@ public class FirebaseStorageManager {
     }
   }
 
-  public static void updateDocument() {
-
-  }
-
   public static String getDocument(Firestore database, String collectionToGetFrom, String documentID, String objectType) {
     DocumentReference documentReference = database.collection(collectionToGetFrom).document(documentID);
     ApiFuture<DocumentSnapshot> snapshotFuture = documentReference.get();
@@ -67,13 +63,5 @@ public class FirebaseStorageManager {
       System.out.println("Error: " + e.toString());
     }
     return "";
-  }
-
-  public static void getCollection() {
-
-  }
-
-  public static void getCollectionAsJson() {
-
   }
 }
