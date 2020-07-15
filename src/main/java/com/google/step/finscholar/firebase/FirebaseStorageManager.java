@@ -44,7 +44,7 @@ public class FirebaseStorageManager {
     }
   }
 
-  public static String getDocument(Firestore database, String collectionToGetFrom, String documentID, String objectType) {
+  public static String getDocument(Firestore database, String collectionToGetFrom, String documentID, Class objectClass) {
     DocumentReference documentReference = database.collection(collectionToGetFrom).document(documentID);
     ApiFuture<DocumentSnapshot> snapshotFuture = documentReference.get();
     DocumentSnapshot document;
@@ -52,7 +52,7 @@ public class FirebaseStorageManager {
       document = snapshotFuture.get();
       if(document.exists()) {
         System.out.println("Document exists");
-        College objectFromDatabase = document.toObject(College.class);
+        Object objectFromDatabase = document.toObject(objectClass);
         String json = gson.toJson(objectFromDatabase);
         return json;
       } else {

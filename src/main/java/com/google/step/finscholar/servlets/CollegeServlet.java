@@ -59,7 +59,7 @@ public class CollegeServlet extends HttpServlet {
     FirebaseStorageManager.storeDocument(database, ServletConstantValues.COLLEGE_COLLECTION_NAME, CollegeData.COLLEGE);
 
     // Get the document in json.
-    String json = FirebaseStorageManager.getDocument(database, ServletConstantValues.COLLEGE_COLLECTION_NAME, "Duke", ServletConstantValues.COLLEGE_OBJECT_TYPE);
+    String json = FirebaseStorageManager.getDocument(database, ServletConstantValues.COLLEGE_COLLECTION_NAME, "Duke", College.class);
 
     // Convert the college to JSON.
     College college = CollegeData.COLLEGE;
