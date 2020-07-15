@@ -16,6 +16,7 @@
 
 goog.module('finscholar.commonlistview');
 
+const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
 const {commonlistview, scholarshiplistitems, collegelistitems} = goog.require('finscholar.commonlistview.templates');
 const googDom = goog.require('goog.dom');
 
@@ -25,19 +26,19 @@ const ITEM_CONTAINER_ID = 'table-body';
 class CommonListView {
   
   constructor(dataHandler, optionIndex) {
-    /** @private @const {ScholarshipListDataHandler} */
+    /** @private @const {ScholarshipListDataHandler | CollegeListDataHandler} */
     this.dataHandler_ = dataHandler;
     /** @private @const {string} */
     this.optionIndex_ = optionIndex;
-    /** @private @const {function(!Array<{}>):Element} */
+    /** @private @const {function({scholarships : !Array<?>}):Element} */
     this.template_ = this.optionIndex_ == '0' ? collegelistitems : scholarshiplistitems;
-    /** @private The number of batch of data has been loaded into the view. */
+    /** @private {number} The number of batch of data has been loaded into the view. */
     this.batch_ = 0;
     /** @private {Element|null} The container for all list items. */
     this.container_ = null;
-    /** @private @const {!function(jsaction.ActionFlow):undefined} */
+    /** @private @const {!function():Promise<undefined>} */
     this.bindedScrollHandler_ = this.loadNextBatch_.bind(this);
-    /** @private @const {!function():undefined} */
+    /** @private @const {!function(number):Promise<undefined>} */
     this.bindedScholarshipLoader_ = this.renderNextBatch_.bind(this);
     /** @private {number} */
     this.itemsPerBatch_ = 15;
@@ -45,7 +46,8 @@ class CommonListView {
 
   /** 
    * Loads the first two batches of list item to page. 
-   * @param {!Element} container 
+   * @param {!Element} tableContainer 
+   * The container where the entire table is rendered to.
    */
   async init(tableContainer) {
     tableContainer.innerHTML = commonlistview({pageIndex: this.optionIndex_});
@@ -57,13 +59,11 @@ class CommonListView {
 
   /**
    * Loads the next batch of data and render to the view.
-   * @param {number} itemsPerBatch The number of objects to be loaded from server.
+   * @param {number} numberOfItems The number of objects to be loaded from server.
    */
   async renderNextBatch_(numberOfItems) {
-    console.log('render');
     const dataList = await this.dataHandler_.getNextBatch(this.batch_, numberOfItems);
     try {
-      console.log('call template');
       this.container_.innerHTML += this.template_({scholarships: dataList});
     } catch (e) {
       console.log(e);

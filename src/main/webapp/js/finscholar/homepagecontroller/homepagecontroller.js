@@ -49,15 +49,13 @@ class HomePageController extends PageController {
     /** @private @const {!jsactionDispatcher} */
     this.dispatcher_ = new jsactionDispatcher();
 
-    /** @private @const {!function(jsaction.ActionFlow): undefined} */
+    /** @private @const {!function(!jsaction.ActionFlow): Promise<undefined>} */
     this.bindedNavbarOnclickHandler_ = this.handleNavbarOnclickEvent_.bind(this);
 
     /** @private {number} */
     this.navbarPageIndex_ = 0;
 
-    /** @private @const 
-     * {!Array<CollegeListView, ScholarshipListView, 
-     *     CollegePageView, ScholarshipPageView, ErrorPageView>} 
+    /** @private @const {!Array<CollegeListView, ScholarshipListView>} 
      */
     this.TEMPLATE_HANDLERS_ = [
                                CollegeListView, 
@@ -93,6 +91,22 @@ class HomePageController extends PageController {
         'clickAction': this.bindedNavbarOnclickHandler_,
         'doubleClickAction' : this.bindedNavbarOnclickHandler_,
       });
+    this.dispatcher_.registerHandlers(
+      'scholarshiplistview',
+      null,
+      {
+        'clickAction': (flow) => console.log('clicked'),
+        'doubleClickAction' : (flow) => console.log('clicked'),  
+      }
+    );
+    this.dispatcher_.registerHandlers(
+      'collegelistview',
+      null,
+      {
+        'clickAction': (flow) => console.log('clicked'),
+        'doubleClickAction' : (flow) => console.log('clicked'),  
+      }
+    );
   }
 
   /**

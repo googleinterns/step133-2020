@@ -15,26 +15,24 @@
 /** @fileoverview The mini controller for scholarship list view. */
 
 goog.module('finscholar.scholarshiplistview');
-const {scholarshiplist, scholarshiplistitem} = goog.require('finscholar.scholarshiplistview.templates');
+
 const {CommonListView} = goog.require('finscholar.commonlistview');
+const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
 const googDom = goog.require('goog.dom');
 
 /** The mini controller for scholarship list view. */
-class ScholarshipListView {
+class ScholarshipListView extends CommonListView {
   
   constructor() {
-      this.commonList_ = new CommonListView(null, scholarshiplistitem, 'id');
-    //   this.dataHandler_ = new ScholarshipListDataHandler();
+    super(new ScholarshipListDataHandler(), '1');
   }
 
   /**
    * Renders a scholarship list view to the container.
    * @param {!Element} container The HTML container to load the view.
    */
-  renderView(container) {
-    // const initialData = await fetchScholarshipListData();
-    container.innerHTML = scholarshiplist();
-    this.commonList_.init(googDom.getElement('table-body'));
+  async renderView(container) {
+    await super.init(container);
   }
 }
 

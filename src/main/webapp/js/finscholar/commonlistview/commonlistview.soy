@@ -16,7 +16,8 @@
 
 {template .commonlistview}
   {@param pageIndex : string}
-  <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+  <table class="mdl-data-table mdl-js-data-table 
+      mdl-data-table--selectable mdl-shadow--2dp">
     <thead>
       {if $pageIndex == '1'}
         {call .scholarshiplistheader /}
@@ -48,7 +49,8 @@
 {template .scholarshiplistitems}
   {@param scholarships: list<[name: string, schools: string, amount: string]>}
   {for $item in $scholarships}
-    <tr>
+    <tr jsaction="scholarshiplistview.clickAction;
+        dblclick:scholarshiplistview.doubleClickAction">
       <td class="mdl-data-table__cell--non-numeric">{$item.name}</td>
       <td>{$item.schools}</td>
       <td>{$item.amount}</td>
@@ -59,7 +61,8 @@
 {template .collegelistitems}
   {@param colleges: list<[name: string, acceptanceRate: string, averageACT: string]>}
   {for $item in $colleges}
-    <tr>
+    <tr jsaction="collegelistview.clickAction;
+        dblclick:collegelistview.doubleClickAction">
       <td class="mdl-data-table__cell--non-numeric">{$item.name}</td>
       <td>{$item.acceptanceRate}</td>
       <td>{$item.averageACT}</td>
