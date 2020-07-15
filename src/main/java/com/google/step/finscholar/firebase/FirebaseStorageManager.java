@@ -44,7 +44,7 @@ public class FirebaseStorageManager {
     }
   }
 
-  public static String getDocument(Firestore database, String collectionToGetFrom, String documentID, Class objectClass) {
+  public static String getDocument(Firestore database, String collectionToGetFrom, String documentID, Class<?> objectClass) {
     DocumentReference documentReference = database.collection(collectionToGetFrom).document(documentID);
     ApiFuture<DocumentSnapshot> snapshotFuture = documentReference.get();
     DocumentSnapshot document;
