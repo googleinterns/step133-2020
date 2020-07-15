@@ -16,6 +16,7 @@
 
 goog.module('finscholar.commonlistview');
 const {commonlistview} = goog.require('finscholar.commonlistview.templates');
+const googDom = goog.require('goog.dom');
 
 
 /** The mini controller for scholarship list view. */
@@ -36,7 +37,16 @@ class CommonListView {
   }
 
   init(container) {
-    container.innerHTML = commonlistview(null);
+    window.addEventListener('scroll', () => console.log(window.scrollY));
+    let i = 0;
+    const data = {
+      name: 'Scholarship Name', 
+      schools: 'Schools offering the scholarship', 
+      amount: 'amount',
+    }
+    for (i = 0; i < 20; i++) {
+      container.innerHTML += this.template_(data);
+    }
   }
 }
 
