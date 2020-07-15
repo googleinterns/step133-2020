@@ -37,11 +37,10 @@ public final class CollegeTest {
     users.add(UUID.randomUUID());
     users.add(UUID.randomUUID());
     
-    college = new College.CollegeBuilder("Duke University")
+    college = new College.CollegeBuilder("Duke University", "ID")
       .setInstitutionType("Private")
       .setAcceptanceRate(0.07)
       .setAverageACTScore(33)
-      .setUsersUUIDList(users)
       .setTotalCostAttendance(75000)
       .setNetCostForFirstQuintile(2000)
       .setNetCostForSecondQuintile(5000)
@@ -61,7 +60,7 @@ public final class CollegeTest {
 
   @Test
   public void isUUIDGenerated() {
-    UUID actual = college.getCollegeUuid();
+    String actual = college.getCollegeUuid();
     Assert.assertNotNull(actual);
   }
 
@@ -84,12 +83,6 @@ public final class CollegeTest {
     double expected = 33;
     double actual = college.getAverageACTScore();
     Assert.assertEquals(expected, actual, 0);
-  }
-
-  @Test
-  public void usersListCorrectlySet() {
-    List<UUID> actual = college.getUsersUUIDList();
-    Assert.assertEquals(users, actual);
   }
 
   @Test

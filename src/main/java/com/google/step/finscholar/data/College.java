@@ -34,7 +34,7 @@ public class College {
     
   }
 
-  public College(CollegeBuilder builder) {
+  private College(CollegeBuilder builder) {
     this.schoolName = builder.schoolName;
     this.collegeUUID = builder.collegeUUID;
     this.institutionType = builder.institutionType;
