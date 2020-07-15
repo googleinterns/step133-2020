@@ -129,7 +129,7 @@
                 </argument>
                 <argument>--recursive</argument>
                 <argument>--base=js/goog/base.js</argument>
-                <!--		<argument>==dep_file=jstests/deps.js</argument> -->
+                <argument>--dep_file=jstests/deps.js</argument>
                 <argument>--relative_path_to_dep_file</argument>
                 <argument>jstests</argument>
               </arguments>
