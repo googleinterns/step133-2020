@@ -14,12 +14,35 @@
 
 package com.google.step.finscholar.firebase;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.WriteResult;
 import com.google.gson.Gson;
 
 public class FirebaseStorageManager {
   private static Gson gson = new Gson();
   
-  public static void storeDocument() {
+  public static void storeDocument(Firestore database, String collectionToWriteTo, Object object) {
+    // Access the correct collection.
+    CollectionReference collectionRef = database.collection(collectionToWriteTo);
+    
+    // Create a new document in the collection.
+    DocumentReference documentRef = collectionRef.document();
+
+    // Update the document with a new object.
+    ApiFuture<WriteResult> result = documentRef.set(object);
+
+    // Print to console whenever the document has been successfully added to Firestore.
+    try {
+      System.out.println("Update time : " + result.get().getUpdateTime());
+    } catch(Exception e) {
+      System.out.printf("An error adding a new document to Firestore occurred: %s.", e);
+    }
+  }
+
+  public static void updateDocument() {
 
   }
 

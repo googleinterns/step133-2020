@@ -26,6 +26,8 @@ import com.google.step.finscholar.data.College;
 import com.google.step.finscholar.data.CollegeData;
 import com.google.step.finscholar.data.ServletConstantValues;
 import com.google.step.finscholar.firebase.FirebaseAppManager;
+import com.google.step.finscholar.firebase.FirebaseStorageManager;
+
 import java.io.IOException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -53,14 +55,8 @@ public class CollegeServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Access the correct collection.
-    CollectionReference collectionRef = database.collection(ServletConstantValues.COLLEGE_COLLECTION_NAME);
-    
-    // Create a new document in the collection.
-    DocumentReference documentRef = collectionRef.document();
-
-    // Update the document with a new object.
-    ApiFuture<WriteResult> result = documentRef.set(CollegeData.COLLEGE);
+    // Store a new document.
+    FirebaseStorageManager.storeDocument(database, ServletConstantValues.COLLEGE_COLLECTION_NAME, CollegeData.COLLEGE);
 
     // Get the document.
 
