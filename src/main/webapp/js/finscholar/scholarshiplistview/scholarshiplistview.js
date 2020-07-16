@@ -18,7 +18,6 @@ goog.module('finscholar.scholarshiplistview');
 
 const {CommonListView} = goog.require('finscholar.commonlistview');
 const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
-const googDom = goog.require('goog.dom');
 
 /** The mini controller for scholarship list view. */
 class ScholarshipListView extends CommonListView {
