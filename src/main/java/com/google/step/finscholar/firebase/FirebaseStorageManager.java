@@ -42,13 +42,19 @@ public class FirebaseStorageManager {
    *   store any serializable object. This object is required to have a public, no-parameter constructor.
    *   Also, the instance variables for that object should not be declared as final. 
    *   There are no other requirements for the object.
+   * @param id - The optional id for storing the document.
    */
-  public static void storeDocument(Firestore database, String collectionToWriteTo, Object object) throws FirebaseException {
+  public static void storeDocument(Firestore database, String collectionToWriteTo, Object object, String id) throws FirebaseException {
     // Access the correct collection.
     CollectionReference collectionRef = database.collection(collectionToWriteTo);
     
-    // Create a new document in the collection.
-    DocumentReference documentRef = collectionRef.document();
+    DocumentReference documentRef;
+
+    if (id.equals(ServletConstantValues.DEFAULT_VALUE)) {
+      documentRef = collectionRef.document();
+    } else {
+      documentRef = collectionRef.document(id);
+    }
 
     // Update the document with a new object.
     ApiFuture<WriteResult> future = documentRef.set(object);
@@ -83,7 +89,7 @@ public class FirebaseStorageManager {
       // Retrieve a document snapshot of the data point.
       document = snapshotFuture.get();
 
-      if(document.exists()) {
+      if (document.exists()) {
         // If the document snapshot exists, then convert the snapshot to a serializeable Object class.
         Object objectFromDatabase = document.toObject(Object.class);
 
