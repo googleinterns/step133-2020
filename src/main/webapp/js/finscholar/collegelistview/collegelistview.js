@@ -15,12 +15,15 @@
 /** @fileoverview The mini controller for college list view. */
 
 goog.module('finscholar.collegelistview');
-const {collegelist} = goog.require('finscholar.collegelistview.templates');
+
+const {CommonListView} = goog.require('finscholar.commonlistview');
+const {CollegeListDataHandler} = goog.require('datahandlers.collegelistdatahandler');
 
 /** The mini controller for college list view. */
-class CollegeListView {
+class CollegeListView extends CommonListView {
   
   constructor() {
+    super(new CollegeListDataHandler(), '0');
   }
 
   /**
@@ -28,7 +31,7 @@ class CollegeListView {
    * @param {!Element} container The HTML container to load the view.
    */
   renderView(container) {
-    container.innerHTML = collegelist();
+    super.init(container);
   }
 }
 
