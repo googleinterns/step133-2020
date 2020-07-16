@@ -25,14 +25,14 @@ public class FirebaseStorageManagerTest {
   @Test
   public void isRecentlySetDocumentRetrievable() {
     try {
-      FirebaseStorageManager.storeDocument(database, ServletConstantValues.TEST_COLLECTION_NAME, testObject, ServletConstantValues.TEST_DOCUMENT_NAME);
+      FirebaseStorageManager.storeDocument(firebase, ServletConstantValues.TEST_COLLECTION_NAME, testObject, ServletConstantValues.TEST_DOCUMENT_NAME);
     } catch (Exception e) {
       System.out.println(e.toString());
     }
 
     String json = "";
     try {
-      json = FirebaseStorageManager.getDocument(database, ServletConstantValues.TEST_COLLECTION_NAME, ServletConstantValues.TEST_DOCUMENT_NAME);
+      json = FirebaseStorageManager.getDocument(firebase, ServletConstantValues.TEST_COLLECTION_NAME, ServletConstantValues.TEST_DOCUMENT_NAME);
     } catch (Exception e) {
       System.out.println(e.toString());
     }
