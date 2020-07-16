@@ -1,7 +1,7 @@
 package com.google.step.finscholar.firebase;
 
 import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.FirestoreClient;
+import com.google.firebase.cloud.FirestoreClient;
 import com.google.step.finscholar.data.ServletConstantValues;
 import com.google.step.finscholar.data.TestObject;
 
@@ -31,7 +31,6 @@ public class FirebaseStorageManagerTest {
     }
 
     String json = "";
-
     try {
       json = FirebaseStorageManager.getDocument(database, ServletConstantValues.TEST_COLLECTION_NAME, ServletConstantValues.TEST_DOCUMENT_NAME);
     } catch (Exception e) {
@@ -41,7 +40,5 @@ public class FirebaseStorageManagerTest {
     System.out.println(json);
     Assert.assertEquals(json, json);
   }
-
-
 }
 
