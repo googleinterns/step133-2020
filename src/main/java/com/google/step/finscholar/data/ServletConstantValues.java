@@ -36,4 +36,5 @@ public class ServletConstantValues {
     public static final String NEW_DOCUMENT_ADDED = "New Document added to: ";
     public static final String AT = " at: ";
     public static final String DNE = " does not exist.";
+    public static final String UNABLE_TO_LOAD_FIREBASE = "Unable to load firebase: ";
 }
