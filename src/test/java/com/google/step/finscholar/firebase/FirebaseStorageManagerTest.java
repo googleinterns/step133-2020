@@ -18,7 +18,12 @@ public class FirebaseStorageManagerTest {
 
   @BeforeClass
   public static void setUp() {
-    firebase = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
+    try {
+      firebase = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    
     testObject = new TestObject(ServletConstantValues.TEST_COLLECTION_NAME, ServletConstantValues.TEST_DOCUMENT_NAME);
   }
   
