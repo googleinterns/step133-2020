@@ -37,4 +37,10 @@ public class ServletConstantValues {
     public static final String AT = " at: ";
     public static final String DNE = " does not exist.";
     public static final String UNABLE_TO_LOAD_FIREBASE = "Unable to load firebase: ";
+
+    // Constants for FirebaseAppManager.
+    public static final String SCOPE_CLOUD_URL = "https://www.googleapis.com/auth/cloud-platform";
+    public static final String SCOPE_USER_INFO_URL = "https://www.googleapis.com/auth/userinfo.email";
+    public static final String DATABASE_URL = "https://viewing-step-2020-v2.firebaseio.com";
+    public static final String PROJECT_ID = "viewing-step-2020-v2";
 }
