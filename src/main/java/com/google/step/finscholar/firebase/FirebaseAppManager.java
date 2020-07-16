@@ -19,6 +19,8 @@ import com.google.auth.appengine.AppEngineCredentials;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.step.finscholar.data.ServletConstantValues;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -36,11 +38,11 @@ public class FirebaseAppManager {
    * @return - A GoogleCredentials object representing the credentials needed to start up the Firebase service.
    */
   private static GoogleCredentials getCredentials() throws IOException {
-    if(SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
+    if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
       List<String> scopes =
         Arrays.asList(
-          "https://www.googleapis.com/auth/cloud-platform",
-          "https://www.googleapis.com/auth/userinfo.email");
+          ServletConstantValues.SCOPE_CLOUD_URL,
+          ServletConstantValues.SCOPE_USER_INFO_URL);
       return AppEngineCredentials.newBuilder().setScopes(scopes).build();
     } else {
       // Local development server
@@ -53,12 +55,12 @@ public class FirebaseAppManager {
    * @return - A FirebaseApp object that has been initialized to work with the current running build.
    */
   public static FirebaseApp getApp() throws IOException {
-    if(app == null) {
+    if (app == null) {
       FirebaseOptions options =
           new FirebaseOptions.Builder()
               .setCredentials(getCredentials())
-              .setDatabaseUrl("https://viewing-step-2020-v2.firebaseio.com")
-              .setProjectId("viewing-step-2020-v2")
+              .setDatabaseUrl(ServletConstantValues.DATABASE_URL)
+              .setProjectId(ServletConstantValues.PROJECT_ID)
               .build();
       app = FirebaseApp.initializeApp(options);
     }
