@@ -47,4 +47,5 @@ public class ServletConstantValues {
     // Constants for FirebaseStorageManagerTest.
     public static final String TEST_COLLECTION_NAME = "testObjects";
     public static final String TEST_DOCUMENT_NAME = "testDocument";
+    public static final String EXPECTED_DOCUMENT_RETRIEVABLE = "{\"one\":\"testObjects\",\"two\":\"testDocument\"}";
 }

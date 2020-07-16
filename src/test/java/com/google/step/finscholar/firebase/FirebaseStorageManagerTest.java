@@ -43,7 +43,7 @@ public class FirebaseStorageManagerTest {
     }
     
     System.out.println(json);
-    Assert.assertEquals(json, json);
+    Assert.assertEquals(json, ServletConstantValues.EXPECTED_DOCUMENT_RETRIEVABLE);
   }
 }
 
