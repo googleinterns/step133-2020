@@ -19,11 +19,13 @@ goog.module('finscholar.scholarshiplistview');
 const {CommonListView} = goog.require('finscholar.commonlistview');
 const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
 
+const SCHOLARSHIP_LIST_INDEX = '1';
+
 /** The mini controller for scholarship list view. */
 class ScholarshipListView extends CommonListView {
   
   constructor() {
-    super(new ScholarshipListDataHandler(), '1');
+    super(new ScholarshipListDataHandler(), SCHOLARSHIP_LIST_INDEX);
   }
 
   /**

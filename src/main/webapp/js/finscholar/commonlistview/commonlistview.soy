@@ -47,9 +47,10 @@
 {/template}
 
 {template .scholarshiplistitems}
-  {@param scholarships: list<[name: string, schools: string, amount: string]>}
+  {@param scholarships: list<[name: string, schools: string, amount: string, id:string]>}
   {for $item in $scholarships}
-    <tr jsaction="scholarshiplistview.clickAction;
+    <tr class="scholarship" id={$item.id}
+        jsaction="scholarshiplistview.clickAction;
         dblclick:scholarshiplistview.doubleClickAction">
       <td class="mdl-data-table__cell--non-numeric">{$item.name}</td>
       <td>{$item.schools}</td>
@@ -59,9 +60,13 @@
 {/template}
 
 {template .collegelistitems}
-  {@param colleges: list<[name: string, acceptanceRate: string, averageACT: string]>}
+  {@param colleges: list<[name: string, 
+                          acceptanceRate: string, 
+                          averageACT: string, 
+                          id:string]>}
   {for $item in $colleges}
-    <tr jsaction="collegelistview.clickAction;
+    <tr class="class" id={$item.id}
+        jsaction="collegelistview.clickAction;
         dblclick:collegelistview.doubleClickAction">
       <td class="mdl-data-table__cell--non-numeric">{$item.name}</td>
       <td>{$item.acceptanceRate}</td>
