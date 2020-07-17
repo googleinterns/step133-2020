@@ -17,11 +17,11 @@
 goog.module('finscholar.homepagecontroller');
 
 const {CollegeListView} = goog.require('finscholar.collegelistview');
-// const {CollegePageView} = goog.require('finscholar.collegepageview');
+const {CollegePageView} = goog.require('finscholar.collegepageview');
 // const {ErrorPageView} = goog.require('finscholar.errorpageview');
 const {PageController} = goog.require('pagecontroller');
 const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
-// const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
+const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const googDom = goog.require('goog.dom');
 const googSoy = goog.require('goog.soy');
@@ -60,6 +60,8 @@ class HomePageController extends PageController {
                                CollegeListView, 
                                 ScholarshipListView, 
                                ];
+    /** @private @const {!function(!jsaction.ActionFlow): Promise<undefined>} */
+    this.bindedListItemOnlickHandler_ = this.handleListItemOnclickEvent_.bind(this);
     
     this.initJsaction_();
 
@@ -94,16 +96,16 @@ class HomePageController extends PageController {
       'scholarshiplistview',
       null,
       {
-        'clickAction': (flow) => console.log('clicked'),
-        'doubleClickAction' : (flow) => console.log('clicked'),  
+        'clickAction': this.bindedListItemOnlickHandler_,
+        'doubleClickAction' : this.bindedListItemOnlickHandler_,  
       }
     );
     this.dispatcher_.registerHandlers(
       'collegelistview',
       null,
       {
-        'clickAction': (flow) => console.log('clicked'),
-        'doubleClickAction' : (flow) => console.log('clicked'),  
+        'clickAction': this.bindedListItemOnlickHandler_,
+        'doubleClickAction' : this.bindedListItemOnlickHandler_,  
       }
     );
   }
@@ -128,8 +130,19 @@ class HomePageController extends PageController {
     await this.renderPage();
   }
 
+  /**
+   * Handles click and double click events on list items.
+   * @param {!jsactionActionFlow} flow Contains the data related to the action.
+   *     and more. See actionflow.js.
+   * @private
+   */
   async handleListItemOnclickEvent_(flow) {
-    const type 
+    const id = flow.node().id;
+    if (flow.node().classList.contains('college')) {
+      (new CollegePageView).renderView(this.subView_, id);
+    } else {
+      (new ScholarshipPageView).renderView(this.subView_, id);
+    }
   }
 
   /**
