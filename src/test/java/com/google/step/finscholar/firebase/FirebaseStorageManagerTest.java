@@ -63,6 +63,7 @@ public class FirebaseStorageManagerTest {
     } catch (Exception e) {
       System.out.println(e.toString());
     }
+    System.out.println(json);
     Assert.assertNotEquals(ServletConstantValues.DEFAULT_VALUE, json);
   }
 }
