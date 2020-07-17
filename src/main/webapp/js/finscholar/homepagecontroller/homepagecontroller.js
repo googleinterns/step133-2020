@@ -133,6 +133,10 @@ class HomePageController extends PageController {
     await this.renderPage();
   }
 
+  async handleListItemOnclickEvent_(flow) {
+    const type 
+  }
+
   /**
    * Handles click and double click events on list items.
    * @param {!jsactionActionFlow} flow Contains the data related to the action.
