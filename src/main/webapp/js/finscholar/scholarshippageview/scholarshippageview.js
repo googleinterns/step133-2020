@@ -41,23 +41,20 @@ class ScholarshipPageView {
    * Render the scholarship page.
    * @public
    * @param {!Element} container - The DOM element for single scholarship page.
+   * @param {string} id - The unique id of the scholarship.
    */
-  async renderScholarship(container) {
-    // In the prototype, the id is set to 0 by default. Later we'll pass in id as parameter.
-    const id = 0;
+  async renderView(container, id) {
     let scholarshipData = undefined;
     try {
       scholarshipData = await this.dataHandler_.fetchAndFormatSingleScholarshipData(id);
     } catch (e) {
       console.log(e);
-      // Throws the error to the caller, and the caller will render an error page instead.
       throw new Error(`Cannot get data for scholarship ${id}, message: ${e}`);
     }
     try {
       container.innerHTML = scholarshippage({scholarship: scholarshipData});      
     } catch(e) {
       console.log(e);
-      // Throws the error to the caller, and the caller will render an error page instead.
       throw new Error(`Failed to generate html: ${e}`);
     }
   }
