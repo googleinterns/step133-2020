@@ -40,7 +40,7 @@ public class FirebaseStorageManagerTest {
     } catch (Exception e) {
       System.out.println(e.toString());
     }
-    String json = "";
+    String json = ServletConstantValues.DEFAULT_VALUE;
     try {
       json = FirebaseStorageManager.getDocument(firebase, ServletConstantValues.TEST_COLLECTION_NAME, ServletConstantValues.TEST_DOCUMENT_NAME);
     } catch (Exception e) {
@@ -57,13 +57,13 @@ public class FirebaseStorageManagerTest {
     } catch (Exception e) {
       System.out.println(e.toString());
     }
-    String json = "";
+    String json = ServletConstantValues.DEFAULT_VALUE;
     try {
       json = FirebaseStorageManager.getCollection(firebase, ServletConstantValues.TEST_COLLECTION_NAME);
     } catch (Exception e) {
       System.out.println(e.toString());
     }
-    Assert.assertNotEquals("", json);
+    Assert.assertNotEquals(ServletConstantValues.DEFAULT_VALUE, json);
   }
 }
 
