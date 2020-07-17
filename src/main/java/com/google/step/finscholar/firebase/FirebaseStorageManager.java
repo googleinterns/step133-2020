@@ -16,12 +16,16 @@ package com.google.step.finscholar.firebase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import javax.servlet.Servlet;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
@@ -45,7 +49,8 @@ public class FirebaseStorageManager {
    *   store any serializable object. This object is required to have a public, no-parameter constructor.
    *   Also, the instance variables for that object should not be declared as final. 
    *   There are no other requirements for the object.
-   * @param documentID - The optional id for storing the document.
+   * @param documentID - The optional id for storing the document. 
+   *   Set documentID equal to ServletConstantValues.DEFAULT_VALUE if you don't want to designate a documentID
    */
   public static void storeDocument(Firestore database, String collectionToWriteTo, Object object, String documentID) throws FirebaseException {
     // Access the correct collection.
@@ -124,6 +129,12 @@ public class FirebaseStorageManager {
     }
   }
 
+  /**
+   * This method retrieves an entire collection of firestore documents (data points).
+   * @param database - The database to retrieve from.
+   * @param collectionToGetFrom - The collection to retrieve from.
+   * @return - The collection of objects converted as a json string.
+   */
   public static String getCollection(Firestore database, String collectionToGetFrom) throws FirebaseException {
     // Retrieve a "future", which will generate a reference to the collection I want to retrieve.
     ApiFuture<QuerySnapshot> future = database.collection(collectionToGetFrom).get();
