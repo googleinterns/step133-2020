@@ -7,7 +7,6 @@ import com.google.step.finscholar.data.TestObject;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +19,7 @@ public class FirebaseStorageManagerTest {
   private static TestObject testObjectTwo;
   private static List<TestObject> testObjectList;
 
-  @Before
+  @BeforeClass
   public static void setUp() {
     try {
       firebase = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
