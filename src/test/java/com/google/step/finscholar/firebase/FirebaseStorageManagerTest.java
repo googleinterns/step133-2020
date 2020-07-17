@@ -46,7 +46,7 @@ public class FirebaseStorageManagerTest {
     } catch (Exception e) {
       System.out.println(e.toString());
     }
-    Assert.assertEquals(json, ServletConstantValues.EXPECTED_DOCUMENT_RETRIEVABLE);
+    Assert.assertEquals(ServletConstantValues.EXPECTED_DOCUMENT_RETRIEVABLE, json);
   }
 
 
@@ -55,8 +55,15 @@ public class FirebaseStorageManagerTest {
     try {
       FirebaseStorageManager.storeMultipleDocuments(firebase, ServletConstantValues.TEST_COLLECTION_NAME, testObjectList);
     } catch (Exception e) {
-      System.out.println(e);
+      System.out.println(e.toString());
     }
+    String json = "";
+    try {
+      json = FirebaseStorageManager.getCollection(firebase, ServletConstantValues.TEST_COLLECTION_NAME);
+    } catch (Exception e) {
+      System.out.println(e.toString());
+    }
+    Assert.assertNotEquals("", json);
   }
 }
 

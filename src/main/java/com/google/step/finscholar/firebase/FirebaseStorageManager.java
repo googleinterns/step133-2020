@@ -14,6 +14,7 @@
 
 package com.google.step.finscholar.firebase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.api.core.ApiFuture;
@@ -21,6 +22,7 @@ import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.FirebaseException;
@@ -77,7 +79,7 @@ public class FirebaseStorageManager {
    * @param objects
    */
   public static void storeMultipleDocuments(Firestore database, String collectionToWriteTo, List<?> objects) throws FirebaseException {
-    for(Object object : objects) {
+    for (Object object : objects) {
       try {
         storeDocument(database, collectionToWriteTo, object, ServletConstantValues.DEFAULT_VALUE);
       } catch (Exception e) {
@@ -123,10 +125,24 @@ public class FirebaseStorageManager {
   }
 
   public static String getCollection(Firestore database, String collectionToGetFrom) throws FirebaseException {
-    // Retrieve a reference to the collection I want to retrieve.
-    ApiFuture<QuerySnapshot> documentReference = database.collection(collectionToGetFrom).get();
+    // Retrieve a "future", which will generate a reference to the collection I want to retrieve.
+    ApiFuture<QuerySnapshot> future = database.collection(collectionToGetFrom).get();
     
-    return "";
+    try {
+      // Now retrieve a snapshot of all documents in the collection.
+      List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
+      // Convert the documents to objects.
+      List<Object> objects = new ArrayList<Object>();
+      for (QueryDocumentSnapshot document : documents) {
+        objects.add(document.toObject(Object.class));
+      }
+
+      // Convert the objects to JSON.
+      return gson.toJson(objects);
+    } catch (Exception e) {
+       // Throws a FirebaseException if we can't connect to firestore.
+       throw new FirebaseException(ServletConstantValues.UNABLE_TO_READ_FROM_FIRESTORE, e);
+    }
   }
 }
