@@ -14,13 +14,14 @@
 
 package com.google.step.finscholar.firebase;
 
-import javax.servlet.Servlet;
+import java.util.List;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.FirebaseException;
 import com.google.gson.Gson;
@@ -70,6 +71,22 @@ public class FirebaseStorageManager {
   }
   
   /**
+   * Stores multiple objects to the Firestore database.
+   * @param database
+   * @param collectionToWriteTo
+   * @param objects
+   */
+  public static void storeMultipleDocuments(Firestore database, String collectionToWriteTo, List<?> objects) throws FirebaseException {
+    for(Object object : objects) {
+      try {
+        storeDocument(database, collectionToWriteTo, object, ServletConstantValues.DEFAULT_VALUE);
+      } catch (Exception e) {
+        throw new FirebaseException(ServletConstantValues.UNABLE_TO_WRITE_TO_FIRESTORE + collectionToWriteTo, e);
+      }
+    }
+  }
+  
+  /**
    * This method retrieves a specified datapoint from the database based on which Collection 
    *    it is located in and a document ID. Then it converts the database's response to JSON.
    * @param database - The database I want to retrieve my data from.
@@ -103,5 +120,13 @@ public class FirebaseStorageManager {
       // Throws a FirebaseException if we can't connect to firestore.
       throw new FirebaseException(ServletConstantValues.UNABLE_TO_READ_FROM_FIRESTORE, e);
     }
+  }
+
+  public static String getCollection(Firestore database, String collectionToGetFrom) throws FirebaseException {
+    // Retrieve a reference to the collection I want to retrieve.
+    ApiFuture<QuerySnapshot> documentReference = database.collection(collectionToGetFrom).get();
+    
+    return "";
+
   }
 }

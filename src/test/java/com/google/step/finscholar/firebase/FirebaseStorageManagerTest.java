@@ -4,8 +4,10 @@ import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.step.finscholar.data.ServletConstantValues;
 import com.google.step.finscholar.data.TestObject;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,8 +17,10 @@ import org.junit.runners.JUnit4;
 public class FirebaseStorageManagerTest {
   private static Firestore firebase;
   private static TestObject testObject;
+  private static TestObject testObjectTwo;
+  private static List<TestObject> testObjectList;
 
-  @BeforeClass
+  @Before
   public static void setUp() {
     try {
       firebase = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
@@ -24,6 +28,10 @@ public class FirebaseStorageManagerTest {
       System.out.println(e);
     }
     testObject = new TestObject(ServletConstantValues.TEST_COLLECTION_NAME, ServletConstantValues.TEST_DOCUMENT_NAME);
+    testObjectTwo = new TestObject(ServletConstantValues.TEST_DOCUMENT_NAME, ServletConstantValues.TEST_COLLECTION_NAME);
+    testObjectList = new ArrayList<TestObject>();
+    testObjectList.add(testObject);
+    testObjectList.add(testObjectTwo);
   }
 
   @Test
@@ -40,6 +48,16 @@ public class FirebaseStorageManagerTest {
       System.out.println(e.toString());
     }
     Assert.assertEquals(json, ServletConstantValues.EXPECTED_DOCUMENT_RETRIEVABLE);
+  }
+
+
+  @Test
+  public void setMultipleDocumentsAndRetrieveCollection() {
+    try {
+      FirebaseStorageManager.storeMultipleDocuments(firebase, ServletConstantValues.TEST_COLLECTION_NAME, testObjectList);
+    } catch (Exception e) {
+      System.out.println(e);
+    }
   }
 }
 
