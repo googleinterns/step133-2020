@@ -148,6 +148,8 @@ class HomePageController extends PageController {
     } else {
       (new ScholarshipPageView).renderView(this.subView_, id);
     }
+    this.currentList_.removeScrollHandler();
+    this.currentList_ = null;
   }
 
   /**
