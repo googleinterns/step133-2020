@@ -31,7 +31,6 @@ const jsactionEventContract = goog.require('jsaction.EventContract');
 
 /**
  * Class for the home page controller.
- * @public
  */
 class HomePageController extends PageController {
 
