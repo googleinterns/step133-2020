@@ -47,9 +47,9 @@ public class FirebaseStorageManager {
   public static void storeDocument(Firestore database, String collectionToWriteTo, Object object, String documentID) throws FirebaseException {
     // Access the correct collection.
     CollectionReference collectionRef = database.collection(collectionToWriteTo);
-    
-    DocumentReference documentRef;
 
+    // Access/create the new document.
+    DocumentReference documentRef;
     if (documentID.equals(ServletConstantValues.DEFAULT_VALUE)) {
       documentRef = collectionRef.document();
     } else {
@@ -83,7 +83,6 @@ public class FirebaseStorageManager {
 
     // Get a "Future" for the document, which will be used to generate a DocumentSnapshot of the data point.
     ApiFuture<DocumentSnapshot> snapshotFuture = documentReference.get();
-
     DocumentSnapshot document;
     try {
       // Retrieve a document snapshot of the data point.

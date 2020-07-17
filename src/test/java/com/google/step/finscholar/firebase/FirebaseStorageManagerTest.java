@@ -23,10 +23,9 @@ public class FirebaseStorageManagerTest {
     } catch (Exception e) {
       System.out.println(e);
     }
-    
     testObject = new TestObject(ServletConstantValues.TEST_COLLECTION_NAME, ServletConstantValues.TEST_DOCUMENT_NAME);
   }
-  
+
   @Test
   public void isRecentlySetDocumentRetrievable() {
     try {
@@ -34,7 +33,6 @@ public class FirebaseStorageManagerTest {
     } catch (Exception e) {
       System.out.println(e.toString());
     }
-
     String json = "";
     try {
       json = FirebaseStorageManager.getDocument(firebase, ServletConstantValues.TEST_COLLECTION_NAME, ServletConstantValues.TEST_DOCUMENT_NAME);
