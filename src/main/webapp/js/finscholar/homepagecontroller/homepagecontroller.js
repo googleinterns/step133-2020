@@ -128,6 +128,10 @@ class HomePageController extends PageController {
     await this.renderPage();
   }
 
+  async handleListItemOnclickEvent_(flow) {
+    const type 
+  }
+
   /**
    * Render the div with id 'content' based on the click event navber buttons.
    */
