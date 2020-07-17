@@ -18,6 +18,7 @@ goog.module('finscholar.homepagecontroller');
 
 const {CollegeListView} = goog.require('finscholar.collegelistview');
 const {CollegePageView} = goog.require('finscholar.collegepageview');
+const {CommonListView} = goog.require('finscholar.commonlistview');
 // const {ErrorPageView} = goog.require('finscholar.errorpageview');
 const {PageController} = goog.require('pagecontroller');
 const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
@@ -62,6 +63,8 @@ class HomePageController extends PageController {
                                ];
     /** @private @const {!function(!jsaction.ActionFlow): Promise<undefined>} */
     this.bindedListItemOnlickHandler_ = this.handleListItemOnclickEvent_.bind(this);
+    /** @private {CommonListView} Registers the current list (if any) opened. */
+    this.currentList_ = null;
     
     this.initJsaction_();
 
@@ -143,13 +146,19 @@ class HomePageController extends PageController {
     } else {
       (new ScholarshipPageView).renderView(this.subView_, id);
     }
+    this.currentList_.removeScrollHandler();
+    this.currentList_ = null;
   }
 
   /**
    * Render the div with id 'content' based on the click event navber buttons.
    */
   async renderPage() {
-    await (new this.TEMPLATE_HANDLERS_[this.navbarPageIndex_]).renderView(this.subView_);
+    if (this.currentList_) {
+      this.currentList_.removeScrollHandler();
+    }
+    this.currentList_ = new this.TEMPLATE_HANDLERS_[this.navbarPageIndex_]();
+    await this.currentList_.renderView(this.subView_);
   }
 }
 

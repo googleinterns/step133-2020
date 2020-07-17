@@ -52,13 +52,14 @@ class CommonListView {
   async init(tableContainer) {
     tableContainer.innerHTML = commonlistview({pageIndex: this.optionIndex_});
     this.container_ = googDom.getElement(ITEM_CONTAINER_ID)
-    window.addEventListener('scroll', await this.bindedScrollHandler_);
+    window.addEventListener('scroll', this.bindedScrollHandler_);
     this.renderNextBatch_(this.itemsPerBatch_ * 2);
   }
 
   /**
    * Loads the next batch of data and render to the view.
    * @param {number} numberOfItems The number of objects to be loaded from server.
+   * @private
    */
   async renderNextBatch_(numberOfItems) {
     const dataList = await this.dataHandler_.getNextBatch(this.batch_, numberOfItems);
@@ -73,15 +74,24 @@ class CommonListView {
   /**
    * Checks if the page is about to reach the bottom,
    * if so, load one more batch of data.
+   * @private
    */
   async loadNextBatch_() {
-    const cellHeight = googDom.getFirstElementChild(this.container_).offsetHeight;
+    const cellHeight = googDom.getElement('title').offsetHeight;
     const scrolledHeight = window.scrollY;
     const browserHeight = window.innerHeight;
-    const threshold = this.batch_ * this.itemsPerBatch_ * cellHeight;
+    const threshold = (this.batch_) * this.itemsPerBatch_ * cellHeight;
     if (scrolledHeight + browserHeight > threshold) {
       await this.bindedScholarshipLoader_(this.itemsPerBatch_);
     }
+  }
+
+  /**
+   * Before the currently view is removed, call this function to remove 
+   * scroll event handler.
+   */
+  removeScrollHandler() {
+    window.removeEventListener('scroll', this.bindedScrollHandler_);
   }
 }
 
