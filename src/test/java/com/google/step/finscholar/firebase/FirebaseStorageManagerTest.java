@@ -86,7 +86,4 @@ public class FirebaseStorageManagerTest {
     System.out.println("Batch query results without ID: " + jsonWithoutID);
     Assert.assertNotEquals(ServletConstantValues.DEFAULT_VALUE, jsonWithoutID);
   }
-
-  @Test
-  public void
 }
