@@ -48,4 +48,5 @@ public class ServletConstantValues {
     public static final String TEST_COLLECTION_NAME = "testObjects";
     public static final String TEST_DOCUMENT_NAME = "testDocument";
     public static final String EXPECTED_DOCUMENT_RETRIEVABLE = "{\"one\":\"testObjects\",\"two\":\"testDocument\"}";
+    public static final int TEST_BATCH_SIZE_LIMIT = 10;
 }

@@ -18,6 +18,7 @@ public class FirebaseStorageManagerTest {
   private static TestObject testObject;
   private static TestObject testObjectTwo;
   private static List<TestObject> testObjectList;
+  private static final int TEST_BATCH_SIZE_LIMIT = 10;
 
   @BeforeClass
   public static void setUp() {
@@ -68,3 +69,24 @@ public class FirebaseStorageManagerTest {
   }
 }
 
+  @Test
+  public void retrieveCollectionBatchWithIDandWithoutID() {
+    String jsonWithID;
+    try {
+      FirebaseStorageManager.getCollectionBatch(firebase, ServletConstantValues.TEST_COLLECTION_NAME, ServletConstantValues.TEST_BATCH_SIZE_LIMIT, ServletConstantValues.TEST_DOCUMENT_NAME, ServletConstantValues.DEFAULT_VALUE);
+    } catch (Exception e) {
+      System.out.println(e.toString());
+    }
+    System.out.println("Batch query results with ID: " + jsonWithID);
+    Assert.assertNotEquals(ServletConstantValues.DEFAULT_VALUE, jsonWithID);
+
+    String jsonWithoutID;
+    try {
+      FirebaseStorageManager.getCollectionBatch(firebase, ServletConstantValues.TEST_COLLECTION_NAME, ServletConstantValues.TEST_BATCH_SIZE_LIMIT, ServletConstantValues.DEFAULT_VALUE, ServletConstantValues.DEFAULT_VALUE);
+    } catch (Exception e) {
+      System.out.println(e.toString());
+    }
+    System.out.println("Batch query results without ID: " + jsonWithoutID);
+    Assert.assertNotEquals(ServletConstantValues.DEFAULT_VALUE, jsonWithoutID);
+  }
+}
