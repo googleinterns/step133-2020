@@ -164,10 +164,8 @@ public class FirebaseStorageManager {
     // If the lastDocID is DEFAULT_VALUE (""), then we know this is the first batch to send.
     // Else simply get the next batch in the collection.
     if (lastDocID.equals(ServletConstantValues.DEFAULT_VALUE)) {
-      System.out.println("An ID was not specified.");
       return getFirstBatch(collectionReference, batchSizeLimit, parameterToSortBy);
     } else {
-      System.out.println("An ID was specified.");
       return getNextBatch(database, collectionReference, batchSizeLimit, lastDocID, parameterToSortBy);
     }
   }
@@ -187,10 +185,8 @@ public class FirebaseStorageManager {
     // Setup the new Query.
     Query page;
     if (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE)) {
-      System.out.println("Will not sort.");
       page = collectionReference.limit(batchSizeLimit);
     } else {
-      System.out.println("Will sort.");
       page = collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit);
     }
     return getCollectionQuery(page);
@@ -251,11 +247,9 @@ public class FirebaseStorageManager {
   public static String getCollectionQuery(Query page) throws FirebaseException {
     // Retrieve a "future", which will generate a reference to the query results I want to retrieve.
     ApiFuture<QuerySnapshot> future = page.get();
-    System.out.println("Retrieve future.");
     try {
       // Now retrieve a snapshot of all documents in the collection query.
       List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-      System.out.println("Documents retrieved: " + documents.toString());
       // Convert the objects to JSON.
       return convertSnapshotListToJson(documents);
     } catch (Exception e) {
@@ -270,15 +264,12 @@ public class FirebaseStorageManager {
    * @return - The json representing multiple documents.
    */
   public static String convertSnapshotListToJson(List<QueryDocumentSnapshot> documents) {
-    System.out.println("Converting to json...");
     // Convert the documents to objects.
     List<Object> objects = new ArrayList<Object>();
     for (QueryDocumentSnapshot document : documents) {
       objects.add(document.toObject(Object.class));
     }
-    System.out.println("The objects before conversion to JSON: " + objects);
     // Convert the objects to JSON.
-    System.out.println(gson.toJson(objects));
     return gson.toJson(objects);
   }
 }
