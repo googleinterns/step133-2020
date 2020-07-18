@@ -18,7 +18,6 @@ public class FirebaseStorageManagerTest {
   private static TestObject testObject;
   private static TestObject testObjectTwo;
   private static List<TestObject> testObjectList;
-  private static final int TEST_BATCH_SIZE_LIMIT = 10;
 
   @BeforeClass
   public static void setUp() {

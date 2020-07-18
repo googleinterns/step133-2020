@@ -125,6 +125,12 @@ public class FirebaseStorageManager {
     }
   }
 
+  /**
+   * This method retrieves an entire collection of firestore documents (data points).
+   * @param database - The database to retrieve from.
+   * @param collectionToGetFrom - The collection to retrieve from.
+   * @return - The collection of objects converted as a json string.
+   */
   public static String getCollection(Firestore database, String collectionToGetFrom) throws FirebaseException {
     // Retrieve a "future", which will generate a reference to the collection I want to retrieve.
     ApiFuture<QuerySnapshot> future = database.collection(collectionToGetFrom).get();
