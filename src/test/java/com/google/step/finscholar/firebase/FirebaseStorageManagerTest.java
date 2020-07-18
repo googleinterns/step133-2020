@@ -64,29 +64,30 @@ public class FirebaseStorageManagerTest {
     } catch (Exception e) {
       System.out.println(e.toString());
     }
-    System.out.println(json);
     Assert.assertNotEquals(ServletConstantValues.DEFAULT_VALUE, json);
   }
-}
 
   @Test
   public void retrieveCollectionBatchWithIDandWithoutID() {
-    String jsonWithID;
+    String jsonWithID = ServletConstantValues.DEFAULT_VALUE;
     try {
-      FirebaseStorageManager.getCollectionBatch(firebase, ServletConstantValues.TEST_COLLECTION_NAME, ServletConstantValues.TEST_BATCH_SIZE_LIMIT, ServletConstantValues.TEST_DOCUMENT_NAME, ServletConstantValues.DEFAULT_VALUE);
+      jsonWithID = FirebaseStorageManager.getCollectionBatch(firebase, ServletConstantValues.TEST_COLLECTION_NAME, ServletConstantValues.TEST_BATCH_SIZE_LIMIT, ServletConstantValues.TEST_DOCUMENT_NAME, ServletConstantValues.DEFAULT_VALUE);
     } catch (Exception e) {
       System.out.println(e.toString());
     }
     System.out.println("Batch query results with ID: " + jsonWithID);
     Assert.assertNotEquals(ServletConstantValues.DEFAULT_VALUE, jsonWithID);
 
-    String jsonWithoutID;
+    String jsonWithoutID = ServletConstantValues.DEFAULT_VALUE;
     try {
-      FirebaseStorageManager.getCollectionBatch(firebase, ServletConstantValues.TEST_COLLECTION_NAME, ServletConstantValues.TEST_BATCH_SIZE_LIMIT, ServletConstantValues.DEFAULT_VALUE, ServletConstantValues.DEFAULT_VALUE);
+      jsonWithoutID = FirebaseStorageManager.getCollectionBatch(firebase, ServletConstantValues.TEST_COLLECTION_NAME, ServletConstantValues.TEST_BATCH_SIZE_LIMIT, ServletConstantValues.DEFAULT_VALUE, ServletConstantValues.DEFAULT_VALUE);
     } catch (Exception e) {
       System.out.println(e.toString());
     }
     System.out.println("Batch query results without ID: " + jsonWithoutID);
     Assert.assertNotEquals(ServletConstantValues.DEFAULT_VALUE, jsonWithoutID);
   }
+
+  @Test
+  public void
 }
