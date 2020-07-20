@@ -31,7 +31,7 @@ public class FirebaseStorageManager {
   private static Gson gson = new Gson();
 
   /** Formatter for when a new doc has been added. */
-  private static final String ADDED_NEW_DOC_FORMATTER = "%s %s %s %t";
+  private static final String ADDED_NEW_DOC_FORMATTER = "%s %s %s %s";
 
   /** Logger that sends logs to the Cloud Project console. */
   private static final Logger log = Logger.getLogger(FirebaseStorageManager.class.getName());
@@ -65,7 +65,7 @@ public class FirebaseStorageManager {
     try {
       // Log that a new document has been added to database.
       String message = String.format(ADDED_NEW_DOC_FORMATTER, ServletConstantValues.NEW_DOCUMENT_ADDED + 
-          collectionToWriteTo + ServletConstantValues.AT + future.get().getUpdateTime());
+          collectionToWriteTo + ServletConstantValues.AT + future.get().getUpdateTime().toString());
       log.info(message);
       
     } catch (Exception e) {
