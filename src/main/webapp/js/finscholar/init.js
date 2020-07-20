@@ -16,12 +16,14 @@
 
 goog.module('finscholar');
 
-const googDom = goog.require('goog.dom');
-const {HomePageController} = goog.require('finscholar.homepagecontroller');
+const {AppState} = goog.require('finscholar.appstate');
 
+/**
+ * Main entry point for the app.
+ * @return {!AppState}
+ */
 const init = () => {
-  const homeController = new HomePageController(
-      /** @type {!Element} */ (googDom.getElement('main')));
+  return new AppState();
 };
 
 goog.exportSymbol('onload', init);

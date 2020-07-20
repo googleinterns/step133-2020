@@ -18,8 +18,8 @@
  */
 
 goog.module('datahandlers.collegepage');
+
 const {collegepage} = goog.require('finscholar.collegepageview.templates');
-const {ErrorData, ErrorPageView} = goog.require('finscholar.errorpageview');
 
 /** This constant is the endpoint to send a fetch request to. */
 const COLLEGE_SERVLET_ENDPOINT = '/college-data';
@@ -36,17 +36,17 @@ const ACTION_SERVER_ERROR = 'The database failed to retrieve the college. \
 
 /**
  * @typedef {{
- *   schoolName: !string,
- *   institutionType: !string,
- *   acceptanceRate: !number,
- *   averageACTScore: !number,
- *   totalCostAttendance: !number,
- *   netCostForFirstQuintile: !number,
- *   netCostForSecondQuintile: !number,
- *   netCostForThirdQuintile: !number,
- *   netCostForFourthQuintile: !number,
- *   netCostForFifthQuintile: !number,
- *   cumulativeMedianDebt: !number
+ *   schoolName: string,
+ *   institutionType: string,
+ *   acceptanceRate: number,
+ *   averageACTScore: number,
+ *   totalCostAttendance: number,
+ *   netCostForFirstQuintile: number,
+ *   netCostForSecondQuintile: number,
+ *   netCostForThirdQuintile: number,
+ *   netCostForFourthQuintile: number,
+ *   netCostForFifthQuintile: number,
+ *   cumulativeMedianDebt: number
  * }}
  */
 let CollegeObject;
@@ -101,29 +101,32 @@ const loadCollegeData = async (element) => {
 
   try {
     json = await loadCollegeJson_();
-  } catch (err) {
+  } catch (error) {
     loadErrorPage_(
-        element, OCCURRENCE_JSON_UNDEFINED, ACTION_JSON_UNDEFINED, err);
+        element, OCCURRENCE_JSON_UNDEFINED, ACTION_JSON_UNDEFINED, error);
   }
 
   try {
     const data = await convertFromJsonToTemplate_(json);
     const html = collegepage(data);
     element.innerHTML = html;
-  } catch (err) {
-    loadErrorPage_(element, OCCURRENCE_SERVER_ERROR, ACTION_SERVER_ERROR, err);
+  } catch (error) {
+    loadErrorPage_(
+        element, OCCURRENCE_SERVER_ERROR, ACTION_SERVER_ERROR, error);
   }
 };
 
 /**
  * Loads the error page.
- * @param
  * @private
  */
 const loadErrorPage_ = (element, occurrence, action, error) => {
-  const errorPage = new ErrorPageView(/** @type {!ErrorData|undefined} */ (
-      {occurrence: occurrence, action: action, errorMessage: err.toString()}));
-  errorPage.renderView(element);
+  //  const errorPage = new ErrorPageView(/** @type {!ErrorData|undefined} */ ({
+  //    occurrence: occurrence,
+  //    action: action,
+  //    errorMessage: error.toString()
+  //  }));
+  //  errorPage.renderView(element);
 };
 
 exports = {loadCollegeData};

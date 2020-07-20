@@ -16,10 +16,10 @@
 
 goog.module('finscholar.scholarshippageview');
 
-const GoogDom = goog.require('goog.dom');
 const {BasicView} = goog.require('basicview');
-const {scholarshippage} = goog.require('example.templates.scholarshippageviews');
 const {ScholarshipDataHandler} = goog.require('datahandlers.scholarshipdatahandler');
+const {scholarshippage} = goog.require('example.templates.scholarshippageviews');
+
 
 /** Class for scholarship page view. */
 class ScholarshipPageView extends BasicView {
@@ -34,10 +34,9 @@ class ScholarshipPageView extends BasicView {
 
   /**
    * Render the scholarship page.
-   * @param {!Element} container - The DOM element for single scholarship page.
    * @override
    */
-  async renderView(container) {
+  async renderView() {
     // In the prototype, the id is set to 0 by default. Later we'll pass in id
     // as parameter.
     const id = 0;
@@ -52,7 +51,8 @@ class ScholarshipPageView extends BasicView {
       throw new Error(`Cannot get data for scholarship ${id}, message: ${e}`);
     }
     try {
-      container.innerHTML = scholarshippage({scholarship: scholarshipData});
+      super.setCurrentContent(scholarshippage({scholarship: scholarshipData}));
+      super.resetAndUpdate();
     } catch (e) {
       console.log(e);
       // Throws the error to the caller, and the caller will render an error

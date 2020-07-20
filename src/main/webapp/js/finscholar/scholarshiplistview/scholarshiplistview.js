@@ -29,11 +29,11 @@ class ScholarshipListView extends BasicView {
 
   /**
    * Renders a scholarship list view to the container.
-   * @param {!Element} container The HTML container to load the view.
    * @override
    */
-  async renderView(container) {
-    container.innerHTML = scholarshiplist();
+  async renderView() {
+    super.setCurrentContent(scholarshiplist());
+    super.resetAndUpdate();
   }
 }
 
