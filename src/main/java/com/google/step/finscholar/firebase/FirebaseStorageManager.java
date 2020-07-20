@@ -14,8 +14,6 @@
 
 package com.google.step.finscholar.firebase;
 
-import javax.servlet.Servlet;
-
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
@@ -60,9 +58,10 @@ public class FirebaseStorageManager {
     // Update the document with a new object.
     ApiFuture<WriteResult> future = documentRef.set(object);
     try {
-      // Print to console which Collection I added to and when.
+      // Log that a new document has been added to database.
       String message = String.format(ADDED_NEW_DOC_FORMATTER, ServletConstantValues.NEW_DOCUMENT_ADDED + 
-      collectionToWriteTo + ServletConstantValues.AT + future.get().getUpdateTime());
+          collectionToWriteTo + ServletConstantValues.AT + future.get().getUpdateTime());
+      
       
     } catch (Exception e) {
       // Throws a FirebaseException if unsuccessful in adding new document.
