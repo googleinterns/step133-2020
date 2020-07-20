@@ -29,7 +29,6 @@ const {ErrorData, ErrorPageView} = goog.require('finscholar.errorpageview');
 const {PageController} = goog.require('pagecontroller');
 const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
 const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
-const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const googDom = goog.require('goog.dom');
 const googSoy = goog.require('goog.soy');
 const jsactionActionFlow = goog.require('jsaction.ActionFlow');
