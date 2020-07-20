@@ -12,16 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @fileoverview Main entry point for the app. */
+/** @fileoverview This file contains util functions. */
 
-goog.module('finscholar');
+goog.module('datahandlers.utils');
 
-const googDom = goog.require('goog.dom');
-const {HomePageController} = goog.require('finscholar.homepagecontroller');
+/** 
+ * Converts camelcase string to phrases.
+ * @param {string} str The camelcase string.
+ * @returns The formatted string.
+ */
+const addSpaceToCamelCase = (str) => {
+  let result = str.replace( /([A-Z])/g, " $1" );
+  return result.charAt(0).toUpperCase() + result.slice(1);
+}
 
-const init = () => {
-  const homeController = new HomePageController(
-        /** @type {!Element} */ (googDom.getElement('main')));
-};
-
-goog.exportSymbol('onload', init);
+exports = {addSpaceToCamelCase};

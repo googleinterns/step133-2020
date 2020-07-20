@@ -34,11 +34,13 @@ class ScholarshipPageView extends BasicView {
 
   /**
    * Render the scholarship page.
+   * @public
    * @param {!Element} container - The DOM element for single scholarship page.
    * @override
    */
-  async renderView(container) {
-    let id = '0';
+  async renderScholarship(container) {
+    // In the prototype, the id is set to 0 by default. Later we'll pass in id as parameter.
+    const id = 0;
     let scholarshipData = undefined;
     try {
       scholarshipData =
