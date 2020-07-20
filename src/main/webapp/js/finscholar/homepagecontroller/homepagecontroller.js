@@ -19,7 +19,7 @@ goog.module('finscholar.homepagecontroller');
 const {CollegeListView} = goog.require('finscholar.collegelistview');
 const {CollegePageView} = goog.require('finscholar.collegepageview');
 const {CommonListView} = goog.require('finscholar.commonlistview');
-// const {ErrorPageView} = goog.require('finscholar.errorpageview');
+const {ErrorPageView} = goog.require('finscholar.errorpageview');
 const {PageController} = goog.require('pagecontroller');
 const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
 const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
@@ -29,6 +29,8 @@ const googSoy = goog.require('goog.soy');
 const jsactionActionFlow = goog.require('jsaction.ActionFlow');
 const jsactionDispatcher = goog.require('jsaction.Dispatcher');
 const jsactionEventContract = goog.require('jsaction.EventContract');
+
+const ERROR_ACTION = 'Please try to reload the page.';
 
 /**
  * Class for the home page controller.
@@ -130,7 +132,11 @@ class HomePageController extends PageController {
   async handleNavbarOnclickEvent_(flow) {
     const index = flow.node().getAttribute('index');
     this.navbarPageIndex_ = parseInt(index, 10);
-    await this.renderPage();
+    try {
+      await this.renderPage();
+    } catch(e) {
+      ErrorPageView.renderErrorPage(this.subView_, e.message, ERROR_ACTION, e.stack);
+    }
   }
 
   /**
@@ -140,14 +146,20 @@ class HomePageController extends PageController {
    * @private
    */
   async handleListItemOnclickEvent_(flow) {
-    const id = flow.node().id;
-    if (flow.node().classList.contains('college')) {
-      (new CollegePageView).renderView(this.subView_, id);
-    } else {
-      (new ScholarshipPageView).renderView(this.subView_, id);
+    try {
+      const node = flow.node();
+      const id = node.id;
+      if (node.classList.contains('college')) {
+        await (new CollegePageView()).renderView(this.subView_, id);
+      } else {
+        await (new ScholarshipPageView()).renderView(this.subView_, id);
+      }
+    } catch(e) {
+      ErrorPageView.renderErrorPage(this.subView_, e.message, ERROR_ACTION, e.stack);
+    } finally {
+      this.currentList_.removeScrollHandler();
+      this.currentList_ = null;
     }
-    this.currentList_.removeScrollHandler();
-    this.currentList_ = null;
   }
 
   /**
@@ -157,8 +169,12 @@ class HomePageController extends PageController {
     if (this.currentList_) {
       this.currentList_.removeScrollHandler();
     }
-    this.currentList_ = new this.TEMPLATE_HANDLERS_[this.navbarPageIndex_]();
-    await this.currentList_.renderView(this.subView_);
+    try {
+      this.currentList_ = new this.TEMPLATE_HANDLERS_[this.navbarPageIndex_]();
+      await this.currentList_.renderView(this.subView_);
+    } catch(e) {
+      ErrorPageView.renderErrorPage(this.subView_, e.message, ERROR_ACTION, e.stack);
+    }
   }
 }
 
