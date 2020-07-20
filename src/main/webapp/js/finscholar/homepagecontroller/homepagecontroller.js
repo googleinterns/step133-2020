@@ -16,7 +16,6 @@
 
 goog.module('finscholar.homepagecontroller');
 
-<<<<<<< HEAD
 const JsactionActionFlow = goog.require('jsaction.ActionFlow');
 const JsactionDispatcher = goog.require('jsaction.Dispatcher');
 const JsactionEventContract = goog.require('jsaction.EventContract');
@@ -27,11 +26,6 @@ const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const {CollegeListView} = goog.require('finscholar.collegelistview');
 const {CollegePageView} = goog.require('finscholar.collegepageview');
 const {ErrorData, ErrorPageView} = goog.require('finscholar.errorpageview');
-=======
-const {CollegeListView} = goog.require('finscholar.collegelistview');
-const {CollegePageView} = goog.require('finscholar.collegepageview');
-const {ErrorPageView} = goog.require('finscholar.errorpageview');
->>>>>>> devel
 const {PageController} = goog.require('pagecontroller');
 const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
 const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
