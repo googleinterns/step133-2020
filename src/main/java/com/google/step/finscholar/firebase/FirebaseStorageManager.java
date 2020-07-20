@@ -30,8 +30,10 @@ public class FirebaseStorageManager {
   /** This is used to convert Objects into JSON strings to send to the frontend. */
   private static Gson gson = new Gson();
 
-  /** Formatter for when a new doc has been added. */
-  private static final String ADDED_NEW_DOC_FORMATTER = "%s %s %s %s";
+  /** Formatters to use with String.format(). */
+  private static final String ADDED_NEW_DOC_FORMATTER = "%s%s%s%s";
+  private static final String EXCEPTION_DNE_FORMATTER = "%s%s%s";
+  private static final String EXCEPTION_FORMATTER = "%s%s";
 
   /** Logger that sends logs to the Cloud Project console. */
   private static final Logger log = Logger.getLogger(FirebaseStorageManager.class.getName());
@@ -70,7 +72,7 @@ public class FirebaseStorageManager {
       
     } catch (Exception e) {
       // Throws a FirebaseException if unsuccessful in adding new document.
-      String message = ServletConstantValues.UNABLE_TO_WRITE_TO_FIRESTORE + collectionToWriteTo;
+      String message = String.format(EXCEPTION_FORMATTER, ServletConstantValues.UNABLE_TO_WRITE_TO_FIRESTORE , collectionToWriteTo);
       throw new FirebaseException(message, e);
     }
   }
@@ -102,7 +104,7 @@ public class FirebaseStorageManager {
         return gson.toJson(objectFromDatabase);
       } else {
         // Throws a Firebase Exception if the document does not exist.
-        String message = ServletConstantValues.DOCUMENT + documentID + ServletConstantValues.DNE;
+        String message = String.format(EXCEPTION_DNE_FORMATTER, ServletConstantValues.DOCUMENT, documentID, ServletConstantValues.DNE);
         throw new FirebaseException(message);
       }
     } catch (Exception e) {
