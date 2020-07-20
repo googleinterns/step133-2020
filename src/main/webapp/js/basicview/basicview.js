@@ -16,15 +16,65 @@
 
 goog.module('basicview');
 
+const googDom = goog.require('goog.dom');
+const googSoy = goog.require('goog.soy');
+const {root} = goog.require('basicview.templates');
+
+/** @const {string} */
+const DEFAULT_PAGE_TITLE = 'finscholar';
+
 /** Basic view class for all view objects. */
 class BasicView {
-  constructor() {}
+  constructor() {
+    /** @private @type {string} */
+    this.pageTitle_ = DEFAULT_PAGE_TITLE;
+    /** @private @type {?googSoy.data.SanitizedHtml} */
+    this.currentContent_ = null;
+  }
 
   /**
-   * Renders a college list view to the container.
-   * @param {!Element} container The HTML container to load the view.
+   * Returns the current page's title.
+   * @return {string} Title.
    */
-  async renderView(container) {}
+  getPageTitle() {
+    return this.pageTitle_;
+  }
+
+  /**
+   * @param {string} title
+   */
+  setPageTitle(title) {
+    this.pageTitle_ = title;
+  }
+
+  /**
+   * Returns the main content of the page and null if blank.
+   * @return {?googSoy.data.SanitizedHtml}
+   */
+  getCurrentContent() {
+    return this.currentContent_;
+  }
+
+  /**
+   * @param {?googSoy.data.SanitizedHtml} currentContent
+   */
+  setCurrentContent(currentContent) {
+    this.currentContent_ = currentContent;
+  }
+
+  /**
+   * Helper function for resetting and updating the whole page.
+   */
+  resetAndUpdate() {
+    googDom.getDocument().documentElement.innerHTML =
+        root(/** @type {!root.Params} */ (
+            {pageTitle: this.pageTitle_, content: this.currentContent_}));
+  }
+
+  /**
+   * Public method for updating the current view.
+   */
+  async renderView() {}
 }
 
-exports = {BasicView}
+exports = {BasicView};
