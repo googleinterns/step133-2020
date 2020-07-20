@@ -149,8 +149,9 @@ class HomePageController extends PageController {
    */
   async handleListItemOnclickEvent_(flow) {
     try {
-      const id = flow.node().id;
-      if (flow.node().classList.contains('college')) {
+      const node = flow.node();
+      const id = node.id;
+      if (node.classList.contains('college')) {
         await (new CollegePageView()).renderView(this.subView_, id);
       } else {
         await (new ScholarshipPageView()).renderView(this.subView_, id);
