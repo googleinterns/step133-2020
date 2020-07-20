@@ -22,7 +22,7 @@ const {scholarshiplist} = goog.require('finscholar.scholarshiplistview.templates
 /** The mini controller for scholarship list view. */
 class ScholarshipListView extends BasicView {
   constructor() {
-    // TODO: In MVP, we'll add member variables such as pages, the array of scholarship etc.
+    super();
   }
 
   /**

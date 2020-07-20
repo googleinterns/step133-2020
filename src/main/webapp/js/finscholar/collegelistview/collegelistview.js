@@ -21,6 +21,7 @@ const {collegelist} = goog.require('finscholar.collegelistview.templates');
 /** The mini controller for college list view. */
 class CollegeListView extends BasicView {
   constructor() {
+    super();
   }
 
   /**
