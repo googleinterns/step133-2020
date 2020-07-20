@@ -42,9 +42,9 @@ class CommonListView {
     this.bindedScrollHandler_ = this.loadNextBatch_.bind(this);
     /** @private @const {!function(number):Promise<undefined>} */
     this.bindedDataLoader_ = this.renderNextBatch_.bind(this);
-     /** @private {number} */
+     /** @private {number} Number of items to be added for each laod. */
     this.itemsPerBatch_ = 15;
-    /** @private {string} */
+    /** @private {string} The id of the last item in the list. */
     this.idOfLastItem_ = EMPTY_STRING;
     /** @private @const {Element|null} */
     this.statusBar_ = null;
@@ -60,8 +60,12 @@ class CommonListView {
     this.container_ = googDom.getElement(ITEM_CONTAINER_ID)
     this.statusBar_ = googDom.getElement(STATUS_BAR_ID);
     window.addEventListener('scroll', this.bindedScrollHandler_);
-    this.renderNextBatch_(this.itemsPerBatch_ * 2);
-    this.batch_ = 2;
+    try {
+      await this.renderNextBatch_(this.itemsPerBatch_ * 2);
+    } catch(e) {
+      console.log(e);
+      throw e;
+    }
   }
 
   /**
@@ -91,7 +95,7 @@ class CommonListView {
     const cellHeight = googDom.getFirstElementChild(this.container_).offsetHeight;
     const scrolledHeight = window.scrollY;
     const browserHeight = window.innerHeight;
-    const threshold = (this.batch_ - 1) * this.itemsPerBatch_ * cellHeight;
+    const threshold = this.batch_ * this.itemsPerBatch_ * cellHeight;
     if (scrolledHeight + browserHeight > threshold) {
       try {
         await this.bindedDataLoader_(this.itemsPerBatch_);
