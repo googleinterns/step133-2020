@@ -23,14 +23,19 @@ import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.FirebaseException;
 import com.google.gson.Gson;
 import com.google.step.finscholar.data.ServletConstantValues;
-
+import java.util.logging.Logger;
 
 /** This class handles writing to and reading from a Cloud Firestore database. */
 public class FirebaseStorageManager {
   /** This is used to convert Objects into JSON strings to send to the frontend. */
   private static Gson gson = new Gson();
+
+  /** Formatter for when a new doc has been added. */
   private static final String ADDED_NEW_DOC_FORMATTER = "%s %s %s %t";
-  
+
+  /** Logger that sends logs to the Cloud Project console. */
+  private static final Logger log = Logger.getLogger(FirebaseStorageManager.class.getName());
+
   /** 
    * This method stores an object as a DocumentReference (a data point) 
    *   inside a Collection (of DocumentReferences) in Firestore. 
@@ -61,7 +66,7 @@ public class FirebaseStorageManager {
       // Log that a new document has been added to database.
       String message = String.format(ADDED_NEW_DOC_FORMATTER, ServletConstantValues.NEW_DOCUMENT_ADDED + 
           collectionToWriteTo + ServletConstantValues.AT + future.get().getUpdateTime());
-      
+      log.info(message);
       
     } catch (Exception e) {
       // Throws a FirebaseException if unsuccessful in adding new document.
