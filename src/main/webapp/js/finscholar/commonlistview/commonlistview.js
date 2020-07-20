@@ -28,24 +28,34 @@ const STATUS_BAR_ID = 'status';
 class CommonListView {
   
   constructor(dataHandler, optionIndex) {
+
     /** @private @const {ScholarshipListDataHandler | CollegeListDataHandler} */
     this.dataHandler_ = dataHandler;
+
     /** @private @const {string} */
     this.optionIndex_ = optionIndex;
+
     /** @private @const {function({scholarships : !Array<?>}):Element} */
     this.template_ = this.optionIndex_ == '0' ? collegelistitems : scholarshiplistitems;
+
     /** @private {number} The number of batch of data has been loaded into the view. */
     this.batch_ = 0;
+
     /** @private {Element|null} The container for all list items. */
     this.container_ = null;
+
     /** @private @const {!function():Promise<undefined>} */
     this.bindedScrollHandler_ = this.loadNextBatch_.bind(this);
+
     /** @private @const {!function(number):Promise<undefined>} */
     this.bindedDataLoader_ = this.renderNextBatch_.bind(this);
+
      /** @private {number} Number of items to be added for each laod. */
     this.itemsPerBatch_ = 15;
+
     /** @private {string} The id of the last item in the list. */
     this.idOfLastItem_ = EMPTY_STRING;
+    
     /** @private @const {Element|null} */
     this.statusBar_ = null;
   }
