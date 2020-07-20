@@ -27,9 +27,7 @@ const COLLEGE_LIST_ENDPT = '';
  */
 class CollegeListDataHandler {
 
-  constructor() {
-
-  }
+  constructor() {}
 
   /** @returns The total number of scholarship stored in backend. */
   async getTotalNumber() {
@@ -46,4 +44,4 @@ class CollegeListDataHandler {
   }
 }
 
-exports = {ScholarshipListDataHandler}
+exports = {CollegeListDataHandler}
