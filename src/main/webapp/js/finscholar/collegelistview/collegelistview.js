@@ -15,19 +15,20 @@
 /** @fileoverview The mini controller for college list view. */
 
 goog.module('finscholar.collegelistview');
+const {BasicView} = goog.require('basicview');
 const {collegelist} = goog.require('finscholar.collegelistview.templates');
 
 /** The mini controller for college list view. */
-class CollegeListView {
-  
+class CollegeListView extends BasicView {
   constructor() {
   }
 
   /**
    * Renders a college list view to the container.
    * @param {!Element} container The HTML container to load the view.
+   * @override
    */
-  renderView(container) {
+  async renderView(container) {
     container.innerHTML = collegelist();
   }
 }
