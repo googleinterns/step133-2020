@@ -14,13 +14,13 @@
 
 package com.google.step.finscholar.servlets;
 
-
 import static com.google.step.finscholar.data.ServletConstantValues.DEFAULT_VALUE;
 import static com.google.step.finscholar.data.ServletConstantValues.JSON_CONTENT_TYPE;
 import static com.google.step.finscholar.data.ServletConstantValues.SCHOLARSHIP_COLLECTION_NAME;
 import static com.google.step.finscholar.data.ServletConstantValues.UNABLE_TO_LOAD_FIREBASE;
+import static com.google.step.finscholar.data.Utils.getIntParameter;
 import static com.google.step.finscholar.data.Utils.getStringParameter;
-import static com.google.step.finscholar.firebase.FirebaseStorageManager.getDocument;
+import static com.google.step.finscholar.firebase.FirebaseStorageManager.getCollectionBatch;
 
 import com.google.step.finscholar.firebase.FirebaseAppManager;
 import com.google.cloud.firestore.Firestore;
@@ -33,22 +33,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** The servlet handling all requests related to scholarships. */
-@WebServlet("/scholarship-data")
-public class ScholarshipServlet extends HttpServlet {
-
-  String ID = "id";
+@WebServlet("/scholarship-list")
+public class ScholarshipListServlet extends HttpServlet {
+    
+  String BATCH_INDEX = "batchIndex";
+  String ITEMS_PER_BATCH = "numberOfItems";
+  String ID_OF_LAST_ITEM = "idOfLastItem";
+  String SORT_BY = "sortBy";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
     Firestore database;
-    String id = DEFAULT_VALUE;
     try {
       database = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
-      id = getStringParameter(request, id, DEFAULT_VALUE);
+      int batchSize = getIntParameter(request, BATCH_INDEX);
+      int itemsPerBatch = getIntParameter(request, ITEMS_PER_BATCH);
+      String idOfLastItem = getStringParameter(request, ID_OF_LAST_ITEM, DEFAULT_VALUE);
+      String sortBy = getStringParameter(request, SORT_BY, DEFAULT_VALUE);
+    
       response.setContentType(JSON_CONTENT_TYPE);
-      response.getWriter().println(getDocument(database, SCHOLARSHIP_COLLECTION_NAME, id));
+      response.getWriter().println(
+        getCollectionBatch(database, SCHOLARSHIP_COLLECTION_NAME, batchSize, idOfLastItem, sortBy));
     } catch (Exception e) {
       response.sendError(HttpServletResponse.SC_BAD_GATEWAY, UNABLE_TO_LOAD_FIREBASE + e);
     }
