@@ -16,10 +16,8 @@
 
 goog.module('finscholar.singlepageview');
 
-const GoogDom = goog.require('goog.dom');
-
 /**
- * Class for scholarship page view.
+ * Class for single scholarship/college page view.
  * @public
  */
 class SinglePageView {
@@ -29,12 +27,12 @@ class SinglePageView {
    */
   constructor(dataHandler, template) {
     /** 
-     * @private @const {!ScholarshipDataHandler | CollegePageDataHandler} dataHandler_ 
+     * @private @const {!ScholarshipDataHandler | !CollegePageDataHandler} dataHandler_ 
      * The object fetches and formats scholarship data.
      */
     this.dataHandler_ = dataHandler;
     /**
-     * @private @const {function(?):Element}
+     * @private @const {!function(?):Element}
      */
     this.template_ = template;
   }
