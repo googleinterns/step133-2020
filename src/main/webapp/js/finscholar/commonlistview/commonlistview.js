@@ -17,10 +17,12 @@
 goog.module('finscholar.commonlistview');
 
 const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
-const {commonlistview, scholarshiplistitems, collegelistitems} = goog.require('finscholar.commonlistview.templates');
+const {commonlistview, scholarshiplistitems, collegelistitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
 const googDom = goog.require('goog.dom');
 
+const EMPTY_STRING = '';
 const ITEM_CONTAINER_ID = 'table-body';
+const STATUS_BAR_ID = 'status';
 
 /** The mini controller for scholarship list view. */
 class CommonListView {
@@ -39,9 +41,13 @@ class CommonListView {
     /** @private @const {!function():Promise<undefined>} */
     this.bindedScrollHandler_ = this.loadNextBatch_.bind(this);
     /** @private @const {!function(number):Promise<undefined>} */
-    this.bindedScholarshipLoader_ = this.renderNextBatch_.bind(this);
-    /** @private {number} */
+    this.bindedDataLoader_ = this.renderNextBatch_.bind(this);
+     /** @private {number} */
     this.itemsPerBatch_ = 15;
+    /** @private {string} */
+    this.idOfLastItem_ = EMPTY_STRING;
+    /** @private @const {Element|null} */
+    this.statusBar_ = null;
   }
 
   /** 
@@ -52,8 +58,10 @@ class CommonListView {
   async init(tableContainer) {
     tableContainer.innerHTML = commonlistview({pageIndex: this.optionIndex_});
     this.container_ = googDom.getElement(ITEM_CONTAINER_ID)
-    window.addEventListener('scroll', await this.bindedScrollHandler_);
+    this.statusBar_ = googDom.getElement(STATUS_BAR_ID);
+    window.addEventListener('scroll', this.bindedScrollHandler_);
     this.renderNextBatch_(this.itemsPerBatch_ * 2);
+    this.batch_ = 2;
   }
 
   /**
@@ -61,13 +69,18 @@ class CommonListView {
    * @param {number} numberOfItems The number of objects to be loaded from server.
    */
   async renderNextBatch_(numberOfItems) {
-    const dataList = await this.dataHandler_.getNextBatch(this.batch_, numberOfItems);
+    this.statusBar_.innerHTML = loading();
     try {
+      const dataList = await this.dataHandler_
+                        .getNextBatch(this.batch_, numberOfItems, this.idOfLastItem_);
+      this.idOfLastItem_ = dataList[dataList.length - 1].id;
       this.container_.innerHTML += this.template_({scholarships: dataList});
+      this.statusBar_.innerHTML = endoflist();
+      this.batch_ += 1;
     } catch (e) {
       console.log(e);
+      throw e;
     }
-    this.batch_ += 1;
   }
 
   /**
@@ -78,9 +91,14 @@ class CommonListView {
     const cellHeight = googDom.getFirstElementChild(this.container_).offsetHeight;
     const scrolledHeight = window.scrollY;
     const browserHeight = window.innerHeight;
-    const threshold = this.batch_ * this.itemsPerBatch_ * cellHeight;
+    const threshold = (this.batch_ - 1) * this.itemsPerBatch_ * cellHeight;
     if (scrolledHeight + browserHeight > threshold) {
-      await this.bindedScholarshipLoader_(this.itemsPerBatch_);
+      try {
+        await this.bindedDataLoader_(this.itemsPerBatch_);
+      } catch (e) {
+        console.log(e);
+        throw e;
+      }
     }
   }
 }
