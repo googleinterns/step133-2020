@@ -16,47 +16,21 @@
 
 goog.module('finscholar.scholarshippageview');
 
-const GoogDom = goog.require('goog.dom');
-const {scholarshippage} = goog.require('example.templates.scholarshippageviews');
 const {ScholarshipDataHandler} = goog.require('datahandlers.scholarshipdatahandler');
+const {SinglePageView} = goog.require('finscholar.singlepageview');
+const {scholarshippage} = goog.require('example.templates.scholarshippageviews');
 
 /**
  * Class for scholarship page view.
  * @public
  */
-class ScholarshipPageView {
+class ScholarshipPageView extends SinglePageView {
 
   /**
    * @constructor
    */
   constructor() {
-    /** 
-     * @private @const {!ScholarshipDataHandler} dataHandler_ 
-     * The object fetches and formats scholarship data.
-     */
-    this.dataHandler_ = new ScholarshipDataHandler();
-  }
-
-  /**
-   * Render the scholarship page.
-   * @public
-   * @param {!Element} container - The DOM element for single scholarship page.
-   * @param {string} id - The unique id of the scholarship.
-   */
-  async renderView(container, id) {
-    let scholarshipData = undefined;
-    try {
-      scholarshipData = await this.dataHandler_.fetchAndFormatSingleScholarshipData(id);
-    } catch (e) {
-      console.log(e);
-      throw new Error(`Cannot get data for scholarship ${id}, message: ${e}`);
-    }
-    try {
-      container.innerHTML = scholarshippage({scholarship: scholarshipData});      
-    } catch(e) {
-      console.log(e);
-      throw new Error(`Failed to generate html: ${e}`);
-    }
+    super(new ScholarshipDataHandler(), scholarshippage);
   }
 }
 

@@ -59,20 +59,22 @@ class ScholarshipDataHandler {
     }
 
     return {
-      generalInfo: {
-        scholarshipName: data['scholarshipName'], 
-        scholarshipUUID: data['scholarshipUUID'], 
-        schoolsList: data['schoolsList'],
-        introduction: data['introduction'], 
-        URL: data['URL'],
+      scholarship: {
+        generalInfo: {
+          scholarshipName: data['scholarshipName'], 
+          scholarshipUUID: data['scholarshipUUID'], 
+          schoolsList: data['schoolsList'],
+          introduction: data['introduction'], 
+          URL: data['URL'],
+        },
+        requirements: requirementsMap,
+        applicationNotes: {
+          amountPerYear: data['amountPerYear'],
+          applicationProcess: data['applicationProcess'],
+          isRenewable: data['isRenewable'],
+          numberOfYears: data['numberOfYears'],
+        }, 
       },
-      requirements: requirementsMap,
-      applicationNotes: {
-        amountPerYear: data['amountPerYear'],
-        applicationProcess: data['applicationProcess'],
-        isRenewable: data['isRenewable'],
-        numberOfYears: data['numberOfYears'],
-      }, 
     };
   };
 
@@ -81,7 +83,7 @@ class ScholarshipDataHandler {
    * @param {string} id The uuid of the scholarship data.
    * @return The formatted scholarship JS object map.
    */
-  async fetchAndFormatSingleScholarshipData(id) {
+  async fetchAndFormatData(id) {
     let data = undefined;
     try {
       data = await this.fetchScholarshipJson_(id);
