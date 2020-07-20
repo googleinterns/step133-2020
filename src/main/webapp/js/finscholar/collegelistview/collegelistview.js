@@ -26,12 +26,12 @@ class CollegeListView extends BasicView {
 
   /**
    * Renders a college list view to the container.
-   * @param {!Element} container The HTML container to load the view.
    * @override
    */
-  async renderView(container) {
-    container.innerHTML = collegelist();
+  async renderView() {
+    super.setCurrentContent(collegelist());
+    super.resetAndUpdate();
   }
 }
 
-exports = {CollegeListView}
+exports = {CollegeListView};

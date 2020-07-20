@@ -16,9 +16,7 @@
 
 goog.module('finscholar.collegepageview');
 
-const GoogDom = goog.require('goog.dom');
 const {BasicView} = goog.require('basicview');
-const {loadCollegeData} = goog.require('datahandlers.collegepage');
 
 /** Class for the college page view. */
 class CollegePageView extends BasicView {
@@ -28,11 +26,12 @@ class CollegePageView extends BasicView {
 
   /**
    * Render the college page.
-   * @param {!Element} element
    * @override
    */
-  async renderView(element) {
-    await loadCollegeData(element);
+  async renderView() {
+    // TODO: refactor college data handler to return data here to pass up to
+    // setCurrentView.
+    //    await loadCollegeData(element);
   }
 }
 
