@@ -43,9 +43,4 @@ public class ServletConstantValues {
     public static final String SCOPE_USER_INFO_URL = "https://www.googleapis.com/auth/userinfo.email";
     public static final String DATABASE_URL = "https://viewing-step-2020-v2.firebaseio.com";
     public static final String PROJECT_ID = "viewing-step-2020-v2";
-
-    // Constants for FirebaseStorageManagerTest.
-    public static final String TEST_COLLECTION_NAME = "testObjects";
-    public static final String TEST_DOCUMENT_NAME = "testDocument";
-    public static final String EXPECTED_DOCUMENT_RETRIEVABLE = "{\"one\":\"testObjects\",\"two\":\"testDocument\"}";
 }

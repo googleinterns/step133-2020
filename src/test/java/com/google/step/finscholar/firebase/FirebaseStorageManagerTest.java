@@ -2,7 +2,6 @@ package com.google.step.finscholar.firebase;
 
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
-import com.google.step.finscholar.data.ServletConstantValues;
 import com.google.step.finscholar.data.TestObject;
 
 import org.junit.Assert;
@@ -13,6 +12,10 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class FirebaseStorageManagerTest {
+  // Constants for FirebaseStorageManagerTest.
+  public static final String TEST_COLLECTION_NAME = "testObjects";
+  public static final String TEST_DOCUMENT_NAME = "testDocument";
+  public static final String EXPECTED_DOCUMENT_RETRIEVABLE = "{\"one\":\"testObjects\",\"two\":\"testDocument\"}";
   private static Firestore firebase;
   private static TestObject testObject;
 
@@ -23,23 +26,23 @@ public class FirebaseStorageManagerTest {
     } catch (Exception e) {
       System.out.println(e);
     }
-    testObject = new TestObject(ServletConstantValues.TEST_COLLECTION_NAME, ServletConstantValues.TEST_DOCUMENT_NAME);
+    testObject = new TestObject(TEST_COLLECTION_NAME, TEST_DOCUMENT_NAME);
   }
 
   @Test
   public void isRecentlySetDocumentRetrievable() {
     try {
-      FirebaseStorageManager.storeDocument(firebase, ServletConstantValues.TEST_COLLECTION_NAME, testObject, ServletConstantValues.TEST_DOCUMENT_NAME);
+      FirebaseStorageManager.storeDocument(firebase, TEST_COLLECTION_NAME, testObject, TEST_DOCUMENT_NAME);
     } catch (Exception e) {
       System.out.println(e.toString());
     }
     String json = "";
     try {
-      json = FirebaseStorageManager.getDocument(firebase, ServletConstantValues.TEST_COLLECTION_NAME, ServletConstantValues.TEST_DOCUMENT_NAME);
+      json = FirebaseStorageManager.getDocument(firebase, TEST_COLLECTION_NAME, TEST_DOCUMENT_NAME);
     } catch (Exception e) {
       System.out.println(e.toString());
     }
-    Assert.assertEquals(json, ServletConstantValues.EXPECTED_DOCUMENT_RETRIEVABLE);
+    Assert.assertEquals(json, EXPECTED_DOCUMENT_RETRIEVABLE);
   }
 }
 

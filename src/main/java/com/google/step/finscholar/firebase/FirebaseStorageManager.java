@@ -31,6 +31,7 @@ import com.google.step.finscholar.data.ServletConstantValues;
 public class FirebaseStorageManager {
   /** This is used to convert Objects into JSON strings to send to the frontend. */
   private static Gson gson = new Gson();
+  private static final String ADDED_NEW_DOC_FORMATTER = "%s %s %s %t";
   
   /** 
    * This method stores an object as a DocumentReference (a data point) 
@@ -60,8 +61,9 @@ public class FirebaseStorageManager {
     ApiFuture<WriteResult> future = documentRef.set(object);
     try {
       // Print to console which Collection I added to and when.
-      System.out.println(ServletConstantValues.NEW_DOCUMENT_ADDED + 
-        collectionToWriteTo + ServletConstantValues.AT + future.get().getUpdateTime());
+      String message = String.format(ADDED_NEW_DOC_FORMATTER, ServletConstantValues.NEW_DOCUMENT_ADDED + 
+      collectionToWriteTo + ServletConstantValues.AT + future.get().getUpdateTime());
+      
     } catch (Exception e) {
       // Throws a FirebaseException if unsuccessful in adding new document.
       String message = ServletConstantValues.UNABLE_TO_WRITE_TO_FIRESTORE + collectionToWriteTo;
