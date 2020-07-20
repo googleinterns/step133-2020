@@ -190,11 +190,12 @@ public class FirebaseStorageManager {
     // We have the option here to sort the collection by specific parameter beforehand (great for supporting sort-type queries later on).
     // Setup the new Query.
     Query page;
-    if (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE)) {
-      page = collectionReference.limit(batchSizeLimit);
-    } else {
-      page = collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit);
-    }
+    // if (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE)) {
+    //   page = collectionReference.limit(batchSizeLimit);
+    // } else {
+    //   page = collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit);
+    // }
+    page = (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE) ? collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit));
     return getCollectionQuery(page);
   }
 
@@ -230,11 +231,12 @@ public class FirebaseStorageManager {
     //   that occur after the last doc in the collection.
     if (document.exists()) {
       // We have the option here to sort the collection by specific parameter beforehand (great for supporting sort queries later on).
-      if (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE)) {
-        page = collectionReference.limit(batchSizeLimit).startAfter(document);
-      } else {
-        page = collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit).startAfter(snapshotFuture);
-      }
+      // if (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE)) {
+      //   page = collectionReference.limit(batchSizeLimit).startAfter(document);
+      // } else {
+      //   page = collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit).startAfter(document);
+      // }
+      page = (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE) ? collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit)).startAfter(document);
       return getCollectionQuery(page);
 
     } else {
