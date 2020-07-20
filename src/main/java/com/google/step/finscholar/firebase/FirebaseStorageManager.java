@@ -64,8 +64,8 @@ public class FirebaseStorageManager {
     ApiFuture<WriteResult> future = documentRef.set(object);
     try {
       // Log that a new document has been added to database.
-      String message = String.format(ADDED_NEW_DOC_FORMATTER, ServletConstantValues.NEW_DOCUMENT_ADDED + 
-          collectionToWriteTo + ServletConstantValues.AT + future.get().getUpdateTime().toString());
+      String message = String.format(ADDED_NEW_DOC_FORMATTER, ServletConstantValues.NEW_DOCUMENT_ADDED, 
+          collectionToWriteTo, ServletConstantValues.AT, future.get().getUpdateTime().toString());
       log.info(message);
       
     } catch (Exception e) {
