@@ -16,6 +16,7 @@
 
 goog.module('finscholar.homepagecontroller');
 
+<<<<<<< HEAD
 const JsactionActionFlow = goog.require('jsaction.ActionFlow');
 const JsactionDispatcher = goog.require('jsaction.Dispatcher');
 const JsactionEventContract = goog.require('jsaction.EventContract');
@@ -26,41 +27,69 @@ const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const {CollegeListView} = goog.require('finscholar.collegelistview');
 const {CollegePageView} = goog.require('finscholar.collegepageview');
 const {ErrorData, ErrorPageView} = goog.require('finscholar.errorpageview');
+=======
+const {CollegeListView} = goog.require('finscholar.collegelistview');
+const {CollegePageView} = goog.require('finscholar.collegepageview');
+const {ErrorPageView} = goog.require('finscholar.errorpageview');
+>>>>>>> devel
 const {PageController} = goog.require('pagecontroller');
 const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
 const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
+const {homepage} = goog.require('finscholar.homepagecontroller.templates');
+const googDom = goog.require('goog.dom');
+const googSoy = goog.require('goog.soy');
+const jsactionActionFlow = goog.require('jsaction.ActionFlow');
+const jsactionDispatcher = goog.require('jsaction.Dispatcher');
+const jsactionEventContract = goog.require('jsaction.EventContract');
+
+const TEST_ERR_INPUT1 = 'A network error has occurred. Failed to load college data.';
+const TEST_ERR_INPUT2 = 'Please reload the page or select a different college.';
+const TEST_ERR_INPUT3 = 'Thanks!';
 
 /**
  * Class for the home page controller.
  */
 class HomePageController extends PageController {
-  /**
+
+  /** 
    * @param {!Element} container The HTML div where the main frame is rendered.
    */
   constructor(container) {
     super();
     /** @private @const {!Element} */
     this.container_ = container;
-    /** @private @const {!JsactionEventContract} */
-    this.eventContract_ = new JsactionEventContract();
-    /** @private @const {!JsactionDispatcher} */
-    this.dispatcher_ = new JsactionDispatcher();
-    /**
-     * @private @const {!function(!JsactionActionFlow): undefined} bindedNavbarOnclickHandler_ The binded navbar onclick event handler.
-     */
-    this.bindedNavbarOnclickHandler_ =
-        this.handleNavbarOnclickEvent_.bind(this);
-    this.initJsaction_();
-    /** @private @type {number} */
+
+    /** @private @const {!jsactionEventContract} */
+    this.eventContract_ = new jsactionEventContract();
+
+    /** @private @const {!jsactionDispatcher} */
+    this.dispatcher_ = new jsactionDispatcher();
+
+    /** @private @const {!function(jsaction.ActionFlow): undefined} */
+    this.bindedNavbarOnclickHandler_ = this.handleNavbarOnclickEvent_.bind(this);
+
+    /** @private {number} */
     this.navbarPageIndex_ = 0;
-    /** @private @const {!Array<!BasicView>} */
+
+    /** @private @const 
+     * {!Array<CollegeListView, ScholarshipListView, 
+     *     CollegePageView, ScholarshipPageView, ErrorPageView>} 
+     */
     this.TEMPLATE_HANDLERS_ = [
-      new CollegeListView(), new ScholarshipListView(), new CollegePageView(),
-      new ScholarshipPageView(), new ErrorPageView()
-    ];
+                               CollegeListView, 
+                               ScholarshipListView, 
+                               CollegePageView, 
+                               ScholarshipPageView, 
+                               ErrorPageView
+                               ];
+    
+    this.initJsaction_();
+
     this.container_.innerHTML = this.getContent_();
-    /** @type {!Element} */
-    this.subView_ = /** @type {!Element} */ (GoogDom.getElement('content'));
+
+    /** @private @const {!Element} subView_*/
+    this.subView_ = /** @type {!Element} */ (googDom.getElement('content'));
+
     this.renderPage_();
   }
 
@@ -71,24 +100,24 @@ class HomePageController extends PageController {
   initJsaction_() {
     // Events will be handled for all elements under this container.
     this.eventContract_.addContainer(
-        /** @type {!Element} */ (GoogDom.getElement('main')));
+        /** @type {!Element} */ (googDom.getElement('main')));
     // Register the event types we care about.
     this.eventContract_.addEvent('click');
     this.eventContract_.addEvent('dblclick');
     this.eventContract_.dispatchTo(
         this.dispatcher_.dispatch.bind(this.dispatcher_));
     this.dispatcher_.registerHandlers(
-        'homepagecontroller',  // the namespace
-        null,                  // handler object
-        {
-          // action map
-          'clickAction': this.bindedNavbarOnclickHandler_,
-          'doubleClickAction': this.bindedNavbarOnclickHandler_,
-        });
+      'homepagecontroller',  // the namespace
+      null,                  // handler object
+      {
+        // action map
+        'clickAction': this.bindedNavbarOnclickHandler_,
+        'doubleClickAction' : this.bindedNavbarOnclickHandler_,
+      });
   }
 
   /**
-   * @return {!GoogSoy.data.SanitizedHtml} The rendered HTML of the common framework.
+   * @return {!googSoy.data.SanitizedHtml} The rendered HTML of the common framework.
    * @private
    */
   getContent_() {
@@ -97,12 +126,13 @@ class HomePageController extends PageController {
 
   /**
    * Handles click and double click events on navbar.
-   * @param {!JsactionActionFlow} flow Contains the data related to the action
+   * @param {!jsactionActionFlow} flow Contains the data related to the action.
    *     and more. See actionflow.js.
+   * @private
    */
   handleNavbarOnclickEvent_(flow) {
-    const index = parseInt(flow.node().getAttribute('index'), 10);
-    this.navbarPageIndex_ = index;
+    const index = flow.node().getAttribute('index');
+    this.navbarPageIndex_ = parseInt(index, 10);
     this.renderPage_();
   }
 
@@ -111,19 +141,15 @@ class HomePageController extends PageController {
    * @private
    */
   renderPage_() {
+    // This if statement is temporarily added to enable showing the error page.
     if (this.navbarPageIndex_ == 4) {
-      /** @type {!ErrorPageView} */
-      (this.TEMPLATE_HANDLERS_[this.navbarPageIndex_])
-          .updateError(
-              /** @type {!ErrorData} */ ({
-                occurrence:
-                    'A network error has occurred. Failed to load college data.',
-                action: 'Please reload the page or select a different college.',
-                errorMessage: 'JSON object undefined.'
-              }));
-      this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_);
+      this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_, 
+        TEST_ERR_INPUT1,
+        TEST_ERR_INPUT2,
+        TEST_ERR_INPUT3);
     } else {
-      this.TEMPLATE_HANDLERS_[this.navbarPageIndex_].renderView(this.subView_);
+      // In actual product we'll only have this line in this function.
+      (new this.TEMPLATE_HANDLERS_[this.navbarPageIndex_]).renderView(this.subView_);
     }
   }
 }

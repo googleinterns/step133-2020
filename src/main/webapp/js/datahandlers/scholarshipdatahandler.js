@@ -16,17 +16,21 @@
 
 goog.module('datahandlers.scholarshipdatahandler');
 const {Map: SoyMap} = goog.require('soy.map');
+const {addSpaceToCamelCase} = goog.require('datahandlers.utils');
+
+const NA = 'N/A';
+const REQUIREMENTS = ['academicRequirements', 
+                      'ethnicityRaceRequirements', 
+                      'financialRequirements', 
+                      'genderRequirements',
+                      'locationRequirements',
+                      'nationalOriginRequirements',
+                      'otherRequirements'];
+const SEPARATOR = ', ';
+const SCHOLARSHIP_ENDPOINT = '/scholarship-data';
 
 /** This class loads scholarship data from the backend and formats it for soy templates.  */
 class ScholarshipDataHandler {
-
-  /** 
-   * @return The string path of the endpoint to send a fetch request to. 
-   * @private 
-   */
-  get scholarshipEndPoint_() {
-    return '/scholarship-data';
-  }
 
   /**
    * This method converts from scholarship JSON object to a JS object map, 
@@ -36,36 +40,37 @@ class ScholarshipDataHandler {
    * @private
    */
   async convertFromJsonToTemplate_(data) {
-    const SEPARATOR = ', ';
-    const NALIST = ['N/A'];
     const requirementsMap = new Map();
-    requirementsMap.set('Academic Requirements', 
-                        (data['academicRequirements'] || NALIST).join(SEPARATOR));
-    requirementsMap.set('Ethnicity Race Requirements', 
-                        (data['ethnicityRaceRequirements'] || NALIST).join(SEPARATOR));
-    requirementsMap.set('Financial Requirements', 
-                        (data['financialRequirements'] || NALIST).join(SEPARATOR));
-    requirementsMap.set('Gender Requirements', 
-                        (data['genderRequirements'] || NALIST).join(SEPARATOR));
-    requirementsMap.set('Location Requirements', 
-                        (data['locationRequirements'] || NALIST).join(SEPARATOR));
-    requirementsMap.set('National Origin Requirements', 
-                        (data['nationalOriginRequirements'] || NALIST).join(SEPARATOR));
-    requirementsMap.set('Other Requirements', 
-                        (data['otherRequirements'] || NALIST).join(SEPARATOR));
+                           
+    let requirement = undefined;
+    for (requirement of REQUIREMENTS) {
+      if (REQUIREMENTS[requirement] != undefined) {
+        requirementsMap.set(addSpaceToCamelCase(requirement), REQUIREMENTS[requirement].join(SEPARATOR));
+      } else {
+        requirementsMap.set(addSpaceToCamelCase(requirement), NA);
+      }
+    }
+
+    let key = undefined;
+    for (key in data) {
+      if (data.key == undefined) {
+        data.key = NA;
+      }
+    }
+
     return {
       generalInfo: {
         scholarshipName: data['scholarshipName'], 
         scholarshipUUID: data['scholarshipUUID'], 
-        schoolsList: (data['schoolsList'] || ['N/A']).join(SEPARATOR),
-        introduction: data['introduction'] || 'N/A', 
+        schoolsList: data['schoolsList'],
+        introduction: data['introduction'], 
         URL: data['URL'],
       },
       requirements: requirementsMap,
       applicationNotes: {
-        amountPerYear: data['amountPerYear'] || 'unknown',
-        applicationProcess: data['applicationProcess'] || 'unknown',
-        isRenewable: data['isRenewable'] || 'unknown',
+        amountPerYear: data['amountPerYear'],
+        applicationProcess: data['applicationProcess'],
+        isRenewable: data['isRenewable'],
         numberOfYears: data['numberOfYears'],
       }, 
     };
@@ -80,20 +85,16 @@ class ScholarshipDataHandler {
     let data = undefined;
     try {
       data = await this.fetchScholarshipJson_(id);
+
+      if (data === undefined) {
+        throw new Error('Cannot get data from remote.');
+      }
+
+      return this.convertFromJsonToTemplate_(data[id]);
     } catch (e) {
       console.log(e);
       throw(`Failed to fetch scholarship object ${e}`);
     }
-    
-    // If data is undefined, bring user to an error page.
-    // This case will be handled in ScholarshipPageView.
-    // Later after we support querying by uuid, data will be a acholarship object.
-    if (data === undefined) {
-      // This error will be handled and logged by the caller.
-      throw new Error('Cannot get data from remote.');
-    }
-    //In actual project here the data will just be one scholarship object.
-    return this.convertFromJsonToTemplate_(data[id]);
   }
 
   /**
@@ -103,7 +104,7 @@ class ScholarshipDataHandler {
    * @private
    */
   async fetchScholarshipJson_(id) {
-    const response = await fetch(this.scholarshipEndPoint_, {'id': id });
+    const response = await fetch(SCHOLARSHIP_ENDPOINT, {'id': id });
     let data = undefined;
     if (response.ok) {
       try {
@@ -114,10 +115,10 @@ class ScholarshipDataHandler {
         throw new Error(`Failed to parse response from server: ${e}`);
       }
     } else {
-      const WARNING = `Failed to get response from server: 
+      const warning = `Failed to get response from server: 
           ${response.statusText}. Status: ${response.status}`;
-      console.log(WARNING);
-      throw new Error(WARNING);
+      console.log(warning);
+      throw new Error(warning);
     }
   };
 }
