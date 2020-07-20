@@ -56,6 +56,14 @@ class BasicView {
   }
 
   /**
+   * Returns the raw content element.
+   * @return {!Element}
+   */
+  getCurrentContentElement() {
+    return /** @type {!Element} */ (googDom.getElement('content'));
+  }
+
+  /**
    * @param {?googSoy.data.SanitizedHtml} currentContent
    */
   setCurrentContent(currentContent) {
@@ -63,7 +71,8 @@ class BasicView {
   }
 
   /**
-   * Helper function for resetting and updating the whole page.
+   * Helper function for resetting and updating the whole page. Note that this
+   * will reset any JSAction listeners registered.
    */
   resetAndUpdate() {
     googDom.getDocument().documentElement.innerHTML =
