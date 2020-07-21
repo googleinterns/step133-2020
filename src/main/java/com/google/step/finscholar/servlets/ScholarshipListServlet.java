@@ -36,7 +36,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/scholarship-list")
 public class ScholarshipListServlet extends HttpServlet {
     
-  String BATCH_INDEX = "batchIndex";
   String ITEMS_PER_BATCH = "numberOfItems";
   String ID_OF_LAST_ITEM = "idOfLastItem";
   String SORT_BY = "sortBy";
@@ -46,14 +45,13 @@ public class ScholarshipListServlet extends HttpServlet {
     Firestore database;
     try {
       database = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
-      int batchSize = getIntParameter(request, BATCH_INDEX);
       int itemsPerBatch = getIntParameter(request, ITEMS_PER_BATCH);
       String idOfLastItem = getStringParameter(request, ID_OF_LAST_ITEM, DEFAULT_VALUE);
       String sortBy = getStringParameter(request, SORT_BY, DEFAULT_VALUE);
     
       response.setContentType(JSON_CONTENT_TYPE);
       response.getWriter().println(
-        getCollectionBatch(database, SCHOLARSHIP_COLLECTION_NAME, batchSize, idOfLastItem, sortBy));
+        getCollectionBatch(database, SCHOLARSHIP_COLLECTION_NAME, itemsPerBatch, idOfLastItem, sortBy));
     } catch (Exception e) {
       response.sendError(HttpServletResponse.SC_BAD_GATEWAY, UNABLE_TO_LOAD_FIREBASE + e);
     }
