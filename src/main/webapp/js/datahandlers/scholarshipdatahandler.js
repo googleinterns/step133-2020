@@ -45,10 +45,10 @@ class ScholarshipDataHandler {
 
     let requirement = undefined;
     for (requirement of REQUIREMENTS) {
-      if (REQUIREMENTS[requirement] != undefined) {
+      if (data[requirement] != undefined) {
         requirementsMap.set(
             addSpaceToCamelCase(requirement),
-            REQUIREMENTS[requirement].join(SEPARATOR));
+            data[requirement].join(SEPARATOR));
       } else {
         requirementsMap.set(addSpaceToCamelCase(requirement), NA);
       }
@@ -95,7 +95,7 @@ class ScholarshipDataHandler {
         throw new Error('Cannot get data from remote.');
       }
 
-      return this.convertFromJsonToTemplate_(data[id]);
+      return this.convertFromJsonToTemplate_(data);
     } catch (e) {
       console.log(e);
       throw (`Failed to fetch scholarship object ${e}`);
