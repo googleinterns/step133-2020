@@ -77,15 +77,6 @@ class CollegeListDataHandler {
         'id' : element[ID]
       });
     });
-    // for (let i = 0; i < itemsPerBatch - 1; i++) {
-    
-    //   const data = {
-    //     'name' : results[i.toString()][NAME],
-    //     'acceptanceRate' : results[i.toString()][ACCEPTANCE_RATE],
-    //     'averageACT' : results[i.toString()][ACT_SCORE],
-    //     'id' : results[i.toString()][ID]
-    //   }
-    // }
     console.log(collegeList);
     return collegeList;
   }
