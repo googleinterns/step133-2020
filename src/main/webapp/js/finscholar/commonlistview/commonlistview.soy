@@ -66,9 +66,12 @@
   {@param colleges: list<[name: string, 
                           acceptanceRate: string, 
                           averageACT: string, 
-                          id:string]>}
+                          id: string]>}
+  {script}
+    console.log(colleges);
+  {/script}
   {for $item in $colleges}
-    <tr class="class" id={$item.id}
+    <tr class="college" id={$item.id}
         jsaction="collegelistview.clickAction;
         dblclick:collegelistview.doubleClickAction">
       <td class="mdl-data-table__cell--non-numeric">{$item.name}</td>
