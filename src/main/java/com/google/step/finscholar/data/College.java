@@ -191,7 +191,6 @@ public class College {
   }
 
   /** @return - Median ACT Score of students accepted. */
-
   public double getAverageACTScore() {
     return this.averageACTScore;
   }
