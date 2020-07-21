@@ -86,7 +86,7 @@ class CollegeListDataHandler {
     //     'id' : results[i.toString()][ID]
     //   }
     // }
-    console.log(collegeList);
+    return collegeList;
   }
 
   /**
