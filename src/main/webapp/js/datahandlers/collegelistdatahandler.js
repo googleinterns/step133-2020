@@ -19,7 +19,17 @@
 
 goog.module('datahandlers.collegelistdatahandler');
 
-const COLLEGE_LIST_ENDPT = 'https://api.data.gov/ed/collegescorecard/v1/';
+const COLLEGE_LIST_ENDPT = 
+  'https://api.data.gov/ed/collegescorecard/v1/schools.json?';
+const AND = "&";
+const COMMA = ',';
+const EQUAL = '=';
+const QUERY_FIELDS = '_fields=';
+const COLLEGES = 'school.degrees_awarded.predominant=2,3';
+const ID = 'id';
+const NAME =  'school.name'
+const ACCEPTANCE_RATE = 'admissions.admission_rate.overall';
+const ACT_SCORE = 'admissions.act_scores.midpoint.cumulative';
 
 /**
  * The data controller which fetches college data 
@@ -28,7 +38,6 @@ const COLLEGE_LIST_ENDPT = 'https://api.data.gov/ed/collegescorecard/v1/';
 class CollegeListDataHandler {
 
   constructor() {}
-  
 
   buildURL() {
 
