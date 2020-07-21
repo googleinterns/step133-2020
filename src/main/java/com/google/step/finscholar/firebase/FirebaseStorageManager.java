@@ -195,7 +195,7 @@ public class FirebaseStorageManager {
    * @return - The json string representing the first batch in a request for all of the documents in a collection.
    * @throws FirebaseException
    */
-  public static String getFirstBatch(CollectionReference collectionReference, int batchSizeLimit, String parameterToSortBy) throws FirebaseException {
+  private static String getFirstBatch(CollectionReference collectionReference, int batchSizeLimit, String parameterToSortBy) throws FirebaseException {
     // We have the option here to sort the collection by specific parameter beforehand (great for supporting sort-type queries later on).
     // Setup the new Query.
     Query page = (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE) ? collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit));
@@ -214,7 +214,7 @@ public class FirebaseStorageManager {
    * @return - The json string representing the next batch in a request for all of the documents in a collection.
    * @throws FirebaseException
    */
-  public static String getNextBatch(Firestore database, CollectionReference collectionReference, int batchSizeLimit, String lastDocID, String parameterToSortBy) throws FirebaseException {
+  private static String getNextBatch(Firestore database, CollectionReference collectionReference, int batchSizeLimit, String lastDocID, String parameterToSortBy) throws FirebaseException {
     // First retrieve the last document I sent.
     DocumentReference documentReference = collectionReference.document(lastDocID);
 
@@ -248,7 +248,7 @@ public class FirebaseStorageManager {
    * @param page - The query to retrieve.
    * @return - The collection of objects converted as a json string.
    */
-  public static String getCollectionQuery(Query page) throws FirebaseException {
+  private static String getCollectionQuery(Query page) throws FirebaseException {
     // Retrieve a "future", which will generate a reference to the query results I want to retrieve.
     ApiFuture<QuerySnapshot> future = page.get();
     try {
@@ -267,7 +267,7 @@ public class FirebaseStorageManager {
    * @param documents - The documents to convert to json.
    * @return - The json representing multiple documents.
    */
-  public static String convertSnapshotListToJson(List<QueryDocumentSnapshot> documents) {
+  private static String convertSnapshotListToJson(List<QueryDocumentSnapshot> documents) {
     // Convert the documents to objects.
     List<Object> objects = new ArrayList<Object>();
     for (QueryDocumentSnapshot document : documents) {
@@ -279,6 +279,7 @@ public class FirebaseStorageManager {
 
   /**
    * This method retrieves the size of a collection. Used for batching.
+   * Needs to be public since it'll be used in servlets.
    * @param database - The database to check.
    * @param collectionToGetFrom - The collection to check.
    * @return - The number of entries in the collection.
