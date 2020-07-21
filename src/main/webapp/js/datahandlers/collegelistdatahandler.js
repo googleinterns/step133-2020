@@ -28,7 +28,9 @@ const COMMA = ',';
 const PAGE_SIZE_FIELD = 'per_page';
 const PAGE = 'page';
 const EQUAL = '=';
+const NOT = '__not';
 const API_KEY_FIELD = 'api_key=';
+const NULL = 'null';
 const QUERY_FIELDS = '_fields=';
 const COLLEGES = 'school.degrees_awarded.predominant=2,3';
 const ID = 'id';
@@ -54,10 +56,10 @@ class CollegeListDataHandler {
    * @private
    */
   buildURL_(itemsPerBatch) {
-    return COLLEGE_LIST_ENDPT.concat(COLLEGES, AND, QUERY_FIELDS, ID, COMMA, 
-      NAME, COMMA, ACCEPTANCE_RATE, COMMA, ACT_SCORE, AND, PAGE_SIZE_FIELD, EQUAL, 
-      itemsPerBatch.toString(), AND, PAGE, EQUAL, this._currentPage.toString(), AND, 
-      API_KEY_FIELD, COLLEGE_API_KEY);
+    return COLLEGE_LIST_ENDPT.concat(COLLEGES, COMMA, ACCEPTANCE_RATE, NOT, NULL, COMMA, 
+      ACT_SCORE, NOT, NULL, AND, QUERY_FIELDS, ID, COMMA, NAME, COMMA, ACCEPTANCE_RATE, COMMA, 
+      ACT_SCORE, AND, PAGE_SIZE_FIELD, EQUAL, itemsPerBatch.toString(), AND, PAGE, EQUAL, 
+      this._currentPage.toString(), AND, API_KEY_FIELD, COLLEGE_API_KEY);
   }
 
   /**
