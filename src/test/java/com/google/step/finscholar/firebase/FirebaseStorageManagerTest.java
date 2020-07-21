@@ -1,9 +1,12 @@
 package com.google.step.finscholar.firebase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.step.finscholar.data.ServletConstantValues;
 import com.google.step.finscholar.data.TestObject;
-
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,6 +21,8 @@ public class FirebaseStorageManagerTest {
   public static final String EXPECTED_DOCUMENT_RETRIEVABLE = "{\"one\":\"testObjects\",\"two\":\"testDocument\"}";
   private static Firestore firebase;
   private static TestObject testObject;
+  private static TestObject testObjectTwo;
+  private static List<TestObject> testObjectList;
 
   @BeforeClass
   public static void setUp() {
@@ -27,6 +32,10 @@ public class FirebaseStorageManagerTest {
       System.out.println(e);
     }
     testObject = new TestObject(TEST_COLLECTION_NAME, TEST_DOCUMENT_NAME);
+    testObjectTwo = new TestObject(TEST_DOCUMENT_NAME, TEST_COLLECTION_NAME);
+    testObjectList = new ArrayList<TestObject>();
+    testObjectList.add(testObject);
+    testObjectList.add(testObjectTwo);
   }
 
   @Test
@@ -43,5 +52,21 @@ public class FirebaseStorageManagerTest {
       System.out.println(e.toString());
     }
     Assert.assertEquals(json, EXPECTED_DOCUMENT_RETRIEVABLE);
+  }
+
+  @Test
+  public void setMultipleDocumentsAndRetrieveCollection() {
+    try {
+      FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
+    } catch (Exception e) {
+      System.out.println(e.toString());
+    }
+    String json = ServletConstantValues.DEFAULT_VALUE;
+    try {
+      json = FirebaseStorageManager.getCollection(firebase, TEST_COLLECTION_NAME);
+    } catch (Exception e) {
+      System.out.println(e.toString());
+    }
+    Assert.assertNotEquals(ServletConstantValues.DEFAULT_VALUE, json);
   }
 }
