@@ -72,8 +72,8 @@ class CollegeListDataHandler {
     results.forEach(element => {
       collegeList.push({
         'name' : element[NAME],
-        'acceptanceRate' : element[ACCEPTANCE_RATE],
-        'averageACT' : element[ACT_SCORE],
+        'acceptanceRate' : element[ACCEPTANCE_RATE].toString(),
+        'averageACT' : element[ACT_SCORE].toString(),
         'id' : element[ID]
       });
     });
