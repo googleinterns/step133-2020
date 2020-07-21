@@ -64,8 +64,8 @@
 
 {template .collegelistitems}
   {@param colleges: list<[name: string, 
-                          acceptanceRate: string, 
-                          averageACT: string, 
+                          acceptance: string, 
+                          act: string, 
                           id:string]>}
   {log}colleges{/log}
   {for $item in $colleges}
@@ -73,8 +73,8 @@
         jsaction="collegelistview.clickAction;
         dblclick:collegelistview.doubleClickAction">
       <td class="mdl-data-table__cell--non-numeric">{$item.name}</td>
-      <td>{$item.acceptanceRate}</td>
-      <td>{$item.averageACT}</td>
+      <td>{$item.acceptance}</td>
+      <td>{$item.act}</td>
     </tr>
   {/for}
 {/template}
