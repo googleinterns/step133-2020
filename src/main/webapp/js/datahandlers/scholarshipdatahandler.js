@@ -44,10 +44,10 @@ class ScholarshipDataHandler {
 
     let requirement = undefined;
     for (requirement of REQUIREMENTS) {
-      if (REQUIREMENTS[requirement] != undefined) {
+      if (data[requirement] != undefined) {
         requirementsMap.set(
             addSpaceToCamelCase(requirement),
-            REQUIREMENTS[requirement].join(SEPARATOR));
+            data[requirement].join(SEPARATOR));
       } else {
         requirementsMap.set(addSpaceToCamelCase(requirement), NA);
       }
@@ -61,29 +61,31 @@ class ScholarshipDataHandler {
     }
 
     return {
-      generalInfo: {
-        scholarshipName: data['scholarshipName'],
-        scholarshipUUID: data['scholarshipUUID'],
-        schoolsList: data['schoolsList'],
-        introduction: data['introduction'],
-        URL: data['URL'],
-      },
-      requirements: requirementsMap,
-      applicationNotes: {
-        amountPerYear: data['amountPerYear'],
-        applicationProcess: data['applicationProcess'],
-        isRenewable: data['isRenewable'],
-        numberOfYears: data['numberOfYears'],
+      schlarship : {
+        generalInfo: {
+          scholarshipName: data['scholarshipName'],
+          scholarshipUUID: data['scholarshipUUID'],
+          schoolsList: data['schoolsList'],
+          introduction: data['introduction'],
+          URL: data['URL'],
+        },
+        requirements: requirementsMap,
+        applicationNotes: {
+          amountPerYear: data['amountPerYear'],
+          applicationProcess: data['applicationProcess'],
+          isRenewable: data['isRenewable'],
+          numberOfYears: data['numberOfYears'],
+        },
       },
     };
   };
 
   /**
    * Fetch the scholarship data with the specified uuid and format it.
-   * @param {number} id The uuid of the scholarship data.
+   * @param {string} id The uuid of the scholarship data.
    * @return The formatted scholarship JS object map.
    */
-  async fetchAndFormatSingleScholarshipData(id) {
+  async fetchAndFormatData(id) {
     let data = undefined;
     try {
       data = await this.fetchScholarshipJson_(id);
@@ -92,7 +94,7 @@ class ScholarshipDataHandler {
         throw new Error('Cannot get data from remote.');
       }
 
-      return this.convertFromJsonToTemplate_(data[id]);
+      return this.convertFromJsonToTemplate_(data);
     } catch (e) {
       console.log(e);
       throw (`Failed to fetch scholarship object ${e}`);
@@ -101,7 +103,7 @@ class ScholarshipDataHandler {
 
   /**
    * Fetch request to the data servlet and return the JSON response.
-   * @param {number} id The uuid of the schedule.
+   * @param {string} id The uuid of the schedule.
    * @return {*} - The JSON response.
    * @private
    */
