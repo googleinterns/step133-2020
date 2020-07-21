@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-package com.google.step.finscholar.data;
+package com.google.step.finscholar.firebase;
 
 /** 
  * This simple object is used in testing our Firebase methods' behaviour. 
