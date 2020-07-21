@@ -32,6 +32,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 
 /** The servlet handling all requests related to scholarships. */
 @WebServlet("/scholarship-data")
@@ -43,14 +44,14 @@ public class ScholarshipServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     Firestore database = null;
-    String id = DEFAULT_VALUE;
+    String id = getStringParameter(request, ID, DEFAULT_VALUE);
+    
     try {
       database = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
     } catch (Exception e) {
       response.sendError(HttpServletResponse.SC_BAD_GATEWAY, UNABLE_TO_LOAD_FIREBASE + e);
     }
     if (database != null) {
-      id = getStringParameter(request, id, DEFAULT_VALUE);
       response.setContentType(JSON_CONTENT_TYPE);
       try {
         response.getWriter().println(getDocument(database, SCHOLARSHIP_COLLECTION_NAME, id));
