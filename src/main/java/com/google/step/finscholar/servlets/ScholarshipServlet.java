@@ -42,15 +42,21 @@ public class ScholarshipServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    Firestore database;
+    Firestore database = null;
     String id = DEFAULT_VALUE;
     try {
       database = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
-      id = getStringParameter(request, id, DEFAULT_VALUE);
-      response.setContentType(JSON_CONTENT_TYPE);
-      response.getWriter().println(getDocument(database, SCHOLARSHIP_COLLECTION_NAME, id));
     } catch (Exception e) {
       response.sendError(HttpServletResponse.SC_BAD_GATEWAY, UNABLE_TO_LOAD_FIREBASE + e);
+    }
+    if (database != null) {
+      id = getStringParameter(request, id, DEFAULT_VALUE);
+      response.setContentType(JSON_CONTENT_TYPE);
+      try {
+        response.getWriter().println(getDocument(database, SCHOLARSHIP_COLLECTION_NAME, id));
+      } catch(Exception e) {
+        response.sendError(HttpServletResponse.SC_NO_CONTENT, UNABLE_TO_LOAD_FIREBASE + e);  
+      }
     }
   }
 }
