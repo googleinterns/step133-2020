@@ -17,6 +17,7 @@
 goog.module('finscholar.commonlistview');
 
 const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
+const {CollegeListDataHandler} = goog.require('datahandlers.collegelistdatahandler');
 const {commonlistview, scholarshiplistitems, collegelistitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
 const googDom = goog.require('goog.dom');
 
