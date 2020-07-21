@@ -36,8 +36,6 @@ class ScholarshipListView extends CommonListView {
 
     /** @private @const {function(!JsactionActionFlow): undefined} */
     this.bindedOnclickHandler_ = this.handleOnclickEvent_.bind(this);
-
-    this.initJsaction_();
   }
 
   /**
@@ -69,6 +67,7 @@ class ScholarshipListView extends CommonListView {
   async renderView() {
     try {
       await super.init();
+      this.initJsaction_();
     } catch (e) {
       console.log(e);
       throw e;
