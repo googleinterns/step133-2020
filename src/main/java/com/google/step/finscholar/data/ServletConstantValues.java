@@ -28,8 +28,15 @@ public class ServletConstantValues {
     public static final String FORUM_COMMENT_COLLECTION_NAME = "forumCommments";
 
     // Constants for exceptions when retrieving data from the Firestore Database.
+    public static final String INVALID_INT_PARAMETER = "Unable to parse required integer from request: ";
     public static final String UNABLE_TO_WRITE_TO_FIRESTORE = "Unable to write new object to collection with name: ";
-    public static final String UNABLE_TO_READ_FROM_FIRESTORE = "Unable to retrieve data from Firestore.";
+
+    public static final String UNABLE_TO_READ_FROM_FIRESTORE = "Unable to retrieve data from Firestore: ";
+    public static final String UNKNOWN_ERROR = "Unknown error: ";
+    public static final String DOCUMENT = "Document with ID: ";
+    public static final String NEW_DOCUMENT_ADDED = "New Document added to: ";
+    public static final String AT = " at: ";
+    public static final String DNE = " does not exist.";
     public static final String UNABLE_TO_LOAD_FIREBASE = "Unable to load firebase: ";
 
     // Constants for FirebaseAppManager.
