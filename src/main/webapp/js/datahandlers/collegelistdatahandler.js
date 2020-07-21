@@ -38,6 +38,7 @@ const NAME =  'school.name'
 const ACCEPTANCE_RATE = '2018.admissions.admission_rate.overall';
 const ACT_SCORE = '2018.admissions.act_scores.midpoint.cumulative';
 const ACCEPTANCE_RANGE = '__range=0..0.50';
+const ACT_RANGE = '__range=25..36'
 /**
  * The data controller which fetches college data 
  * from backend and reformats the data. 
@@ -65,7 +66,10 @@ class CollegeListDataHandler {
   convertJsonToObject_(json, itemsPerBatch) {
     const collegeList = [];
     const results = json["results"];
-    console.log(results);
+
+    results.forEach(element => {
+      console.log(element);
+    });
     // for (let i = 0; i < itemsPerBatch - 1; i++) {
     
     //   const data = {
