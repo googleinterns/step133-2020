@@ -56,7 +56,7 @@ class CollegeListDataHandler {
    * @private
    */
   buildURL_(itemsPerBatch) {
-    return COLLEGE_LIST_ENDPT.concat(COLLEGES, COMMA, ACCEPTANCE_RATE, NOT, NULL, COMMA, 
+    return COLLEGE_LIST_ENDPT.concat(COLLEGES, AND, ACCEPTANCE_RATE, NOT, NULL, AND, 
       ACT_SCORE, NOT, NULL, AND, QUERY_FIELDS, ID, COMMA, NAME, COMMA, ACCEPTANCE_RATE, COMMA, 
       ACT_SCORE, AND, PAGE_SIZE_FIELD, EQUAL, itemsPerBatch.toString(), AND, PAGE, EQUAL, 
       this._currentPage.toString(), AND, API_KEY_FIELD, COLLEGE_API_KEY);
