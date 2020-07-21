@@ -35,7 +35,7 @@ class CommonListView {
     /** @private @const {string} */
     this.optionIndex_ = optionIndex;
 
-    /** @private @const {function({scholarships : !Array<?>}):Element} */
+    /** @private @const {function({colleges : !Array<?>}):Element} */
     this.template_ = this.optionIndex_ == '0' ? collegelistitems : scholarshiplistitems;
 
     /** @private {number} The number of batch of data has been loaded into the view. */
