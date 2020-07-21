@@ -16,22 +16,17 @@
 
 goog.module('finscholar.scholarshippageview');
 
-const GoogDom = goog.require('goog.dom');
-const {scholarshippage} = goog.require('example.templates.scholarshippageviews');
+const {BasicView} = goog.require('basicview');
 const {ScholarshipDataHandler} = goog.require('datahandlers.scholarshipdatahandler');
+const {scholarshippage} = goog.require('example.templates.scholarshippageviews');
 
-/**
- * Class for scholarship page view.
- * @public
- */
-class ScholarshipPageView {
 
-  /**
-   * @constructor
-   */
+/** Class for scholarship page view. */
+class ScholarshipPageView extends BasicView {
   constructor() {
-    /** 
-     * @private @const {!ScholarshipDataHandler} dataHandler_ 
+    super();
+    /**
+     * @private @const {!ScholarshipDataHandler} dataHandler_
      * The object fetches and formats scholarship data.
      */
     this.dataHandler_ = new ScholarshipDataHandler();
@@ -39,29 +34,32 @@ class ScholarshipPageView {
 
   /**
    * Render the scholarship page.
-   * @public
-   * @param {!Element} container - The DOM element for single scholarship page.
+   * @override
    */
-  async renderScholarship(container) {
-    // In the prototype, the id is set to 0 by default. Later we'll pass in id as parameter.
+  async renderView() {
+    // In the prototype, the id is set to 0 by default. Later we'll pass in id
+    // as parameter.
     const id = 0;
     let scholarshipData = undefined;
     try {
-      scholarshipData = await this.dataHandler_.fetchAndFormatSingleScholarshipData(id);
+      scholarshipData =
+          await this.dataHandler_.fetchAndFormatSingleScholarshipData(id);
     } catch (e) {
       console.log(e);
-      // Throws the error to the caller, and the caller will render an error page instead.
+      // Throws the error to the caller, and the caller will render an error
+      // page instead.
       throw new Error(`Cannot get data for scholarship ${id}, message: ${e}`);
     }
     try {
-      container.innerHTML = scholarshippage({scholarship: scholarshipData});      
-    } catch(e) {
+      super.setCurrentContent(scholarshippage({scholarship: scholarshipData}));
+      super.resetAndUpdate();
+    } catch (e) {
       console.log(e);
-      // Throws the error to the caller, and the caller will render an error page instead.
+      // Throws the error to the caller, and the caller will render an error
+      // page instead.
       throw new Error(`Failed to generate html: ${e}`);
     }
   }
 }
 
 exports = {ScholarshipPageView};
-
