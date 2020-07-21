@@ -55,7 +55,8 @@ public class FirebaseStorageManager {
    *   There are no other requirements for the object.
    * @param documentID - The optional id for storing the document.
    */
-  public static void storeDocument(Firestore database, String collectionToWriteTo, Object object, String documentID) throws FirebaseException {
+  public static void storeDocument(Firestore database, String collectionToWriteTo, Object object, String documentID) 
+    throws FirebaseException {
     // Access the correct collection.
     CollectionReference collectionRef = database.collection(collectionToWriteTo);
 
@@ -77,7 +78,9 @@ public class FirebaseStorageManager {
 
     } catch (Exception e) {
       // Throws a FirebaseException if unsuccessful in adding new document.
-      String message = String.format(EXCEPTION_FORMATTER, ServletConstantValues.UNABLE_TO_WRITE_TO_FIRESTORE , collectionToWriteTo);
+      String message = String.format(EXCEPTION_FORMATTER, 
+        ServletConstantValues.UNABLE_TO_WRITE_TO_FIRESTORE , 
+        collectionToWriteTo);
       throw new FirebaseException(message, e);
     }
   }
@@ -88,12 +91,16 @@ public class FirebaseStorageManager {
    * @param collectionToWriteTo
    * @param objects
    */
-  public static void storeMultipleDocuments(Firestore database, String collectionToWriteTo, List<?> objects) throws FirebaseException {
+  public static void storeMultipleDocuments(Firestore database, String collectionToWriteTo, List<?> objects) 
+    throws FirebaseException {
     for (Object object : objects) {
       try {
         storeDocument(database, collectionToWriteTo, object, ServletConstantValues.DEFAULT_VALUE);
       } catch (Exception e) {
-        throw new FirebaseException(ServletConstantValues.UNABLE_TO_WRITE_TO_FIRESTORE + collectionToWriteTo, e);
+        String message = String.format(EXCEPTION_FORMATTER, 
+          ServletConstantValues.UNABLE_TO_WRITE_TO_FIRESTORE , 
+          collectionToWriteTo);
+        throw new FirebaseException(message, e);
       }
     }
   }
@@ -106,7 +113,8 @@ public class FirebaseStorageManager {
    * @param documentID - The unique ID of the datapoint I want to retrieve.
    * @return - The JSON string representing the datapoint I just retrieved.
    */
-  public static String getDocument(Firestore database, String collectionToGetFrom, String documentID) throws FirebaseException {
+  public static String getDocument(Firestore database, String collectionToGetFrom, String documentID) 
+    throws FirebaseException {
     // Retrieve a reference to the document representing the datapoint I want to retrieve.
     DocumentReference documentReference = database.collection(collectionToGetFrom).document(documentID);
 
@@ -125,7 +133,10 @@ public class FirebaseStorageManager {
         return gson.toJson(objectFromDatabase);
       } else {
         // Throws a Firebase Exception if the document does not exist.
-        String message = String.format(EXCEPTION_DNE_FORMATTER, ServletConstantValues.DOCUMENT, documentID, ServletConstantValues.DNE);
+        String message = String.format(EXCEPTION_DNE_FORMATTER, 
+          ServletConstantValues.DOCUMENT, 
+          documentID, 
+          ServletConstantValues.DNE);
         throw new FirebaseException(message);
       }
     } catch (Exception e) {
