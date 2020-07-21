@@ -20,15 +20,15 @@ const {BasicView} = goog.require('basicview');
 const {CollegeListView} = goog.require('finscholar.collegelistview');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
 const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
-const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 
 
 /**
  * Factory for the navbar listviews.
  * @param {number} index The index mapping to the tab.
+ * @param {function(!Element): undefined} listener JSAction listener.
  * @return {!BasicView} Object with the view data.
  */
-const navbarViewFactory = (index) => {
+const navbarViewFactory = (index, listener) => {
   let view;
   switch (index) {
     case 0:
@@ -36,9 +36,11 @@ const navbarViewFactory = (index) => {
       break;
     case 1:
       view = new ScholarshipListView();
+      view.registerListener(listener);
       break;
     case 2:
       view = new ScholarshipListView();
+      view.registerListener(listener);
       break;
     default:
       view = new HomePageController();
