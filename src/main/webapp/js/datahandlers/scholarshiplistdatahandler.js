@@ -20,11 +20,16 @@
 goog.module('datahandlers.scholarshiplistdatahandler');
 
 const AND = '&';
+const AMOUNT_PER_YEAR = 'amountPerYear';
+const EMPTY_STRING = '';
 const EQUALS = '=';
+const ID = 'id';
 const INDEX_OF_LAST_ITEM = 'indexOfLastItem';
+const UNKNOWN = 'Unknown';
 const NUMBER_OF_ITEMS = 'numberOfItems';
 const QUERY_START = '?';
 const SCHOLARSHIP_LIST_ENDPT = '/scholarship-list';
+const SCHOLARSHIP_NAME = 'scholarshipName';
 
 /**
  * The data controller which fetches scholarship data 
@@ -36,7 +41,7 @@ class ScholarshipListDataHandler {
 
   /** @returns The total number of scholarship stored in backend. */
   async getTotalNumber() {
-    return 500; // Presetting page length not supported yet.
+    return 15; // Presetting page length not supported yet.
   }
 
   /**
@@ -44,16 +49,32 @@ class ScholarshipListDataHandler {
    * @param {string} lastIndex Index of the last item in the list.
    */
   async getNextBatch(itemsPerBatch, lastIndex) {
-    const scholarshipList = [];
+    let scholarshipList = [];
     const queryString = QUERY_START + NUMBER_OF_ITEMS + EQUALS + itemsPerBatch + AND
-         + INDEX_OF_LAST_ITEM + EQUALS + lastIndex;
+        + INDEX_OF_LAST_ITEM + EQUALS + lastIndex;
     try {
-      scholarshipList = await fetch(SCHOLARSHIP_LIST_ENDPT + queryString);
+      let responseList = await fetch(SCHOLARSHIP_LIST_ENDPT + queryString);
+      scholarshipList = await responseList.json();
+      scholarshipList = scholarshipList.map(e => this.formatListItem(e));
     } catch(e) {
       console.log(e);
       throw e;
+    }	   
+    return {scholarships: scholarshipList};	
+  }
+
+  /**
+   * @param {*} item The schoarship object.
+   * @returns The formatted scholarship list item.
+   */
+  formatListItem(item) {
+    const amount = (item[AMOUNT_PER_YEAR] || UNKNOWN);
+    return {
+      scholarshipName: item[SCHOLARSHIP_NAME],
+      id: item[ID],
+      amountPerYear: amount.substring(0, 23),
+      schools: EMPTY_STRING,
     }
-    return scholarshipList;
   }
 }
 
