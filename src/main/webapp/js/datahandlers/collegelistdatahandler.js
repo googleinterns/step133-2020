@@ -90,10 +90,9 @@ class CollegeListDataHandler {
    * Fetch a batch of college object from DoE API.
    * @param {number=} batchIndex - Unused parameter that ensures the method
    *   headers for getNextBatch() stay consistent across all listdatahandlers.
-   * @param {number} itemsPerBatch - The number of objects requested.
+   * @param {*} itemsPerBatch - The number of objects requested.
    * @param {number=} lastIndex - Unused parameter that ensures the method
    *   headers for getNextBatch() stay consistent across all listdatahandlers.
-   * @return {string} The JSON String of the query.
    */
   async getNextBatch(batchIndex, itemsPerBatch, lastIndex) {
     const url = this.buildURL_(itemsPerBatch);

@@ -69,7 +69,7 @@
                           id:string]>}
   {log}colleges{/log}
   {for $item in $colleges}
-    <tr class="class" id={$item.id}
+    <tr class="college" id={$item.id}
         jsaction="collegelistview.clickAction;
         dblclick:collegelistview.doubleClickAction">
       <td class="mdl-data-table__cell--non-numeric">{$item.name}</td>
