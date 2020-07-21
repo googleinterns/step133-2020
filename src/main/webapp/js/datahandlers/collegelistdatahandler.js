@@ -19,6 +19,8 @@
 
 goog.module('datahandlers.collegelistdatahandler');
 
+const {COLLEGE_API_KEY} = goog.require('datahandlers.config');
+
 const COLLEGE_LIST_ENDPT = 
   'https://api.data.gov/ed/collegescorecard/v1/schools.json?';
 const AND = "&";
@@ -26,6 +28,7 @@ const COMMA = ',';
 const PAGE_SIZE_FIELD = 'per_page';
 const PAGE = 'page';
 const EQUAL = '=';
+const API_KEY_FIELD = 'api_key=';
 const QUERY_FIELDS = '_fields=';
 const COLLEGES = 'school.degrees_awarded.predominant=2,3';
 const ID = 'id';
@@ -53,7 +56,8 @@ class CollegeListDataHandler {
   buildURL_(itemsPerBatch) {
     return COLLEGE_LIST_ENDPT.concat(COLLEGES, AND, QUERY_FIELDS, ID, COMMA, 
       NAME, COMMA, ACCEPTANCE_RATE, COMMA, ACT_SCORE, AND, PAGE_SIZE_FIELD, EQUAL, 
-      itemsPerBatch.toString(), AND, PAGE, EQUAL, this._currentPage.toString());
+      itemsPerBatch.toString(), AND, PAGE, EQUAL, this._currentPage.toString(), AND, 
+      API_KEY_FIELD, );
   }
 
   /**
