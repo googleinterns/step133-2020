@@ -19,6 +19,11 @@
 
 goog.module('datahandlers.scholarshiplistdatahandler');
 
+const AND = '&';
+const EQUALS = '=';
+const INDEX_OF_LAST_ITEM = 'indexOfLastItem';
+const NUMBER_OF_ITEMS = 'numberOfItems';
+const QUERY_START = '?';
 const SCHOLARSHIP_LIST_ENDPT = '/scholarship-list';
 
 /**
@@ -31,25 +36,22 @@ class ScholarshipListDataHandler {
 
   /** @returns The total number of scholarship stored in backend. */
   async getTotalNumber() {
-    return 500;
+    return 500; // Presetting page length not supported yet.
   }
 
   /**
-   * @param {number} batchIndex The index of the batch to be fetched.
    * @param {number} itemsPerBatch NUmber of items requested.
-   * @param {number} lastIndex Index of the last item in the list.
+   * @param {string} lastIndex Index of the last item in the list.
    */
-  async getNextBatch(batchIndex, itemsPerBatch, lastIndex) {
+  async getNextBatch(itemsPerBatch, lastIndex) {
     const scholarshipList = [];
-    let i = 0;
-    for (i = 0; i < itemsPerBatch; i++) {
-      const data = {
-        'name': 'Scholarship Name' + (batchIndex * itemsPerBatch + i), 
-        'schools': 'Schools offering scholarship' + (batchIndex * itemsPerBatch + i), 
-        'amount': 'amount',
-        'id' : batchIndex * itemsPerBatch + i,
-      }
-      scholarshipList[i] = data;
+    const queryString = QUERY_START + NUMBER_OF_ITEMS + EQUALS + itemsPerBatch + AND
+         + INDEX_OF_LAST_ITEM + EQUALS + lastIndex;
+    try {
+      scholarshipList = await fetch(SCHOLARSHIP_LIST_ENDPT + queryString);
+    } catch(e) {
+      console.log(e);
+      throw e;
     }
     return scholarshipList;
   }
