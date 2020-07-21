@@ -33,8 +33,8 @@ const QUERY_FIELDS = '_fields=';
 const COLLEGES = 'school.degrees_awarded.predominant=2,3';
 const ID = 'id';
 const NAME =  'school.name'
-const ACCEPTANCE_RATE = 'admissions.admission_rate.overall';
-const ACT_SCORE = 'admissions.act_scores.midpoint.cumulative';
+const ACCEPTANCE_RATE = '2018.admissions.admission_rate.overall';
+const ACT_SCORE = '2018.admissions.act_scores.midpoint.cumulative';
 
 /**
  * The data controller which fetches college data 
@@ -57,7 +57,7 @@ class CollegeListDataHandler {
     return COLLEGE_LIST_ENDPT.concat(COLLEGES, AND, QUERY_FIELDS, ID, COMMA, 
       NAME, COMMA, ACCEPTANCE_RATE, COMMA, ACT_SCORE, AND, PAGE_SIZE_FIELD, EQUAL, 
       itemsPerBatch.toString(), AND, PAGE, EQUAL, this._currentPage.toString(), AND, 
-      API_KEY_FIELD, );
+      API_KEY_FIELD, COLLEGE_API_KEY);
   }
 
   /**
