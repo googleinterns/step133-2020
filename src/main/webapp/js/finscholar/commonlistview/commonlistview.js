@@ -16,6 +16,7 @@
 
 goog.module('finscholar.commonlistview');
 
+const JsactionActionFlow = goog.require('jsaction.ActionFlow');
 const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
 const {BasicView} = goog.require('basicview');
 const {commonlistview, scholarshiplistitems, collegelistitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
@@ -42,8 +43,10 @@ class CommonListView extends BasicView {
     /** @private @const {string} */
     this.optionIndex_ = optionIndex;
 
-    /** @private @type {!Array<function(nstring): undefined>} */
-    this.listeners_ = [];
+    /**
+     * @protected @type {!Array<function(!Element): undefined>}
+     */
+    this.listeners = [];
 
     /** @private @const {function({scholarships : !Array<?>}):Element} */
     this.template_ =
@@ -128,6 +131,14 @@ class CommonListView extends BasicView {
         throw e;
       }
     }
+  }
+
+  /**
+   * Registers a listener for jsaction.
+   * @param {function(!Element): undefined} listener
+   */
+  registerListener(listener) {
+    this.listeners.push(listener);
   }
 
   /**
