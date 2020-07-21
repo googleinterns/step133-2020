@@ -27,15 +27,16 @@ const STATUS_BAR_ID = 'status';
 /** The mini controller for scholarship list view. */
 class CommonListView {
   
-  constructor(dataHandler, optionIndex) {
-    /** @private @const {ScholarshipListDataHandler | CollegeListDataHandler} */
-    this.dataHandler_ = dataHandler;
+  constructor(optionTag) {
+    /** @private @const {ScholarshipListDataHandler} */
+    this.dataHandler_ = null;
 
     /** @private @const {string} */
-    this.optionIndex_ = optionIndex;
+    this.optionTag_ = optionTag;
 
     /** @private @const {function({scholarships : !Array<?>}):Element} */
-    this.template_ = this.optionIndex_ == '0' ? collegelistitems : scholarshiplistitems;
+    this.template_ = 
+        this.optionTag_ == 'colleges' ? collegelistitems : scholarshiplistitems;
 
     /** @private {number} The number of batch of data has been loaded into the view. */
     this.batch_ = 0;
@@ -66,12 +67,19 @@ class CommonListView {
   }
 
   /** 
+   * @param {ScholarshipListDataHandler}
+   */
+  init(dataHandler) {
+    this.dataHandler_ = dataHandler;
+  }
+
+  /** 
    * Loads the first two batches of list item to page. 
    * @param {!Element} tableContainer 
    * The container where the entire table is rendered to.
    */
-  async init(tableContainer) {
-    tableContainer.innerHTML = commonlistview({pageIndex: this.optionIndex_});
+  async renderView(tableContainer) {
+    tableContainer.innerHTML = commonlistview({pagetype: this.optionTag_});
     this.container_ = googDom.getElement(ITEM_CONTAINER_ID)
     this.statusBar_ = googDom.getElement(STATUS_BAR_ID);
     window.addEventListener('scroll', this.bindedScrollHandler_);
@@ -100,10 +108,11 @@ class CommonListView {
       this.container_.innerHTML += this.template_({scholarships: dataList});
       this.statusBar_.innerHTML = endoflist();
       this.batch_ += 1;
-      this.isLoading_ = false;
     } catch (e) {
       console.log(e);
       throw e;
+    } finally {
+      this.isLoading_ = false;
     }
   }
 

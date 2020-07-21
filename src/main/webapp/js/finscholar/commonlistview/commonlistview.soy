@@ -15,13 +15,13 @@
 {namespace finscholar.commonlistview.templates}
 
 {template .commonlistview}
-  {@param pageIndex : string}
+  {@param pagetype : string}
   <table class="mdl-data-table mdl-js-data-table 
       mdl-data-table--selectable mdl-shadow--2dp">
     <thead>
-      {if $pageIndex == '1'}
+      {if $pagetype == 'scholarships'}
         {call .scholarshiplistheader /}
-      {else}
+      {elseif $pagetype == 'colleges'}
         {call .collegelistheader /}
       {/if}
     </thead>
