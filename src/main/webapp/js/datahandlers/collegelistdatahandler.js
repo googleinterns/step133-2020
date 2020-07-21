@@ -47,8 +47,6 @@ const ACT_RANGE = '__range=25..36';
 class CollegeListDataHandler {
 
   constructor() {
-    /** The current page to retrieve from */
-    this._currentPage = 0;
   }
 
   /**
@@ -57,10 +55,10 @@ class CollegeListDataHandler {
    * @return {string} - The URL to query from.
    * @private
    */
-  buildURL_(itemsPerBatch) {
+  buildURL_(batchIndex, itemsPerBatch) {
     return COLLEGE_LIST_ENDPT.concat(COLLEGES, AND, QUERY_FIELDS, ID, COMMA, NAME, COMMA, 
       ACCEPTANCE_RATE, COMMA, ACT_SCORE, AND, PAGE_SIZE_FIELD, EQUAL, 
-      itemsPerBatch.toString(), AND, PAGE, EQUAL, this._currentPage.toString(), 
+      itemsPerBatch.toString(), AND, PAGE, EQUAL, batchIndex.toString(), 
       AND, ACCEPTANCE_RATE, ACCEPTANCE_RANGE, AND, ACT_SCORE, ACT_RANGE, AND, 
       API_KEY_FIELD, COLLEGE_API_KEY);
   }
@@ -72,10 +70,7 @@ class CollegeListDataHandler {
    */
   convertJsonToObject_(json) {
     let results = json["results"];
-
-    results = results.map(element => this.helper(element));
-    console.log(results);
-    return results;
+    return results.map(element => this.helper(element));
   }
 
   helper (element) {
@@ -89,18 +84,16 @@ class CollegeListDataHandler {
 
   /**
    * Fetch a batch of college object from DoE API.
-   * @param {number=} batchIndex - Unused parameter that ensures the method
-   *   headers for getNextBatch() stay consistent across all listdatahandlers.
-   * @param {*} itemsPerBatch - The number of objects requested.
+   * @param {number} batchIndex - Page number to extract.
+   * @param {number} itemsPerBatch - The number of objects requested.
    * @param {number=} lastIndex - Unused parameter that ensures the method
    *   headers for getNextBatch() stay consistent across all listdatahandlers.
    */
   async getNextBatch(batchIndex, itemsPerBatch, lastIndex) {
-    const url = this.buildURL_(itemsPerBatch);
+    console.log('Batch to load: ' + batchIndex);
+    const url = this.buildURL_(batchIndex, itemsPerBatch);
     const response = await fetch(url);
     const json = await response.json();
-    this._currentPage++;
-    console.log(json);
     return this.convertJsonToObject_(json);
   }
 }

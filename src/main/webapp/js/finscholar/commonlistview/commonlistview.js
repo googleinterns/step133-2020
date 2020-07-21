@@ -72,7 +72,7 @@ class CommonListView {
     this.statusBar_ = googDom.getElement(STATUS_BAR_ID);
     window.addEventListener('scroll', this.bindedScrollHandler_);
     try {
-      await this.renderNextBatch_(this.itemsPerBatch_ * 2);
+      await this.renderNextBatch_(this.itemsPerBatch_);
     } catch(e) {
       console.log(e);
       throw e;
