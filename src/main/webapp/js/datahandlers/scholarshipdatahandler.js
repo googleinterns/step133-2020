@@ -19,6 +19,7 @@ const {Map: SoyMap} = goog.require('soy.map');
 const {addSpaceToCamelCase} = goog.require('datahandlers.utils');
 
 const NA = 'N/A';
+const ID_QUERY_PARAM = '?id=';
 const REQUIREMENTS = [
   'academicRequirements', 'ethnicityRaceRequirements', 'financialRequirements',
   'genderRequirements', 'locationRequirements', 'nationalOriginRequirements',
@@ -108,7 +109,7 @@ class ScholarshipDataHandler {
    * @private
    */
   async fetchScholarshipJson_(id) {
-    const response = await fetch(SCHOLARSHIP_ENDPOINT, {'id': id});
+    const response = await fetch(SCHOLARSHIP_ENDPOINT + ID_QUERY_PARAM + id);
     let data = undefined;
     if (response.ok) {
       try {
