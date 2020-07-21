@@ -40,9 +40,6 @@ const navbarViewFactory = (index) => {
     case 2:
       view = new ScholarshipListView();
       break;
-    case 3:
-      view = new ScholarshipPageView();
-      break;
     default:
       view = new HomePageController();
       break;

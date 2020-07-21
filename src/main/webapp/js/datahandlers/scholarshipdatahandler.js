@@ -83,7 +83,7 @@ class ScholarshipDataHandler {
 
   /**
    * Fetch the scholarship data with the specified uuid and format it.
-   * @param {number} id The uuid of the scholarship data.
+   * @param {string} id The uuid of the scholarship data.
    * @return The formatted scholarship JS object map.
    */
   async fetchAndFormatData(id) {
@@ -104,7 +104,7 @@ class ScholarshipDataHandler {
 
   /**
    * Fetch request to the data servlet and return the JSON response.
-   * @param {number} id The uuid of the schedule.
+   * @param {string} id The uuid of the schedule.
    * @return {*} - The JSON response.
    * @private
    */

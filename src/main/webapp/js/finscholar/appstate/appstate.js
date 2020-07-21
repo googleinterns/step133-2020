@@ -54,6 +54,7 @@ class AppState {
    * @param {number} index The button mapped to the view that the user selected.
    */
   navbarUpdate(index) {
+    this.currentView_.removeScrollHandler();
     this.currentView_ = navbarViewFactory(index);
     this.currentView_.renderView();
     this.navbarInstance_ = new NavBar();

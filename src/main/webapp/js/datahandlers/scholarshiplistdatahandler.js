@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** 
- * @fileoverview The data controller which fetches scholarship data 
- * from backend and reformats the data. 
+/**
+ * @fileoverview The data controller which fetches scholarship data
+ * from backend and reformats the data.
  */
 
 goog.module('datahandlers.scholarshiplistdatahandler');
@@ -22,11 +22,10 @@ goog.module('datahandlers.scholarshiplistdatahandler');
 const SCHOLARSHIP_LIST_ENDPT = '/scholarship-list';
 
 /**
- * The data controller which fetches scholarship data 
- * from backend and reformats the data. 
+ * The data controller which fetches scholarship data
+ * from backend and reformats the data.
  */
 class ScholarshipListDataHandler {
-
   constructor() {}
 
   /** @returns The total number of scholarship stored in backend. */
@@ -37,18 +36,19 @@ class ScholarshipListDataHandler {
   /**
    * @param {number} batchIndex The index of the batch to be fetched.
    * @param {number} itemsPerBatch NUmber of items requested.
-   * @param {number} lastIndex Index of the last item in the list.
+   * @param {string} lastIndex Index of the last item in the list.
    */
   async getNextBatch(batchIndex, itemsPerBatch, lastIndex) {
     const scholarshipList = [];
     let i = 0;
     for (i = 0; i < itemsPerBatch; i++) {
       const data = {
-        'name': 'Scholarship Name' + (batchIndex * itemsPerBatch + i), 
-        'schools': 'Schools offering scholarship' + (batchIndex * itemsPerBatch + i), 
+        'name': 'Scholarship Name' + (batchIndex * itemsPerBatch + i),
+        'schools':
+            'Schools offering scholarship' + (batchIndex * itemsPerBatch + i),
         'amount': 'amount',
-        'id' : batchIndex * itemsPerBatch + i,
-      }
+        'id': batchIndex * itemsPerBatch + i,
+      };
       scholarshipList[i] = data;
     }
     return scholarshipList;

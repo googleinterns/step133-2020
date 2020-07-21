@@ -33,7 +33,7 @@ class ScholarshipListView extends CommonListView {
    */
   async renderView() {
     try {
-      await super.init(container);
+      await super.init();
     } catch (e) {
       console.log(e);
       throw e;
