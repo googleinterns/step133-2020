@@ -62,6 +62,19 @@ class CollegeListDataHandler {
       AND, ACCEPTANCE_RATE, ACCEPTANCE_RANGE, AND, API_KEY_FIELD, COLLEGE_API_KEY);
   }
 
+  convertJsonToObject_(json, itemsPerBatch) {
+    const collegeList = [];
+    const results = json["results"];
+    for (let i = 0; i < itemsPerBatch - 1; i++) {
+      const data = {
+        'name' : results[i.toString()][NAME],
+        'acceptanceRate' : results[i.toString()][ACCEPTANCE_RATE],
+        'averageACT' : results[i.toString()][ACT_SCORE],
+        'id' : results[i.toString()][ID]
+      }
+    }
+  }
+
   /**
    * Fetch a batch of college object from DoE API.
    * @param {number=} batchIndex - Unused parameter that ensures the method
@@ -77,7 +90,7 @@ class CollegeListDataHandler {
     const json = await response.json();
     this._currentPage++;
     console.log(json);
-    return json;
+    return this.convertJsonToObject_(json, itemsPerBatch);
   }
 }
 
