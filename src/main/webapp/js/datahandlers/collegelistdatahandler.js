@@ -79,7 +79,7 @@ class CollegeListDataHandler {
         'name' : element[NAME],
         'acceptanceRate' : element[ACCEPTANCE_RATE].toString(),
         'averageACT' : element[ACT_SCORE].toString(),
-        'id' : element[ID]
+        'id' : element[ID].toString()
       });
     });
     console.log(collegeList);
