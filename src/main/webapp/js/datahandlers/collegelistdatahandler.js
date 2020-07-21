@@ -71,7 +71,8 @@ class CollegeListDataHandler {
    */
   async getNextBatch(batchIndex, itemsPerBatch, lastIndex) {
     const url = this.buildURL_(itemsPerBatch);
-    const json = await fetch(url);
+    const response = await fetch(url);
+    const json = await response.json();
     this._currentPage++;
     console.log(json);
     return json;
