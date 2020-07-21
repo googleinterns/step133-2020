@@ -90,12 +90,16 @@ public class FirebaseStorageManager {
    * @param collectionToWriteTo
    * @param objects
    */
-  public static void storeMultipleDocuments(Firestore database, String collectionToWriteTo, List<?> objects) throws FirebaseException {
+  public static void storeMultipleDocuments(Firestore database, String collectionToWriteTo, List<?> objects) 
+    throws FirebaseException {
     for (Object object : objects) {
       try {
         storeDocument(database, collectionToWriteTo, object, ServletConstantValues.DEFAULT_VALUE);
       } catch (Exception e) {
-        throw new FirebaseException(ServletConstantValues.UNABLE_TO_WRITE_TO_FIRESTORE + collectionToWriteTo, e);
+        String message = String.format(EXCEPTION_FORMATTER, 
+          ServletConstantValues.UNABLE_TO_WRITE_TO_FIRESTORE , 
+          collectionToWriteTo);
+        throw new FirebaseException(message, e);
       }
     }
   }
