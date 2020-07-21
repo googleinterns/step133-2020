@@ -64,8 +64,13 @@ class CollegeListDataHandler {
       AND, ACCEPTANCE_RATE, ACCEPTANCE_RANGE, AND, ACT_SCORE, ACT_RANGE, AND, 
       API_KEY_FIELD, COLLEGE_API_KEY);
   }
-
-  convertJsonToObject_(json, itemsPerBatch) {
+  /**
+   * This converts a json string to a js object map.
+   * @param {*} json - The json representing a list of colleges.
+   * @return - The list of js object maps.
+   * @private
+   */
+  convertJsonToObject_(json) {
     const collegeList = [];
     const results = json["results"];
 
@@ -96,7 +101,7 @@ class CollegeListDataHandler {
     const json = await response.json();
     this._currentPage++;
     console.log(json);
-    return this.convertJsonToObject_(json, itemsPerBatch);
+    return this.convertJsonToObject_(json);
   }
 }
 
