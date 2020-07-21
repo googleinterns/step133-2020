@@ -66,14 +66,20 @@ class CommonListView extends BasicView {
     /** @private @const {!function(number):Promise<undefined>} */
     this.bindedDataLoader_ = this.renderNextBatch_.bind(this);
 
-    /** @private {number} Number of items to be added for each laod. */
-    this.itemsPerBatch_ = 15;
+     /** @private {number} Number of items to be added for each laod. */
+    this.itemsPerBatch_ = 5;
 
     /** @private {string} The id of the last item in the list. */
     this.idOfLastItem_ = EMPTY_STRING;
-
-    /** @private @type {?Element} */
+    
+    /** @private {?Element} */
     this.statusBar_ = null;
+
+    /** @private {number} */
+    this.totalItemsNumber_ = 0;
+
+    /** @private {boolean} */
+    this.isLoading_ = false;
   }
 
   /**
@@ -86,8 +92,10 @@ class CommonListView extends BasicView {
     this.statusBar_ = googDom.getElement(STATUS_BAR_ID);
     window.addEventListener('scroll', this.bindedScrollHandler_);
     try {
+      this.totalItemsNumber_ = await this.dataHandler_.getTotalNumber();
       await this.renderNextBatch_(this.itemsPerBatch_ * 2);
-    } catch (e) {
+      this.batch_ = 2;
+    } catch(e) {
       console.log(e);
       throw e;
     }
@@ -101,12 +109,15 @@ class CommonListView extends BasicView {
   async renderNextBatch_(numberOfItems) {
     this.statusBar_.innerHTML = loading();
     try {
+      this.isLoading_ = true;
       const dataList = await this.dataHandler_
                         .getNextBatch(numberOfItems, this.idOfLastItem_);
-      this.idOfLastItem_ = dataList[dataList.length - 1].id;
+      this.idOfLastItem_ = 
+          dataList ? dataList[dataList.length - 1].id : EMPTY_STRING;
       this.container_.innerHTML += this.template_(dataList);
       this.statusBar_.innerHTML = endoflist();
       this.batch_ += 1;
+      this.isLoading_ = false;
     } catch (e) {
       console.log(e);
       throw e;
@@ -119,11 +130,15 @@ class CommonListView extends BasicView {
    * @private
    */
   async loadNextBatch_() {
-    const cellHeight = googDom.getElement('table-header').offsetHeight;
+    if (this.isLoading_) {
+      return;
+    }
+    const cellHeight = googDom.getFirstElementChild(this.container_).offsetHeight;
     const scrolledHeight = window.scrollY;
     const browserHeight = window.innerHeight;
-    const threshold = (this.batch_) * this.itemsPerBatch_ * cellHeight;
-    if (scrolledHeight + browserHeight > threshold) {
+    const threshold = (this.batch_ - 1) * this.itemsPerBatch_ * cellHeight;
+    if (scrolledHeight + browserHeight > threshold &&
+        this.batch_ * this.itemsPerBatch_ < this.totalItemsNumber_) {
       try {
         await this.bindedDataLoader_(this.itemsPerBatch_);
       } catch (e) {
