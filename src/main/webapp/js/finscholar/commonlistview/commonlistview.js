@@ -17,6 +17,7 @@
 goog.module('finscholar.commonlistview');
 
 const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
+const {BasicView} = goog.require('basicview');
 const {commonlistview, scholarshiplistitems, collegelistitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
 const googDom = goog.require('goog.dom');
 
@@ -25,23 +26,35 @@ const ITEM_CONTAINER_ID = 'table-body';
 const STATUS_BAR_ID = 'status';
 
 /** The mini controller for scholarship list view. */
-class CommonListView {
-  
+class CommonListView extends BasicView {
+  /**
+   * @param {!ScholarshipListDataHandler} dataHandler
+   * @param {string} optionIndex
+   */
   constructor(dataHandler, optionIndex) {
+    super();
 
-    /** @private @const {ScholarshipListDataHandler | CollegeListDataHandler} */
+    /**
+     * @private @const {!ScholarshipListDataHandler}
+     */
     this.dataHandler_ = dataHandler;
 
     /** @private @const {string} */
     this.optionIndex_ = optionIndex;
 
-    /** @private @const {function({scholarships : !Array<?>}):Element} */
-    this.template_ = this.optionIndex_ == '0' ? collegelistitems : scholarshiplistitems;
+    /** @private @type {!Array<function(nstring): undefined>} */
+    this.listeners_ = [];
 
-    /** @private {number} The number of batch of data has been loaded into the view. */
+    /** @private @const {function({scholarships : !Array<?>}):Element} */
+    this.template_ =
+        this.optionIndex_ == '0' ? collegelistitems : scholarshiplistitems;
+
+    /**
+     * @private @type {number} The number of batch of data has been loaded into the view.
+     */
     this.batch_ = 0;
 
-    /** @private {Element|null} The container for all list items. */
+    /** @private @type {?Element} The container for all list items. */
     this.container_ = null;
 
     /** @private @const {!function():Promise<undefined>} */
@@ -50,29 +63,28 @@ class CommonListView {
     /** @private @const {!function(number):Promise<undefined>} */
     this.bindedDataLoader_ = this.renderNextBatch_.bind(this);
 
-     /** @private {number} Number of items to be added for each laod. */
+    /** @private {number} Number of items to be added for each laod. */
     this.itemsPerBatch_ = 15;
 
     /** @private {string} The id of the last item in the list. */
     this.idOfLastItem_ = EMPTY_STRING;
-    
-    /** @private @const {Element|null} */
+
+    /** @private @type {?Element} */
     this.statusBar_ = null;
   }
 
-  /** 
-   * Loads the first two batches of list item to page. 
-   * @param {!Element} tableContainer 
-   * The container where the entire table is rendered to.
+  /**
+   * Loads the first two batches of list item to page.
    */
-  async init(tableContainer) {
-    tableContainer.innerHTML = commonlistview({pageIndex: this.optionIndex_});
-    this.container_ = googDom.getElement(ITEM_CONTAINER_ID)
+  async init() {
+    super.setCurrentContent(commonlistview({pageIndex: this.optionIndex_}));
+    super.resetAndUpdate();
+    this.container_ = googDom.getElement(ITEM_CONTAINER_ID);
     this.statusBar_ = googDom.getElement(STATUS_BAR_ID);
     window.addEventListener('scroll', this.bindedScrollHandler_);
     try {
       await this.renderNextBatch_(this.itemsPerBatch_ * 2);
-    } catch(e) {
+    } catch (e) {
       console.log(e);
       throw e;
     }
@@ -104,7 +116,7 @@ class CommonListView {
    * @private
    */
   async loadNextBatch_() {
-    const cellHeight = googDom.getElement('title').offsetHeight;
+    const cellHeight = googDom.getElement('table-header').offsetHeight;
     const scrolledHeight = window.scrollY;
     const browserHeight = window.innerHeight;
     const threshold = (this.batch_) * this.itemsPerBatch_ * cellHeight;
@@ -119,7 +131,7 @@ class CommonListView {
   }
 
   /**
-   * Before the currently view is removed, call this function to remove 
+   * Before the currently view is removed, call this function to remove
    * scroll event handler.
    */
   removeScrollHandler() {

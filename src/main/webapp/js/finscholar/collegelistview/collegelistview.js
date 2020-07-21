@@ -16,23 +16,23 @@
 
 goog.module('finscholar.collegelistview');
 
+const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
 const {CommonListView} = goog.require('finscholar.commonlistview');
-const {CollegeListDataHandler} = goog.require('datahandlers.collegelistdatahandler');
 
 /** The mini controller for college list view. */
 class CollegeListView extends CommonListView {
-  
   constructor() {
-    super(new CollegeListDataHandler(), '0');
+    // super(new CollegeListDataHandler(), '0');
+    super(new ScholarshipListDataHandler(), '0');
   }
 
   /**
    * Renders a college list view to the container.
-   * @param {!Element} container The HTML container to load the view.
+   * @override
    */
-  renderView(container) {
-    super.init(container);
+  async renderView() {
+    super.init();
   }
 }
 
-exports = {CollegeListView}
+exports = {CollegeListView};

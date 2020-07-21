@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** 
- * @fileoverview The data controller which fetches scholarship data 
- * from backend and reformats the data. 
+/**
+ * @fileoverview The data controller which fetches scholarship data
+ * from backend and reformats the data.
  */
 
 goog.module('datahandlers.scholarshiplistdatahandler');
@@ -27,16 +27,15 @@ const QUERY_START = '?';
 const SCHOLARSHIP_LIST_ENDPT = '/scholarship-list';
 
 /**
- * The data controller which fetches scholarship data 
- * from backend and reformats the data. 
+ * The data controller which fetches scholarship data
+ * from backend and reformats the data.
  */
 class ScholarshipListDataHandler {
-
   constructor() {}
 
   /** @returns The total number of scholarship stored in backend. */
   async getTotalNumber() {
-    return 500; // Presetting page length not supported yet.
+    return 15; // Presetting page length not supported yet.
   }
 
   /**
@@ -44,7 +43,7 @@ class ScholarshipListDataHandler {
    * @param {string} lastIndex Index of the last item in the list.
    */
   async getNextBatch(itemsPerBatch, lastIndex) {
-    const scholarshipList = [];
+    let scholarshipList = [];
     const queryString = QUERY_START + NUMBER_OF_ITEMS + EQUALS + itemsPerBatch + AND
          + INDEX_OF_LAST_ITEM + EQUALS + lastIndex;
     try {

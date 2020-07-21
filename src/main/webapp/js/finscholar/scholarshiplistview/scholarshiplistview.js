@@ -23,19 +23,18 @@ const SCHOLARSHIP_LIST_INDEX = '1';
 
 /** The mini controller for scholarship list view. */
 class ScholarshipListView extends CommonListView {
-  
   constructor() {
     super(new ScholarshipListDataHandler(), SCHOLARSHIP_LIST_INDEX);
   }
 
   /**
    * Renders a scholarship list view to the container.
-   * @param {!Element} container The HTML container to load the view.
+   * @override
    */
-  async renderView(container) {
+  async renderView() {
     try {
-      await super.init(container);
-    } catch(e) {
+      await super.init();
+    } catch (e) {
       console.log(e);
       throw e;
     }
