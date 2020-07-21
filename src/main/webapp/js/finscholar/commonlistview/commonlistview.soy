@@ -67,9 +67,6 @@
                           acceptanceRate: string, 
                           averageACT: string, 
                           id: string]>}
-  {script}
-    console.log(colleges);
-  {/script}
   {for $item in $colleges}
     <tr class="college" id={$item.id}
         jsaction="collegelistview.clickAction;
