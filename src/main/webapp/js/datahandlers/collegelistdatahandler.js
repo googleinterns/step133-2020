@@ -37,7 +37,7 @@ const ID = 'id';
 const NAME =  'school.name'
 const ACCEPTANCE_RATE = '2018.admissions.admission_rate.overall';
 const ACT_SCORE = '2018.admissions.act_scores.midpoint.cumulative';
-
+const ACCEPTANCE_RANGE = '__range=0..0.50';
 /**
  * The data controller which fetches college data 
  * from backend and reformats the data. 
@@ -56,9 +56,10 @@ class CollegeListDataHandler {
    * @private
    */
   buildURL_(itemsPerBatch) {
-    return COLLEGE_LIST_ENDPT.concat(COLLEGES, AND, QUERY_FIELDS, ID, COMMA, NAME, COMMA, ACCEPTANCE_RATE, COMMA, 
-      ACT_SCORE, AND, PAGE_SIZE_FIELD, EQUAL, itemsPerBatch.toString(), AND, PAGE, EQUAL, 
-      this._currentPage.toString(), AND, API_KEY_FIELD, COLLEGE_API_KEY);
+    return COLLEGE_LIST_ENDPT.concat(COLLEGES, AND, QUERY_FIELDS, ID, COMMA, NAME, COMMA, 
+      ACCEPTANCE_RATE, COMMA, ACT_SCORE, AND, PAGE_SIZE_FIELD, EQUAL, 
+      itemsPerBatch.toString(), AND, PAGE, EQUAL, this._currentPage.toString(), 
+      AND, ACCEPTANCE_RATE, ACCEPTANCE_RANGE, AND, API_KEY_FIELD, COLLEGE_API_KEY);
   }
 
   /**
