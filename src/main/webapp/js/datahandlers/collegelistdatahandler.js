@@ -38,7 +38,8 @@ const NAME =  'school.name'
 const ACCEPTANCE_RATE = '2018.admissions.admission_rate.overall';
 const ACT_SCORE = '2018.admissions.act_scores.midpoint.cumulative';
 const ACCEPTANCE_RANGE = '__range=0..0.50';
-const ACT_RANGE = '__range=25..36'
+const ACT_RANGE = '__range=25..36';
+
 /**
  * The data controller which fetches college data 
  * from backend and reformats the data. 
@@ -60,7 +61,8 @@ class CollegeListDataHandler {
     return COLLEGE_LIST_ENDPT.concat(COLLEGES, AND, QUERY_FIELDS, ID, COMMA, NAME, COMMA, 
       ACCEPTANCE_RATE, COMMA, ACT_SCORE, AND, PAGE_SIZE_FIELD, EQUAL, 
       itemsPerBatch.toString(), AND, PAGE, EQUAL, this._currentPage.toString(), 
-      AND, ACCEPTANCE_RATE, ACCEPTANCE_RANGE, AND, API_KEY_FIELD, COLLEGE_API_KEY);
+      AND, ACCEPTANCE_RATE, ACCEPTANCE_RANGE, AND, ACT_SCORE, ACT_RANGE, AND, 
+      API_KEY_FIELD, COLLEGE_API_KEY);
   }
 
   convertJsonToObject_(json, itemsPerBatch) {
@@ -68,7 +70,12 @@ class CollegeListDataHandler {
     const results = json["results"];
 
     results.forEach(element => {
-      console.log(element);
+      collegeList.push({
+        'name' : element[NAME],
+        'acceptanceRate' : element[ACCEPTANCE_RATE],
+        'averageACT' : element[ACT_SCORE],
+        'id' : element[ID]
+      });
     });
     // for (let i = 0; i < itemsPerBatch - 1; i++) {
     
@@ -79,6 +86,7 @@ class CollegeListDataHandler {
     //     'id' : results[i.toString()][ID]
     //   }
     // }
+    console.log(collegeList);
   }
 
   /**
