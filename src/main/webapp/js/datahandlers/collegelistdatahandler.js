@@ -23,6 +23,8 @@ const COLLEGE_LIST_ENDPT =
   'https://api.data.gov/ed/collegescorecard/v1/schools.json?';
 const AND = "&";
 const COMMA = ',';
+const PAGE_SIZE_FIELD = 'per_page';
+const PAGE = 'page';
 const EQUAL = '=';
 const QUERY_FIELDS = '_fields=';
 const COLLEGES = 'school.degrees_awarded.predominant=2,3';
@@ -37,19 +39,38 @@ const ACT_SCORE = 'admissions.act_scores.midpoint.cumulative';
  */
 class CollegeListDataHandler {
 
-  constructor() {}
+  constructor() {
+    /** The current page to retrieve from */
+    this._currentPage = 0;
+  }
 
-  buildURL() {
-
+  /**
+   * Build a URL to fetch from the College Scorecard API.
+   * @param {number} itemsPerBatch - The number of items to query per batch.
+   * @return {string} - The URL to query from.
+   * @private
+   */
+  buildURL_(itemsPerBatch) {
+    return COLLEGE_LIST_ENDPT.concat(COLLEGES, AND, QUERY_FIELDS, ID, COMMA, 
+      NAME, COMMA, ACCEPTANCE_RATE, COMMA, ACT_SCORE, AND, PAGE_SIZE_FIELD, EQUAL, 
+      itemsPerBatch.toString(), AND, PAGE, EQUAL, this._currentPage.toString());
   }
 
   /**
    * Fetch a batch of college object from DoE API.
-   * @param {number} batchIndex The index of the batch to be fetched.
-   * @param {number} itemsPerBatch The number of objects requested.
+   * @param {number=} batchIndex - Unused parameter that ensures the method
+   *   headers for getNextBatch() stay consistent across all listdatahandlers.
+   * @param {number} itemsPerBatch - The number of objects requested.
+   * @param {number=} lastIndex - Unused parameter that ensures the method
+   *   headers for getNextBatch() stay consistent across all listdatahandlers.
+   * @return {string} The JSON String of the query.
    */
-  async getNextBatch(batchIndex, itemsPerBatch) {
-
+  async getNextBatch(batchIndex, itemsPerBatch, lastIndex) {
+    const url = this.buildURL_(itemsPerBatch);
+    const json = await fetch(url);
+    this._currentPage++;
+    console.log(json);
+    return json;
   }
 }
 
