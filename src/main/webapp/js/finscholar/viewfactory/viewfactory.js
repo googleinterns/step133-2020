@@ -32,13 +32,13 @@ const navbarViewFactory = (index) => {
   let view;
   switch (index) {
     case 0:
-      view = new CollegeListView();
+      view = new HomePageController();
       break;
     case 1:
       view = new ScholarshipListView();
       break;
     case 2:
-      view = new HomePageController();
+      view = new ScholarshipListView();
       break;
     case 3:
       view = new ScholarshipPageView();
