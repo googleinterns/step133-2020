@@ -19,7 +19,7 @@
 
 goog.module('datahandlers.collegelistdatahandler');
 
-const COLLEGE_LIST_ENDPT = '';
+const COLLEGE_LIST_ENDPT = 'https://api.data.gov/ed/collegescorecard/v1/';
 
 /**
  * The data controller which fetches college data 
@@ -28,10 +28,10 @@ const COLLEGE_LIST_ENDPT = '';
 class CollegeListDataHandler {
 
   constructor() {}
+  
 
-  /** @returns The total number of scholarship stored in backend. */
-  async getTotalNumber() {
-    
+  buildURL() {
+
   }
 
   /**
