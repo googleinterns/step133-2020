@@ -16,6 +16,7 @@ package com.google.step.finscholar.data;
 
 import javax.servlet.http.HttpServletRequest;
 
+/** The class containing all commonly used helper functions. */
 public class Utils {
 
   /**
@@ -27,7 +28,7 @@ public class Utils {
    */
   public static String getStringParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
-
+    
     if (value == null) {
       return defaultValue;
     }

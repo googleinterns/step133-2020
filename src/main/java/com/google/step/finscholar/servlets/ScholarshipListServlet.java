@@ -15,17 +15,23 @@
 package com.google.step.finscholar.servlets;
 
 import static com.google.step.finscholar.data.ServletConstantValues.DEFAULT_VALUE;
+import static com.google.step.finscholar.data.ServletConstantValues.INVALID_INT_PARAMETER;
 import static com.google.step.finscholar.data.ServletConstantValues.JSON_CONTENT_TYPE;
 import static com.google.step.finscholar.data.ServletConstantValues.SCHOLARSHIP_COLLECTION_NAME;
 import static com.google.step.finscholar.data.ServletConstantValues.UNABLE_TO_LOAD_FIREBASE;
+import static com.google.step.finscholar.data.ServletConstantValues.UNABLE_TO_READ_FROM_FIRESTORE;
+import static com.google.step.finscholar.data.ServletConstantValues.UNKNOWN_ERROR;
+
 import static com.google.step.finscholar.data.Utils.getIntParameter;
 import static com.google.step.finscholar.data.Utils.getStringParameter;
 import static com.google.step.finscholar.firebase.FirebaseStorageManager.getCollectionBatch;
 
 import com.google.step.finscholar.firebase.FirebaseAppManager;
 import com.google.cloud.firestore.Firestore;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.cloud.FirestoreClient;
 import java.io.IOException;
+import java.lang.NumberFormatException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,24 +42,40 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/scholarship-list")
 public class ScholarshipListServlet extends HttpServlet {
     
-  String ITEMS_PER_BATCH = "numberOfItems";
-  String ID_OF_LAST_ITEM = "idOfLastItem";
-  String SORT_BY = "sortBy";
+  private static String ITEMS_PER_BATCH = "numberOfItems";
+  private static String ID_OF_LAST_ITEM = "idOfLastItem";
+  private static String SORT_BY = "sortBy";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Firestore database;
+    Firestore database = null;
+    int itemsPerBatch = 0;
     try {
       database = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
-      int itemsPerBatch = getIntParameter(request, ITEMS_PER_BATCH);
-      String idOfLastItem = getStringParameter(request, ID_OF_LAST_ITEM, DEFAULT_VALUE);
-      String sortBy = getStringParameter(request, SORT_BY, DEFAULT_VALUE);
-    
-      response.setContentType(JSON_CONTENT_TYPE);
-      response.getWriter().println(
-        getCollectionBatch(database, SCHOLARSHIP_COLLECTION_NAME, itemsPerBatch, idOfLastItem, sortBy));
+      itemsPerBatch = getIntParameter(request, ITEMS_PER_BATCH);
+    } catch (NumberFormatException numberException) {
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST, 
+          INVALID_INT_PARAMETER + numberException);
     } catch (Exception e) {
-      response.sendError(HttpServletResponse.SC_BAD_GATEWAY, UNABLE_TO_LOAD_FIREBASE + e);
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST, 
+          UNKNOWN_ERROR + e);
+    }
+
+    if (database != null && itemsPerBatch != 0) {
+      try {
+        String idOfLastItem = getStringParameter(request, ID_OF_LAST_ITEM, DEFAULT_VALUE);
+        String sortBy = getStringParameter(request, SORT_BY, DEFAULT_VALUE);
+    
+        response.setContentType(JSON_CONTENT_TYPE);
+        response.getWriter().println(
+            getCollectionBatch(database, SCHOLARSHIP_COLLECTION_NAME, itemsPerBatch, idOfLastItem, sortBy));
+      } catch (FirebaseException firebaseException) {
+        response.sendError(HttpServletResponse.SC_BAD_GATEWAY, 
+            UNABLE_TO_READ_FROM_FIRESTORE + firebaseException);
+      } catch (Exception e) {
+        response.sendError(HttpServletResponse.SC_NO_CONTENT, 
+            UNKNOWN_ERROR + e);
+      }
     }
   }
 }

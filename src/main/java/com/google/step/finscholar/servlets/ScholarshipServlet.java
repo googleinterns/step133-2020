@@ -19,6 +19,7 @@ import static com.google.step.finscholar.data.ServletConstantValues.DEFAULT_VALU
 import static com.google.step.finscholar.data.ServletConstantValues.JSON_CONTENT_TYPE;
 import static com.google.step.finscholar.data.ServletConstantValues.SCHOLARSHIP_COLLECTION_NAME;
 import static com.google.step.finscholar.data.ServletConstantValues.UNABLE_TO_LOAD_FIREBASE;
+import static com.google.step.finscholar.data.ServletConstantValues.UNABLE_TO_READ_FROM_FIRESTORE;
 import static com.google.step.finscholar.data.Utils.getStringParameter;
 import static com.google.step.finscholar.firebase.FirebaseStorageManager.getDocument;
 
@@ -56,7 +57,7 @@ public class ScholarshipServlet extends HttpServlet {
       try {
         response.getWriter().println(getDocument(database, SCHOLARSHIP_COLLECTION_NAME, id));
       } catch(Exception e) {
-        response.sendError(HttpServletResponse.SC_NO_CONTENT, UNABLE_TO_LOAD_FIREBASE + e);  
+        response.sendError(HttpServletResponse.SC_NO_CONTENT, UNABLE_TO_READ_FROM_FIRESTORE + e);  
       }
     }
   }
