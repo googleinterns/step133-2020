@@ -66,8 +66,7 @@
   {@param colleges: list<[name: string, 
                           acceptanceRate: string, 
                           averageACT: string, 
-                          id:string]>}
-  {log}colleges{/log}
+                          id: string]>}
   {for $item in $colleges}
     <tr class="college" id={$item.id}
         jsaction="collegelistview.clickAction;
