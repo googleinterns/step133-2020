@@ -2,11 +2,11 @@ package com.google.step.finscholar.firebase;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.logging.Logger;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.step.finscholar.data.ServletConstantValues;
-import com.google.step.finscholar.data.TestObject;
+import com.google.step.finscholar.firebase.TestObject;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -16,6 +16,8 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class FirebaseStorageManagerTest {
   // Constants for FirebaseStorageManagerTest.
+  /** Logger that sends logs to the Cloud Project console. */
+  private static final Logger log = Logger.getLogger(FirebaseStorageManager.class.getName());
   public static final String TEST_COLLECTION_NAME = "testObjects";
   public static final String TEST_DOCUMENT_NAME = "testDocument";
   public static final String EXPECTED_DOCUMENT_RETRIEVABLE = "{\"one\":\"testObjects\",\"two\":\"testDocument\"}";
@@ -44,13 +46,13 @@ public class FirebaseStorageManagerTest {
     try {
       FirebaseStorageManager.storeDocument(firebase, TEST_COLLECTION_NAME, testObject, TEST_DOCUMENT_NAME);
     } catch (Exception e) {
-      System.out.println(e.toString());
+      log.info(e.toString());
     }
     String json = "";
     try {
       json = FirebaseStorageManager.getDocument(firebase, TEST_COLLECTION_NAME, TEST_DOCUMENT_NAME);
     } catch (Exception e) {
-      System.out.println(e.toString());
+      log.info(e.toString());
     }
     Assert.assertEquals(json, EXPECTED_DOCUMENT_RETRIEVABLE);
   }
@@ -60,13 +62,13 @@ public class FirebaseStorageManagerTest {
     try {
       FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
     } catch (Exception e) {
-      System.out.println(e.toString());
+      log.info(e.toString());
     }
     String json = ServletConstantValues.DEFAULT_VALUE;
     try {
       json = FirebaseStorageManager.getCollection(firebase, TEST_COLLECTION_NAME);
     } catch (Exception e) {
-      System.out.println(e.toString());
+      log.info(e.toString());
     }
     Assert.assertNotEquals(ServletConstantValues.DEFAULT_VALUE, json);
   }
@@ -75,20 +77,24 @@ public class FirebaseStorageManagerTest {
   public void retrieveCollectionBatchWithIDandWithoutID() {
     String jsonWithID = ServletConstantValues.DEFAULT_VALUE;
     try {
-      jsonWithID = FirebaseStorageManager.getCollectionBatch(firebase, TEST_COLLECTION_NAME, TEST_BATCH_SIZE_LIMIT, TEST_DOCUMENT_NAME, ServletConstantValues.DEFAULT_VALUE);
+      jsonWithID = FirebaseStorageManager.getCollectionBatch(firebase, TEST_COLLECTION_NAME, 
+          TEST_BATCH_SIZE_LIMIT, TEST_DOCUMENT_NAME, ServletConstantValues.DEFAULT_VALUE);
     } catch (Exception e) {
-      System.out.println(e.toString());
+      log.info(e.toString());
     }
-    System.out.println("Batch query results with ID: " + jsonWithID);
+    String noIdMessage = String.format("Batch query results with ID: %s", jsonWithID);
+    log.info(noIdMessage);
     Assert.assertNotEquals(ServletConstantValues.DEFAULT_VALUE, jsonWithID);
 
     String jsonWithoutID = ServletConstantValues.DEFAULT_VALUE;
     try {
-      jsonWithoutID = FirebaseStorageManager.getCollectionBatch(firebase, TEST_COLLECTION_NAME, TEST_BATCH_SIZE_LIMIT, ServletConstantValues.DEFAULT_VALUE, ServletConstantValues.DEFAULT_VALUE);
+      jsonWithoutID = FirebaseStorageManager.getCollectionBatch(firebase, TEST_COLLECTION_NAME, 
+          TEST_BATCH_SIZE_LIMIT, ServletConstantValues.DEFAULT_VALUE, ServletConstantValues.DEFAULT_VALUE);
     } catch (Exception e) {
-      System.out.println(e.toString());
+      log.info(e.toString());
     }
-    System.out.println("Batch query results without ID: " + jsonWithoutID);
+    String idMessage = String.format("Batch query results without ID: %s", jsonWithoutID);
+    log.info(idMessage);
     Assert.assertNotEquals(ServletConstantValues.DEFAULT_VALUE, jsonWithoutID);
   }
 }

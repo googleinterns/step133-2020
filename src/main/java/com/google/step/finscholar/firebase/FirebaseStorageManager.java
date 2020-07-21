@@ -56,7 +56,7 @@ public class FirebaseStorageManager {
    * @param documentID - The optional id for storing the document.
    */
   public static void storeDocument(Firestore database, String collectionToWriteTo, Object object, String documentID) 
-    throws FirebaseException {
+      throws FirebaseException {
     // Access the correct collection.
     CollectionReference collectionRef = database.collection(collectionToWriteTo);
 
@@ -114,7 +114,7 @@ public class FirebaseStorageManager {
    * @return - The JSON string representing the datapoint I just retrieved.
    */
   public static String getDocument(Firestore database, String collectionToGetFrom, String documentID) 
-    throws FirebaseException {
+      throws FirebaseException {
     // Retrieve a reference to the document representing the datapoint I want to retrieve.
     DocumentReference documentReference = database.collection(collectionToGetFrom).document(documentID);
 
@@ -175,16 +175,20 @@ public class FirebaseStorageManager {
 
   /**
    * Adds support for infinite scroll by batching queries into pages of a limited size.
-   * Either we send in the first requested batch, or we send the next batch after one has already been sent.
+   * Either we send in the first requested batch, or we send the next batch after one has 
+   * already been sent.
    * @param database - The database to retrieve from.
    * @param collectionToGetFrom - The name of the collection to retrieve the batch from.
-   * @param batchSizeLimit - The maximum size of the batch, which is the size of a new page of data in infinite scroll.
+   * @param batchSizeLimit - The maximum size of the batch, which is the size of a new page of 
+   *   data in infinite scroll.
    * @param lastDocID - The ID of the last object I sent from the most recent batch.
    * @param parameterToSortBy - The parameter I want to presort my collection by.
    * @return - The json string representing the new batch of documents to be sent to the frontend.
    * @throws FirebaseException
    */
-  public static String getCollectionBatch(Firestore database, String collectionToGetFrom, int batchSizeLimit,  String lastDocID, String parameterToSortBy) throws FirebaseException {
+  public static String getCollectionBatch(Firestore database, String collectionToGetFrom, 
+      int batchSizeLimit,  String lastDocID, String parameterToSortBy) 
+      throws FirebaseException {
     CollectionReference collectionReference = database.collection(collectionToGetFrom);
 
     // If the lastDocID is DEFAULT_VALUE (""), then we know this is the first batch to send.
@@ -206,10 +210,12 @@ public class FirebaseStorageManager {
    * @return - The json string representing the first batch in a request for all of the documents in a collection.
    * @throws FirebaseException
    */
-  private static String getFirstBatch(CollectionReference collectionReference, int batchSizeLimit, String parameterToSortBy) throws FirebaseException {
+  private static String getFirstBatch(CollectionReference collectionReference, int batchSizeLimit, String parameterToSortBy) 
+      throws FirebaseException {
     // We have the option here to sort the collection by specific parameter beforehand (great for supporting sort-type queries later on).
     // Setup the new Query.
-    Query page = (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE) ? collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit));
+    Query page = (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE) ? 
+      collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit));
     return getCollectionQuery(page);
   }
 
@@ -225,7 +231,9 @@ public class FirebaseStorageManager {
    * @return - The json string representing the next batch in a request for all of the documents in a collection.
    * @throws FirebaseException
    */
-  private static String getNextBatch(Firestore database, CollectionReference collectionReference, int batchSizeLimit, String lastDocID, String parameterToSortBy) throws FirebaseException {
+  private static String getNextBatch(Firestore database, CollectionReference collectionReference, 
+      int batchSizeLimit, String lastDocID, String parameterToSortBy) 
+      throws FirebaseException {
     // First retrieve the last document I sent.
     DocumentReference documentReference = collectionReference.document(lastDocID);
 
@@ -243,7 +251,9 @@ public class FirebaseStorageManager {
     // If the last document I sent still exists, then retrieve a batch of size=batchSizeLimit documents 
     //   that occur after the last doc in the collection.
     if (document.exists()) {
-      Query page = (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE) ? collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit)).startAfter(document);
+      Query page = (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE) ? 
+          collectionReference.limit(batchSizeLimit) : 
+          collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit)).startAfter(document);
       return getCollectionQuery(page);
 
     } else {
@@ -254,7 +264,8 @@ public class FirebaseStorageManager {
   }
 
   /**
-   * Helper method: can be reused for any Query that needs to be made to a collection as long as the Query is constructed beforehand.
+   * Helper method: can be reused for any Query that needs to be made to a collection as long as 
+   *   the Query is constructed beforehand.
    * This method retrieves a query from a collection.
    * @param page - The query to retrieve.
    * @return - The collection of objects converted as a json string.
