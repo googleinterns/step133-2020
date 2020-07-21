@@ -198,13 +198,7 @@ public class FirebaseStorageManager {
   public static String getFirstBatch(CollectionReference collectionReference, int batchSizeLimit, String parameterToSortBy) throws FirebaseException {
     // We have the option here to sort the collection by specific parameter beforehand (great for supporting sort-type queries later on).
     // Setup the new Query.
-    Query page;
-    // if (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE)) {
-    //   page = collectionReference.limit(batchSizeLimit);
-    // } else {
-    //   page = collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit);
-    // }
-    page = (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE) ? collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit));
+    Query page = (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE) ? collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit));
     return getCollectionQuery(page);
   }
 
@@ -222,7 +216,6 @@ public class FirebaseStorageManager {
    */
   public static String getNextBatch(Firestore database, CollectionReference collectionReference, int batchSizeLimit, String lastDocID, String parameterToSortBy) throws FirebaseException {
     // First retrieve the last document I sent.
-    Query page;
     DocumentReference documentReference = collectionReference.document(lastDocID);
 
     // Get a "Future" for the document, which will be used to generate a DocumentSnapshot of the data point.
@@ -239,13 +232,7 @@ public class FirebaseStorageManager {
     // If the last document I sent still exists, then retrieve a batch of size=batchSizeLimit documents 
     //   that occur after the last doc in the collection.
     if (document.exists()) {
-      // We have the option here to sort the collection by specific parameter beforehand (great for supporting sort queries later on).
-      // if (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE)) {
-      //   page = collectionReference.limit(batchSizeLimit).startAfter(document);
-      // } else {
-      //   page = collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit).startAfter(document);
-      // }
-      page = (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE) ? collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit)).startAfter(document);
+      Query page = (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE) ? collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit)).startAfter(document);
       return getCollectionQuery(page);
 
     } else {
