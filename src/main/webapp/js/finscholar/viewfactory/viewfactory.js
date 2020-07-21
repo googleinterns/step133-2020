@@ -17,7 +17,6 @@
 goog.module('finscholar.viewfactory');
 
 const {BasicView} = goog.require('basicview');
-const {CollegeListView} = goog.require('finscholar.collegelistview');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
 const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
 const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');

@@ -30,8 +30,9 @@ const ACTION_JSON_UNDEFINED =
     'Please reload the page or select a different college.';
 const OCCURRENCE_SERVER_ERROR =
     'A database error occurred. Failed to render college data.';
-const ACTION_SERVER_ERROR = 'The database failed to retrieve the college. \
-      This college may not exist. Please reload the page or select a different college.';
+const ACTION_SERVER_ERROR =
+    'The database failed to retrieve the college. This college may not ' +
+    'exist. Please reload the page or select a different college.';
 
 
 /**
