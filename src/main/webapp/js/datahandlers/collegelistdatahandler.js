@@ -71,19 +71,20 @@ class CollegeListDataHandler {
    * @private
    */
   convertJsonToObject_(json) {
-    const collegeList = [];
-    const results = json["results"];
+    let results = json["results"];
 
-    results.forEach(element => {
-      collegeList.push({
-        'name' : element[NAME],
-        'acceptance' : element[ACCEPTANCE_RATE].toString(),
-        'act' : element[ACT_SCORE].toString(),
-        'id' : element[ID].toString()
-      });
-    });
-    console.log(collegeList);
-    return collegeList;
+    results = results.map(element => this.helper(element));
+    console.log(results);
+    return results;
+  }
+
+  helper (element) {
+    return {
+        name : element[NAME],
+        acceptance : element[ACCEPTANCE_RATE].toString(),
+        act : element[ACT_SCORE].toString(),
+        id : element[ID].toString()
+    };
   }
 
   /**
