@@ -23,7 +23,7 @@ const {COLLEGE_API_KEY} = goog.require('datahandlers.config');
 
 const COLLEGE_LIST_ENDPT = 
   'https://api.data.gov/ed/collegescorecard/v1/schools.json?';
-const AND = "&";
+const AND = '&';
 const COMMA = ',';
 const PAGE_SIZE_FIELD = 'per_page';
 const PAGE = 'page';

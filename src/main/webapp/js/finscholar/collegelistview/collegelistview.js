@@ -30,7 +30,7 @@ class CollegeListView extends CommonListView {
    * Renders a college list view to the container.
    * @param {!Element} container The HTML container to load the view.
    */
-  renderView(container) {
+  async renderView(container) {
     try {
       await super.init(container);
     } catch(e) {
