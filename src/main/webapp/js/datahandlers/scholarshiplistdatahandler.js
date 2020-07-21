@@ -22,6 +22,7 @@ goog.module('datahandlers.scholarshiplistdatahandler');
 const AND = '&';
 const AMOUNT_PER_YEAR = 'amountPerYear';
 const EMPTY_STRING = '';
+const END_OF_STRING = 23;
 const EQUALS = '=';
 const ID = 'id';
 const INDEX_OF_LAST_ITEM = 'indexOfLastItem';
@@ -72,7 +73,7 @@ class ScholarshipListDataHandler {
     return {
       scholarshipName: item[SCHOLARSHIP_NAME],
       id: item[ID],
-      amountPerYear: amount.substring(0, 23),
+      amountPerYear: amount.substring(0, END_OF_STRING),
       schools: EMPTY_STRING,
     }
   }
