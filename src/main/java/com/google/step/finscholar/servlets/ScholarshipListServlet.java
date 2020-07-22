@@ -38,6 +38,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 @WebServlet("/scholarship-list")
 public class ScholarshipListServlet extends HttpServlet {
@@ -63,8 +64,8 @@ public class ScholarshipListServlet extends HttpServlet {
 
     if (database != null && itemsPerBatch != 0) {
       try {
-        String idOfLastItem = getStringParameter(request, ID_OF_LAST_ITEM, DEFAULT_VALUE);
-        String sortBy = getStringParameter(request, SORT_BY, DEFAULT_VALUE);
+        String idOfLastItem = getStringParameter(request, ID_OF_LAST_ITEM);
+        String sortBy = getStringParameter(request, SORT_BY);
         response.setContentType(JSON_CONTENT_TYPE);
         response.getWriter().println(
             getCollectionBatch(database, SCHOLARSHIP_COLLECTION_NAME, itemsPerBatch, idOfLastItem, sortBy));
