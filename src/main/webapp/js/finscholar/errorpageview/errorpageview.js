@@ -35,8 +35,10 @@ class ErrorPageView extends BasicView {
    */
   constructor(data) {
     super();
+
     /** @private @type {!ErrorData|undefined} */
     this.data_ = data;
+
     const html = errorpage(/** @type {!ErrorData} */ (this.data_));
     super.setCurrentContent(html);
   }
