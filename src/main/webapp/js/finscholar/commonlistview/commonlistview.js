@@ -16,6 +16,7 @@
 
 goog.module('finscholar.commonlistview');
 
+const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
 const {commonlistview, listitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
 const googDom = goog.require('goog.dom');
@@ -29,9 +30,9 @@ const STATUS_BAR_ID = 'status';
 /** The mini controller for scholarship list view. */
 class CommonListView {
   
-  constructor(optionTag) {
-    /** @private {ScholarshipListDataHandler} */
-    this.dataHandler_ = null;
+  constructor(dataHandler, optionTag) {
+    /** @private @const {!ListDataHandler} */
+    this.dataHandler_ = dataHandler;
 
     /** @private @const {string} */
     this.optionTag_ = optionTag;
@@ -74,13 +75,6 @@ class CommonListView {
   }
 
   /** 
-   * @param {ScholarshipListDataHandler} dataHandler
-   */
-  init(dataHandler) {
-    this.dataHandler_ = dataHandler;
-  }
-
-  /** 
    * Loads the first two batches of list item to page. 
    * @param {!Element} tableContainer 
    * The container where the entire table is rendered to.
@@ -109,7 +103,7 @@ class CommonListView {
     try {
       this.isLoading_ = true;
       const dataBatch = await this.dataHandler_
-                        .getNextBatch(numberOfItems, this.idOfLastItem_);
+                        .getNextBatch(this.batch_, numberOfItems, this.idOfLastItem_);
       const dataList = dataBatch ? dataBatch[ITEM] : undefined;
       this.idOfLastItem_ = 
           dataList ? dataList[dataList.length - 1][0] : EMPTY_STRING;

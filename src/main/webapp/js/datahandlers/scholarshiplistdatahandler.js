@@ -19,6 +19,8 @@
 
 goog.module('datahandlers.scholarshiplistdatahandler');
 
+const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
+
 const AMOUNT_PER_YEAR = 'amountPerYear';
 const ELLIPSIS = '...';
 const EMPTY_STRING = '';
@@ -34,9 +36,7 @@ const SCHOLARSHIP_NAME = 'scholarshipName';
  * The data controller which fetches scholarship data 
  * from backend and reformats the data. 
  */
-class ScholarshipListDataHandler {
-
-  constructor() {}
+class ScholarshipListDataHandler extends ListDataHandler {
 
   /** 
    * @returns {Promise<number>} 
@@ -76,8 +76,9 @@ class ScholarshipListDataHandler {
   /**
    * @param {Object} item The schoarship object.
    * @returns {!Array<!Array<string>>} The formatted scholarship list item.
+   * @private
    */
-  formatListItem(item) {
+  formatListItem_(item) {
     const amount = (item[AMOUNT_PER_YEAR] || UNKNOWN);
     return [
       item[ID], 
