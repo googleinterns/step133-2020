@@ -47,14 +47,15 @@ class ScholarshipListDataHandler {
   }
 
   /**
-   * @param {number} itemsPerBatch NUmber of items requested.
+   * @param {number} batchIndex The index of last batch rendered.
+   * @param {number} itemsPerBatch Number of items requested.
    * @param {string} lastIndex Index of the last item in the list.
    * @return {Promise<{
    *  type: string,
    *  items: !Array<!Array<string>>
    * }>}
    */
-  async getNextBatch(itemsPerBatch, lastIndex) {
+  async getNextBatch(batchIndex, itemsPerBatch, lastIndex) {
     let scholarshipList = [];
     const queryString = `?${NUMBER_OF_ITEMS}=${itemsPerBatch}&
         ${INDEX_OF_LAST_ITEM}=${lastIndex}`;
