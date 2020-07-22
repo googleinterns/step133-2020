@@ -132,7 +132,7 @@ class HomePageController extends PageController {
    * Render the div with id 'content' based on the click event navber buttons.
    */
   async renderPage() {
-    await (new this.TEMPLATE_HANDLERS_[this.navbarPageIndex_]).renderView(this.subView_);
+    await (new this.TEMPLATE_HANDLERS_[this.navbarPageIndex_]()).renderView(this.subView_);
   }
 }
 

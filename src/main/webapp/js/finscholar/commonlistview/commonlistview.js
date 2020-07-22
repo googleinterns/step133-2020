@@ -17,7 +17,7 @@
 goog.module('finscholar.commonlistview');
 
 const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
-const {commonlistview, scholarshiplistitems, collegelistitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
+const {commonlistview, listitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
 const googDom = goog.require('goog.dom');
 
 const EMPTY_STRING = '';
@@ -28,15 +28,14 @@ const STATUS_BAR_ID = 'status';
 class CommonListView {
   
   constructor(optionTag) {
-    /** @private @const {ScholarshipListDataHandler} */
+    /** @private {DataHandler} */
     this.dataHandler_ = null;
 
     /** @private @const {string} */
     this.optionTag_ = optionTag;
 
-    /** @private @const {function({scholarships : !Array<?>}):Element} */
-    this.template_ = 
-        this.optionTag_ == 'colleges' ? collegelistitems : scholarshiplistitems;
+    /** @private @const {function({*}):Element} */
+    this.template_ = listitems;
 
     /** @private {number} The number of batch of data has been loaded into the view. */
     this.batch_ = 0;
@@ -101,11 +100,12 @@ class CommonListView {
     this.statusBar_.innerHTML = loading();
     try {
       this.isLoading_ = true;
-      const dataList = await this.dataHandler_
+      const dataBatch = await this.dataHandler_
                         .getNextBatch(numberOfItems, this.idOfLastItem_);
+      const dataList = dataBatch ? dataBatch['items'] : undefined;
       this.idOfLastItem_ = 
-          dataList ? dataList[dataList.length - 1].id : EMPTY_STRING;
-      this.container_.innerHTML += this.template_(dataList);
+          dataList ? dataList[dataList.length - 1][0] : EMPTY_STRING;
+      this.container_.innerHTML += this.template_({batchofitems: dataBatch});
       this.statusBar_.innerHTML = endoflist();
       this.batch_ += 1;
     } catch (e) {

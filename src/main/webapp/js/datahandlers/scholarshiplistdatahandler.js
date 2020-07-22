@@ -60,10 +60,8 @@ class ScholarshipListDataHandler {
       throw e;
     }	   
     return {
-        batchofitems: {
-          type: 'scholarship',
-          items: scholarshipList,
-      },
+      type: 'scholarship',
+      items: scholarshipList,
     };	
   }
 

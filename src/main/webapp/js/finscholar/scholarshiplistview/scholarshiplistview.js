@@ -26,8 +26,11 @@ class ScholarshipListView extends CommonListView {
   
   constructor() {
     super(SCHOLARSHIP_LIST_TAG);
-    this.dataHandler_ = new ScholarshipListDataHandler();
-    super.init(this.dataHandler_);
+
+    /** @const {ScholarshipListDataHandler} */
+    this.dataHandler = new ScholarshipListDataHandler();
+
+    super.init(this.dataHandler);
   }
 }
 
