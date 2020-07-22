@@ -81,10 +81,10 @@ class CollegeListView extends CommonListView {
    *     and more. See actionflow.js.
    * @private
    */
-  handleOnclickEvent_(flow) {
+  async handleOnclickEvent_(flow) {
     console.log('jsaction fired on list item.');
-    this.listeners.forEach((listener) => {
-      listener(/** @type {!Element} */ (flow.node()));
+    this.listeners.forEach(async (listener) => {
+      await listener(/** @type {!Element} */ (flow.node()));
     });
   }
 }

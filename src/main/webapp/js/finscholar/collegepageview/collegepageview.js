@@ -16,13 +16,14 @@
 
 goog.module('finscholar.collegepageview');
 
-const {CollegePageDataHandler} = goog.require('datahandlers.collegepage');
+const {CollegeDataHandler} = goog.require('datahandlers.collegepage');
 const {SinglePageView} = goog.require('finscholar.singlepageview');
+const {collegepage} = goog.require('finscholar.collegepageview.templates');
 
 /** Class for the college page view. */
 class CollegePageView extends SinglePageView {
   constructor() {
-    super(new CollegePageDataHandler(), undefined);
+    super(new CollegeDataHandler(), collegepage);
   }
 }
 

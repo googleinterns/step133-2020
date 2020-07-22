@@ -18,6 +18,7 @@ goog.module('finscholar.singlepageview');
 
 const {BasicView} = goog.require('basicview');
 const {ScholarshipDataHandler} = goog.require('datahandlers.scholarshipdatahandler');
+const {CollegeDataHandler} = goog.require('datahandlers.collegepage')
 const googSoy = goog.require('goog.soy');
 
 
@@ -29,7 +30,7 @@ class SinglePageView extends BasicView {
   constructor(dataHandler, template) {
     super();
     /**
-     * @private @const {!ScholarshipDataHandler} dataHandler_
+     * @private @const {!ScholarshipDataHandler | !CollegeDataHandler} dataHandler_
      * The object fetches and formats scholarship data.
      */
     this.dataHandler_ = dataHandler;
