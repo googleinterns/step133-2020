@@ -25,15 +25,7 @@ class ScholarshipListView extends BasicView {
     super();
     // TODO: In MVP, we'll add member variables such as pages, the array of
     // scholarship etc.
-  }
-
-  /**
-   * Renders a scholarship list view to the container.
-   * @override
-   */
-  async renderView() {
     super.setCurrentContent(scholarshiplist());
-    super.resetAndUpdate();
   }
 }
 
