@@ -59,7 +59,12 @@ class ScholarshipListDataHandler {
       console.log(e);
       throw e;
     }	   
-    return {scholarships: scholarshipList};	
+    return {
+        batchofitems: {
+          type: 'scholarship',
+          items: scholarshipList,
+      },
+    };	
   }
 
   /**
@@ -68,12 +73,12 @@ class ScholarshipListDataHandler {
    */
   formatListItem(item) {
     const amount = (item[AMOUNT_PER_YEAR] || UNKNOWN);
-    return {
-      scholarshipName: item[SCHOLARSHIP_NAME],
-      id: item[ID],
-      amountPerYear: amount.substring(0, END_OF_STRING) + ELLIPSIS,
-      schools: ELLIPSIS,
-    }
+    return [
+      item[ID], 
+      item[SCHOLARSHIP_NAME],
+      amount.substring(0, END_OF_STRING) + ELLIPSIS,
+      ELLIPSIS,
+    ];
   }
 }
 
