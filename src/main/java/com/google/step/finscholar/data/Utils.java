@@ -28,7 +28,7 @@ public class Utils {
    *         was not specified by the client.
    */
   public static String getStringParameter(HttpServletRequest request, String name, String defaultValue) {
-    Optional<String> value = Optional.of(request.getParameter(name));
+    Optional<String> value = Optional.ofNullable(request.getParameter(name));
     return value.orElse(defaultValue);
   }
 

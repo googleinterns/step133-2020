@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.step.finscholar.data.ServletConstantValues;
-import com.google.step.finscholar.data.TestObject;
+import com.google.step.finscholar.firebase.TestObject;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
