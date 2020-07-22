@@ -34,7 +34,7 @@
 {/template}
 
 {template .scholarshiplistheader}
-  <tr id="title">
+  <tr id="table-header">
     <th class="mdl-data-table__cell--non-numeric">Scholarship Name</th>
     <th>Schools</th>
     <th>Amount</th>
@@ -42,7 +42,7 @@
 {/template}
 
 {template .collegelistheader}
-  <tr id="title">
+  <tr id="table-header">
     <th class="mdl-data-table__cell--non-numeric">College Name</th>
     <th>Acceptance Rate</th>
     <th>Average ACT</th>
@@ -50,14 +50,17 @@
 {/template}
 
 {template .scholarshiplistitems}
-  {@param scholarships: list<[name: string, schools: string, amount: string, id:string]>}
+  {@param scholarships: list<[scholarshipName: string, 
+                              schools: string, 
+                              amountPerYear: string, 
+                              id:string]>}
   {for $item in $scholarships}
     <tr class="scholarship" id={$item.id}
         jsaction="scholarshiplistview.clickAction;
         dblclick:scholarshiplistview.doubleClickAction">
-      <td class="mdl-data-table__cell--non-numeric">{$item.name}</td>
+      <td class="mdl-data-table__cell--non-numeric">{$item.scholarshipName}</td>
       <td>{$item.schools}</td>
-      <td>{$item.amount}</td>
+      <td>{$item.amountPerYear}</td>
     </tr>
   {/for}
 {/template}
