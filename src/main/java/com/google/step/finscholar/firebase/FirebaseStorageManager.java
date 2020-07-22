@@ -256,7 +256,8 @@ public class FirebaseStorageManager {
 
     } else {
       // Throws a Firebase Exception if the document does not exist.
-      String message = ServletConstantValues.DOCUMENT + lastDocID + ServletConstantValues.DNE;
+      String message = String.format(EXCEPTION_DNE_FORMATTER, 
+          lastDocID);
       throw new FirebaseException(message);
     }
   }
