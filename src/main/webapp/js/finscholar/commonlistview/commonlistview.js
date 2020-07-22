@@ -89,7 +89,6 @@ class CommonListView {
     try {
       const dataList = await this.dataHandler_
                         .getNextBatch(this.batch_, numberOfItems, this.idOfLastItem_);
-      console.log(dataList);
       this.idOfLastItem_ = dataList[dataList.length - 1].id;
       this.container_.innerHTML += this.template_({colleges: dataList});
       this.statusBar_.innerHTML = endoflist();

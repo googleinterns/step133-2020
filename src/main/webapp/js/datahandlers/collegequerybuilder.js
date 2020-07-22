@@ -33,6 +33,9 @@ const API_KEY_FIELD = 'api_key=';
 const NULL = 'null';
 const QUERY_FIELDS = '_fields=';
 const COLLEGES = 'school.degrees_awarded.predominant=2,3';
+const PUBLIC = 'school.ownership_peps=1';
+const PRIVATE = 'school.ownership_peps=2';
+const PUBLIC_OR_PRIVATE = 'school.ownership_peps=1,2';
 const ID = 'id';
 const NAME =  'school.name'
 const ACCEPTANCE_RATE = '2018.admissions.admission_rate.overall';
@@ -40,18 +43,18 @@ const ACT_SCORE = '2018.admissions.act_scores.midpoint.cumulative';
 const ACCEPTANCE_RANGE = '__range=0..0.50';
 const ACT_RANGE = '__range=25..36';
 const ANNUAL_COST = 
-    '2018.cost.program_reporter.program_1.cip_6_digit.annualized';
+    '2016.cost.program_reporter.program_1.cip_6_digit.annualized';
 const FIRST_NET_COST = 
-    '2018.cost.net_price.program_reporter.by_income_level.0-30000';
+    '2016.cost.net_price.private.by_income_level.0-30000';
 const SECOND_NET_COST = 
-    '2018.cost.net_price.program_reporter.by_income_level.30001-48000';
+    '2016.cost.net_price.private.by_income_level.30001-48000';
 const THIRD_NET_COST = 
-    '2018.cost.net_price.program_reporter.by_income_level.48001-75000';
+    '2016.cost.net_price.private.by_income_level.48001-75000';
 const FOURTH_NET_COST = 
-    '2018.cost.net_price.program_reporter.by_income_level.75001-110000';
+    '2016.cost.net_price.private.by_income_level.75001-110000';
 const FIFTH_NET_COST = 
-    '2018.cost.net_price.program_reporter.by_income_level.110001-plus';
-const MEDIAN_DEBT = '2018.aid.median_debt.completers.overall';
+    '2016.cost.net_price.private.by_income_level.110001-plus';
+const MEDIAN_DEBT = '2016.aid.median_debt.completers.overall';
 
 class CollegeQueryBuilder {
   constructor() {
@@ -63,7 +66,7 @@ class CollegeQueryBuilder {
    * @param {number} itemsPerBatch - The number of colleges to retrieve.
    */
   buildCollectionEndpoint(batchIndex, itemsPerBatch) {
-    return COLLEGE_LIST_ENDPT.concat(COLLEGES, AND, QUERY_FIELDS, 
+    return COLLEGE_LIST_ENDPT.concat(COLLEGES, AND, PRIVATE, AND, QUERY_FIELDS, 
       ID, COMMA, NAME, COMMA, ACCEPTANCE_RATE, COMMA, ACT_SCORE, AND, 
       PAGE_SIZE_FIELD, EQUAL, itemsPerBatch.toString(), AND, PAGE, 
       EQUAL, batchIndex.toString(), AND, ACCEPTANCE_RATE, ACCEPTANCE_RANGE, 

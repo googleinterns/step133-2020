@@ -19,10 +19,10 @@
 
 goog.module('datahandlers.collegelistdatahandler');
 
-const {COLLEGE_API_KEY} = goog.require('datahandlers.config');
 const {CollegeQueryBuilder} = goog.require('datahandlers.collegequerybuilder');
 const {NAME, ACCEPTANCE_RATE, ACT_SCORE, ID} = 
   goog.require('datahandlers.collegequerybuilder');
+
 /**
  * The data controller which fetches college data 
  * from backend and reformats the data. 
@@ -65,7 +65,6 @@ class CollegeListDataHandler {
    *   headers for getNextBatch() stay consistent across all listdatahandlers.
    */
   async getNextBatch(batchIndex, itemsPerBatch, lastIndex) {
-    console.log('Batch to load: ' + batchIndex);
     const url = CollegeQueryBuilder.buildCollectionEndpoint(batchIndex, itemsPerBatch);
     const response = await fetch(url);
     const json = await response.json();
