@@ -30,7 +30,7 @@ const STATUS_BAR_ID = 'status';
 class CommonListView {
   
   constructor(dataHandler, optionTag) {
-    /** @private {ScholarshipListDataHandler} */
+    /** @private @const {!ScholarshipListDataHandler} */
     this.dataHandler_ = dataHandler;
 
     /** @private @const {string} */
