@@ -29,7 +29,7 @@ class SinglePageView {
    */
   constructor(dataHandler, template) {
     /** 
-     * @private @const {SinglePageDataHandler} dataHandler_ 
+     * @private @const {!SinglePageDataHandler} dataHandler_ 
      * The object fetches and formats scholarship data.
      */
     this.dataHandler_ = dataHandler;
