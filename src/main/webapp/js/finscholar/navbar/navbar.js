@@ -79,7 +79,7 @@ class NavBar {
     console.log('testing firing of handler.');
     const index = parseInt(flow.node().getAttribute('index'), 10);
     this.navbarPageIndex_ =
-        isNaN(index) ? index : 0;  // Load home page as the default.
+        !isNaN(index) ? index : 0;  // Load home page as the default.
     this.listeners_.forEach((listener) => {
       listener(this.navbarPageIndex_);
     });
