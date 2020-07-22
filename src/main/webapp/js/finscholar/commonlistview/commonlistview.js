@@ -21,6 +21,8 @@ const {commonlistview, listitems, loading, endoflist} = goog.require('finscholar
 const googDom = goog.require('goog.dom');
 
 const EMPTY_STRING = '';
+const INVALID_RESPONSE = 'Invalid data from server';
+const ITEM = 'item';
 const ITEM_CONTAINER_ID = 'table-body';
 const STATUS_BAR_ID = 'status';
 
@@ -108,11 +110,11 @@ class CommonListView {
       this.isLoading_ = true;
       const dataBatch = await this.dataHandler_
                         .getNextBatch(numberOfItems, this.idOfLastItem_);
-      const dataList = dataBatch ? dataBatch['items'] : undefined;
+      const dataList = dataBatch ? dataBatch[ITEM] : undefined;
       this.idOfLastItem_ = 
           dataList ? dataList[dataList.length - 1][0] : EMPTY_STRING;
       if (!dataBatch || !dataList) {
-        throw new Error('Invalid data from server');
+        throw new Error(INVALID_RESPONSE);
       }
       this.container_.innerHTML += this.template_({batchofitems: dataBatch});
       this.statusBar_.innerHTML = endoflist();
