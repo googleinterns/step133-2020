@@ -65,7 +65,6 @@ public class ScholarshipListServlet extends HttpServlet {
       try {
         String idOfLastItem = getStringParameter(request, ID_OF_LAST_ITEM, DEFAULT_VALUE);
         String sortBy = getStringParameter(request, SORT_BY, DEFAULT_VALUE);
-
         response.setContentType(JSON_CONTENT_TYPE);
         response.getWriter().println(
             getCollectionBatch(database, SCHOLARSHIP_COLLECTION_NAME, itemsPerBatch, idOfLastItem, sortBy));
