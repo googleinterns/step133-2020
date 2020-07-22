@@ -14,6 +14,7 @@
 
 package com.google.step.finscholar.data;
 
+import java.lang.NumberFormatException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
@@ -23,13 +24,11 @@ public class Utils {
   /**
    * @param request       The current HTTP request being handled.
    * @param name          The parameter name.
-   * @param defaultValue  The default string if the field does not exist in request.
-   * @return the request parameter, or the default value if the parameter
+   * @return the request parameter, or Optional.empty if the parameter
    *         was not specified by the client.
    */
-  public static String getStringParameter(HttpServletRequest request, String name, String defaultValue) {
-    Optional<String> value = Optional.ofNullable(request.getParameter(name));
-    return value.orElse(defaultValue);
+  public static Optional<String> getStringParameter(HttpServletRequest request, String name) {
+    return Optional.ofNullable(request.getParameter(name));
   }
 
   /**
@@ -38,14 +37,8 @@ public class Utils {
    * @return the request parameter, or the default value if the parameter
    *         was not specified by the client.
    */
-  public static int getIntParameter(HttpServletRequest request, String name) {
-    String value = request.getParameter(name);
-    int parsedValue = 0;
-    try {
-      parsedValue = Integer.parseInt(value);
-    } catch(Exception e) {
-      throw(e);
-    }
-    return parsedValue;
+  public static Optional<Integer> getIntParameter(HttpServletRequest request, String name) 
+      throws NumberFormatException {
+    return Optional.ofNullable(Integer.parseInt(request.getParameter(name)));
   }
 } 
