@@ -75,7 +75,7 @@ class ScholarshipListDataHandler {
   }
 
   /**
-   * @param {Object} item The schoarship object.
+   * @param {Object} item The scholarship object.
    * @returns {!Array<!Array<string>>} The formatted scholarship list item.
    */
   formatListItem(item) {
