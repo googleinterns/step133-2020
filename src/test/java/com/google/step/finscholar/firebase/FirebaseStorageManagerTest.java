@@ -1,12 +1,12 @@
 package com.google.step.finscholar.firebase;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.step.finscholar.data.ServletConstantValues;
 import com.google.step.finscholar.firebase.TestObject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
