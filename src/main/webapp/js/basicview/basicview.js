@@ -28,6 +28,7 @@ class BasicView {
   constructor() {
     /** @private @type {string} */
     this.pageTitle_ = DEFAULT_PAGE_TITLE;
+
     /** @private @type {?googSoy.data.SanitizedHtml} */
     this.currentContent_ = null;
   }
