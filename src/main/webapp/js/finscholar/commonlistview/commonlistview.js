@@ -105,7 +105,7 @@ class CommonListView {
                         .getNextBatch(numberOfItems, this.idOfLastItem_);
       this.idOfLastItem_ = 
           dataList ? dataList[dataList.length - 1].id : EMPTY_STRING;
-      this.container_.innerHTML += this.template_({scholarships: dataList});
+      this.container_.innerHTML += this.template_(dataList);
       this.statusBar_.innerHTML = endoflist();
       this.batch_ += 1;
     } catch (e) {
