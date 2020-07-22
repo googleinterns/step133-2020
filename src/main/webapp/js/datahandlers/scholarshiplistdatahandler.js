@@ -27,6 +27,7 @@ const ID = 'id';
 const INDEX_OF_LAST_ITEM = 'indexOfLastItem';
 const UNKNOWN = 'unknown';
 const NUMBER_OF_ITEMS = 'numberOfItems';
+const SCHOLARSHIP = 'scholarship';
 const SCHOLARSHIP_LIST_ENDPOINT = '/scholarship-list';
 const SCHOLARSHIP_NAME = 'scholarshipName';
 
@@ -57,10 +58,10 @@ class ScholarshipListDataHandler {
    */
   async getNextBatch(batchIndex, itemsPerBatch, lastIndex) {
     let scholarshipList = [];
-    const queryString = `?${NUMBER_OF_ITEMS}=${itemsPerBatch}&
-        ${INDEX_OF_LAST_ITEM}=${lastIndex}`;
+    const requestUrl = `${SCHOLARSHIP_LIST_ENDPOINT}?${NUMBER_OF_ITEMS}
+        =${itemsPerBatch}&${INDEX_OF_LAST_ITEM}=${lastIndex}`;
     try {
-      let responseList = await fetch(SCHOLARSHIP_LIST_ENDPOINT + queryString);
+      let responseList = await fetch(requestUrl);
       scholarshipList = await responseList.json();
       scholarshipList = scholarshipList.map(e => this.formatListItem(e));
     } catch(e) {
@@ -68,7 +69,7 @@ class ScholarshipListDataHandler {
       throw e;
     }	   
     return {
-      type: 'scholarship',
+      type: SCHOLARSHIP,
       items: scholarshipList,
     };	
   }
@@ -78,11 +79,14 @@ class ScholarshipListDataHandler {
    * @returns {!Array<!Array<string>>} The formatted scholarship list item.
    */
   formatListItem(item) {
-    const amount = (item[AMOUNT_PER_YEAR] || UNKNOWN);
+    let amount = (item[AMOUNT_PER_YEAR] || UNKNOWN);
+    amount = amount.length > END_OF_STRING 
+        ? amount.substring(0, END_OF_STRING) + ELLIPSIS 
+        : amount;
     return [
       item[ID], 
       item[SCHOLARSHIP_NAME],
-      amount.substring(0, END_OF_STRING) + ELLIPSIS,
+      amount,
       ELLIPSIS,
     ];
   }

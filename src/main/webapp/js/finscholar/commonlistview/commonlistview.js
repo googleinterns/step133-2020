@@ -29,9 +29,9 @@ const STATUS_BAR_ID = 'status';
 /** The mini controller for scholarship list view. */
 class CommonListView {
   
-  constructor(optionTag) {
+  constructor(dataHandler, optionTag) {
     /** @private {ScholarshipListDataHandler} */
-    this.dataHandler_ = null;
+    this.dataHandler_ = dataHandler;
 
     /** @private @const {string} */
     this.optionTag_ = optionTag;
@@ -71,13 +71,6 @@ class CommonListView {
 
     /** @private {boolean} */
     this.isLoading_ = false;
-  }
-
-  /** 
-   * @param {ScholarshipListDataHandler} dataHandler
-   */
-  init(dataHandler) {
-    this.dataHandler_ = dataHandler;
   }
 
   /** 

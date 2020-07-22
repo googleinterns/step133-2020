@@ -25,12 +25,7 @@ const SCHOLARSHIP_LIST_TAG = 'scholarships';
 class ScholarshipListView extends CommonListView {
   
   constructor() {
-    super(SCHOLARSHIP_LIST_TAG);
-
-    /** @const {ScholarshipListDataHandler} */
-    this.dataHandler = new ScholarshipListDataHandler();
-
-    super.init(this.dataHandler);
+    super(new ScholarshipListDataHandler(), SCHOLARSHIP_LIST_TAG);
   }
 }
 
