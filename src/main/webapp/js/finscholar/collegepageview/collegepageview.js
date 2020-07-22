@@ -16,6 +16,7 @@
 
 goog.module('finscholar.collegepageview');
 
+const {CollegePageDataHandler} = goog.require('datahandlers.collegepage');
 const {SinglePageView} = goog.require('finscholar.singlepageview');
 const {loadCollegeData} = goog.require('datahandlers.collegepage');
 
@@ -23,13 +24,8 @@ const {loadCollegeData} = goog.require('datahandlers.collegepage');
 class CollegePageView extends SinglePageView {
 
   constructor() {
-    super(undefined, undefined);
+    super(new CollegePageDataHandler(), undefined);
   }
-
-  /** Render the college page. */
-  async renderView(element, id) {
-    await loadCollegeData(element);
-  };
 }
 
 exports = {CollegePageView};

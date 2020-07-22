@@ -27,7 +27,9 @@ const OCCURRENCE_SERVER_ERROR = 'A database error occurred. Failed to render col
 const ACTION_SERVER_ERROR = 'The database failed to retrieve the college. \
       This college may not exist. Please reload the page or select a different college.';
 
+class CollegePageDataHandler {
 
+}
 /**
  * This method converts from JSON to a JS object map, 
  *  which will be used to populate the college page soy template.
