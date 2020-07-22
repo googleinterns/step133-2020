@@ -16,6 +16,7 @@
 
 goog.module('datahandlers.scholarshipdatahandler');
 const {Map: SoyMap} = goog.require('soy.map');
+const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 const {addSpaceToCamelCase} = goog.require('datahandlers.utils');
 
 const NA = 'N/A';
@@ -30,7 +31,7 @@ const SEPARATOR = ', ';
 const SCHOLARSHIP_ENDPOINT = '/scholarship-data';
 
 /** This class loads scholarship data from the backend and formats it for soy templates.  */
-class ScholarshipDataHandler {
+class ScholarshipDataHandler extends SinglePageDataHandler {
 
   /**
    * This method converts from scholarship JSON object to a JS object map, 

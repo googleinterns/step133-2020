@@ -12,24 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @fileoverview Base class for College View. */
+/** @fileoverview This class loads scholarship data from the servlet. */
 
-goog.module('finscholar.collegepageview');
+goog.module('datahandlers.singlepagedatahandler');
 
-const {SinglePageView} = goog.require('finscholar.singlepageview');
-const {loadCollegeData} = goog.require('datahandlers.collegepage');
 
-/** Class for the college page view. */
-class CollegePageView extends SinglePageView {
+/** 
+ * This class loads scholarship/college data from the backend and formats it for soy templates.  
+ */
+class SinglePageDataHandler {
 
-  constructor() {
-    super(undefined, undefined); // Place holder
-  }
-
-  /** Render the college page. */
-  async renderView(element, id) {
-    await loadCollegeData(element);
-  };
+  /**
+   * Fetch the scholarship/college data with the id and format it.
+   * @param {string} id The uuid of the scholarship/college data.
+   * @return The formatted scholarship/college JS object map.
+   */
+  async fetchAndFormatData(id) {}
 }
 
-exports = {CollegePageView};
+exports = {SinglePageDataHandler};

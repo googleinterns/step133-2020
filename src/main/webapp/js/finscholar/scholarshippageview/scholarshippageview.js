@@ -17,6 +17,7 @@
 goog.module('finscholar.scholarshippageview');
 
 const {ScholarshipDataHandler} = goog.require('datahandlers.scholarshipdatahandler');
+const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 const {SinglePageView} = goog.require('finscholar.singlepageview');
 const {scholarshippage} = goog.require('example.templates.scholarshippageviews');
 
@@ -30,11 +31,7 @@ class ScholarshipPageView extends SinglePageView {
    * @constructor
    */
   constructor() {
-    super(scholarshippage);
-
-    this.dataHandler = new ScholarshipDataHandler();
-
-    super.setDataHandler(this.dataHandler);
+    super(new ScholarshipDataHandler(), scholarshippage);
   }
 }
 
