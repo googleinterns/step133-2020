@@ -23,7 +23,8 @@ const {loadCollegeData} = goog.require('datahandlers.collegepage');
 class CollegePageView extends SinglePageView {
 
   constructor() {
-    super(undefined, undefined);
+    super(undefined); // Place holder
+    super.setDataHandler(undefined); //Place holder
   }
 
   /** Render the college page. */

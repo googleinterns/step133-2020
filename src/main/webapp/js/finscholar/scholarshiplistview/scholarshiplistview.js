@@ -30,7 +30,7 @@ class ScholarshipListView extends CommonListView {
     /** @const {ScholarshipListDataHandler} */
     this.dataHandler = new ScholarshipListDataHandler();
 
-    super.init(this.dataHandler);
+    super.setDataHandler(this.dataHandler);
   }
 }
 
