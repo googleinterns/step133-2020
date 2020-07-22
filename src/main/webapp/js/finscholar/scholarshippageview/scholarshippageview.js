@@ -30,13 +30,15 @@ class ScholarshipPageView extends BasicView {
      * The object fetches and formats scholarship data.
      */
     this.dataHandler_ = new ScholarshipDataHandler();
+
+    this.fetchData_();
   }
 
   /**
-   * Render the scholarship page.
-   * @override
+   * Fetches data and sets up the view.
+   * @private
    */
-  async renderView() {
+  async fetchData_() {
     // In the prototype, the id is set to 0 by default. Later we'll pass in id
     // as parameter.
     const id = 0;
@@ -52,7 +54,6 @@ class ScholarshipPageView extends BasicView {
     }
     try {
       super.setCurrentContent(scholarshippage({scholarship: scholarshipData}));
-      super.resetAndUpdate();
     } catch (e) {
       console.log(e);
       // Throws the error to the caller, and the caller will render an error
