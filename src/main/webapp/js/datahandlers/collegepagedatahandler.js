@@ -28,10 +28,10 @@ class CollegeDataHandler {
 
   /** 
    * @returns {Promise<number>} 
-   * The total number of scholarship stored in backend. 
+   * The max number of colleges to render. 
    */
   async getTotalNumber() {
-    return 200; // Presetting page length not supported yet.
+    return 200; 
   }
 
   /**
