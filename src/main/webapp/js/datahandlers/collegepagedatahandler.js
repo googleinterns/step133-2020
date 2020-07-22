@@ -26,6 +26,14 @@ const {CollegeQueryBuilder, ID, NAME, ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST,
 class CollegeDataHandler {
   constructor() {}
 
+  /** 
+   * @returns {Promise<number>} 
+   * The total number of scholarship stored in backend. 
+   */
+  async getTotalNumber() {
+    return 200; // Presetting page length not supported yet.
+  }
+
   /**
    * Fetch the college data with the specified uuid and format it.
    * @param {string} id The uuid of the college data.
