@@ -55,7 +55,7 @@ let CollegeObject;
 /**
  * This method converts from JSON to a JS object map,
  *  which will be used to populate the college page soy template.
- * @param {!CollegeObject|undefined} json - The JSON object to be converted.
+ * @param {!CollegeObject} json - The JSON object to be converted.
  * @return {!Promise<!CollegeObject>} - The object map representing a college's data.
  * @private
  */
@@ -81,13 +81,13 @@ const convertFromJsonToTemplate_ = async (json) => {
 
 /**
  * Fetch request to the data servlet and return the JSON response.
- * @return {!Promise<!CollegeObject|undefined>} - The JSON response.
+ * @return {!Promise<!CollegeObject>} - The JSON response.
  * @private
  */
 const loadCollegeJson_ = async () => {
   const response = await fetch(COLLEGE_SERVLET_ENDPOINT);
   if (response.ok) {
-    return /** @type {!CollegeObject|undefined} */ (await response.json());
+    return /** @type {!CollegeObject} */ (await response.json());
   } else {
     throw new Error(`${response.statusText}. Status: ${response.status}.`);
   }
