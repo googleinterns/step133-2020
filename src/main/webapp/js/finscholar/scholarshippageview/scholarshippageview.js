@@ -41,7 +41,7 @@ class ScholarshipPageView extends BasicView {
   async fetchData_() {
     // In the prototype, the id is set to 0 by default. Later we'll pass in id
     // as parameter.
-    const id = 0;
+    const id = '0';
     let scholarshipData = undefined;
     try {
       scholarshipData =
