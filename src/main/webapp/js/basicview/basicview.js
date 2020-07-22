@@ -84,7 +84,9 @@ class BasicView {
   /**
    * Public method for updating the current view.
    */
-  async renderView() {}
+  async renderView() {
+    this.resetAndUpdate();
+  }
 }
 
 exports = {BasicView};
