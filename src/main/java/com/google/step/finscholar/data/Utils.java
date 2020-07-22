@@ -15,6 +15,7 @@
 package com.google.step.finscholar.data;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 /** The class containing all commonly used helper functions. */
 public class Utils {
@@ -27,12 +28,8 @@ public class Utils {
    *         was not specified by the client.
    */
   public static String getStringParameter(HttpServletRequest request, String name, String defaultValue) {
-    String value = request.getParameter(name);
-
-    if (value == null) {
-      return defaultValue;
-    }
-    return value;
+    Optional<String> value = Optional.of(request.getParameter(name));
+    return value.orElse(defaultValue);
   }
 
   /**
