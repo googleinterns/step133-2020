@@ -24,17 +24,18 @@ public class Utils {
   /**
    * @param request       The current HTTP request being handled.
    * @param name          The parameter name.
-   * @return the request parameter, or Optional.empty if the parameter
+   * @return the request parameter in Optional, or Optional.empty if the parameter
    *         was not specified by the client.
    */
-  public static Optional<String> getStringParameter(HttpServletRequest request, String name) {
+  public static Optional<String> 
+      getStringParameter(HttpServletRequest request, String name) {
     return Optional.ofNullable(request.getParameter(name));
   }
 
   /**
    * @param request       The current HTTP request being handled.
    * @param name          The parameter name.
-   * @return the request parameter, or the default value if the parameter
+   * @return the request parameter in Optional, or the default value if the parameter
    *         was not specified by the client.
    */
   public static Optional<Integer> getIntParameter(HttpServletRequest request, String name) 
