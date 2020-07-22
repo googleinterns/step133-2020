@@ -69,7 +69,8 @@
                   <value>../../../src/main/webapp/js</value>
                 </closureSourceMapLocationMapping>
               </closureSourceMapLocationMappings>
-              <closureSourceMapName>bundle.min.map.js</closureSourceMapName>
+	      <closureSourceMapName>bundle.min.map.js</closureSourceMapName>
+	      <closureUseTypesForOptimization>true</closureUseTypesForOptimization>
             </configuration>
             <goals>
               <goal>minify</goal>

@@ -16,45 +16,55 @@
 
 goog.module('finscholar.singlepageview');
 
+const {BasicView} = goog.require('basicview');
+const {ScholarshipDataHandler} = goog.require('datahandlers.scholarshipdatahandler');
+const googSoy = goog.require('goog.soy');
+
+
 /**
  * Class for single scholarship/college page view.
  * @public
  */
-class SinglePageView {
-
-  /**
-   * @constructor
-   */
+class SinglePageView extends BasicView {
   constructor(dataHandler, template) {
-    /** 
-     * @private @const {!ScholarshipDataHandler | !CollegePageDataHandler} dataHandler_ 
+    super();
+    /**
+     * @private @const {!ScholarshipDataHandler} dataHandler_
      * The object fetches and formats scholarship data.
      */
     this.dataHandler_ = dataHandler;
     /**
-     * @private @const {!function(?):Element}
+     * @private @const {!function(?): googSoy.data.SanitizedHtml}
      */
     this.template_ = template;
+    /** @private @type {string} */
+    this.id_ = '';
+  }
+
+  /**
+   * Sets the id of the college or scholarship.
+   * @param {string} id
+   */
+  setId(id) {
+    this.id_ = id;
   }
 
   /**
    * Render the single scholarship/college page.
-   * @public
-   * @param {!Element} container 
-   * The DOM container for one scholarship/college page.
-   * @param {number} id The id of the scholarhsip/college.
+   * @override
    */
-  async renderView(container, id) {
+  async renderView() {
     let formattedData = undefined;
     try {
-      formattedData = await this.dataHandler_.fetchAndFormatData(id);
+      formattedData = await this.dataHandler_.fetchAndFormatData(this.id_);
     } catch (e) {
       console.log(e);
-      throw new Error(`Cannot get data for object ${id}, message: ${e}`);
+      throw new Error(`Cannot get data for object ${this.id_}, message: ${e}`);
     }
     try {
-      container.innerHTML = this.template_(formattedData);      
-    } catch(e) {
+      super.setCurrentContent(this.template_(formattedData));
+      super.resetAndUpdate();
+    } catch (e) {
       console.log(e);
       throw new Error(`Failed to generate html: ${e}`);
     }
@@ -62,4 +72,3 @@ class SinglePageView {
 }
 
 exports = {SinglePageView};
-

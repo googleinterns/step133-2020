@@ -19,21 +19,22 @@ const {Map: SoyMap} = goog.require('soy.map');
 const {addSpaceToCamelCase} = goog.require('datahandlers.utils');
 
 const NA = 'N/A';
-const REQUIREMENTS = ['academicRequirements', 
-                      'ethnicityRaceRequirements', 
-                      'financialRequirements', 
-                      'genderRequirements',
-                      'locationRequirements',
-                      'nationalOriginRequirements',
-                      'otherRequirements'];
+const ID_QUERY_PARAM = '?id=';
+const REQUIREMENTS = [
+  'academicRequirements', 'ethnicityRaceRequirements', 'financialRequirements',
+  'genderRequirements', 'locationRequirements', 'nationalOriginRequirements',
+  'otherRequirements'
+];
 const SEPARATOR = ', ';
 const SCHOLARSHIP_ENDPOINT = '/scholarship-data';
 
-/** This class loads scholarship data from the backend and formats it for soy templates.  */
+/**
+ * This class loads scholarship data from the backend and formats it for soy
+ * templates.
+ */
 class ScholarshipDataHandler {
-
   /**
-   * This method converts from scholarship JSON object to a JS object map, 
+   * This method converts from scholarship JSON object to a JS object map,
    *  which will be used to render the scholarship page soy template.
    * @param {*} data - The JSON object to be converted.
    * @return {Object} - The object map representing a scholarship's data.
@@ -41,11 +42,13 @@ class ScholarshipDataHandler {
    */
   async convertFromJsonToTemplate_(data) {
     const requirementsMap = new Map();
-                           
+
     let requirement = undefined;
     for (requirement of REQUIREMENTS) {
-      if (REQUIREMENTS[requirement] != undefined) {
-        requirementsMap.set(addSpaceToCamelCase(requirement), REQUIREMENTS[requirement].join(SEPARATOR));
+      if (data[requirement] != undefined) {
+        requirementsMap.set(
+            addSpaceToCamelCase(requirement),
+            data[requirement].join(SEPARATOR));
       } else {
         requirementsMap.set(addSpaceToCamelCase(requirement), NA);
       }
@@ -61,10 +64,10 @@ class ScholarshipDataHandler {
     return {
       scholarship: {
         generalInfo: {
-          scholarshipName: data['scholarshipName'], 
-          scholarshipUUID: data['scholarshipUUID'], 
+          scholarshipName: data['scholarshipName'],
+          scholarshipUUID: data['scholarshipUUID'],
           schoolsList: data['schoolsList'],
-          introduction: data['introduction'], 
+          introduction: data['introduction'],
           URL: data['URL'],
         },
         requirements: requirementsMap,
@@ -73,10 +76,10 @@ class ScholarshipDataHandler {
           applicationProcess: data['applicationProcess'],
           isRenewable: data['isRenewable'],
           numberOfYears: data['numberOfYears'],
-        }, 
+        },
       },
     };
-  };
+  }
 
   /**
    * Fetch the scholarship data with the specified uuid and format it.
@@ -92,10 +95,10 @@ class ScholarshipDataHandler {
         throw new Error('Cannot get data from remote.');
       }
 
-      return this.convertFromJsonToTemplate_(data[id]);
+      return this.convertFromJsonToTemplate_(data);
     } catch (e) {
       console.log(e);
-      throw(`Failed to fetch scholarship object ${e}`);
+      throw (`Failed to fetch scholarship object ${e}`);
     }
   }
 
@@ -106,7 +109,7 @@ class ScholarshipDataHandler {
    * @private
    */
   async fetchScholarshipJson_(id) {
-    const response = await fetch(SCHOLARSHIP_ENDPOINT, {'id': id });
+    const response = await fetch(SCHOLARSHIP_ENDPOINT + ID_QUERY_PARAM + id);
     let data = undefined;
     if (response.ok) {
       try {
@@ -122,7 +125,7 @@ class ScholarshipDataHandler {
       console.log(warning);
       throw new Error(warning);
     }
-  };
+  }
 }
 
 exports = {ScholarshipDataHandler};
