@@ -122,12 +122,7 @@ const loadCollegeData = async (element) => {
  * @private
  */
 const loadErrorPage_ = (element, occurrence, action, error) => {
-  //  const errorPage = new ErrorPageView(/** @type {!ErrorData|undefined} */ ({
-  //    occurrence: occurrence,
-  //    action: action,
-  //    errorMessage: error.toString()
-  //  }));
-  //  errorPage.renderView(element);
+  // TODO: This is being rewritten.
 };
 
 exports = {loadCollegeData};
