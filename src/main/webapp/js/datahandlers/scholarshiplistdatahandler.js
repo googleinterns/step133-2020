@@ -38,7 +38,10 @@ class ScholarshipListDataHandler {
 
   constructor() {}
 
-  /** @returns The total number of scholarship stored in backend. */
+  /** 
+   * @returns {Promise<number>} 
+   * The total number of scholarship stored in backend. 
+   */
   async getTotalNumber() {
     return 15; // Presetting page length not supported yet.
   }
@@ -46,6 +49,10 @@ class ScholarshipListDataHandler {
   /**
    * @param {number} itemsPerBatch NUmber of items requested.
    * @param {string} lastIndex Index of the last item in the list.
+   * @return {Promise<{
+   *  type: string,
+   *  items: !Array<!Array<string>>
+   * }>}
    */
   async getNextBatch(itemsPerBatch, lastIndex) {
     let scholarshipList = [];
@@ -66,8 +73,8 @@ class ScholarshipListDataHandler {
   }
 
   /**
-   * @param {*} item The schoarship object.
-   * @returns The formatted scholarship list item.
+   * @param {Object} item The schoarship object.
+   * @returns {!Array<!Array<string>>} The formatted scholarship list item.
    */
   formatListItem(item) {
     const amount = (item[AMOUNT_PER_YEAR] || UNKNOWN);

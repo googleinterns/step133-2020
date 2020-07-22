@@ -28,19 +28,25 @@ const STATUS_BAR_ID = 'status';
 class CommonListView {
   
   constructor(optionTag) {
-    /** @private {DataHandler} */
+    /** @private {ScholarshipListDataHandler} */
     this.dataHandler_ = null;
 
     /** @private @const {string} */
     this.optionTag_ = optionTag;
 
-    /** @private @const {function({*}):Element} */
+    /** 
+     * @private @const {function({
+     *   batchofitems: {
+     *     type: string,
+     *     items: !Array<!Array<string>>,
+     * }}):goog.soy.data.SanitizedHtml} 
+     */
     this.template_ = listitems;
 
-    /** @private {number} The number of batch of data has been loaded into the view. */
+    /** @private {?number} The number of batch of data has been loaded into the view. */
     this.batch_ = 0;
 
-    /** @private {Element|null} The container for all list items. */
+    /** @private {?Element} The container for all list items. */
     this.container_ = null;
 
     /** @private @const {!function():Promise<undefined>} */
@@ -58,7 +64,7 @@ class CommonListView {
     /** @private {?Element} */
     this.statusBar_ = null;
 
-    /** @private {number} */
+    /** @private {?number} */
     this.totalItemsNumber_ = 0;
 
     /** @private {boolean} */
@@ -66,7 +72,7 @@ class CommonListView {
   }
 
   /** 
-   * @param {ScholarshipListDataHandler}
+   * @param {ScholarshipListDataHandler} dataHandler
    */
   init(dataHandler) {
     this.dataHandler_ = dataHandler;
@@ -105,6 +111,9 @@ class CommonListView {
       const dataList = dataBatch ? dataBatch['items'] : undefined;
       this.idOfLastItem_ = 
           dataList ? dataList[dataList.length - 1][0] : EMPTY_STRING;
+      if (!dataBatch || !dataList) {
+        throw new Error('Invalid data from server');
+      }
       this.container_.innerHTML += this.template_({batchofitems: dataBatch});
       this.statusBar_.innerHTML = endoflist();
       this.batch_ += 1;
