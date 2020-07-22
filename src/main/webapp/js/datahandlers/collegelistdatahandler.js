@@ -20,7 +20,7 @@
 goog.module('datahandlers.collegelistdatahandler');
 
 const {COLLEGE_API_KEY} = goog.require('datahandlers.config');
-const {CollegeQueryBuilder} = google.require('datahandlers.collegequerybuilder');
+const {CollegeQueryBuilder} = goog.require('datahandlers.collegequerybuilder');
 const {NAME, ACCEPTANCE_RATE, ACT_SCORE, ID} = 
   goog.require('datahandlers.collegequerybuilder');
 /**
