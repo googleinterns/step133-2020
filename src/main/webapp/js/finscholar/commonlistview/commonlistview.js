@@ -46,7 +46,7 @@ class CommonListView {
      */
     this.template_ = listitems;
 
-    /** @private {?number} The number of batch of data has been loaded into the view. */
+    /** @private {number} The number of batch of data has been loaded into the view. */
     this.batch_ = 0;
 
     /** @private {?Element} The container for all list items. */

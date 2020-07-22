@@ -62,7 +62,7 @@ class ScholarshipListDataHandler extends ListDataHandler {
     try {
       let responseList = await fetch(SCHOLARSHIP_LIST_ENDPOINT + queryString);
       scholarshipList = await responseList.json();
-      scholarshipList = scholarshipList.map(e => this.formatListItem(e));
+      scholarshipList = scholarshipList.map(e => this.formatListItem_(e));
     } catch(e) {
       console.log(e);
       throw e;
