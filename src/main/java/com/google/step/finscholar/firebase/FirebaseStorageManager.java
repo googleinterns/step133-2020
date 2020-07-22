@@ -250,8 +250,8 @@ public class FirebaseStorageManager {
     //   that occur after the last doc in the collection.
     if (document.exists()) {
       Query page = (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE) ? 
-          collectionReference.limit(batchSizeLimit) : 
-          collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit)).startAfter(document);
+          collectionReference.startAfter(document).limit(batchSizeLimit) : 
+          collectionReference.orderBy(parameterToSortBy).startAfter(document).limit(batchSizeLimit));
       return getCollectionQuery(page);
 
     } else {
