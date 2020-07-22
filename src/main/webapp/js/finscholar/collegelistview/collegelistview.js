@@ -22,15 +22,7 @@ const {collegelist} = goog.require('finscholar.collegelistview.templates');
 class CollegeListView extends BasicView {
   constructor() {
     super();
-  }
-
-  /**
-   * Renders a college list view to the container.
-   * @override
-   */
-  async renderView() {
     super.setCurrentContent(collegelist());
-    super.resetAndUpdate();
   }
 }
 
