@@ -55,7 +55,7 @@ class CommonListView {
     /** @private @const {!function(number):Promise<undefined>} */
     this.bindedDataLoader_ = this.renderNextBatch_.bind(this);
 
-     /** @private {number} Number of items to be added for each laod. */
+     /** @private {number} Number of items to be added for each load. */
     this.itemsPerBatch_ = 5;
 
     /** @private {string} The id of the last item in the list. */

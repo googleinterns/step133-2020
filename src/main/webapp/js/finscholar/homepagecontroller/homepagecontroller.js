@@ -17,11 +17,8 @@
 goog.module('finscholar.homepagecontroller');
 
 const {CollegeListView} = goog.require('finscholar.collegelistview');
-// const {CollegePageView} = goog.require('finscholar.collegepageview');
-// const {ErrorPageView} = goog.require('finscholar.errorpageview');
 const {PageController} = goog.require('pagecontroller');
 const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
-// const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 const googDom = goog.require('goog.dom');
 const googSoy = goog.require('goog.soy');
