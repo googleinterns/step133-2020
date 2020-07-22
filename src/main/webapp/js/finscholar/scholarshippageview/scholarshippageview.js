@@ -30,7 +30,11 @@ class ScholarshipPageView extends SinglePageView {
    * @constructor
    */
   constructor() {
-    super(new ScholarshipDataHandler(), scholarshippage);
+    super(scholarshippage);
+
+    this.dataHandler = new ScholarshipDataHandler();
+
+    super.setDataHandler(this.dataHandler);
   }
 }
 
