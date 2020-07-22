@@ -20,25 +20,7 @@
 goog.module('datahandlers.collegelistdatahandler');
 
 const {COLLEGE_API_KEY} = goog.require('datahandlers.config');
-
-const COLLEGE_LIST_ENDPT = 
-  'https://api.data.gov/ed/collegescorecard/v1/schools.json?';
-const AND = '&';
-const COMMA = ',';
-const PAGE_SIZE_FIELD = 'per_page';
-const PAGE = 'page';
-const EQUAL = '=';
-const NOT = '__not';
-const API_KEY_FIELD = 'api_key=';
-const NULL = 'null';
-const QUERY_FIELDS = '_fields=';
-const COLLEGES = 'school.degrees_awarded.predominant=2,3';
-const ID = 'id';
-const NAME =  'school.name'
-const ACCEPTANCE_RATE = '2018.admissions.admission_rate.overall';
-const ACT_SCORE = '2018.admissions.act_scores.midpoint.cumulative';
-const ACCEPTANCE_RANGE = '__range=0..0.50';
-const ACT_RANGE = '__range=25..36';
+const {CollegeQueryBuilder} = google.require('datahandlers.collegequerybuilder');
 
 /**
  * The data controller which fetches college data 
@@ -50,19 +32,6 @@ class CollegeListDataHandler {
   }
 
   /**
-   * Build a URL to fetch from the College Scorecard API.
-   * @param {number} itemsPerBatch - The number of items to query per batch.
-   * @return {string} - The URL to query from.
-   * @private
-   */
-  buildURL_(batchIndex, itemsPerBatch) {
-    return COLLEGE_LIST_ENDPT.concat(COLLEGES, AND, QUERY_FIELDS, ID, COMMA, NAME, COMMA, 
-      ACCEPTANCE_RATE, COMMA, ACT_SCORE, AND, PAGE_SIZE_FIELD, EQUAL, 
-      itemsPerBatch.toString(), AND, PAGE, EQUAL, batchIndex.toString(), 
-      AND, ACCEPTANCE_RATE, ACCEPTANCE_RANGE, AND, ACT_SCORE, ACT_RANGE, AND, 
-      API_KEY_FIELD, COLLEGE_API_KEY);
-  }
-  /**
    * This converts a json string to a js object map.
    * @param {*} json - The json representing a list of colleges.
    * @return - The list of js object maps.
@@ -70,10 +39,15 @@ class CollegeListDataHandler {
    */
   convertJsonToObject_(json) {
     let results = json["results"];
-    return results.map(element => this.helper(element));
+    return results.map(element => this.converter_(element));
   }
 
-  helper (element) {
+  /**
+   * Convert json string for single college to js object map.
+   * @param {*} element - The json string.
+   * @return {*} - JS object map representing a single college.
+   */
+  converter_(element) {
     return {
         name : element[NAME],
         acceptance : element[ACCEPTANCE_RATE].toString(),
@@ -86,12 +60,12 @@ class CollegeListDataHandler {
    * Fetch a batch of college object from DoE API.
    * @param {number} batchIndex - Page number to extract.
    * @param {number} itemsPerBatch - The number of objects requested.
-   * @param {number=} lastIndex - Unused parameter that ensures the method
+   * @param {number=} lastIndex - Unused parameter that ensures the method.
    *   headers for getNextBatch() stay consistent across all listdatahandlers.
    */
   async getNextBatch(batchIndex, itemsPerBatch, lastIndex) {
     console.log('Batch to load: ' + batchIndex);
-    const url = this.buildURL_(batchIndex, itemsPerBatch);
+    const url = CollegeQueryBuilder.buildCollectionEndpoint(batchIndex, itemsPerBatch);
     const response = await fetch(url);
     const json = await response.json();
     return this.convertJsonToObject_(json);
