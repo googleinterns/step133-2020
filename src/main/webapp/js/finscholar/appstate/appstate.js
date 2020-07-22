@@ -33,8 +33,10 @@ class AppState {
 
     this.currentView_ = new HomePageController();
     this.currentView_.renderView();
+
     /** @private @type {!NavBar} Initializes the code for the nav bar. */
     this.navbarInstance_ = new NavBar();
+
     this.navbarInstance_.registerListener(this.navbarUpdate.bind(this));
   }
 
