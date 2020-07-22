@@ -19,26 +19,18 @@ goog.module('finscholar.scholarshiplistview');
 const {CommonListView} = goog.require('finscholar.commonlistview');
 const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
 
-const SCHOLARSHIP_LIST_INDEX = '1';
+const SCHOLARSHIP_LIST_TAG = 'scholarships';
 
 /** The mini controller for scholarship list view. */
 class ScholarshipListView extends CommonListView {
   
   constructor() {
-    super(new ScholarshipListDataHandler(), SCHOLARSHIP_LIST_INDEX);
-  }
+    super(SCHOLARSHIP_LIST_TAG);
 
-  /**
-   * Renders a scholarship list view to the container.
-   * @param {!Element} container The HTML container to load the view.
-   */
-  async renderView(container) {
-    try {
-      await super.init(container);
-    } catch(e) {
-      console.log(e);
-      throw e;
-    }
+    /** @const {ScholarshipListDataHandler} */
+    this.dataHandler = new ScholarshipListDataHandler();
+
+    super.init(this.dataHandler);
   }
 }
 

@@ -19,17 +19,15 @@
 
 goog.module('datahandlers.scholarshiplistdatahandler');
 
-const AND = '&';
 const AMOUNT_PER_YEAR = 'amountPerYear';
+const ELLIPSIS = '...';
 const EMPTY_STRING = '';
 const END_OF_STRING = 23;
-const EQUALS = '=';
 const ID = 'id';
 const INDEX_OF_LAST_ITEM = 'indexOfLastItem';
-const UNKNOWN = 'Unknown';
+const UNKNOWN = 'unknown';
 const NUMBER_OF_ITEMS = 'numberOfItems';
-const QUERY_START = '?';
-const SCHOLARSHIP_LIST_ENDPT = '/scholarship-list';
+const SCHOLARSHIP_LIST_ENDPOINT = '/scholarship-list';
 const SCHOLARSHIP_NAME = 'scholarshipName';
 
 /**
@@ -40,7 +38,10 @@ class ScholarshipListDataHandler {
 
   constructor() {}
 
-  /** @returns The total number of scholarship stored in backend. */
+  /** 
+   * @returns {Promise<number>} 
+   * The total number of scholarship stored in backend. 
+   */
   async getTotalNumber() {
     return 15; // Presetting page length not supported yet.
   }
@@ -48,34 +49,41 @@ class ScholarshipListDataHandler {
   /**
    * @param {number} itemsPerBatch NUmber of items requested.
    * @param {string} lastIndex Index of the last item in the list.
+   * @return {Promise<{
+   *  type: string,
+   *  items: !Array<!Array<string>>
+   * }>}
    */
   async getNextBatch(itemsPerBatch, lastIndex) {
     let scholarshipList = [];
-    const queryString = QUERY_START + NUMBER_OF_ITEMS + EQUALS + itemsPerBatch + AND
-        + INDEX_OF_LAST_ITEM + EQUALS + lastIndex;
+    const queryString = `?${NUMBER_OF_ITEMS}=${itemsPerBatch}&
+        ${INDEX_OF_LAST_ITEM}=${lastIndex}`;
     try {
-      let responseList = await fetch(SCHOLARSHIP_LIST_ENDPT + queryString);
+      let responseList = await fetch(SCHOLARSHIP_LIST_ENDPOINT + queryString);
       scholarshipList = await responseList.json();
       scholarshipList = scholarshipList.map(e => this.formatListItem(e));
     } catch(e) {
       console.log(e);
       throw e;
     }	   
-    return {scholarships: scholarshipList};	
+    return {
+      type: 'scholarship',
+      items: scholarshipList,
+    };	
   }
 
   /**
-   * @param {*} item The schoarship object.
-   * @returns The formatted scholarship list item.
+   * @param {Object} item The schoarship object.
+   * @returns {!Array<!Array<string>>} The formatted scholarship list item.
    */
   formatListItem(item) {
     const amount = (item[AMOUNT_PER_YEAR] || UNKNOWN);
-    return {
-      scholarshipName: item[SCHOLARSHIP_NAME],
-      id: item[ID],
-      amountPerYear: amount.substring(0, END_OF_STRING),
-      schools: EMPTY_STRING,
-    }
+    return [
+      item[ID], 
+      item[SCHOLARSHIP_NAME],
+      amount.substring(0, END_OF_STRING) + ELLIPSIS,
+      ELLIPSIS,
+    ];
   }
 }
 
