@@ -43,7 +43,8 @@ const navbarViewFactory = (index) => {
       view = new ScholarshipPageView();
       break;
     default:
-      view = new HomePageController();
+      throw new Error(
+          `Unexpected index received from navbar. Received index=${index}`);
       break;
   }
   return /** @type {!BasicView} */ (view);
