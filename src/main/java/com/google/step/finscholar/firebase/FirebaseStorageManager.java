@@ -37,8 +37,9 @@ public class FirebaseStorageManager {
 
   /** Formatters to use with String.format(). */
   private static final String ADDED_NEW_DOC_FORMATTER = "New document added to %s at %s.";
+  private static final String BATCH_SIZE_NOT_SPECIFIED = "Batch size not specified, please send a batch size for query";
   private static final String EXCEPTION_DNE_FORMATTER = "Document with id: %s does not exist.";
-  private static final String EXCEPTION_FORMATTER = "%s%s";
+  private static final String EXCEPTION_COLLECTION_FORMATTER = "Unable to write to this collection: %s.";
 
   /** Logger that sends logs to the Cloud Project console. */
   private static final Logger log = Logger.getLogger(FirebaseStorageManager.class.getName());
@@ -78,9 +79,7 @@ public class FirebaseStorageManager {
 
     } catch (Exception e) {
       // Throws a FirebaseException if unsuccessful in adding new document.
-      String message = String.format(EXCEPTION_FORMATTER, 
-        ServletConstantValues.UNABLE_TO_WRITE_TO_FIRESTORE , 
-        collectionToWriteTo);
+      String message = String.format(EXCEPTION_COLLECTION_FORMATTER, collectionToWriteTo);
       throw new FirebaseException(message, e);
     }
   }
@@ -97,9 +96,7 @@ public class FirebaseStorageManager {
       try {
         storeDocument(database, collectionToWriteTo, object, ServletConstantValues.DEFAULT_VALUE);
       } catch (Exception e) {
-        String message = String.format(EXCEPTION_FORMATTER, 
-          ServletConstantValues.UNABLE_TO_WRITE_TO_FIRESTORE , 
-          collectionToWriteTo);
+        String message = String.format(EXCEPTION_COLLECTION_FORMATTER, collectionToWriteTo);
         throw new FirebaseException(message, e);
       }
     }
@@ -180,18 +177,24 @@ public class FirebaseStorageManager {
    * @param batchSizeLimit - The maximum size of the batch, which is the size of a new page of 
    *   data in infinite scroll.
    * @param lastDocID - The ID of the last object I sent from the most recent batch.
-   * @param parameterToSortBy - The parameter I want to presort my collection by.
+   * @param parameterToSortBy - The parameter I want to presort my collection by, 
+   *   if null then don't sort.
    * @return - The json string representing the new batch of documents to be sent to the frontend.
    * @throws FirebaseException
    */
   public static String getCollectionBatch(Firestore database, String collectionToGetFrom, 
       int batchSizeLimit,  String lastDocID, String parameterToSortBy) 
       throws FirebaseException {
+    // A batch size limit needs to be specified in order to make any query, can never be null.
+    if (batchSizeLimit == null) {
+      throw new FirebaseException(BATCH_SIZE_NOT_SPECIFIED);
+    }
+
     CollectionReference collectionReference = database.collection(collectionToGetFrom);
 
-    // If the lastDocID is DEFAULT_VALUE (""), then we know this is the first batch to send.
+    // If the lastDocID is null, then we know this is the first batch to send.
     // Else simply get the next batch in the collection.
-    if (lastDocID.equals(ServletConstantValues.DEFAULT_VALUE)) {
+    if (lastDocID == null) {
       return getFirstBatch(collectionReference, batchSizeLimit, parameterToSortBy);
     } else {
       return getNextBatch(database, collectionReference, batchSizeLimit, lastDocID, parameterToSortBy);
@@ -212,7 +215,8 @@ public class FirebaseStorageManager {
       throws FirebaseException {
     // We have the option here to sort the collection by specific parameter beforehand (great for supporting sort-type queries later on).
     // Setup the new Query.
-    Query page = (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE) ? 
+    // If parameterToSortBy is null then don't sort the query.
+    Query page = (parameterToSortBy == null) ? 
       collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit));
     return getCollectionQuery(page);
   }
@@ -248,8 +252,9 @@ public class FirebaseStorageManager {
 
     // If the last document I sent still exists, then retrieve a batch of size=batchSizeLimit documents 
     //   that occur after the last doc in the collection.
+    // If parameterToSortBy is null, then don't sort the query.
     if (document.exists()) {
-      Query page = (parameterToSortBy.equals(ServletConstantValues.DEFAULT_VALUE) ? 
+      Query page = (parameterToSortBy == null) ? 
           collectionReference.startAfter(document).limit(batchSizeLimit) : 
           collectionReference.orderBy(parameterToSortBy).startAfter(document).limit(batchSizeLimit));
       return getCollectionQuery(page);

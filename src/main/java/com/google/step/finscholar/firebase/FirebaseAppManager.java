@@ -33,19 +33,11 @@ public class FirebaseAppManager {
 
   /**
    * This method initializes the Google Credentials needed to start up the Firebase service.
-   *   If the app initializes in production, we return credentials associated with the app.
-   *   Else, we use the default application credentials.
+   *   Here, we use the default application credentials.
    * @return - A GoogleCredentials object representing the credentials needed to start up the Firebase service.
    */
   private static GoogleCredentials getCredentials() throws IOException {
-    if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
-      List<String> scopes =
-        Arrays.asList(
-          ServletConstantValues.SCOPE_CLOUD_URL,
-          ServletConstantValues.SCOPE_USER_INFO_URL);
-      return AppEngineCredentials.newBuilder().setScopes(scopes).build();
-    } else {
-      // Local development server
+      // Only use default credentials for firestore queries and stores.
       return GoogleCredentials.getApplicationDefault();
     }
   }
