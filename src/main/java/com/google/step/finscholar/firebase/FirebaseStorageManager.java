@@ -186,8 +186,8 @@ public class FirebaseStorageManager {
   public static String getCollectionBatch(Firestore database, String collectionToGetFrom, 
       int batchSizeLimit,  String lastDocID, String parameterToSortBy) 
       throws FirebaseException {
-    // A batch size limit needs to be specified in order to make any query, can never be null.
-    if (batchSizeLimit == null) {
+    // A batch size limit needs to be specified in order to make any query.
+    if (batchSizeLimit == 0) {
       throw new FirebaseException(BATCH_SIZE_NOT_SPECIFIED);
     }
 
@@ -218,7 +218,7 @@ public class FirebaseStorageManager {
     // Setup the new Query.
     // If parameterToSortBy is null then don't sort the query.
     Query page = (parameterToSortBy == null) ? 
-      collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit));
+      collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit);
     return getCollectionQuery(page);
   }
 
@@ -257,7 +257,7 @@ public class FirebaseStorageManager {
     if (document.exists()) {
       Query page = (parameterToSortBy == null) ? 
           collectionReference.startAfter(document).limit(batchSizeLimit) : 
-          collectionReference.orderBy(parameterToSortBy).startAfter(document).limit(batchSizeLimit));
+          collectionReference.orderBy(parameterToSortBy).startAfter(document).limit(batchSizeLimit);
       return getCollectionQuery(page);
 
     } else {

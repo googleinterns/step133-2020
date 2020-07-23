@@ -39,7 +39,6 @@ public class FirebaseAppManager {
   private static GoogleCredentials getCredentials() throws IOException {
       // Only use default credentials for firestore queries and stores.
       return GoogleCredentials.getApplicationDefault();
-    }
   }
 
   /** 
