@@ -94,9 +94,7 @@ public class FirebaseStorageManager {
       try {
         storeDocument(database, collectionToWriteTo, object, ServletConstantValues.DEFAULT_VALUE);
       } catch (Exception e) {
-        String message = String.format(EXCEPTION_FORMATTER, 
-          ServletConstantValues.UNABLE_TO_WRITE_TO_FIRESTORE , 
-          collectionToWriteTo);
+        String message = String.format(EXCEPTION_COLLECTION_FORMATTER, collectionToWriteTo);
         throw new FirebaseException(message, e);
       }
     }
