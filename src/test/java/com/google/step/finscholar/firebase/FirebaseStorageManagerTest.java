@@ -47,18 +47,10 @@ public class FirebaseStorageManagerTest {
 
   @Test
   public void setMultipleDocumentsAndRetrieveCollection() {
-    try {
-      FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
-    } catch (Exception e) {
-      log.info(e.toString());
-    }
-    String json = ServletConstantValues.DEFAULT_VALUE;
-    try {
-      json = FirebaseStorageManager.getCollection(firebase, TEST_COLLECTION_NAME);
-    } catch (Exception e) {
-      log.info(e.toString());
-    }
-    Assert.assertNotEquals(ServletConstantValues.DEFAULT_VALUE, json);
+    FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
+    String json = FirebaseStorageManager.getCollection(firebase, TEST_COLLECTION_NAME);
+    Optional<String> jsonNullable = Optional.ofNullable(json);
+    Assert.assertTrue(jsonNullable.);
   }
 
   @Test
