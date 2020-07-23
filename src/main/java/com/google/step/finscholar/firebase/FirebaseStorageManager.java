@@ -64,10 +64,11 @@ public class FirebaseStorageManager {
 
     // Access/create the new document.
     DocumentReference documentRef;
-    if (documentID.equals(ServletConstantValues.DEFAULT_VALUE)) {
+    Optional<String> optionalID = Optional.ofNullable(documentID);
+    if (!optionalID.isPresent()) {
       documentRef = collectionRef.document();
     } else {
-      documentRef = collectionRef.document(documentID);
+      documentRef = collectionRef.document(optionalID.get());
     }
 
     // Update the document with a new object.
