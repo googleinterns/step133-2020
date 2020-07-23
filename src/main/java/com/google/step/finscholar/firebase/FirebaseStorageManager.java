@@ -176,7 +176,8 @@ public class FirebaseStorageManager {
    * @param collectionToGetFrom - The name of the collection to retrieve the batch from.
    * @param batchSizeLimit - The maximum size of the batch, which is the size of a new page of 
    *   data in infinite scroll.
-   * @param lastDocID - The ID of the last object I sent from the most recent batch.
+   * @param lastDocID - The ID of the last object I sent from the most recent batch,
+   *   if null, then execute getFirstBatch().
    * @param parameterToSortBy - The parameter I want to presort my collection by, 
    *   if null then don't sort.
    * @return - The json string representing the new batch of documents to be sent to the frontend.
