@@ -29,12 +29,8 @@ public class FirebaseStorageManagerTest {
   private static List<TestObject> testObjectList;
 
   @BeforeClass
-  public static void setUp() {
-    try {
-      firebase = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
-    } catch (Exception e) {
-      System.out.println(e);
-    }
+  public static void setUp() throws Exception{
+    firebase = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
     testObject = new TestObject(TEST_COLLECTION_NAME, TEST_DOCUMENT_NAME);
     testObjectTwo = new TestObject(TEST_DOCUMENT_NAME, TEST_COLLECTION_NAME);
     testObjectList = new ArrayList<TestObject>();
@@ -43,18 +39,9 @@ public class FirebaseStorageManagerTest {
   }
 
   @Test
-  public void isRecentlySetDocumentRetrievable() {
-    try {
-      FirebaseStorageManager.storeDocument(firebase, TEST_COLLECTION_NAME, testObject, TEST_DOCUMENT_NAME);
-    } catch (Exception e) {
-      log.info(e.toString());
-    }
-    String json = "";
-    try {
-      json = FirebaseStorageManager.getDocument(firebase, TEST_COLLECTION_NAME, TEST_DOCUMENT_NAME);
-    } catch (Exception e) {
-      log.info(e.toString());
-    }
+  public void isRecentlySetDocumentRetrievable() throws Exception {
+    FirebaseStorageManager.storeDocument(firebase, TEST_COLLECTION_NAME, testObject, TEST_DOCUMENT_NAME);
+    String json = FirebaseStorageManager.getDocument(firebase, TEST_COLLECTION_NAME, TEST_DOCUMENT_NAME);
     Assert.assertEquals(json, EXPECTED_DOCUMENT_RETRIEVABLE);
   }
 
@@ -75,7 +62,7 @@ public class FirebaseStorageManagerTest {
   }
 
   @Test
-  public void retrieveCollectionBatchWithIDandWithoutID() {
+  public void retrieveCollectionBatchWithIDandWithoutID() throws Exception {
     String jsonWithID = ServletConstantValues.DEFAULT_VALUE;
     try {
       jsonWithID = FirebaseStorageManager.getCollectionBatch(firebase, TEST_COLLECTION_NAME, 
