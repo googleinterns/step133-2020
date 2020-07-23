@@ -130,8 +130,7 @@ public class FirebaseStorageManager {
         return gson.toJson(objectFromDatabase);
       } else {
         // Throws a Firebase Exception if the document does not exist.
-        String message = String.format(EXCEPTION_DNE_FORMATTER, 
-          documentID);
+        String message = String.format(EXCEPTION_DNE_FORMATTER, documentID);
         throw new FirebaseException(message);
       }
     } catch (Exception e) {
@@ -262,8 +261,7 @@ public class FirebaseStorageManager {
 
     } else {
       // Throws a Firebase Exception if the document does not exist.
-      String message = String.format(EXCEPTION_DNE_FORMATTER, 
-          lastDocID);
+      String message = String.format(EXCEPTION_DNE_FORMATTER, lastDocID);
       throw new FirebaseException(message);
     }
   }
