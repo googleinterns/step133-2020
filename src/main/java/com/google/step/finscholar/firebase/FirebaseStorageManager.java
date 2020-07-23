@@ -37,7 +37,7 @@ public class FirebaseStorageManager {
   /** Formatters to use with String.format(). */
   private static final String ADDED_NEW_DOC_FORMATTER = "New document added to %s at %s.";
   private static final String EXCEPTION_DNE_FORMATTER = "Document with id: %s does not exist.";
-  private static final String EXCEPTION_FORMATTER = "%s%s";
+  private static final String EXCEPTION_COLLECTION_FORMATTER = "Unable to write to this collection: %s.";
 
   /** Logger that sends logs to the Cloud Project console. */
   private static final Logger log = Logger.getLogger(FirebaseStorageManager.class.getName());
@@ -77,9 +77,7 @@ public class FirebaseStorageManager {
 
     } catch (Exception e) {
       // Throws a FirebaseException if unsuccessful in adding new document.
-      String message = String.format(EXCEPTION_FORMATTER, 
-        ServletConstantValues.UNABLE_TO_WRITE_TO_FIRESTORE , 
-        collectionToWriteTo);
+      String message = String.format(EXCEPTION_COLLECTION_FORMATTER, collectionToWriteTo);
       throw new FirebaseException(message, e);
     }
   }
@@ -132,8 +130,7 @@ public class FirebaseStorageManager {
         return gson.toJson(objectFromDatabase);
       } else {
         // Throws a Firebase Exception if the document does not exist.
-        String message = String.format(EXCEPTION_DNE_FORMATTER, 
-          documentID);
+        String message = String.format(EXCEPTION_DNE_FORMATTER, documentID);
         throw new FirebaseException(message);
       }
     } catch (Exception e) {
