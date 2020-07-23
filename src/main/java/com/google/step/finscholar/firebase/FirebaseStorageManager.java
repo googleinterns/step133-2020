@@ -200,7 +200,7 @@ public class FirebaseStorageManager {
     if (!optionalID.isPresent()) {
       return getFirstBatch(collectionReference, batchSizeLimit, parameterToSortBy);
     } else {
-      return getNextBatch(database, collectionReference, batchSizeLimit, lastDocID, parameterToSortBy);
+      return getNextBatch(database, collectionReference, batchSizeLimit, optionalID.get(), parameterToSortBy);
     }
   }
 
@@ -219,8 +219,9 @@ public class FirebaseStorageManager {
     // We have the option here to sort the collection by specific parameter beforehand (great for supporting sort-type queries later on).
     // Setup the new Query.
     // If parameterToSortBy is null then don't sort the query.
-    Query page = (parameterToSortBy == null) ? 
-      collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit);
+    Optional<String> optionalSort = Optional.ofNullable(parameterToSortBy);
+    Query page = (!optionalSort.isPresent()) ? 
+      collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(optionalSort.get()).limit(batchSizeLimit);
     return getCollectionQuery(page);
   }
 
@@ -260,7 +261,7 @@ public class FirebaseStorageManager {
       Optional<String> optionalSort = Optional.ofNullable(parameterToSortBy);
       Query page = (!optionalSort.isPresent()) ? 
           collectionReference.startAfter(document).limit(batchSizeLimit) : 
-          collectionReference.orderBy(parameterToSortBy).startAfter(document).limit(batchSizeLimit);
+          collectionReference.orderBy(optionalSort.get()).startAfter(document).limit(batchSizeLimit);
       return getCollectionQuery(page);
 
     } else {
