@@ -22,6 +22,7 @@ public class FirebaseStorageManagerTest {
   public static final String TEST_DOCUMENT_NAME = "testDocument";
   public static final String EXPECTED_DOCUMENT_RETRIEVABLE = "{\"one\":\"testObjects\",\"two\":\"testDocument\"}";
   public static final int TEST_BATCH_SIZE_LIMIT = 10;
+  public static final String PARAM_TO_SORT_BY = "one";
   private static Firestore firebase;
   private static TestObject testObject;
   private static TestObject testObjectTwo;
@@ -78,7 +79,7 @@ public class FirebaseStorageManagerTest {
     String jsonWithID = ServletConstantValues.DEFAULT_VALUE;
     try {
       jsonWithID = FirebaseStorageManager.getCollectionBatch(firebase, TEST_COLLECTION_NAME, 
-          TEST_BATCH_SIZE_LIMIT, TEST_DOCUMENT_NAME, ServletConstantValues.DEFAULT_VALUE);
+          TEST_BATCH_SIZE_LIMIT, TEST_DOCUMENT_NAME, PARAM_TO_SORT_BY);
     } catch (Exception e) {
       log.info(e.toString());
     }
@@ -89,7 +90,7 @@ public class FirebaseStorageManagerTest {
     String jsonWithoutID = ServletConstantValues.DEFAULT_VALUE;
     try {
       jsonWithoutID = FirebaseStorageManager.getCollectionBatch(firebase, TEST_COLLECTION_NAME, 
-          TEST_BATCH_SIZE_LIMIT, ServletConstantValues.DEFAULT_VALUE, ServletConstantValues.DEFAULT_VALUE);
+          TEST_BATCH_SIZE_LIMIT, null, PARAM_TO_SORT_BY);
     } catch (Exception e) {
       log.info(e.toString());
     }
