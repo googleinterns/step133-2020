@@ -23,6 +23,7 @@ import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.FirebaseException;
 import com.google.gson.Gson;
 import com.google.step.finscholar.data.ServletConstantValues;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 /** This class handles writing to and reading from a Cloud Firestore database. */
@@ -57,10 +58,11 @@ public class FirebaseStorageManager {
 
     // Access/create the new document.
     DocumentReference documentRef;
-    if (documentID.equals(ServletConstantValues.DEFAULT_VALUE)) {
+    Optional<String> optionalID = Optional.ofNullable(documentID);
+    if (!optionalID.isPresent()) {
       documentRef = collectionRef.document();
     } else {
-      documentRef = collectionRef.document(documentID);
+      documentRef = collectionRef.document(optionalID.get());
     }
 
     // Update the document with a new object.
