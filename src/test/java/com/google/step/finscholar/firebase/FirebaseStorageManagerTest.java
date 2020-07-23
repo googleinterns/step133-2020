@@ -6,6 +6,7 @@ import com.google.step.finscholar.data.ServletConstantValues;
 import com.google.step.finscholar.firebase.TestObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -46,35 +47,28 @@ public class FirebaseStorageManagerTest {
   }
 
   @Test
-  public void setMultipleDocumentsAndRetrieveCollection() {
+  public void setMultipleDocumentsAndRetrieveCollection() throws Exception {
     FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
     String json = FirebaseStorageManager.getCollection(firebase, TEST_COLLECTION_NAME);
     Optional<String> jsonNullable = Optional.ofNullable(json);
-    Assert.assertTrue(jsonNullable.);
+    Assert.assertTrue(jsonNullable.isPresent());
   }
 
   @Test
   public void retrieveCollectionBatchWithIDandWithoutID() throws Exception {
-    String jsonWithID = ServletConstantValues.DEFAULT_VALUE;
-    try {
-      jsonWithID = FirebaseStorageManager.getCollectionBatch(firebase, TEST_COLLECTION_NAME, 
-          TEST_BATCH_SIZE_LIMIT, TEST_DOCUMENT_NAME, PARAM_TO_SORT_BY);
-    } catch (Exception e) {
-      log.info(e.toString());
-    }
+    String jsonWithID = FirebaseStorageManager.getCollectionBatch(firebase, 
+        TEST_COLLECTION_NAME, TEST_BATCH_SIZE_LIMIT, 
+        TEST_DOCUMENT_NAME, PARAM_TO_SORT_BY);
     String noIdMessage = String.format("Batch query results with ID: %s", jsonWithID);
     log.info(noIdMessage);
-    Assert.assertNotEquals(ServletConstantValues.DEFAULT_VALUE, jsonWithID);
+    Optional<String> jsonNullable = Optional.ofNullable(jsonWithID);
+    Assert.assertTrue(jsonNullable.isPresent());
 
-    String jsonWithoutID = ServletConstantValues.DEFAULT_VALUE;
-    try {
-      jsonWithoutID = FirebaseStorageManager.getCollectionBatch(firebase, TEST_COLLECTION_NAME, 
-          TEST_BATCH_SIZE_LIMIT, null, PARAM_TO_SORT_BY);
-    } catch (Exception e) {
-      log.info(e.toString());
-    }
+    String jsonWithoutID = FirebaseStorageManager.getCollectionBatch(firebase, 
+        TEST_COLLECTION_NAME, TEST_BATCH_SIZE_LIMIT, null, PARAM_TO_SORT_BY);
     String idMessage = String.format("Batch query results without ID: %s", jsonWithoutID);
     log.info(idMessage);
-    Assert.assertNotEquals(ServletConstantValues.DEFAULT_VALUE, jsonWithoutID);
+    Optional<String> jsonNoIdNullable = Optional.ofNullable(jsonWithoutID);
+    Assert.assertTrue(jsonNoIdNullable.isPresent());
   }
 }

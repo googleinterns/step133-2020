@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.step.finscholar.data.ServletConstantValues;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 /** This class handles writing to and reading from a Cloud Firestore database. */
@@ -192,9 +193,10 @@ public class FirebaseStorageManager {
 
     CollectionReference collectionReference = database.collection(collectionToGetFrom);
 
-    // If the lastDocID is null, then we know this is the first batch to send.
+    // If the lastDocID is not present, then we know this is the first batch to send.
     // Else simply get the next batch in the collection.
-    if (lastDocID == null) {
+    Optional<String> optionalID = Optional.ofNullable(lastDocID);
+    if (!optionalID.isPresent()) {
       return getFirstBatch(collectionReference, batchSizeLimit, parameterToSortBy);
     } else {
       return getNextBatch(database, collectionReference, batchSizeLimit, lastDocID, parameterToSortBy);
@@ -254,7 +256,8 @@ public class FirebaseStorageManager {
     //   that occur after the last doc in the collection.
     // If parameterToSortBy is null, then don't sort the query.
     if (document.exists()) {
-      Query page = (parameterToSortBy == null) ? 
+      Optional<String> optionalSort = Optional.ofNullable(parameterToSortBy);
+      Query page = (!optionalSort.isPresent()) ? 
           collectionReference.startAfter(document).limit(batchSizeLimit) : 
           collectionReference.orderBy(parameterToSortBy).startAfter(document).limit(batchSizeLimit);
       return getCollectionQuery(page);
