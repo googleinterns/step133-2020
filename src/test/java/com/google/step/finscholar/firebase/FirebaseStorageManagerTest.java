@@ -42,7 +42,7 @@ public class FirebaseStorageManagerTest {
   }
 
   @After
-  public static void tearDown() throws Exception {
+  public void tearDown() throws Exception {
     FirebaseStorageManager.deleteCollection(firebase, TEST_COLLECTION_NAME);
   }
 
