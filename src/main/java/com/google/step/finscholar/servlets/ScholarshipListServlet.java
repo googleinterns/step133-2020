@@ -20,7 +20,6 @@ import static com.google.step.finscholar.data.ServletConstantValues.JSON_CONTENT
 import static com.google.step.finscholar.data.ServletConstantValues.SCHOLARSHIP_COLLECTION_NAME;
 import static com.google.step.finscholar.data.ServletConstantValues.UNABLE_TO_LOAD_FIREBASE;
 import static com.google.step.finscholar.data.ServletConstantValues.UNABLE_TO_READ_FROM_FIRESTORE;
-import static com.google.step.finscholar.data.ServletConstantValues.UNKNOWN_ERROR;
 
 import static com.google.step.finscholar.data.Utils.getIntParameter;
 import static com.google.step.finscholar.data.Utils.getStringParameter;
@@ -50,32 +49,26 @@ public class ScholarshipListServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Firestore database = null;
-    int itemsPerBatch = 0;
+    Optional<Integer> itemsPerBatch = Optional.empty();
     try {
       database = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
       itemsPerBatch = getIntParameter(request, ITEMS_PER_BATCH);
     } catch (NumberFormatException numberException) {
       response.sendError(HttpServletResponse.SC_BAD_REQUEST, 
           INVALID_INT_PARAMETER + numberException);
-    } catch (Exception e) {
-      response.sendError(HttpServletResponse.SC_BAD_REQUEST, 
-          UNKNOWN_ERROR + e);
     }
 
     if (database != null && itemsPerBatch != 0) {
       try {
-        String idOfLastItem = getStringParameter(request, ID_OF_LAST_ITEM);
-        String sortBy = getStringParameter(request, SORT_BY);
+        Optional<String> idOfLastItem = getStringParameter(request, ID_OF_LAST_ITEM);
+        Optional<String> sortBy = getStringParameter(request, SORT_BY);
         response.setContentType(JSON_CONTENT_TYPE);
         response.getWriter().println(
             getCollectionBatch(database, SCHOLARSHIP_COLLECTION_NAME, itemsPerBatch, idOfLastItem, sortBy));
       } catch (FirebaseException firebaseException) {
         response.sendError(HttpServletResponse.SC_BAD_GATEWAY, 
             UNABLE_TO_READ_FROM_FIRESTORE + firebaseException);
-      } catch (Exception e) {
-        response.sendError(HttpServletResponse.SC_NO_CONTENT, 
-            UNKNOWN_ERROR + e);
-      }
+      } 
     }
   }
 } 
