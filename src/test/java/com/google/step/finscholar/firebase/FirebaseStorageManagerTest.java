@@ -31,7 +31,7 @@ public class FirebaseStorageManagerTest {
   public static final String TEST_DOCUMENT_SIX_NAME = "testDocument6";
   public static final String TEST_DOCUMENT_SEVEN_NAME = "testDocument7";
   public static final String TEST_DOCUMENT_EIGHT_NAME = "testDocument8";
-  public static final String EXPECTED_DOCUMENT_RETRIEVABLE = "{\"one\":\"testObjects\",\"two\":\"testDocument\"}";
+  public static final String EXPECTED_DOCUMENT_RETRIEVABLE = "{\"one\":\"testDocument\",\"two\":\"testObjects\"}";
 public static final String EXPECTED_COLLECTION_WITH_ID = "[{\"one\":\"testDocument\",\"two\":\"testObjects\"}]";
   public static final String EXPECTED_COLLECTION_NO_ID = "";
   public static final int TEST_BATCH_SIZE_LIMIT = 10;
