@@ -1,6 +1,7 @@
 package com.google.step.finscholar.firebase;
 
 import com.google.cloud.firestore.Firestore;
+import com.google.errorprone.annotations.CompileTimeConstant;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.step.finscholar.data.ServletConstantValues;
 import com.google.step.finscholar.firebase.TestObject;
@@ -23,8 +24,12 @@ public class FirebaseStorageManagerTest {
   private static final Logger log = Logger.getLogger(FirebaseStorageManager.class.getName());
   public static final String TEST_COLLECTION_NAME = "testObjects";
   public static final String TEST_DOCUMENT_NAME = "testDocument";
+  public static final String TEST_DOCUMENT_SECOND_NAME = "testDocument2";
   public static final String EXPECTED_DOCUMENT_RETRIEVABLE = "{\"one\":\"testObjects\",\"two\":\"testDocument\"}";
+  public static final String EXPECTED_COLLECTION_WITH_ID = "[{\"one\":\"testDocument\",\"two\":\"testObjects\"}]";
+  public static final String EXPECTED_COLLECTION_NO_ID = "";
   public static final int TEST_BATCH_SIZE_LIMIT = 10;
+  public static final int TEST_BATCH_SIZE_LOWER = 3;
   public static final String PARAM_TO_SORT_BY = "one";
   private static Firestore firebase;
   private static TestObject testObject;
@@ -76,7 +81,6 @@ public class FirebaseStorageManagerTest {
 
   @Test
   public void retrieveCollectionBatchWithoutID() throws Exception {
-    FirebaseStorageManager.storeDocument(firebase, TEST_COLLECTION_NAME, testObject, TEST_DOCUMENT_NAME);
     FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
     String jsonWithoutID = FirebaseStorageManager.getCollectionBatch(firebase, 
         TEST_COLLECTION_NAME, TEST_BATCH_SIZE_LIMIT, null, PARAM_TO_SORT_BY);
@@ -86,5 +90,36 @@ public class FirebaseStorageManagerTest {
     Assert.assertTrue(jsonNoIdNullable.isPresent());
   }
 
-
+  @Test
+  public void retrieveCollectionBatchNoSort() throws Exception {
+    FirebaseStorageManager.storeDocument(firebase, TEST_COLLECTION_NAME, testObject, TEST_DOCUMENT_NAME);
+    FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
+    String jsonWithoutSort = FirebaseStorageManager.getCollectionBatch(firebase, 
+        TEST_COLLECTION_NAME, TEST_BATCH_SIZE_LIMIT, null, null);
+    String idMessage = String.format("Batch query results with no sort parameter: %s", jsonWithoutSort);
+    log.info(idMessage);
+    Optional<String> jsonNoIdNullable = Optional.ofNullable(jsonWithoutSort);
+    Assert.assertTrue(jsonNoIdNullable.isPresent());
+  }
+  
+  @Test
+  public void multipleBatchesSizeLowerThanCollectionSize() throws Exception {
+    FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
+    FirebaseStorageManager.storeDocument(firebase, TEST_COLLECTION_NAME, testObject, TEST_DOCUMENT_NAME);
+    FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
+    FirebaseStorageManager.storeDocument(firebase, TEST_COLLECTION_NAME, testObject, TEST_DOCUMENT_SECOND_NAME);
+    FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
+    String jsonFirstBatch = FirebaseStorageManager.getCollectionBatch(firebase, 
+        TEST_COLLECTION_NAME, TEST_BATCH_SIZE_LOWER, null, PARAM_TO_SORT_BY);
+    String idMessage = String.format("Batch query results for first batch: %s", jsonFirstBatch);
+    log.info(idMessage);
+    String jsonSecondBatch = FirebaseStorageManager.getCollectionBatch(firebase, 
+    TEST_COLLECTION_NAME, TEST_BATCH_SIZE_LOWER, TEST_DOCUMENT_NAME, PARAM_TO_SORT_BY);
+    idMessage = String.format("Batch query results for second batch: %s", jsonSecondBatch);
+    log.info(idMessage);
+    String jsonLastBatch = FirebaseStorageManager.getCollectionBatch(firebase, 
+    TEST_COLLECTION_NAME, TEST_BATCH_SIZE_LOWER, TEST_DOCUMENT_SECOND_NAME, PARAM_TO_SORT_BY);
+    idMessage = String.format("Batch query results for last batch: %s", jsonLastBatch);
+    log.info(idMessage);
+  }
 }
