@@ -328,8 +328,7 @@ public class FirebaseStorageManager {
   }
 
   /**
-   * Used as a utility method for testing that deletes all of the documents in a collection in
-   * batches of 10 documents at a time.
+   * Used as a utility method for testing that deletes all of the documents in a collection.
    * @param database
    * @param collectionToDelete
    * @throws FirebaseException
