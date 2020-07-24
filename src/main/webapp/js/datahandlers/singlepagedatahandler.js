@@ -27,7 +27,64 @@ class SinglePageDataHandler {
    * @param {string} id The uuid of the scholarship/college data.
    * @return The formatted scholarship/college JS object map.
    */
-  async fetchAndFormatData(id) {}
+  async fetchAndFormatData(id) {
+    let data = undefined;
+    try {
+      data = await this.fetchJson_(id);
+
+      if (data === undefined) {
+        throw new Error('Cannot get data from remote.');
+      }
+
+      return this.convertFromJsonToTemplate_(data);
+    } catch (e) {
+      console.log(e);
+      throw(`Failed to fetch scholarship object ${e}`);
+    }
+  }
+
+  /**
+   * @returns {string} path
+   * @abstract
+   * @private
+   */
+  getRequestPath_() {}
+
+    /**
+   * This method converts from scholarship JSON object to a JS object map, 
+   *  which will be used to render the scholarship page soy template.
+   * @param {*} data - The JSON object to be converted.
+   * @return {Object} - The object map representing a scholarship's data.
+   * @abstract
+   * @private
+   */
+  async convertFromJsonToTemplate_(data) {}
+
+
+  /**
+   * Fetch request to the data servlet and return the JSON response.
+   * @param {string} id The uuid of the schedule.
+   * @return {*} - The JSON response.
+   * @private
+   */
+  async fetchJson_(id) {
+    const response = await fetch(this.getRequestPath_(), {'id': id });
+    let data = undefined;
+    if (response.ok) {
+      try {
+        data = await response.json();
+        return data;
+      } catch (e) {
+        console.log(e);
+        throw new Error(`Failed to parse response from server: ${e}`);
+      }
+    } else {
+      const warning = `Failed to get response from server: 
+          ${response.statusText}. Status: ${response.status}`;
+      console.log(warning);
+      throw new Error(warning);
+    }
+  };
 }
 
 exports = {SinglePageDataHandler};

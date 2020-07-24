@@ -103,7 +103,7 @@ class CommonListView {
     try {
       this.isLoading_ = true;
       const dataBatch = await this.dataHandler_
-                        .getNextBatch(this.batch_, numberOfItems, this.idOfLastItem_);
+                        .getNextBatch(this.optionTag_);
       const dataList = dataBatch ? dataBatch[ITEM] : undefined;
       this.idOfLastItem_ = 
           dataList ? dataList[dataList.length - 1][0] : EMPTY_STRING;

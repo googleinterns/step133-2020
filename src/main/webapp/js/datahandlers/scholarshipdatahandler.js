@@ -45,8 +45,8 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
                            
     let requirement = undefined;
     for (requirement of REQUIREMENTS) {
-      if (REQUIREMENTS[requirement] != undefined) {
-        requirementsMap.set(addSpaceToCamelCase(requirement), REQUIREMENTS[requirement].join(SEPARATOR));
+      if (data[requirement] != undefined) {
+        requirementsMap.set(addSpaceToCamelCase(requirement), data[requirement].join(SEPARATOR));
       } else {
         requirementsMap.set(addSpaceToCamelCase(requirement), NA);
       }
@@ -101,29 +101,12 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
   }
 
   /**
-   * Fetch request to the data servlet and return the JSON response.
-   * @param {string} id The uuid of the schedule.
-   * @return {*} - The JSON response.
+   * @returns {string} path
    * @private
    */
-  async fetchScholarshipJson_(id) {
-    const response = await fetch(SCHOLARSHIP_ENDPOINT, {'id': id });
-    let data = undefined;
-    if (response.ok) {
-      try {
-        data = await response.json();
-        return data;
-      } catch (e) {
-        console.log(e);
-        throw new Error(`Failed to parse response from server: ${e}`);
-      }
-    } else {
-      const warning = `Failed to get response from server: 
-          ${response.statusText}. Status: ${response.status}`;
-      console.log(warning);
-      throw new Error(warning);
-    }
-  };
+  getRequestPath_() {
+    return SCHOLARSHIP_ENDPOINT;
+  }
 }
 
 exports = {ScholarshipDataHandler};

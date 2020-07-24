@@ -26,9 +26,23 @@ class ListDataHandler {
    * @returns {Promise<number>} 
    * The total number of scholarship stored in backend. 
    */
-  async getTotalNumber() {}
+  async getTotalNumber() {
+    return 15;
+  }
 
   /**
+   * @abstract
+   * @private
+   */
+  getPath_() {}
+
+  /**
+   * @abstract
+   * @private
+   */
+  formatListItem_(){}
+
+     /**
    * @param {number} batchIndex The index of last batch rendered.
    * @param {number} itemsPerBatch Number of items requested.
    * @param {string} lastIndex Index of the last item in the list.
@@ -37,7 +51,20 @@ class ListDataHandler {
    *  items: !Array<!Array<string>>
    * }>}
    */
-   async getNextBatch(batchIndex, itemsPerBatch, lastIndex) {}
+  async getNextBatch(type) {
+    try {
+      const responseList = await fetch(this.getPath_());
+      const listJson = await responseList.json();
+      const listItems = listJson.map(e => this.formatListItem_(e));
+      return {
+        type: type,
+        items: listItems,
+      };	
+    } catch(e) {
+      console.log(e);
+      throw e;
+    }	   
+  }
 }
 
 exports = {ListDataHandler};

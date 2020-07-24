@@ -37,12 +37,13 @@ const SCHOLARSHIP_NAME = 'scholarshipName';
  * from backend and reformats the data. 
  */
 class ScholarshipListDataHandler extends ListDataHandler {
-
-  /** 
+  
+    /** 
    * @returns {Promise<number>} 
    * The total number of scholarship stored in backend. 
    */
   async getTotalNumber() {
+    // TODO: fetch from backend.
     return 15; // Presetting page length not supported yet.
   }
 
@@ -55,22 +56,9 @@ class ScholarshipListDataHandler extends ListDataHandler {
    *  items: !Array<!Array<string>>
    * }>}
    */
-  async getNextBatch(batchIndex, itemsPerBatch, lastIndex) {
-    let scholarshipList = [];
-    const queryString = `?${NUMBER_OF_ITEMS}=${itemsPerBatch}&
-        ${INDEX_OF_LAST_ITEM}=${lastIndex}`;
-    try {
-      let responseList = await fetch(SCHOLARSHIP_LIST_ENDPOINT + queryString);
-      scholarshipList = await responseList.json();
-      scholarshipList = scholarshipList.map(e => this.formatListItem_(e));
-    } catch(e) {
-      console.log(e);
-      throw e;
-    }	   
-    return {
-      type: 'scholarship',
-      items: scholarshipList,
-    };	
+  async getPath_(batchIndex, itemsPerBatch, lastIndex) {
+    return `${SCHOLARSHIP_LIST_ENDPOINT}?${NUMBER_OF_ITEMS}=${itemsPerBatch}&
+        ${INDEX_OF_LAST_ITEM}=${lastIndex}`;	
   }
 
   /**
@@ -79,6 +67,7 @@ class ScholarshipListDataHandler extends ListDataHandler {
    * @private
    */
   formatListItem_(item) {
+    // Can either be number, phrase, sentense; need to be refactored.
     const amount = (item[AMOUNT_PER_YEAR] || UNKNOWN);
     return [
       item[ID], 
