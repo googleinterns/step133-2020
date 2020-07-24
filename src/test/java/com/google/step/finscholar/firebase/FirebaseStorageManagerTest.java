@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -30,13 +32,18 @@ public class FirebaseStorageManagerTest {
   private static List<TestObject> testObjectList;
 
   @BeforeClass
-  public static void setUp() throws Exception{
+  public static void setUp() throws Exception {
     firebase = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
     testObject = new TestObject(TEST_COLLECTION_NAME, TEST_DOCUMENT_NAME);
     testObjectTwo = new TestObject(TEST_DOCUMENT_NAME, TEST_COLLECTION_NAME);
     testObjectList = new ArrayList<TestObject>();
     testObjectList.add(testObject);
     testObjectList.add(testObjectTwo);
+  }
+
+  @After
+  public static void tearDown() throws Exception {
+    FirebaseStorageManager.deleteCollection(firebase, TEST_COLLECTION_NAME);
   }
 
   @Test
@@ -55,7 +62,7 @@ public class FirebaseStorageManagerTest {
   }
 
   @Test
-  public void retrieveCollectionBatchWithIDandWithoutID() throws Exception {
+  public void retrieveCollectionBatchWithID() throws Exception {
     String jsonWithID = FirebaseStorageManager.getCollectionBatch(firebase, 
         TEST_COLLECTION_NAME, TEST_BATCH_SIZE_LIMIT, 
         TEST_DOCUMENT_NAME, PARAM_TO_SORT_BY);
@@ -63,7 +70,10 @@ public class FirebaseStorageManagerTest {
     log.info(noIdMessage);
     Optional<String> jsonNullable = Optional.ofNullable(jsonWithID);
     Assert.assertTrue(jsonNullable.isPresent());
+  }
 
+  @Test
+  public void retrieveCollectionBatchWithoutID() throws Exception {
     String jsonWithoutID = FirebaseStorageManager.getCollectionBatch(firebase, 
         TEST_COLLECTION_NAME, TEST_BATCH_SIZE_LIMIT, null, PARAM_TO_SORT_BY);
     String idMessage = String.format("Batch query results without ID: %s", jsonWithoutID);
@@ -71,4 +81,6 @@ public class FirebaseStorageManagerTest {
     Optional<String> jsonNoIdNullable = Optional.ofNullable(jsonWithoutID);
     Assert.assertTrue(jsonNoIdNullable.isPresent());
   }
+
+
 }

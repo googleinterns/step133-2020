@@ -326,4 +326,35 @@ public class FirebaseStorageManager {
       throw new FirebaseException(ServletConstantValues.UNABLE_TO_READ_FROM_FIRESTORE, e);
     }
   }
+
+  /**
+   * Used as a support method for testing that deletes all of the documents in a collection in
+   * batches of 10 documents at a time.
+   * @param database
+   * @param collectionToDelete
+   * @throws FirebaseException
+   */
+  public static void deleteCollection(Firestore database, String collectionToDelete) throws FirebaseException {
+    CollectionReference collection = database.collection(collectionToDelete);
+    try {
+      // retrieve a small batch of documents to avoid out-of-memory errors.
+      ApiFuture<QuerySnapshot> future = collection.limit(10).get();
+      int deleted = 0;
+      // future.get() blocks on document retrieval.
+      List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+      for (QueryDocumentSnapshot document : documents) {
+        document.getReference().delete();
+        ++deleted;
+      }
+      // As long as there's still more documents to delete, keep deleteing.
+      // When the number of deleted doc is less than the batch size,
+      // We know we're done.
+      if (deleted >= 10) {
+        // retrieve and delete another batch.
+        deleteCollection(database, collectionToDelete);
+      }
+    } catch (Exception e) {
+      throw new FirebaseException(e.toString());
+    }
+  }
 }
