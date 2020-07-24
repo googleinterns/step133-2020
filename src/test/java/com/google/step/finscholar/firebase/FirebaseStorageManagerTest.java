@@ -30,7 +30,7 @@ public class FirebaseStorageManagerTest {
   public static final String EXPECTED_COLLECTION_NO_ID = "";
   public static final int TEST_BATCH_SIZE_LIMIT = 10;
   public static final int TEST_BATCH_SIZE_LOWER = 3;
-  public static final String PARAM_TO_SORT_BY = "one";
+  public static final String PARAM_TO_SORT_BY = "two";
   private static Firestore firebase;
   private static TestObject testObject;
   private static TestObject testObjectTwo;
