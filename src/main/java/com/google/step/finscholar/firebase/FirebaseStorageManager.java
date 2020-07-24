@@ -19,10 +19,14 @@ import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.FirebaseException;
 import com.google.gson.Gson;
 import com.google.step.finscholar.data.ServletConstantValues;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -81,6 +85,24 @@ public class FirebaseStorageManager {
   }
 
   /**
+   * Stores multiple objects to the Firestore database.
+   * @param database
+   * @param collectionToWriteTo
+   * @param objects
+   */
+  public static void storeMultipleDocuments(Firestore database, String collectionToWriteTo, List<?> objects) 
+    throws FirebaseException {
+    for (Object object : objects) {
+      try {
+        storeDocument(database, collectionToWriteTo, object, null);
+      } catch (Exception e) {
+        String message = String.format(EXCEPTION_COLLECTION_FORMATTER, collectionToWriteTo);
+        throw new FirebaseException(message, e);
+      }
+    }
+  }
+
+  /**
    * This method retrieves a specified datapoint from the database based on which Collection 
    *    it is located in and a document ID. Then it converts the database's response to JSON.
    * @param database - The database I want to retrieve my data from.
@@ -114,6 +136,34 @@ public class FirebaseStorageManager {
     } catch (Exception e) {
       // Throws a FirebaseException if we can't connect to firestore.
       throw new FirebaseException(ServletConstantValues.UNABLE_TO_READ_FROM_FIRESTORE, e);
+    }
+  }
+
+  /**
+   * This method retrieves an entire collection of firestore documents (data points).
+   * @param database - The database to retrieve from.
+   * @param collectionToGetFrom - The collection to retrieve from.
+   * @return - The collection of objects converted as a json string.
+   */
+  public static String getCollection(Firestore database, String collectionToGetFrom) throws FirebaseException {
+    // Retrieve a "future", which will generate a reference to the collection I want to retrieve.
+    ApiFuture<QuerySnapshot> future = database.collection(collectionToGetFrom).get();
+
+    try {
+      // Now retrieve a snapshot of all documents in the collection.
+      List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+      // Convert the documents to objects.
+      List<Object> objects = new ArrayList<Object>();
+      for (QueryDocumentSnapshot document : documents) {
+        objects.add(document.toObject(Object.class));
+      }
+
+      // Convert the objects to JSON.
+      return gson.toJson(objects);
+    } catch (Exception e) {
+       // Throws a FirebaseException if we can't connect to firestore.
+       throw new FirebaseException(ServletConstantValues.UNABLE_TO_READ_FROM_FIRESTORE, e);
     }
   }
 } 
