@@ -25,6 +25,7 @@ import static com.google.step.finscholar.firebase.FirebaseStorageManager.getDocu
 import com.google.step.finscholar.firebase.FirebaseAppManager;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.FirebaseException;
 import java.io.IOException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -45,18 +46,15 @@ public class ScholarshipServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     Firestore database = null;
-    String id = getStringParameter(request, ID);
+    Optional<String> id = getStringParameter(request, ID);
     
-    try {
-      database = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
-    } catch (Exception e) {
-      response.sendError(HttpServletResponse.SC_BAD_GATEWAY, UNABLE_TO_LOAD_FIREBASE + e);
-    }
+    database = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
+
     if (database != null) {
       response.setContentType(JSON_CONTENT_TYPE);
       try {
         response.getWriter().println(getDocument(database, SCHOLARSHIP_COLLECTION_NAME, id));
-      } catch(Exception e) {
+      } catch(FirebaseException e) {
         response.sendError(HttpServletResponse.SC_NO_CONTENT, UNABLE_TO_READ_FROM_FIRESTORE + e);  
       }
     }
