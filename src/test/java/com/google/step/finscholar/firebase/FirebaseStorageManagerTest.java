@@ -63,6 +63,8 @@ public class FirebaseStorageManagerTest {
 
   @Test
   public void retrieveCollectionBatchWithID() throws Exception {
+    FirebaseStorageManager.storeDocument(firebase, TEST_COLLECTION_NAME, testObject, TEST_DOCUMENT_NAME);
+    FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
     String jsonWithID = FirebaseStorageManager.getCollectionBatch(firebase, 
         TEST_COLLECTION_NAME, TEST_BATCH_SIZE_LIMIT, 
         TEST_DOCUMENT_NAME, PARAM_TO_SORT_BY);
@@ -74,6 +76,8 @@ public class FirebaseStorageManagerTest {
 
   @Test
   public void retrieveCollectionBatchWithoutID() throws Exception {
+    FirebaseStorageManager.storeDocument(firebase, TEST_COLLECTION_NAME, testObject, TEST_DOCUMENT_NAME);
+    FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
     String jsonWithoutID = FirebaseStorageManager.getCollectionBatch(firebase, 
         TEST_COLLECTION_NAME, TEST_BATCH_SIZE_LIMIT, null, PARAM_TO_SORT_BY);
     String idMessage = String.format("Batch query results without ID: %s", jsonWithoutID);
