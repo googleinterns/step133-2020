@@ -30,7 +30,7 @@ class SinglePageView extends BasicView {
   constructor(dataHandler, template) {
     super();
     /**
-     * @private @const {!ScholarshipDataHandler | !CollegeDataHandler} dataHandler_
+     * @private @const {*} dataHandler_
      * The object fetches and formats scholarship data.
      */
     this.dataHandler_ = dataHandler;

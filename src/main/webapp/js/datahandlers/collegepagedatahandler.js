@@ -49,7 +49,6 @@ class CollegeDataHandler {
   convertJsonToObject_(json) {
     let results = json["results"];
     let college = results[0];
-    console.log(college);
     return this.converter_(college);
   }
 
@@ -58,7 +57,6 @@ class CollegeDataHandler {
       schoolName : element[NAME],
       acceptanceRate : element[ACCEPTANCE_RATE].toString(),
       averageACTScore : element[ACT_SCORE].toString(),
-      totalCostAttendance : 'NA',
       netCostForFirstQuintile : element[FIRST_NET_COST].toString(),
       netCostForSecondQuintile : element[SECOND_NET_COST].toString(),
       netCostForThirdQuintile : element[THIRD_NET_COST].toString(),
