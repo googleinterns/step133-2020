@@ -26,10 +26,10 @@ const ELLIPSIS = '...';
 const EMPTY_STRING = '';
 const END_OF_STRING = 23;
 const ID = 'id';
-const INDEX_OF_LAST_ITEM = 'indexOfLastItem';
+const ID_OF_LAST_ITEM = 'idOfLastItem';
 const UNKNOWN = 'unknown';
 const NUMBER_OF_ITEMS = 'numberOfItems';
-const SCHOLARSHIP = 'scholarship';
+const SCHOLARSHIP = 'scholarships';
 const SCHOLARSHIP_LIST_ENDPOINT = '/scholarship-list';
 const SCHOLARSHIP_NAME = 'scholarshipName';
 
@@ -45,7 +45,7 @@ class ScholarshipListDataHandler extends ListDataHandler {
    */
   async getTotalNumber() {
     // TODO: fetch from backend.
-    return 15; // Presetting page length not supported yet.
+    return 35; // Presetting page length not supported yet.
   }
 
   /**
@@ -55,8 +55,8 @@ class ScholarshipListDataHandler extends ListDataHandler {
    * @return {string} The url with query information.
    */
   getPath_(batchIndex, itemsPerBatch, lastIndex) {
-    return `${SCHOLARSHIP_LIST_ENDPOINT}?${NUMBER_OF_ITEMS}=${itemsPerBatch}&
-        ${INDEX_OF_LAST_ITEM}=${lastIndex}`;	
+    return 
+    `/scholarship-list?numberOfItems=${itemsPerBatch}&idOfLastItem=${lastIndex}`;	
   }
 
   /**

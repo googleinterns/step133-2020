@@ -28,7 +28,7 @@ class ListDataHandler {
    * The total number of scholarship stored in backend. 
    */
   async getTotalNumber() {
-    return 15;
+    return 35;
   }
 
   /**

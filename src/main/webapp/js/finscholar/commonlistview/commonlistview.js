@@ -23,8 +23,8 @@ const {commonlistview, listitems, loading, endoflist} = goog.require('finscholar
 const googDom = goog.require('goog.dom');
 
 const EMPTY_STRING = '';
-const INVALID_RESPONSE = 'Invalid data from server';
-const ITEM = 'item';
+const INVALID_RESPONSE = 'Invalid data from server.';
+const ITEM = 'items';
 const ITEM_CONTAINER_ID = 'table-body';
 const STATUS_BAR_ID = 'status';
 
@@ -112,7 +112,7 @@ class CommonListView extends BasicView {
       this.isLoading_ = true;
       const dataBatch = await this.dataHandler_
                         .getNextBatch(this.optionTag_, this.batch_, 
-                                      this.itemsPerBatch_, this.idOfLastItem_);
+                                      numberOfItems, this.idOfLastItem_);
       const dataList = dataBatch ? dataBatch[ITEM] : undefined;
       this.idOfLastItem_ = 
           dataList ? dataList[dataList.length - 1][0] : EMPTY_STRING;
