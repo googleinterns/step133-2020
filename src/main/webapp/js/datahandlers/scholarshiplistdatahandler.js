@@ -67,7 +67,7 @@ class ScholarshipListDataHandler extends ListDataHandler {
    * @returns {!Array<!Array<string>>} The formatted scholarship list item.
    * @private
    */
-  formatListItem(item) {
+  formatListItem_(item) {
     let amount = (item[AMOUNT_PER_YEAR] || UNKNOWN);
     amount = amount.length > END_OF_STRING 
         ? amount.substring(0, END_OF_STRING) + ELLIPSIS 
