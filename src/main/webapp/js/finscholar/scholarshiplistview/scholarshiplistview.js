@@ -16,16 +16,16 @@
 
 goog.module('finscholar.scholarshiplistview');
 
-const {BasicView} = goog.require('basicview');
-const {scholarshiplist} = goog.require('finscholar.scholarshiplistview.templates');
+const {CommonListView} = goog.require('finscholar.commonlistview');
+const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
+
+const SCHOLARSHIP_LIST_TAG = 'scholarships';
 
 /** The mini controller for scholarship list view. */
-class ScholarshipListView extends BasicView {
+class ScholarshipListView extends CommonListView {
+  
   constructor() {
-    super();
-    // TODO: In MVP, we'll add member variables such as pages, the array of
-    // scholarship etc.
-    super.setCurrentContent(scholarshiplist());
+    super(new ScholarshipListDataHandler(), SCHOLARSHIP_LIST_TAG);
   }
 }
 

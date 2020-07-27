@@ -19,7 +19,6 @@ goog.module('finscholar.homepagecontroller');
 const {BasicView} = goog.require('basicview');
 const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 
-
 /**
  * Class for the home page controller.
  */
