@@ -16,6 +16,7 @@
 
 goog.module('finscholar.commonlistview');
 
+const {BasicView} = goog.require('basicview');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
 const {commonlistview, listitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
@@ -28,9 +29,11 @@ const ITEM_CONTAINER_ID = 'table-body';
 const STATUS_BAR_ID = 'status';
 
 /** The mini controller for scholarship list view. */
-class CommonListView {
+class CommonListView extends BasicView {
   
   constructor(dataHandler, optionTag) {
+    super();
+
     /** @private @const {!ListDataHandler} */
     this.dataHandler_ = dataHandler;
 
@@ -46,7 +49,12 @@ class CommonListView {
      */
     this.template_ = listitems;
 
-    /** @private {number} The number of batch of data has been loaded into the view. */
+    /**
+     * @protected @type {!Array<function(!Element): undefined>}
+     */
+    this.listeners_ = [];
+
+    /** @private {?number} The number of batch of data has been loaded into the view. */
     this.batch_ = 0;
 
     /** @private {?Element} The container for all list items. */
@@ -80,7 +88,9 @@ class CommonListView {
    * The container where the entire table is rendered to.
    */
   async renderView(tableContainer) {
-    tableContainer.innerHTML = commonlistview({pagetype: this.optionTag_});
+    super.setCurrentContent(commonlistview({pagetype: this.optionTag_}));
+    super.resetAndUpdate();
+    // tableContainer.innerHTML = commonlistview({pagetype: this.optionTag_});
     this.container_ = googDom.getElement(ITEM_CONTAINER_ID)
     this.statusBar_ = googDom.getElement(STATUS_BAR_ID);
     window.addEventListener('scroll', this.bindedScrollHandler_);

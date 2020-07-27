@@ -28,7 +28,7 @@ class CollegePageView extends SinglePageView {
 
   /** Render the college page. */
   async renderView(element, id) {
-    await loadCollegeData(element);
+    // await loadCollegeData(element);
   };
 }
 

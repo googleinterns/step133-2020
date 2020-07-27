@@ -31,12 +31,14 @@ class ListDataHandler {
   }
 
   /**
+   * Returns the url with query information
    * @abstract
    * @private
    */
   getPath_() {}
 
   /**
+   * Converts list items from Json to objects.
    * @abstract
    * @private
    */

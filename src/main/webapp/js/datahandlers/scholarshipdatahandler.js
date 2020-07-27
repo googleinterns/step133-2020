@@ -20,13 +20,13 @@ const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler
 const {addSpaceToCamelCase} = goog.require('datahandlers.utils');
 
 const NA = 'N/A';
-const REQUIREMENTS = ['academicRequirements', 
-                      'ethnicityRaceRequirements', 
-                      'financialRequirements', 
-                      'genderRequirements',
-                      'locationRequirements',
-                      'nationalOriginRequirements',
-                      'otherRequirements'];
+const REQUIREMENTS = new Map().set('academicRequirements', 'Academic Requirements') 
+                              .set('ethnicityRaceRequirements', 'Ethnicity Race Requirements')
+                              .set('financialRequirements', 'Financial Requirements')
+                              .set('genderRequirements', 'Gender Requirements')
+                              .set('locationRequirements', 'Location Requirements')
+                              .set('nationalOriginRequirements', 'National Origin Requirements')
+                              .set('otherRequirements', 'Other Requirements');
 const SEPARATOR = ', ';
 const SCHOLARSHIP_ENDPOINT = '/scholarship-data';
 
@@ -41,14 +41,14 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
    * @private
    */
   async convertFromJsonToTemplate_(data) {
-    const requirementsMap = new Map();
+    const requirementsAndValue = new Map();
                            
     let requirement = undefined;
-    for (requirement of REQUIREMENTS) {
+    for (requirement in Array.from(REQUIREMENTS.keys())) {
       if (data[requirement] != undefined) {
-        requirementsMap.set(addSpaceToCamelCase(requirement), data[requirement].join(SEPARATOR));
+        requirementsAndValue.set(REQUIREMENTS.get(requirement), data[requirement].join(SEPARATOR));
       } else {
-        requirementsMap.set(addSpaceToCamelCase(requirement), NA);
+        requirementsAndValue.set(REQUIREMENTS.get(requirement), NA);
       }
     }
 

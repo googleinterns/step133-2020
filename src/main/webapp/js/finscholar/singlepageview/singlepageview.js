@@ -16,18 +16,21 @@
 
 goog.module('finscholar.singlepageview');
 
+const {BasicView} = goog.require('basicview');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 
 /**
  * Class for single scholarship/college page view.
  * @public
  */
-class SinglePageView {
+class SinglePageView extends BasicView {
 
   /**
    * @constructor
    */
   constructor(dataHandler, template) {
+    super();
+    
     /** 
      * @private @const {!SinglePageDataHandler} dataHandler_ 
      * The object fetches and formats scholarship data.
