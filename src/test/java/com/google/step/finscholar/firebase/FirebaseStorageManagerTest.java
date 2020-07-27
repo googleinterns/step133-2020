@@ -182,8 +182,10 @@ public class FirebaseStorageManagerTest {
   public void retrieveCollectionBatchNoSort() throws Exception {
     FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
     String jsonWithoutSort = FirebaseStorageManager.getCollectionBatch(firebase, 
-        TEST_COLLECTION_NAME, Optional.ofNullable(TEST_BATCH_SIZE_LIMIT), Optional.ofNullable(null), Optional.ofNullable(null));
-    String idMessage = String.format("Batch query results with no sort parameter: %s", jsonWithoutSort);
+        TEST_COLLECTION_NAME, Optional.ofNullable(TEST_BATCH_SIZE_LIMIT), 
+        Optional.ofNullable(null), Optional.ofNullable(null));
+    String idMessage = 
+        String.format("Batch query results with no sort parameter: %s", jsonWithoutSort);
     log.info(idMessage);
     Optional<String> noSortOptional = Optional.ofNullable(jsonWithoutSort);
     Assert.assertTrue(noSortOptional.isPresent());
