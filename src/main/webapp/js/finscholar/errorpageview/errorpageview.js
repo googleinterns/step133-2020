@@ -16,29 +16,43 @@
 
 goog.module('finscholar.errorpageview');
 
-const GoogDom = goog.require('goog.dom');
+const {BasicView} = goog.require('basicview');
 const {errorpage} = goog.require('finscholar.errorpageview.templates');
 
+/**
+ * @typedef {{
+ *   occurrence: string,
+ *   action: string,
+ *   errorMessage: string
+ * }}
+ */
+let ErrorData;
+
 /** Class for the error page view. */
-class ErrorPageView {
-  constructor() {}
+class ErrorPageView extends BasicView {
+  /**
+   * @param {!ErrorData=} data Object containing error info.
+   */
+  constructor(data) {
+    super();
+
+    /** @private @type {!ErrorData|undefined} */
+    this.data_ = data;
+
+    const html = errorpage(/** @type {!ErrorData} */ (this.data_));
+    super.setCurrentContent(html);
+  }
 
   /**
-   * Render the error page.
-   * @param {Element} element - The element to render the error page to.
-   * @param {string} newOccurrence - Message explaining what happened.
-   * @param {string} newAction - Action to be taken upon receiving the error message.
-   * @param {string} newErrorMessage - The error message that was thrown when the error occurred.
+   * Updates the data object. Useful for running before rendering view.
+   * @param {!ErrorData} data New error info.
    */
-  async renderErrorPage(element, newOccurrence, newAction, newErrorMessage) {
-    const data = {
-      occurrence : newOccurrence,
-      action : newAction,
-      errorMessage : newErrorMessage
-    }
-    const html = errorpage(data);
-    element.innerHTML = html;
-  };
+  updateError(data) {
+    this.data_ = data;
+  }
 }
 
-exports = {ErrorPageView};
+exports = {
+  ErrorPageView,
+  ErrorData
+};
