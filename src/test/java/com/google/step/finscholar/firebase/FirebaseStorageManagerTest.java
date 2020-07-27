@@ -58,8 +58,7 @@ public class FirebaseStorageManagerTest {
 
   @BeforeClass
   public static void setUp() throws Exception {
-    FirebaseApp app = FirebaseAppManager.getApp().get();
-    firebase = FirestoreClient.getFirestore(app);
+    firebase = FirestoreClient.getFirestore(FirebaseAppManager.getApp().get());
     testObject = new TestObject(TEST_DOCUMENT_NAME, TEST_COLLECTION_NAME);
     testObjectTwo = new TestObject(TEST_DOCUMENT_TWO_NAME, TEST_COLLECTION_NAME);
     testObjectThree = new TestObject(TEST_DOCUMENT_THREE_NAME, TEST_COLLECTION_NAME);
