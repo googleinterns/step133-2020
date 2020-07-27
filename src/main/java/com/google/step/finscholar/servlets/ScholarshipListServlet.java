@@ -51,7 +51,7 @@ public class ScholarshipListServlet extends HttpServlet {
     Optional<Firestore> database = Optional.empty();
     Optional<Integer> itemsPerBatch = Optional.empty();
     try {
-      database = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
+      database = Optional.ofNullable(FirestoreClient.getFirestore(FirebaseAppManager.getApp().get()));
       itemsPerBatch = getIntParameter(request, ITEMS_PER_BATCH);
     } catch (NumberFormatException numberException) {
       response.sendError(HttpServletResponse.SC_BAD_REQUEST, 
@@ -64,7 +64,8 @@ public class ScholarshipListServlet extends HttpServlet {
         Optional<String> sortBy = getStringParameter(request, SORT_BY);
         response.setContentType(JSON_CONTENT_TYPE);
         response.getWriter().println(
-            getCollectionBatch(database, SCHOLARSHIP_COLLECTION_NAME, itemsPerBatch, idOfLastItem, sortBy));
+            getCollectionBatch(database.get(), SCHOLARSHIP_COLLECTION_NAME, 
+                               itemsPerBatch, idOfLastItem, sortBy));
       } catch (FirebaseException firebaseException) {
         response.sendError(HttpServletResponse.SC_NO_CONTENT, 
             UNABLE_TO_READ_FROM_FIRESTORE + firebaseException);

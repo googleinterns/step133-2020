@@ -29,7 +29,8 @@ public class Utils {
    */
   public static Optional<String> 
       getStringParameter(HttpServletRequest request, String name) {
-    return Optional.ofNullable(request.getParameter(name));
+    String paramValue = request.getParameter(name);
+    return paramValue.isEmpty() ? Optional.empty() : Optional.of(paramValue);
   }
 
   /**
@@ -40,6 +41,7 @@ public class Utils {
    */
   public static Optional<Integer> getIntParameter(HttpServletRequest request, String name) 
       throws NumberFormatException {
-    return Optional.ofNullable(Integer.parseInt(request.getParameter(name)));
+    String paramValue = request.getParameter(name);
+    return paramValue.isEmpty() ? Optional.empty() : Optional.of(Integer.parseInt(paramValue));
   }
 } 

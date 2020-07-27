@@ -48,12 +48,12 @@ public class ScholarshipServlet extends HttpServlet {
     Optional<Firestore> database = Optional.empty();
     Optional<String> id = getStringParameter(request, ID);
     
-    database = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
+    database = Optional.ofNullable(FirestoreClient.getFirestore(FirebaseAppManager.getApp().get()));
 
     if (database.isPresent()) {
       response.setContentType(JSON_CONTENT_TYPE);
       try {
-        response.getWriter().println(getDocument(database, SCHOLARSHIP_COLLECTION_NAME, id));
+        response.getWriter().println(getDocument(database.get(), SCHOLARSHIP_COLLECTION_NAME, id));
       } catch(FirebaseException e) {
         response.sendError(HttpServletResponse.SC_NO_CONTENT, UNABLE_TO_READ_FROM_FIRESTORE + e);  
       }
