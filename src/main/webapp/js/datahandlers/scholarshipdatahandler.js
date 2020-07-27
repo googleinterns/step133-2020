@@ -80,27 +80,6 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
   };
 
   /**
-   * Fetch the scholarship data with the specified uuid and format it.
-   * @param {string} id The uuid of the scholarship data.
-   * @return The formatted scholarship JS object map.
-   */
-  async fetchAndFormatData(id) {
-    let data = undefined;
-    try {
-      data = await this.fetchScholarshipJson_(id);
-
-      if (data === undefined) {
-        throw new Error('Cannot get data from remote.');
-      }
-
-      return this.convertFromJsonToTemplate_(data[id]);
-    } catch (e) {
-      console.log(e);
-      throw(`Failed to fetch scholarship object ${e}`);
-    }
-  }
-
-  /**
    * @returns {string} path
    * @private
    */
