@@ -98,7 +98,7 @@ public class FirebaseStorageManager {
         storeDocument(database, collectionToWriteTo, object, Optional.ofNullable(null));
       } catch (Exception e) {
         String message = String.format(EXCEPTION_COLLECTION_FORMATTER, collectionToWriteTo);
-        throw new FirebaseException(message + e);
+        throw new FirebaseException(message, e);
       }
     }
   }
