@@ -27,13 +27,9 @@ const {scholarshippage} = goog.require('example.templates.scholarshippageviews')
  */
 class ScholarshipPageView extends SinglePageView {
 
-  /**
-   * @constructor
-   */
   constructor() {
     super(new ScholarshipDataHandler(), scholarshippage);
   }
 }
 
 exports = {ScholarshipPageView};
-
