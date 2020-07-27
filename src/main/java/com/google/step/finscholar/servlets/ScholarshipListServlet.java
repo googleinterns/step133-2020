@@ -48,7 +48,7 @@ public class ScholarshipListServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Firestore database = null;
+    Optional<Firestore> database = Optional.empty();
     Optional<Integer> itemsPerBatch = Optional.empty();
     try {
       database = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
@@ -58,7 +58,7 @@ public class ScholarshipListServlet extends HttpServlet {
           INVALID_INT_PARAMETER + numberException);
     }
 
-    if (database != null) {
+    if (database.isPresent()) {
       try {
         Optional<String> idOfLastItem = getStringParameter(request, ID_OF_LAST_ITEM);
         Optional<String> sortBy = getStringParameter(request, SORT_BY);

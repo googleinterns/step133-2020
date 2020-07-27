@@ -45,12 +45,12 @@ public class ScholarshipServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    Firestore database = null;
+    Optional<Firestore> database = Optional.empty();
     Optional<String> id = getStringParameter(request, ID);
     
     database = FirestoreClient.getFirestore(FirebaseAppManager.getApp());
 
-    if (database != null) {
+    if (database.isPresent()) {
       response.setContentType(JSON_CONTENT_TYPE);
       try {
         response.getWriter().println(getDocument(database, SCHOLARSHIP_COLLECTION_NAME, id));
