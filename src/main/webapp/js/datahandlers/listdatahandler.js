@@ -19,6 +19,7 @@ goog.module('datahandlers.listdatahandler');
 
 /** 
  * This class loads scholarship/college data from the backend and formats it for soy templates.  
+ * @abstract
  */
 class ListDataHandler {
 
@@ -31,20 +32,24 @@ class ListDataHandler {
   }
 
   /**
-   * Returns the url with query information
+   * @param {number} batchIndex The index of last batch rendered.
+   * @param {number} itemsPerBatch Number of items requested.
+   * @param {string} lastIndex Index of the last item in the list.
+   * @return The url with query information.
    * @abstract
-   * @private
    */
-  getPath_() {}
+  getPath_(batchIndex, itemsPerBatch, lastIndex) {}
 
   /**
    * Converts list items from Json to objects.
+   * @param {Object} jsonData The college or scholarhsip list item data.
+   * @returns {!Array<string>}
    * @abstract
-   * @private
    */
-  formatListItem_(){}
+  formatListItem_(jsonData){}
 
-     /**
+  /**
+   * @param {string} type Could be either 'scholarships' or 'colleges'.
    * @param {number} batchIndex The index of last batch rendered.
    * @param {number} itemsPerBatch Number of items requested.
    * @param {string} lastIndex Index of the last item in the list.
@@ -53,9 +58,10 @@ class ListDataHandler {
    *  items: !Array<!Array<string>>
    * }>}
    */
-  async getNextBatch(type) {
+  async getNextBatch(type, batchIndex, itemsPerBatch, lastIndex) {
     try {
-      const responseList = await fetch(this.getPath_());
+      const responseList = 
+          await fetch(this.getPath_(batchIndex, itemsPerBatch, lastIndex));
       const listJson = await responseList.json();
       const listItems = listJson.map(e => this.formatListItem_(e));
       return {

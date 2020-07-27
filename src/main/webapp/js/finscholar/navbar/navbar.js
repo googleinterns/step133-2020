@@ -34,7 +34,7 @@ class NavBar {
     this.dispatcher_ = new JsactionDispatcher();
 
     /**
-     * @protected @type {!Array<function(!Element): undefined>}
+     * @protected @type {!Array<function(number): undefined>}
      */
     this.listeners_ = [];
 

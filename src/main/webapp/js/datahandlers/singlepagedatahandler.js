@@ -19,6 +19,7 @@ goog.module('datahandlers.singlepagedatahandler');
 
 /** 
  * This class loads scholarship/college data from the backend and formats it for soy templates.  
+ * @abstract
  */
 class SinglePageDataHandler {
 
@@ -46,7 +47,6 @@ class SinglePageDataHandler {
   /**
    * @returns {string} path
    * @abstract
-   * @private
    */
   getRequestPath_() {}
 
@@ -56,7 +56,6 @@ class SinglePageDataHandler {
    * @param {*} data - The JSON object to be converted.
    * @return {Object} - The object map representing a scholarship's data.
    * @abstract
-   * @private
    */
   async convertFromJsonToTemplate_(data) {}
 
@@ -65,7 +64,6 @@ class SinglePageDataHandler {
    * Fetch request to the data servlet and return the JSON response.
    * @param {string} id The uuid of the schedule.
    * @return {*} - The JSON response.
-   * @private
    */
   async fetchJson_(id) {
     const response = await fetch(this.getRequestPath_(), {'id': id });

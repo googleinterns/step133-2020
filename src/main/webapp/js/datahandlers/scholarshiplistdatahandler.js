@@ -52,19 +52,16 @@ class ScholarshipListDataHandler extends ListDataHandler {
    * @param {number} batchIndex The index of last batch rendered.
    * @param {number} itemsPerBatch Number of items requested.
    * @param {string} lastIndex Index of the last item in the list.
-   * @return {Promise<{
-   *  type: string,
-   *  items: !Array<!Array<string>>
-   * }>}
+   * @return {string} The url with query information.
    */
-  async getPath_(batchIndex, itemsPerBatch, lastIndex) {
+  getPath_(batchIndex, itemsPerBatch, lastIndex) {
     return `${SCHOLARSHIP_LIST_ENDPOINT}?${NUMBER_OF_ITEMS}=${itemsPerBatch}&
         ${INDEX_OF_LAST_ITEM}=${lastIndex}`;	
   }
 
   /**
    * @param {Object} item The scholarship object.
-   * @returns {!Array<!Array<string>>} The formatted scholarship list item.
+   * @returns {!Array<string>} The formatted scholarship list item.
    * @private
    */
   formatListItem_(item) {
