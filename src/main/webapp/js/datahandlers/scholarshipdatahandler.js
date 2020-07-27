@@ -68,7 +68,7 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
           introduction: data['introduction'], 
           URL: data['URL'],
         },
-        requirements: requirementsMap,
+        requirements: requirementsAndValue,
         applicationNotes: {
           amountPerYear: data['amountPerYear'],
           applicationProcess: data['applicationProcess'],
