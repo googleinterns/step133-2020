@@ -39,7 +39,7 @@ public class FirebaseStorageManager {
   /** Formatters to use with String.format(). */
   private static final String ADDED_NEW_DOC_FORMATTER = "New document added to %s at %s.";
   private static final String BATCH_SIZE_NOT_SPECIFIED = "Batch size not specified, please send a batch size for query";
-  private static final String EXCEPTION_DNE_FORMATTER = "Document with id: %s does not exist.";
+  private static final String EXCEPTION_DOES_NOT_EXIST_FORMATTER = "Document with id: %s does not exist.";
   private static final String EXCEPTION_COLLECTION_FORMATTER = "Unable to write to this collection: %s.";
   private static final String CANNOT_RETRIEVE = "Please specific a document ID, cannot retrieve document without ID.";
   /** Logger that sends logs to the Cloud Project console. */
@@ -64,7 +64,7 @@ public class FirebaseStorageManager {
 
     // Access/create the new document.
     DocumentReference documentRef;
-    if (!documentID.isPresent()) {
+    if (documentID.isEmpty()) {
       documentRef = collectionRef.document();
     } else {
       documentRef = collectionRef.document(documentID.get());
@@ -113,7 +113,7 @@ public class FirebaseStorageManager {
    */
   public static String getDocument(Firestore database, String collectionToGetFrom, Optional<String> documentID) 
       throws FirebaseException {
-    if (!documentID.isPresent()) {
+    if (documentID.isEmpty()) {
       throw new FirebaseException(CANNOT_RETRIEVE);
     }
     // Retrieve a reference to the document representing the datapoint I want to retrieve.
@@ -134,7 +134,7 @@ public class FirebaseStorageManager {
         return gson.toJson(objectFromDatabase);
       } else {
         // Throws a Firebase Exception if the document does not exist.
-        String message = String.format(EXCEPTION_DNE_FORMATTER, documentID);
+        String message = String.format(EXCEPTION_DOES_NOT_EXIST_FORMATTER, documentID);
         throw new FirebaseException(message);
       }
     } catch (Exception e) {
@@ -190,7 +190,7 @@ public class FirebaseStorageManager {
       Optional<Integer> batchSizeLimit,  Optional<String> lastDocID, Optional<String> parameterToSortBy) 
       throws FirebaseException {
     // A batch size limit needs to be specified in order to make any query.
-    if (!batchSizeLimit.isPresent() || batchSizeLimit.get() == 0) {
+    if (batchSizeLimit.isEmpty() || batchSizeLimit.get() == 0) {
       throw new FirebaseException(BATCH_SIZE_NOT_SPECIFIED);
     }
 
@@ -198,7 +198,7 @@ public class FirebaseStorageManager {
 
     // If the lastDocID is not present, then we know this is the first batch to send.
     // Else simply get the next batch in the collection.
-    return !lastDocID.isPresent() ? 
+    return lastDocID.isEmpty() ? 
         getFirstBatch(collectionReference, batchSizeLimit.get(), parameterToSortBy) :
         getNextBatch(collectionReference, batchSizeLimit.get(), 
             lastDocID.get(), parameterToSortBy);
@@ -219,7 +219,7 @@ public class FirebaseStorageManager {
     // We have the option here to sort the collection by specific parameter beforehand (great for supporting sort-type queries later on).
     // Setup the new Query.
     // If parameterToSortBy is null then don't sort the query.
-    Query page = (!parameterToSortBy.isPresent()) ? 
+    Query page = (parameterToSortBy.isEmpty()) ? 
       collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy.get()).limit(batchSizeLimit);
     return getCollectionQuery(page);
   }
@@ -256,14 +256,14 @@ public class FirebaseStorageManager {
     //   that occur after the last doc in the collection.
     // If parameterToSortBy is null, then don't sort the query.
     if (document.exists()) {
-      Query page = (!parameterToSortBy.isPresent()) ? 
+      Query page = (parameterToSortBy.isEmpty()) ? 
           collectionReference.startAfter(document).limit(batchSizeLimit) : 
           collectionReference.orderBy(parameterToSortBy.get()).startAfter(document).limit(batchSizeLimit);
       return getCollectionQuery(page);
 
     } else {
       // Throws a Firebase Exception if the document does not exist.
-      String message = String.format(EXCEPTION_DNE_FORMATTER, lastDocID);
+      String message = String.format(EXCEPTION_DOES_NOT_EXIST_FORMATTER, lastDocID);
       throw new FirebaseException(message);
     }
   }
