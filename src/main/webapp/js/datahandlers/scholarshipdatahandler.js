@@ -19,13 +19,13 @@ const {Map: SoyMap} = goog.require('soy.map');
 const {addSpaceToCamelCase} = goog.require('datahandlers.utils');
 
 const NA = 'N/A';
-const REQUIREMENTS = ['academicRequirements', 
-                      'ethnicityRaceRequirements', 
-                      'financialRequirements', 
-                      'genderRequirements',
-                      'locationRequirements',
-                      'nationalOriginRequirements',
-                      'otherRequirements'];
+const REQUIREMENTS = new Map().set('academicRequirements', 'Academic Requirements') 
+                              .set('ethnicityRaceRequirements', 'Ethnicity Race Requirements')
+                              .set('financialRequirements', 'Financial Requirements')
+                              .set('genderRequirements', 'Gender Requirements')
+                              .set('locationRequirements', 'Location Requirements')
+                              .set('nationalOriginRequirements', 'National Origin Requirements')
+                              .set('otherRequirements', 'Other Requirements');
 const SEPARATOR = ', ';
 const SCHOLARSHIP_ENDPOINT = '/scholarship-data';
 
@@ -40,14 +40,14 @@ class ScholarshipDataHandler {
    * @private
    */
   async convertFromJsonToTemplate_(data) {
-    const requirementsMap = new Map();
+    const requirementsAndValue = new Map();
                            
     let requirement = undefined;
-    for (requirement of REQUIREMENTS) {
-      if (REQUIREMENTS[requirement] != undefined) {
-        requirementsMap.set(addSpaceToCamelCase(requirement), REQUIREMENTS[requirement].join(SEPARATOR));
+    for (requirement in Array.from(REQUIREMENTS.keys())) {
+      if (data[requirement] != undefined) {
+        requirementsAndValue.set(REQUIREMENTS.get(requirement), data[requirement].join(SEPARATOR));
       } else {
-        requirementsMap.set(addSpaceToCamelCase(requirement), NA);
+        requirementsAndValue.set(REQUIREMENTS.get(requirement), NA);
       }
     }
 
