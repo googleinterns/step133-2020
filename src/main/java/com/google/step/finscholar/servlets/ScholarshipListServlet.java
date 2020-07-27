@@ -71,7 +71,7 @@ public class ScholarshipListServlet extends HttpServlet {
       } 
     } else {
       response.sendError(HttpServletResponse.SC_BAD_GATEWAY, 
-          UNABLE_TO_LOAD_FIRESTORE + firebaseException);
+          UNABLE_TO_LOAD_FIREBASE + firebaseException);
     }
   }
 } 
