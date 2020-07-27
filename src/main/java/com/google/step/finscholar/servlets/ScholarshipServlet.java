@@ -58,7 +58,7 @@ public class ScholarshipServlet extends HttpServlet {
         response.sendError(HttpServletResponse.SC_NO_CONTENT, UNABLE_TO_READ_FROM_FIRESTORE + e);  
       }
     } else {
-      response.sendError(HttpServletResponse.SC_BAD_GATEWAY, UNABLE_TO_LOAD_FIREBASE + e);
+      response.sendError(HttpServletResponse.SC_BAD_GATEWAY, UNABLE_TO_LOAD_FIREBASE);
     }
   }
 }

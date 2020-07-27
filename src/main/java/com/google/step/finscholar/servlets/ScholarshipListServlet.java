@@ -66,12 +66,12 @@ public class ScholarshipListServlet extends HttpServlet {
         response.getWriter().println(
             getCollectionBatch(database, SCHOLARSHIP_COLLECTION_NAME, itemsPerBatch, idOfLastItem, sortBy));
       } catch (FirebaseException firebaseException) {
-        response.sendError(HttpServletResponse.NO_CONTENT, 
+        response.sendError(HttpServletResponse.SC_NO_CONTENT, 
             UNABLE_TO_READ_FROM_FIRESTORE + firebaseException);
       } 
     } else {
       response.sendError(HttpServletResponse.SC_BAD_GATEWAY, 
-          UNABLE_TO_LOAD_FIREBASE + firebaseException);
+          UNABLE_TO_LOAD_FIREBASE);
     }
   }
 } 
