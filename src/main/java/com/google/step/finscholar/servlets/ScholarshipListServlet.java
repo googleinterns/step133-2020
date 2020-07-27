@@ -58,7 +58,7 @@ public class ScholarshipListServlet extends HttpServlet {
           INVALID_INT_PARAMETER + numberException);
     }
 
-    if (database != null && itemsPerBatch != 0) {
+    if (database != null && itemsPerBatch.isPresent()) {
       try {
         Optional<String> idOfLastItem = getStringParameter(request, ID_OF_LAST_ITEM);
         Optional<String> sortBy = getStringParameter(request, SORT_BY);
