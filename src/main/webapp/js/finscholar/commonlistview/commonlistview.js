@@ -31,6 +31,8 @@ const STATUS_BAR_ID = 'status';
 class CommonListView extends BasicView {
   
   constructor(dataHandler, optionTag) {
+    super();
+
     /** @private @const {!ScholarshipListDataHandler} */
     this.dataHandler_ = dataHandler;
 
@@ -45,6 +47,11 @@ class CommonListView extends BasicView {
      * }}):goog.soy.data.SanitizedHtml} 
      */
     this.template_ = listitems;
+
+    /**
+     * @protected @type {!Array<function(!Element): undefined>}
+     */
+    this.listeners_ = [];
 
     /** @private {?number} The number of batch of data has been loaded into the view. */
     this.batch_ = 0;
@@ -80,7 +87,8 @@ class CommonListView extends BasicView {
    * The container where the entire table is rendered to.
    */
   async renderView(tableContainer) {
-    super.setCurrentContent(commonlistview({pagetype: this.optionTag_});
+    super.setCurrentContent(commonlistview({pagetype: this.optionTag_}));
+    super.resetAndUpdate();
     // tableContainer.innerHTML = commonlistview({pagetype: this.optionTag_});
     this.container_ = googDom.getElement(ITEM_CONTAINER_ID)
     this.statusBar_ = googDom.getElement(STATUS_BAR_ID);

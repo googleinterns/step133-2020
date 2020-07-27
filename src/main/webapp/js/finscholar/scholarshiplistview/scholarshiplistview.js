@@ -26,6 +26,7 @@ class ScholarshipListView extends CommonListView {
   
   constructor() {
     super(new ScholarshipListDataHandler(), SCHOLARSHIP_LIST_TAG);
+  }
 }
 
 exports = {ScholarshipListView};
