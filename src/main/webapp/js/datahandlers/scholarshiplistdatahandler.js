@@ -26,9 +26,7 @@ const ELLIPSIS = '...';
 const EMPTY_STRING = '';
 const END_OF_STRING = 23;
 const ID = 'id';
-const ID_OF_LAST_ITEM = 'idOfLastItem';
 const UNKNOWN = 'unknown';
-const NUMBER_OF_ITEMS = 'numberOfItems';
 const SCHOLARSHIP = 'scholarships';
 const SCHOLARSHIP_LIST_ENDPOINT = '/scholarship-list';
 const SCHOLARSHIP_NAME = 'scholarshipName';
@@ -72,8 +70,8 @@ class ScholarshipListDataHandler extends ListDataHandler {
     return [
       item[ID], 
       item[SCHOLARSHIP_NAME],
-      amount,
       ELLIPSIS,
+      amount,
     ];
   }
 }
