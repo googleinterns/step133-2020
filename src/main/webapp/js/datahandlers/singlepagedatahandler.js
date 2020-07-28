@@ -66,7 +66,7 @@ class SinglePageDataHandler {
    * @return {*} - The JSON response.
    */
   async fetchJson_(id) {
-    const response = await fetch(this.getRequestPath_(), {'id': id });
+    const response = await fetch(`${this.getRequestPath_()}?id=${id}`);
     let data = undefined;
     if (response.ok) {
       try {

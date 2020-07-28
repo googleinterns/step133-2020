@@ -44,7 +44,7 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
     const requirementsAndValue = new Map();
                            
     let requirement = undefined;
-    for (requirement in Array.from(REQUIREMENTS.keys())) {
+    for (requirement of Array.from(REQUIREMENTS.keys())) {
       if (data[requirement] != undefined) {
         requirementsAndValue.set(REQUIREMENTS.get(requirement), data[requirement].join(SEPARATOR));
       } else {

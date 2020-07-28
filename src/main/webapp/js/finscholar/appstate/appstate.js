@@ -85,6 +85,9 @@ class AppState {
       this.currentView_.removeScrollHandler();
     }
     this.currentView_ = navbarViewFactory(index);
+    if (this.currentView_ instanceof CommonListView) {
+      this.currentView_.registerListener(this.listViewUpdate_.bind(this));
+    }
     this.currentView_.renderView();
     this.navbarInstance_ = new NavBar();
     this.navbarInstance_.registerListener(this.navbarUpdate.bind(this));

@@ -44,9 +44,8 @@ class SinglePageView extends BasicView {
 
    /** 
     * @param {string} id The id of the scholarhsip/college. 
-    * @private
     */
-   setId_(id) {
+   setId(id) {
      this.id_ = id;
    }
 

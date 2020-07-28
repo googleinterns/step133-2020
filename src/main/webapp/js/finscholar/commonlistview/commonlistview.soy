@@ -54,8 +54,8 @@
                          items: list<list<string>>]}
   {for $propsofoneitem in $batchofitems.items}
     <tr class={$batchofitems.type} id={$propsofoneitem[0]}
-        jsaction="scholarshiplistview.clickAction;
-        dblclick:scholarshiplistview.doubleClickAction">
+        jsaction="commonlistview.clickAction;
+        dblclick:commonlistview.doubleClickAction">
     {for $index in range(1, $propsofoneitem.length())}
       <td class="mdl-data-table__cell--non-numeric">{$propsofoneitem[$index]}</td>
     {/for}
