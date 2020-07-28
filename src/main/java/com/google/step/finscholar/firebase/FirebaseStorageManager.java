@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.step.finscholar.data.ServletConstantValues;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 /** This class handles writing to and reading from a Cloud Firestore database. */
@@ -63,10 +64,11 @@ public class FirebaseStorageManager {
 
     // Access/create the new document.
     DocumentReference documentRef;
-    if (documentID.equals(ServletConstantValues.DEFAULT_VALUE)) {
+    Optional<String> optionalID = Optional.ofNullable(documentID);
+    if (!optionalID.isPresent()) {
       documentRef = collectionRef.document();
     } else {
-      documentRef = collectionRef.document(documentID);
+      documentRef = collectionRef.document(optionalID.get());
     }
 
     // Update the document with a new object.
@@ -94,7 +96,7 @@ public class FirebaseStorageManager {
     throws FirebaseException {
     for (Object object : objects) {
       try {
-        storeDocument(database, collectionToWriteTo, object, ServletConstantValues.DEFAULT_VALUE);
+        storeDocument(database, collectionToWriteTo, object, null);
       } catch (Exception e) {
         String message = String.format(EXCEPTION_COLLECTION_FORMATTER, collectionToWriteTo);
         throw new FirebaseException(message, e);
@@ -192,12 +194,13 @@ public class FirebaseStorageManager {
 
     CollectionReference collectionReference = database.collection(collectionToGetFrom);
 
-    // If the lastDocID is null, then we know this is the first batch to send.
+    // If the lastDocID is not present, then we know this is the first batch to send.
     // Else simply get the next batch in the collection.
-    if (lastDocID == null) {
+    Optional<String> optionalID = Optional.ofNullable(lastDocID);
+    if (!optionalID.isPresent()) {
       return getFirstBatch(collectionReference, batchSizeLimit, parameterToSortBy);
     } else {
-      return getNextBatch(database, collectionReference, batchSizeLimit, lastDocID, parameterToSortBy);
+      return getNextBatch(database, collectionReference, batchSizeLimit, optionalID.get(), parameterToSortBy);
     }
   }
 
@@ -216,8 +219,9 @@ public class FirebaseStorageManager {
     // We have the option here to sort the collection by specific parameter beforehand (great for supporting sort-type queries later on).
     // Setup the new Query.
     // If parameterToSortBy is null then don't sort the query.
-    Query page = (parameterToSortBy == null) ? 
-      collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy).limit(batchSizeLimit);
+    Optional<String> optionalSort = Optional.ofNullable(parameterToSortBy);
+    Query page = (!optionalSort.isPresent()) ? 
+      collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(optionalSort.get()).limit(batchSizeLimit);
     return getCollectionQuery(page);
   }
 
@@ -254,9 +258,10 @@ public class FirebaseStorageManager {
     //   that occur after the last doc in the collection.
     // If parameterToSortBy is null, then don't sort the query.
     if (document.exists()) {
-      Query page = (parameterToSortBy == null) ? 
+      Optional<String> optionalSort = Optional.ofNullable(parameterToSortBy);
+      Query page = (!optionalSort.isPresent()) ? 
           collectionReference.startAfter(document).limit(batchSizeLimit) : 
-          collectionReference.orderBy(parameterToSortBy).startAfter(document).limit(batchSizeLimit);
+          collectionReference.orderBy(optionalSort.get()).startAfter(document).limit(batchSizeLimit);
       return getCollectionQuery(page);
 
     } else {
@@ -319,6 +324,36 @@ public class FirebaseStorageManager {
       return future.get().size();
     } catch (Exception e) {
       throw new FirebaseException(ServletConstantValues.UNABLE_TO_READ_FROM_FIRESTORE, e);
+    }
+  }
+
+  /**
+   * Used as a utility method for testing that deletes all of the documents in a collection.
+   * @param database
+   * @param collectionToDelete
+   * @throws FirebaseException
+   */
+  public static void deleteCollection(Firestore database, String collectionToDelete) throws FirebaseException {
+    CollectionReference collection = database.collection(collectionToDelete);
+    try {
+      // retrieve a small batch of documents to avoid out-of-memory errors.
+      ApiFuture<QuerySnapshot> future = collection.limit(10).get();
+      int deleted = 0;
+      // future.get() blocks on document retrieval.
+      List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+      for (QueryDocumentSnapshot document : documents) {
+        document.getReference().delete();
+        ++deleted;
+      }
+      // As long as there's still more documents to delete, keep deleteing.
+      // When the number of deleted doc is less than the batch size,
+      // We know we're done.
+      if (deleted >= 10) {
+        // retrieve and delete another batch.
+        deleteCollection(database, collectionToDelete);
+      }
+    } catch (Exception e) {
+      throw new FirebaseException(e.toString());
     }
   }
 }
