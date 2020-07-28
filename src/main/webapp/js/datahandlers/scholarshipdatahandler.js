@@ -36,7 +36,7 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
   /**
    * This method converts from scholarship JSON object to a JS object map,
    *  which will be used to render the scholarship page soy template.
-   * @param {*} data - The JSON object to be converted.
+   * @param {Object} data - The JSON object to be converted.
    * @return {Object} - The object map representing a scholarship's data.
    * @override
    * @private

@@ -27,7 +27,7 @@ class SinglePageView extends BasicView {
 
   constructor(dataHandler, template) {
     super();
-    
+
     /** 
      * @private @const {!SinglePageDataHandler} dataHandler_ 
      * The object fetches and formats scholarship data.
