@@ -33,6 +33,9 @@ class NavBar {
     /** @private @const {!JsactionDispatcher} */
     this.dispatcher_ = new JsactionDispatcher();
 
+    /**
+     * @protected @type {!Array<function(number): undefined>}
+     */
     this.listeners_ = [];
 
     /** @private @const {function(!JsactionActionFlow): undefined} */
@@ -75,8 +78,6 @@ class NavBar {
    * @private
    */
   handleNavbarOnclickEvent_(flow) {
-    console.log('testing firing of handler.');
-    console.log(this.listeners_);
     const index = flow.node().getAttribute('index');
     this.navbarPageIndex_ = parseInt(index, 10);
     this.listeners_.forEach((listener) => {
@@ -89,8 +90,6 @@ class NavBar {
    * @param {function(number): undefined} listener
    */
   registerListener(listener) {
-    console.log(this);
-    console.log(this.listeners_);
     this.listeners_.push(listener);
   }
 }

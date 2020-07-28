@@ -17,13 +17,14 @@
 goog.module('finscholar.commonlistview');
 
 const {BasicView} = goog.require('basicview');
+const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
 const {commonlistview, listitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
 const googDom = goog.require('goog.dom');
 
 const EMPTY_STRING = '';
-const INVALID_RESPONSE = 'Invalid data from server';
-const ITEM = 'item';
+const INVALID_RESPONSE = 'Invalid data from server.';
+const ITEM = 'items';
 const ITEM_CONTAINER_ID = 'table-body';
 const STATUS_BAR_ID = 'status';
 
@@ -33,7 +34,7 @@ class CommonListView extends BasicView {
   constructor(dataHandler, optionTag) {
     super();
 
-    /** @private @const {!ScholarshipListDataHandler} */
+    /** @private @const {!ListDataHandler} */
     this.dataHandler_ = dataHandler;
 
     /** @private @const {string} */
@@ -53,7 +54,7 @@ class CommonListView extends BasicView {
      */
     this.listeners_ = [];
 
-    /** @private {?number} The number of batch of data has been loaded into the view. */
+    /** @private {number} The number of batch of data has been loaded into the view. */
     this.batch_ = 0;
 
     /** @private {?Element} The container for all list items. */
@@ -83,10 +84,8 @@ class CommonListView extends BasicView {
 
   /** 
    * Loads the first two batches of list item to page. 
-   * @param {!Element} tableContainer 
-   * The container where the entire table is rendered to.
    */
-  async renderView(tableContainer) {
+  async renderView() {
     super.setCurrentContent(commonlistview({pagetype: this.optionTag_}));
     super.resetAndUpdate();
     // tableContainer.innerHTML = commonlistview({pagetype: this.optionTag_});
@@ -112,7 +111,8 @@ class CommonListView extends BasicView {
     try {
       this.isLoading_ = true;
       const dataBatch = await this.dataHandler_
-                        .getNextBatch(numberOfItems, this.idOfLastItem_);
+                        .getNextBatch(this.optionTag_, this.batch_, 
+                                      numberOfItems, this.idOfLastItem_);
       const dataList = dataBatch ? dataBatch[ITEM] : undefined;
       this.idOfLastItem_ = 
           dataList ? dataList[dataList.length - 1][0] : EMPTY_STRING;
@@ -151,6 +151,14 @@ class CommonListView extends BasicView {
         throw e;
       }
     }
+  }
+
+  /**
+   * Registers a listener for jsaction.
+   * @param {function(!Element): undefined} listener
+   */
+  registerListener(listener) {
+    this.listeners_.push(listener);
   }
 }
 

@@ -16,6 +16,7 @@
 
 goog.module('datahandlers.scholarshipdatahandler');
 const {Map: SoyMap} = goog.require('soy.map');
+const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 const {addSpaceToCamelCase} = goog.require('datahandlers.utils');
 
 const NA = 'N/A';
@@ -30,7 +31,7 @@ const SEPARATOR = ', ';
 const SCHOLARSHIP_ENDPOINT = '/scholarship-data';
 
 /** This class loads scholarship data from the backend and formats it for soy templates.  */
-class ScholarshipDataHandler {
+class ScholarshipDataHandler extends SinglePageDataHandler {
 
   /**
    * This method converts from scholarship JSON object to a JS object map, 
@@ -59,68 +60,32 @@ class ScholarshipDataHandler {
     }
 
     return {
-      generalInfo: {
-        scholarshipName: data['scholarshipName'], 
-        scholarshipUUID: data['scholarshipUUID'], 
-        schoolsList: data['schoolsList'],
-        introduction: data['introduction'], 
-        URL: data['URL'],
+      scholarship: {
+        generalInfo: {
+          scholarshipName: data['scholarshipName'], 
+          scholarshipUUID: data['scholarshipUUID'], 
+          schoolsList: data['schoolsList'],
+          introduction: data['introduction'], 
+          URL: data['URL'],
+        },
+        requirements: requirementsAndValue,
+        applicationNotes: {
+          amountPerYear: data['amountPerYear'],
+          applicationProcess: data['applicationProcess'],
+          isRenewable: data['isRenewable'],
+          numberOfYears: data['numberOfYears'],
+        }, 
       },
-      requirements: requirementsMap,
-      applicationNotes: {
-        amountPerYear: data['amountPerYear'],
-        applicationProcess: data['applicationProcess'],
-        isRenewable: data['isRenewable'],
-        numberOfYears: data['numberOfYears'],
-      }, 
     };
   };
 
   /**
-   * Fetch the scholarship data with the specified uuid and format it.
-   * @param {string} id The uuid of the scholarship data.
-   * @return The formatted scholarship JS object map.
-   */
-  async fetchAndFormatSingleScholarshipData(id) {
-    let data = undefined;
-    try {
-      data = await this.fetchScholarshipJson_(id);
-
-      if (data === undefined) {
-        throw new Error('Cannot get data from remote.');
-      }
-
-      return this.convertFromJsonToTemplate_(data[id]);
-    } catch (e) {
-      console.log(e);
-      throw(`Failed to fetch scholarship object ${e}`);
-    }
-  }
-
-  /**
-   * Fetch request to the data servlet and return the JSON response.
-   * @param {string} id The uuid of the schedule.
-   * @return {*} - The JSON response.
+   * @returns {string} path
    * @private
    */
-  async fetchScholarshipJson_(id) {
-    const response = await fetch(SCHOLARSHIP_ENDPOINT, {'id': id });
-    let data = undefined;
-    if (response.ok) {
-      try {
-        data = await response.json();
-        return data;
-      } catch (e) {
-        console.log(e);
-        throw new Error(`Failed to parse response from server: ${e}`);
-      }
-    } else {
-      const warning = `Failed to get response from server: 
-          ${response.statusText}. Status: ${response.status}`;
-      console.log(warning);
-      throw new Error(warning);
-    }
-  };
+  getRequestPath_() {
+    return SCHOLARSHIP_ENDPOINT;
+  }
 }
 
 exports = {ScholarshipDataHandler};
