@@ -33,7 +33,9 @@ class NavBar {
     /** @private @const {!JsactionDispatcher} */
     this.dispatcher_ = new JsactionDispatcher();
 
-    /** @private @type {!Array<function(number): undefined>} */
+    /**
+     * @protected @type {!Array<function(number): undefined>}
+     */
     this.listeners_ = [];
 
     /** @private @const {function(!JsactionActionFlow): undefined} */
@@ -85,7 +87,7 @@ class NavBar {
 
   /**
    * Takes an event to update with navbar updates.
-   * @param {function(number): undefined} listener
+   * @param {function(number): Promise<undefined>} listener
    */
   registerListener(listener) {
     this.listeners_.push(listener);
@@ -93,4 +95,3 @@ class NavBar {
 }
 
 exports = {NavBar};
-

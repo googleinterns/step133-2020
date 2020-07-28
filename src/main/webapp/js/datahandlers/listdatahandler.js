@@ -34,12 +34,23 @@ class ListDataHandler {
   }
 
   /**
+   * @param {number} batchIndex The index of last batch rendered.
+   * @param {number} itemsPerBatch Number of items requested.
+   * @param {string} lastIndex Index of the last item in the list.
+   * @return The url with query information.
+   * @abstract
+   * @private
+   */
+  getPath_(batchIndex, itemsPerBatch, lastIndex) {}
+
+  /**
    * Converts list items from Json to objects.
    * @param {Object} jsonData The college or scholarhsip list item data.
    * @returns {!Array<string>}
    * @abstract
+   * @private
    */
-  formatListItem_(jsonData) {}
+  formatListItem_(jsonData){}
 
   /**
    * @param {string} type Could be either 'scholarships' or 'colleges'.

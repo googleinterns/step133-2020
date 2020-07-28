@@ -37,7 +37,7 @@ const UNKNOWN = 'unknown';
  */
 class ScholarshipListDataHandler extends ListDataHandler {
   
-  /** 
+    /** 
    * @returns {Promise<number>} 
    * The total number of scholarship stored in backend. 
    */
