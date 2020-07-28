@@ -32,7 +32,6 @@ class SinglePageDataHandler {
     let data = undefined;
     try {
       data = await this.fetchJson_(id);
-
       if (data === undefined) {
         throw new Error('Cannot get data from remote.');
       }
@@ -45,7 +44,16 @@ class SinglePageDataHandler {
   }
 
   /**
-   * @param {string} id
+   * @param {Object} jsonResponse
+   * @returns {Object} Json data needed for rendering page.
+   * @private
+   */
+  getJsonData_(jsonResponse) {
+    return jsonResponse;
+  }
+
+  /**
+   * @param {string} id 
    * @returns {string} path
    * @abstract
    * @private
@@ -58,6 +66,7 @@ class SinglePageDataHandler {
    * @param {*} data - The JSON object to be converted.
    * @return {Object} - The object map representing a scholarship's data.
    * @abstract
+   * @private
    */
   async convertFromJsonToTemplate_(data) {}
 
@@ -65,7 +74,8 @@ class SinglePageDataHandler {
   /**
    * Fetch request to the data servlet and return the JSON response.
    * @param {string} id The uuid of the schedule.
-   * @return {*} - The JSON response.
+   * @return {Object} - The JSON response.
+
    * @private
    */
   async fetchJson_(id) {
@@ -74,7 +84,7 @@ class SinglePageDataHandler {
     if (response.ok) {
       try {
         data = await response.json();
-        return data;
+        return this.getJsonData_(data);
       } catch (e) {
         console.log(e);
         throw new Error(`Failed to parse response from server: ${e}`);

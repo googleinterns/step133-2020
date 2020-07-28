@@ -27,12 +27,13 @@ class SinglePageView extends BasicView {
 
   constructor(dataHandler, template) {
     super();
-    
+
     /** 
      * @private @const {!SinglePageDataHandler} dataHandler_ 
      * The object fetches and formats scholarship data.
      */
     this.dataHandler_ = dataHandler;
+
     /**
      * @private @const {!function(Object): goog.soy.data.SanitizedHtml}
      */
@@ -42,15 +43,18 @@ class SinglePageView extends BasicView {
     this.id_ = '';
   }
 
-   /** 
-    * @param {string} id The id of the scholarhsip/college. 
-    */
-   setId(id) {
-     this.id_ = id;
-   }
+  /**
+   * Sets the id of the college or scholarship.
+   * @param {string} id
+   */
+  setId(id) {
+    this.id_ = id;
+  }
+
 
   /**
    * Render the single scholarship/college page.
+   * @override
    */
   async renderView() {
     let formattedData = undefined;
@@ -71,4 +75,3 @@ class SinglePageView extends BasicView {
 }
 
 exports = {SinglePageView};
-

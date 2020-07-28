@@ -15,37 +15,29 @@
 {namespace finscholar.collegepageview.templates}
 {template .collegepage}
   {@param schoolName: string}
-  {@param institutionType: string}
-  {@param acceptanceRate: float}
-  {@param averageACTScore: float}
-  {@param totalCostAttendance: int}
-  {@param netCostForFirstQuintile: int}
-  {@param netCostForSecondQuintile: int}
-  {@param netCostForThirdQuintile: int}
-  {@param netCostForFourthQuintile: int}
-  {@param netCostForFifthQuintile: int}
-  {@param cumulativeMedianDebt: int}
-  <div id="information">
-    <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">{$schoolName}</h2>
-    </div>
-    <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">Academic Information</h2>
+  {@param acceptanceRate: string}
+  {@param averageACTScore: string}
+  {@param netCostForFirstQuintile: string}
+  {@param netCostForSecondQuintile: string}
+  {@param netCostForThirdQuintile: string}
+  {@param netCostForFourthQuintile: string}
+  {@param netCostForFifthQuintile: string}
+  {@param cumulativeMedianDebt: string}
+  <div class="mdl-grid mdl-shadow--2dp">
+    <div class="mdl-card__supporting-text">
+      <h2 class="mdl-card__title-text"><b>{$schoolName}</b></h2>
     </div>
     <div class="mdl-card__supporting-text">
-      <b>Institution Type:</b> {$institutionType}
-    </div> 
+      <h2 class="mdl-card__title-text"><b>Academic Information</b></h2>
+    </div>
     <div class="mdl-card__supporting-text">
       <b>Acceptance Rate:</b> {$acceptanceRate}
     </div> 
     <div class="mdl-card__supporting-text">
       <b>Average ACT Score:</b> {$averageACTScore}
     </div>
-    <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">Financial Aid Information</h2>
-    </div> 
     <div class="mdl-card__supporting-text">
-      <b>Total Cost of Attendance:</b> ${$totalCostAttendance}
+      <h2 class="mdl-card__title-text"><b>Financial Aid Information</b></h2>
     </div> 
     <div class="mdl-card__supporting-text">
       <b>Net Cost for students with family incomes between

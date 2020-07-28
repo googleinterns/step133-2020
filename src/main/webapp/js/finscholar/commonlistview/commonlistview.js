@@ -21,7 +21,6 @@ const JsactionActionFlow = goog.require('jsaction.ActionFlow');
 const JsactionDispatcher = goog.require('jsaction.Dispatcher');
 const JsactionEventContract = goog.require('jsaction.EventContract');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
-const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
 const {commonlistview, listitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
 const googDom = goog.require('goog.dom');
 
@@ -33,7 +32,10 @@ const STATUS_BAR_ID = 'status';
 
 /** The mini controller for scholarship list view. */
 class CommonListView extends BasicView {
-  
+  /**
+   * @param {!ScholarshipListDataHandler} dataHandler
+   * @param {string} optionTag
+   */
   constructor(dataHandler, optionTag) {
     super();
 
@@ -53,11 +55,13 @@ class CommonListView extends BasicView {
     this.template_ = listitems;
 
     /**
-     * @protected @type {!Array<function(!Element): undefined>}
+     * @private @type {!Array<function(!Element): undefined>}
      */
     this.listeners_ = [];
 
-    /** @private {number} The number of batch of data has been loaded into the view. */
+    /**
+     * @private @type {number} The number of batch of data has been loaded into the view.
+     */
     this.batch_ = 0;
 
     /** @private {?Element} The container for all list items. */
@@ -217,7 +221,7 @@ class CommonListView extends BasicView {
    */
   removeScrollHandler() {
     window.removeEventListener('scroll', this.bindedScrollHandler_);
-  }	 
+  }
 }
 
 exports = {CommonListView};

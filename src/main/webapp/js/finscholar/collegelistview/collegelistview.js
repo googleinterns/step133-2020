@@ -15,14 +15,16 @@
 /** @fileoverview The mini controller for college list view. */
 
 goog.module('finscholar.collegelistview');
-const {BasicView} = goog.require('basicview');
-const {collegelist} = goog.require('finscholar.collegelistview.templates');
+
+const {CollegeListDataHandler} = goog.require('datahandlers.collegelistdatahandler');
+const {CommonListView} = goog.require('finscholar.commonlistview');
+
+const COLLEGE_LIST_TAG = 'colleges';
 
 /** The mini controller for college list view. */
-class CollegeListView extends BasicView {
+class CollegeListView extends CommonListView {
   constructor() {
-    super();
-    super.setCurrentContent(collegelist());
+    super(new CollegeListDataHandler(), COLLEGE_LIST_TAG);
   }
 }
 

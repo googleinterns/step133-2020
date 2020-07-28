@@ -16,6 +16,8 @@
 
 goog.module('datahandlers.listdatahandler');
 
+const COLLEGES = 'colleges';
+const RESULTS = 'results';
 
 /** 
  * This class loads scholarship/college data from the backend and formats it for soy templates.  
@@ -37,6 +39,7 @@ class ListDataHandler {
    * @param {string} lastIndex Index of the last item in the list.
    * @return The url with query information.
    * @abstract
+   * @private
    */
   getPath_(batchIndex, itemsPerBatch, lastIndex) {}
 
@@ -45,6 +48,7 @@ class ListDataHandler {
    * @param {Object} jsonData The college or scholarhsip list item data.
    * @returns {!Array<string>}
    * @abstract
+   * @private
    */
   formatListItem_(jsonData){}
 
@@ -62,7 +66,10 @@ class ListDataHandler {
     try {
       const responseList = 
           await fetch(this.getPath_(batchIndex, itemsPerBatch, lastIndex));
-      const listJson = await responseList.json();
+      let listJson = await responseList.json();
+      if (type == COLLEGES) {
+        listJson = listJson[RESULTS];
+      }
       const listItems = listJson.map(e => this.formatListItem_(e));
       return {
         type: type,

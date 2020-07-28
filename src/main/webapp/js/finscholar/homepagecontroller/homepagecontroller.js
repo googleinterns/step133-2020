@@ -36,7 +36,6 @@ class HomePageController extends BasicView {
     super.setCurrentContent(homepage());
     super.resetAndUpdate();
   }	  
-
 }
 
 exports = {HomePageController};

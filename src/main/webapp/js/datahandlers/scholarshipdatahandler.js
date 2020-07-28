@@ -34,9 +34,9 @@ const SCHOLARSHIP_ENDPOINT = '/scholarship-data';
 class ScholarshipDataHandler extends SinglePageDataHandler {
 
   /**
-   * This method converts from scholarship JSON object to a JS object map, 
+   * This method converts from scholarship JSON object to a JS object map,
    *  which will be used to render the scholarship page soy template.
-   * @param {*} data - The JSON object to be converted.
+   * @param {Object} data - The JSON object to be converted.
    * @return {Object} - The object map representing a scholarship's data.
    * @override
    * @private
@@ -63,10 +63,10 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
     return {
       scholarship: {
         generalInfo: {
-          scholarshipName: data['scholarshipName'], 
-          scholarshipUUID: data['scholarshipUUID'], 
+          scholarshipName: data['scholarshipName'],
+          scholarshipUUID: data['scholarshipUUID'],
           schoolsList: data['schoolsList'],
-          introduction: data['introduction'], 
+          introduction: data['introduction'],
           URL: data['URL'],
         },
         requirements: requirementsAndValue,
@@ -75,7 +75,7 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
           applicationProcess: data['applicationProcess'],
           isRenewable: data['isRenewable'],
           numberOfYears: data['numberOfYears'],
-        }, 
+        },
       },
     };
   };

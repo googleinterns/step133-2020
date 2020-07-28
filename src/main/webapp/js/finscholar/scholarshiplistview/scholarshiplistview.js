@@ -16,6 +16,9 @@
 
 goog.module('finscholar.scholarshiplistview');
 
+const JsactionActionFlow = goog.require('jsaction.ActionFlow');
+const JsactionDispatcher = goog.require('jsaction.Dispatcher');
+const JsactionEventContract = goog.require('jsaction.EventContract');
 const {CommonListView} = goog.require('finscholar.commonlistview');
 const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
 
@@ -23,7 +26,6 @@ const SCHOLARSHIP_LIST_TAG = 'scholarships';
 
 /** The mini controller for scholarship list view. */
 class ScholarshipListView extends CommonListView {
-  
   constructor() {
     super(new ScholarshipListDataHandler(), SCHOLARSHIP_LIST_TAG);
   }

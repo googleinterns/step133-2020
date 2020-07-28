@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** 
- * @fileoverview The data controller which fetches scholarship data 
- * from backend and reformats the data. 
+/**
+ * @fileoverview The data controller which fetches scholarship data
+ * from backend and reformats the data.
  */
 
 goog.module('datahandlers.scholarshiplistdatahandler');
@@ -32,8 +32,8 @@ const SCHOLARSHIP_NAME = 'scholarshipName';
 const UNKNOWN = 'unknown';
 
 /**
- * The data controller which fetches scholarship data 
- * from backend and reformats the data. 
+ * The data controller which fetches scholarship data
+ * from backend and reformats the data.
  */
 class ScholarshipListDataHandler extends ListDataHandler {
   
@@ -73,6 +73,7 @@ class ScholarshipListDataHandler extends ListDataHandler {
       amount,
     ];
   }
+
 }
 
 exports = {ScholarshipListDataHandler}

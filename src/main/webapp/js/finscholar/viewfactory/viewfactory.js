@@ -17,6 +17,7 @@
 goog.module('finscholar.viewfactory');
 
 const {BasicView} = goog.require('basicview');
+const {CollegeListView} = goog.require('finscholar.collegelistview');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
 const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
 
@@ -33,7 +34,7 @@ const navbarViewFactory = (index) => {
       view = new HomePageController();
       break;
     case 1:
-      // College list view is not implemented in this branch.
+      view = new CollegeListView();
       break;
     case 2:
       view = new ScholarshipListView();
