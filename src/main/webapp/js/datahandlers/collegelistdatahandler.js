@@ -20,6 +20,7 @@
 goog.module('datahandlers.collegelistdatahandler');
 
 const {CollegeQueryBuilder} = goog.require('datahandlers.collegequerybuilder');
+const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 const {NAME, ACCEPTANCE_RATE, ACT_SCORE, ID} = 
   goog.require('datahandlers.collegequerybuilder');
 
@@ -27,48 +28,42 @@ const {NAME, ACCEPTANCE_RATE, ACT_SCORE, ID} =
  * The data controller which fetches college data 
  * from backend and reformats the data. 
  */
-class CollegeListDataHandler {
+class CollegeListDataHandler extends ListDataHandler {
 
   constructor() {
+    super()
+  }
+
+  /** 
+   * @returns {Promise<number>} 
+   * The total number of scholarship stored in backend. 
+   */
+  async getTotalNumber() {
+    return 250;
   }
 
   /**
-   * This converts a json string to a js object map.
-   * @param {*} json - The json representing a list of colleges.
-   * @return - The list of js object maps.
-   * @private
+   * Converts list items from Json to objects.
+   * @param {Object} element The college or scholarhsip list item data.
+   * @returns {!Array<string>}
    */
-  convertJsonToObject_(json) {
-    let results = json["results"];
-    return results.map(element => this.converter_(element));
+  formatListItem_(element){
+    return [
+      element[ID].toString(),
+      element[NAME],
+      element[ACCEPTANCE_RATE].toString(),
+      element[ACT_SCORE].toString(),
+    ];
   }
 
   /**
-   * Convert json string for single college to js object map.
-   * @param {*} element - The json string.
-   * @return {*} - JS object map representing a single college.
+   * @param {number} batchIndex The index of last batch rendered.
+   * @param {number} itemsPerBatch Number of items requested.
+   * @param {string} lastIndex Index of the last item in the list.
+   * @return The url with query information.
    */
-  converter_(element) {
-    return {
-        name : element[NAME],
-        acceptance : element[ACCEPTANCE_RATE].toString(),
-        act : element[ACT_SCORE].toString(),
-        id : element[ID].toString()
-    };
-  }
-
-  /**
-   * Fetch a batch of college object from DoE API.
-   * @param {number} batchIndex - Page number to extract.
-   * @param {number} itemsPerBatch - The number of objects requested.
-   * @param {number=} lastIndex - Unused parameter that ensures the method.
-   *   headers for getNextBatch() stay consistent across all listdatahandlers.
-   */
-  async getNextBatch(batchIndex, itemsPerBatch, lastIndex) {
-    const url = CollegeQueryBuilder.buildCollectionEndpoint(batchIndex, itemsPerBatch);
-    const response = await fetch(url);
-    const json = await response.json();
-    return this.convertJsonToObject_(json);
+  getPath_(batchIndex, itemsPerBatch, lastIndex) {
+    return CollegeQueryBuilder.buildCollectionEndpoint(batchIndex, itemsPerBatch);
   }
 }
 

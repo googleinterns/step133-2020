@@ -27,6 +27,15 @@ const {errorpage} = goog.require('finscholar.errorpageview.templates');
  */
 let ErrorData;
 
+/**
+ * @typedef {{
+ *   occurrence: string,
+ *   action: string,
+ *   errorMessage: string
+ * }}
+ */
+let ErrorData;
+
 /** Class for the error page view. */
 class ErrorPageView extends BasicView {
   /**
@@ -34,6 +43,7 @@ class ErrorPageView extends BasicView {
    */
   constructor(data) {
     super();
+<<<<<<< HEAD
     /** @private @type {!ErrorData|undefined} */
     this.data_ = data;
   }
@@ -53,6 +63,22 @@ class ErrorPageView extends BasicView {
     const html = errorpage(/** @type {!ErrorData} */ (this.data_));
     super.setCurrentContent(html);
     super.resetAndUpdate();
+=======
+
+    /** @private @type {!ErrorData|undefined} */
+    this.data_ = data;
+
+    const html = errorpage(/** @type {!ErrorData} */ (this.data_));
+    super.setCurrentContent(html);
+  }
+
+  /**
+   * Updates the data object. Useful for running before rendering view.
+   * @param {!ErrorData} data New error info.
+   */
+  updateError(data) {
+    this.data_ = data;
+>>>>>>> add-scholarship-page
   }
 }
 

@@ -25,6 +25,7 @@ const {homepage} = goog.require('finscholar.homepagecontroller.templates');
 class HomePageController extends BasicView {
   constructor() {
     super();
+    super.setCurrentContent(homepage());
   }
 
   /**
@@ -34,7 +35,7 @@ class HomePageController extends BasicView {
   async renderView() {
     super.setCurrentContent(homepage());
     super.resetAndUpdate();
-  }
+  }	  
 }
 
 exports = {HomePageController};

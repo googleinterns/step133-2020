@@ -22,37 +22,45 @@ goog.module('datahandlers.collegepage');
 const {CollegeQueryBuilder, ID, NAME, ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST, 
     FIRST_NET_COST, SECOND_NET_COST, THIRD_NET_COST, FOURTH_NET_COST, 
     FIFTH_NET_COST, MEDIAN_DEBT} = goog.require('datahandlers.collegequerybuilder');
+const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 
-class CollegeDataHandler {
-  constructor() {}
+/**
+ * @typedef {{
+ *   schoolName: string,
+ *   institutionType: string,
+ *   acceptanceRate: number,
+ *   averageACTScore: number,
+ *   totalCostAttendance: number,
+ *   netCostForFirstQuintile: number,
+ *   netCostForSecondQuintile: number,
+ *   netCostForThirdQuintile: number,
+ *   netCostForFourthQuintile: number,
+ *   netCostForFifthQuintile: number,
+ *   cumulativeMedianDebt: number
+ * }}
+ */
+let CollegeObject;
 
-  /** 
-   * @returns {Promise<number>} 
-   * The max number of colleges to render. 
-   */
-  async getTotalNumber() {
-    return 200; 
+class CollegeDataHandler extends SinglePageDataHandler {
+  constructor() {
+    super();
   }
 
   /**
-   * Fetch the college data with the specified uuid and format it.
-   * @param {string} id The uuid of the college data.
-   * @return The formatted college JS object map.
+   * @param {string} id
+   * @returns {string} path
+   * @override
    */
-  async fetchAndFormatData(id) {
-    const url = CollegeQueryBuilder.buildSingleQueryEndpoint(id);
-    const response = await fetch(url);
-    const json = await response.json();
-    return this.convertJsonToObject_(json);
+  getRequestPath_(id) {
+    console.log(CollegeQueryBuilder.buildSingleQueryEndpoint(id));
+    return CollegeQueryBuilder.buildSingleQueryEndpoint(id);
   }
 
-  convertJsonToObject_(json) {
-    let results = json["results"];
-    let college = results[0];
-    return this.converter_(college);
+  getJsonData_(json) {
+    return json['results'][0];
   }
 
-  converter_(element) {
+  convertFromJsonToTemplate_(element) {
     return {
       schoolName : element[NAME],
       acceptanceRate : element[ACCEPTANCE_RATE].toString(),
@@ -65,6 +73,13 @@ class CollegeDataHandler {
       cumulativeMedianDebt : element[MEDIAN_DEBT].toString()
     }
   }
+};
 
-}
+/**
+ * Loads the error page.
+ */
+const loadErrorPage_ = (element, occurrence, action, error) => {
+  // TODO: This is being rewritten.
+};
+
 exports = {CollegeDataHandler};

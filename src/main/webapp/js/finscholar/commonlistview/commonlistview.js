@@ -16,14 +16,17 @@
 
 goog.module('finscholar.commonlistview');
 
-const JsactionActionFlow = goog.require('jsaction.ActionFlow');
-const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
-const {CollegeListDataHandler} = goog.require('datahandlers.collegelistdatahandler');
 const {BasicView} = goog.require('basicview');
-const {commonlistview, scholarshiplistitems, collegelistitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
+const JsactionActionFlow = goog.require('jsaction.ActionFlow');
+const JsactionDispatcher = goog.require('jsaction.Dispatcher');
+const JsactionEventContract = goog.require('jsaction.EventContract');
+const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
+const {commonlistview, listitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
 const googDom = goog.require('goog.dom');
 
 const EMPTY_STRING = '';
+const INVALID_RESPONSE = 'Invalid data from server.';
+const ITEM = 'items';
 const ITEM_CONTAINER_ID = 'table-body';
 const STATUS_BAR_ID = 'status';
 
@@ -31,34 +34,40 @@ const STATUS_BAR_ID = 'status';
 class CommonListView extends BasicView {
   /**
    * @param {!ScholarshipListDataHandler} dataHandler
-   * @param {string} optionIndex
+   * @param {string} optionTag
    */
-  constructor(dataHandler, optionIndex) {
+  constructor(dataHandler, optionTag) {
     super();
 
-    /**
-     * @private @const {!ScholarshipListDataHandler}
-     */
+    /** @private @const {!ListDataHandler} */
     this.dataHandler_ = dataHandler;
 
     /** @private @const {string} */
-    this.optionIndex_ = optionIndex;
+    this.optionTag_ = optionTag;
+
+    /** 
+     * @private @const {function({
+     *   batchofitems: {
+     *     type: string,
+     *     items: !Array<!Array<string>>,
+     * }}):goog.soy.data.SanitizedHtml} 
+     */
+    this.template_ = listitems;
 
     /**
-     * @protected @type {!Array<function(!Element): undefined>}
+     * @private @type {!Array<function(!Element): undefined>}
      */
-    this.listeners = [];
+    this.listeners_ = [];
 
     /** @private @const {function({scholarships : !Array<?>}):Element} */
-    this.template_ =
-        this.optionIndex_ == '0' ? collegelistitems : scholarshiplistitems;
+    this.template_ = listitems;
 
     /**
      * @private @type {number} The number of batch of data has been loaded into the view.
      */
     this.batch_ = 0;
 
-    /** @private @type {?Element} The container for all list items. */
+    /** @private {?Element} The container for all list items. */
     this.container_ = null;
 
     /** @private @const {!function():Promise<undefined>} */
@@ -67,7 +76,7 @@ class CommonListView extends BasicView {
     /** @private @const {!function(number):Promise<undefined>} */
     this.bindedDataLoader_ = this.renderNextBatch_.bind(this);
 
-     /** @private {number} Number of items to be added for each laod. */
+     /** @private {number} Number of items to be added for each load. */
     this.itemsPerBatch_ = 5;
 
     /** @private {string} The id of the last item in the list. */
@@ -76,20 +85,66 @@ class CommonListView extends BasicView {
     /** @private {?Element} */
     this.statusBar_ = null;
 
-    /** @private {number} */
+    /** @private {?number} */
     this.totalItemsNumber_ = 0;
 
     /** @private {boolean} */
     this.isLoading_ = false;
+
+    /** @private @const {!JsactionEventContract} */
+    this.eventContract_ = new JsactionEventContract();
+
+    /** @private @const {!JsactionDispatcher} */
+    this.dispatcher_ = new JsactionDispatcher();
+
+    /** @private @const {function(!JsactionActionFlow): undefined} */
+    this.bindedOnclickHandler_ = this.handleOnclickEvent_.bind(this);
   }
 
   /**
-   * Loads the first two batches of list item to page.
+   * Sets up the event handlers for elements in the list.
+   * @private
    */
-  async init() {
-    super.setCurrentContent(commonlistview({pageIndex: this.optionIndex_}));
+  initJsaction_() {
+    // Events will be handled for all elements under this container.
+    this.eventContract_.addContainer(
+        /** @type {!Element} */ (super.getCurrentContentElement()));
+    // Register the event types we care about.
+    this.eventContract_.addEvent('click');
+    this.eventContract_.addEvent('dblclick');
+    this.eventContract_.dispatchTo(
+        this.dispatcher_.dispatch.bind(this.dispatcher_));
+    this.dispatcher_.registerHandlers(
+        'commonlistview',  // the namespace
+        null,                   // handler object
+        {
+          // action map
+          'clickAction': this.bindedOnclickHandler_,
+          'doubleClickAction': this.bindedOnclickHandler_,
+        });
+  }
+
+  /**
+   * Handles click and double click events on navbar.
+   * @param {!JsactionActionFlow} flow Contains the data related to the action.
+   *     and more. See actionflow.js.
+   * @private
+   */
+  async handleOnclickEvent_(flow) {
+    this.listeners_.forEach(async (listener) => {
+      await listener(/** @type {!Element} */ (flow.node()));
+    });
+  }
+
+  /** 
+   * Loads the first two batches of list item to page. 
+   */
+  async renderView() {
+    super.setCurrentContent(commonlistview({pagetype: this.optionTag_}));
     super.resetAndUpdate();
-    this.container_ = googDom.getElement(ITEM_CONTAINER_ID);
+    this.initJsaction_();
+    // tableContainer.innerHTML = commonlistview({pagetype: this.optionTag_});
+    this.container_ = googDom.getElement(ITEM_CONTAINER_ID)
     this.statusBar_ = googDom.getElement(STATUS_BAR_ID);
     window.addEventListener('scroll', this.bindedScrollHandler_);
     try {
@@ -111,16 +166,23 @@ class CommonListView extends BasicView {
     this.statusBar_.innerHTML = loading();
     try {
       this.isLoading_ = true;
-      const dataList = await this.dataHandler_
-                        .getNextBatch(this.batch_, numberOfItems, this.idOfLastItem_);
-      this.idOfLastItem_ = dataList[dataList.length - 1].id;
-      this.container_.innerHTML += this.template_({colleges: dataList});
+      const dataBatch = await this.dataHandler_
+                        .getNextBatch(this.optionTag_, this.batch_, 
+                                      numberOfItems, this.idOfLastItem_);
+      const dataList = dataBatch ? dataBatch[ITEM] : undefined;
+      this.idOfLastItem_ = 
+          dataList ? dataList[dataList.length - 1][0] : EMPTY_STRING;
+      if (!dataBatch || !dataList) {
+        throw new Error(INVALID_RESPONSE);
+      }
+      this.container_.innerHTML += this.template_({batchofitems: dataBatch});
       this.statusBar_.innerHTML = endoflist();
       this.batch_ += 1;
-      this.isLoading_ = false;
     } catch (e) {
       console.log(e);
       throw e;
+    } finally {
+      this.isLoading_ = false;
     }
   }
 
@@ -153,7 +215,7 @@ class CommonListView extends BasicView {
    * @param {function(!Element): undefined} listener
    */
   registerListener(listener) {
-    this.listeners.push(listener);
+    this.listeners_.push(listener);
   }
 
   /**

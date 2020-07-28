@@ -76,7 +76,6 @@ class NavBar {
    * @private
    */
   handleNavbarOnclickEvent_(flow) {
-    console.log('testing firing of handler.');
     const index = flow.node().getAttribute('index');
     this.navbarPageIndex_ = parseInt(index, 10);
     this.listeners_.forEach((listener) => {
@@ -94,3 +93,4 @@ class NavBar {
 }
 
 exports = {NavBar};
+
