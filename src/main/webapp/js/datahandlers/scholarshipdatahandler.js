@@ -38,13 +38,14 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
    *  which will be used to render the scholarship page soy template.
    * @param {*} data - The JSON object to be converted.
    * @return {Object} - The object map representing a scholarship's data.
+   * @override
    * @private
    */
   async convertFromJsonToTemplate_(data) {
     const requirementsAndValue = new Map();
                            
     let requirement = undefined;
-    for (requirement in Array.from(REQUIREMENTS.keys())) {
+    for (requirement of Array.from(REQUIREMENTS.keys())) {
       if (data[requirement] != undefined) {
         requirementsAndValue.set(REQUIREMENTS.get(requirement), data[requirement].join(SEPARATOR));
       } else {
@@ -80,11 +81,13 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
   };
 
   /**
+   * @param {string} id
    * @returns {string} path
+   * @override
    * @private
    */
-  getRequestPath_() {
-    return SCHOLARSHIP_ENDPOINT;
+  getRequestPath_(id) {
+    return `${SCHOLARSHIP_ENDPOINT}?id=${id}`;
   }
 }
 

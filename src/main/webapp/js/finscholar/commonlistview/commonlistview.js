@@ -17,6 +17,9 @@
 goog.module('finscholar.commonlistview');
 
 const {BasicView} = goog.require('basicview');
+const JsactionActionFlow = goog.require('jsaction.ActionFlow');
+const JsactionDispatcher = goog.require('jsaction.Dispatcher');
+const JsactionEventContract = goog.require('jsaction.EventContract');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
 const {commonlistview, listitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
@@ -80,6 +83,50 @@ class CommonListView extends BasicView {
 
     /** @private {boolean} */
     this.isLoading_ = false;
+
+    /** @private @const {!JsactionEventContract} */
+    this.eventContract_ = new JsactionEventContract();
+
+    /** @private @const {!JsactionDispatcher} */
+    this.dispatcher_ = new JsactionDispatcher();
+
+    /** @private @const {function(!JsactionActionFlow): Promise<undefined>} */
+    this.bindedOnclickHandler_ = this.handleOnclickEvent_.bind(this);
+  }
+
+  /**
+   * Sets up the event handlers for elements in the list.
+   * @private
+   */
+  initJsaction_() {
+    // Events will be handled for all elements under this container.
+    this.eventContract_.addContainer(
+        /** @type {!Element} */ (super.getCurrentContentElement()));
+    // Register the event types we care about.
+    this.eventContract_.addEvent('click');
+    this.eventContract_.addEvent('dblclick');
+    this.eventContract_.dispatchTo(
+        this.dispatcher_.dispatch.bind(this.dispatcher_));
+    this.dispatcher_.registerHandlers(
+        'commonlistview',  // the namespace
+        null,                   // handler object
+        {
+          // action map
+          'clickAction': this.bindedOnclickHandler_,
+          'doubleClickAction': this.bindedOnclickHandler_,
+        });
+  }
+
+  /**
+   * Handles click and double click events on navbar.
+   * @param {!JsactionActionFlow} flow Contains the data related to the action.
+   *     and more. See actionflow.js.
+   * @private
+   */
+  async handleOnclickEvent_(flow) {
+    this.listeners_.forEach(async (listener) => {
+      await listener(/** @type {!Element} */ (flow.node()));
+    });
   }
 
   /** 
@@ -88,6 +135,7 @@ class CommonListView extends BasicView {
   async renderView() {
     super.setCurrentContent(commonlistview({pagetype: this.optionTag_}));
     super.resetAndUpdate();
+    this.initJsaction_();
     // tableContainer.innerHTML = commonlistview({pagetype: this.optionTag_});
     this.container_ = googDom.getElement(ITEM_CONTAINER_ID)
     this.statusBar_ = googDom.getElement(STATUS_BAR_ID);
@@ -105,6 +153,7 @@ class CommonListView extends BasicView {
   /**
    * Loads the next batch of data and render to the view.
    * @param {number} numberOfItems The number of objects to be loaded from server.
+   * @private
    */
   async renderNextBatch_(numberOfItems) {
     this.statusBar_.innerHTML = loading();
@@ -133,6 +182,7 @@ class CommonListView extends BasicView {
   /**
    * Checks if the page is about to reach the bottom,
    * if so, load one more batch of data.
+   * @private
    */
   async loadNextBatch_() {
     if (this.isLoading_) {
@@ -155,11 +205,19 @@ class CommonListView extends BasicView {
 
   /**
    * Registers a listener for jsaction.
-   * @param {function(!Element): undefined} listener
+   * @param {function(!Element): Promise<undefined>} listener
    */
   registerListener(listener) {
     this.listeners_.push(listener);
   }
+
+  /**
+   * Before the currently view is removed, call this function to remove
+   * scroll event handler.
+   */
+  removeScrollHandler() {
+    window.removeEventListener('scroll', this.bindedScrollHandler_);
+  }	 
 }
 
 exports = {CommonListView};

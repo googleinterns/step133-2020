@@ -27,6 +27,16 @@ class HomePageController extends BasicView {
     super();
     super.setCurrentContent(homepage());
   }
+
+  /**
+   * Loads the home page view.
+   * @override
+   */
+  async renderView() {
+    super.setCurrentContent(homepage());
+    super.resetAndUpdate();
+  }	  
+
 }
 
 exports = {HomePageController};
