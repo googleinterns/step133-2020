@@ -25,9 +25,6 @@ const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler
  */
 class SinglePageView extends BasicView {
 
-  /**
-   * @constructor
-   */
   constructor(dataHandler, template) {
     super();
     
@@ -37,19 +34,16 @@ class SinglePageView extends BasicView {
      */
     this.dataHandler_ = dataHandler;
     /**
-     * @private @const {!function(PageObject):Element}
+     * @private @const {!function(Object): goog.soy.data.SanitizedHtml}
      */
     this.template_ = template;
   }
 
   /**
    * Render the single scholarship/college page.
-   * @public
-   * @param {!Element} container 
-   * The DOM container for one scholarship/college page.
-   * @param {number} id The id of the scholarhsip/college.
+   * @param {string} id The id of the scholarhsip/college.
    */
-  async renderView(container, id) {
+  async renderView(id) {
     let formattedData = undefined;
     try {
       formattedData = await this.dataHandler_.fetchAndFormatData(id);
@@ -58,7 +52,8 @@ class SinglePageView extends BasicView {
       throw new Error(`Cannot get data for object ${id}, message: ${e}`);
     }
     try {
-      container.innerHTML = this.template_(formattedData);      
+      super.setCurrentContent(this.template_(formattedData));      
+      super.resetAndUpdate();
     } catch(e) {
       console.log(e);
       throw new Error(`Failed to generate html: ${e}`);
