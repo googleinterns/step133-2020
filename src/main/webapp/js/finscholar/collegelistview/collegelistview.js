@@ -18,14 +18,13 @@ goog.module('finscholar.collegelistview');
 
 const {CollegeListDataHandler} = goog.require('datahandlers.collegelistdatahandler');
 const {CommonListView} = goog.require('finscholar.commonlistview');
-const {collegelist} = goog.require('finscholar.collegelistview.templates');
 
 const COLLEGE_LIST_TAG = 'colleges';
 
 /** The mini controller for college list view. */
 class CollegeListView extends CommonListView {
   constructor() {
-    super(new CollegeListDataHandler, COLLEGE_LIST_TAG);
+    super(new CollegeListDataHandler(), COLLEGE_LIST_TAG);
   }
 }
 
