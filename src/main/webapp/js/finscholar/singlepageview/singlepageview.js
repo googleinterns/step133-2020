@@ -37,19 +37,29 @@ class SinglePageView extends BasicView {
      * @private @const {!function(Object): goog.soy.data.SanitizedHtml}
      */
     this.template_ = template;
+
+    /** @private {string} The id of the scholarhsip/college. */
+    this.id_ = '';
   }
+
+   /** 
+    * @param {string} id The id of the scholarhsip/college. 
+    * @private
+    */
+   setId_(id) {
+     this.id_ = id;
+   }
 
   /**
    * Render the single scholarship/college page.
-   * @param {string} id The id of the scholarhsip/college.
    */
-  async renderView(id) {
+  async renderView() {
     let formattedData = undefined;
     try {
-      formattedData = await this.dataHandler_.fetchAndFormatData(id);
+      formattedData = await this.dataHandler_.fetchAndFormatData(this.id_);
     } catch (e) {
       console.log(e);
-      throw new Error(`Cannot get data for object ${id}, message: ${e}`);
+      throw new Error(`Cannot get data for object ${this.id_}, message: ${e}`);
     }
     try {
       super.setCurrentContent(this.template_(formattedData));      
