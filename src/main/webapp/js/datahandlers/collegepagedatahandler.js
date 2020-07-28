@@ -52,6 +52,7 @@ class CollegeDataHandler extends SinglePageDataHandler {
    * @param {string} id
    * @returns {string} path
    * @override
+   * @private
    */
   getRequestPath_(id) {
     return CollegeQueryBuilder.buildSingleQueryEndpoint(id);
@@ -60,6 +61,7 @@ class CollegeDataHandler extends SinglePageDataHandler {
   /**
    * @param {Object} jsonResponse
    * @returns {Object} Json data needed for rendering page.
+   * @override
    * @private
    */
   getJsonData_(json) {
@@ -71,6 +73,7 @@ class CollegeDataHandler extends SinglePageDataHandler {
    *  which will be used to render the scholarship page soy template.
    * @param {*} data - The JSON object to be converted.
    * @return {Object} - The object map representing a scholarship's data.
+   * @override
    * @private
    */
   convertFromJsonToTemplate_(element) {

@@ -55,8 +55,8 @@ class SinglePageDataHandler {
   /**
    * @param {string} id 
    * @returns {string} path
-   * @private
    * @abstract
+   * @private
    */
   getRequestPath_(id) {}
 
@@ -65,8 +65,8 @@ class SinglePageDataHandler {
    *  which will be used to render the scholarship page soy template.
    * @param {*} data - The JSON object to be converted.
    * @return {Object} - The object map representing a scholarship's data.
-   * @private
    * @abstract
+   * @private
    */
   async convertFromJsonToTemplate_(data) {}
 
@@ -74,7 +74,7 @@ class SinglePageDataHandler {
   /**
    * Fetch request to the data servlet and return the JSON response.
    * @param {string} id The uuid of the schedule.
-   * @return {*} - The JSON response.
+   * @return {Object} - The JSON response.
    */
   async fetchJson_(id) {
     const response = await fetch(this.getRequestPath_(id));
