@@ -24,6 +24,7 @@ import com.google.step.finscholar.data.ServletConstantValues;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 // Only create app one time
@@ -45,7 +46,7 @@ public class FirebaseAppManager {
    * Initialize the Firebase app.
    * @return - A FirebaseApp object that has been initialized to work with the current running build.
    */
-  public static FirebaseApp getApp() throws IOException {
+  public static Optional<FirebaseApp> getApp() throws IOException {
     if (app == null) {
       FirebaseOptions options =
           new FirebaseOptions.Builder()
@@ -55,6 +56,6 @@ public class FirebaseAppManager {
               .build();
       app = FirebaseApp.initializeApp(options);
     }
-    return app;
+    return Optional.ofNullable(app);
   }
 }
