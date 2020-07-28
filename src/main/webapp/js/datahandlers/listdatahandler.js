@@ -26,8 +26,7 @@ const RESULTS = 'results';
  */
 class ListDataHandler {
   /**
-   * @returns {Promise<number>}
-   * The total number of scholarship stored in backend.
+   * @return {?Promise<number>} The total number of scholarship stored in backend.
    */
   async getTotalNumber() {
     return 35;
@@ -57,7 +56,7 @@ class ListDataHandler {
    * @param {number} batchIndex The index of last batch rendered.
    * @param {number} itemsPerBatch Number of items requested.
    * @param {string} lastIndex Index of the last item in the list.
-   * @return {Promise<{
+   * @return {?Promise<{
    *  type: string,
    *  items: !Array<!Array<string>>
    * }>}

@@ -19,7 +19,6 @@ goog.module('finscholar.appstate');
 const {CollegePageView} = goog.require('finscholar.collegepageview');
 const {CommonListView} = goog.require('finscholar.commonlistview');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
-const JsactionActionFlow = goog.require('jsaction.ActionFlow');
 const {NavBar} = goog.require('finscholar.navbar');
 const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 const {navbarViewFactory} = goog.require('finscholar.viewfactory');

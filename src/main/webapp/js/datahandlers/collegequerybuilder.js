@@ -28,16 +28,12 @@ const COMMA = ',';
 const PAGE_SIZE_FIELD = 'per_page';
 const PAGE = 'page';
 const EQUAL = '=';
-const NOT = '__not';
 const API_KEY_FIELD = 'api_key=';
-const NULL = 'null';
 const QUERY_FIELDS = '_fields=';
 const COLLEGES = 'school.degrees_awarded.predominant=2,3';
-const PUBLIC = 'school.ownership_peps=1';
 const PRIVATE = 'school.ownership_peps=2';
-const PUBLIC_OR_PRIVATE = 'school.ownership_peps=1,2';
 const ID = 'id';
-const NAME = 'school.name'
+const NAME = 'school.name';
 const ACCEPTANCE_RATE = '2018.admissions.admission_rate.overall';
 const ACT_SCORE = '2018.admissions.act_scores.midpoint.cumulative';
 const ACCEPTANCE_RANGE = '__range=0..0.50';
@@ -62,6 +58,7 @@ class CollegeQueryBuilder {
    * Query an entire set of colleges by batchIndex and itemsPerBatch.
    * @param {number} batchIndex - The index of the next page to retrieve.
    * @param {number} itemsPerBatch - The number of colleges to retrieve.
+   * @return {string}
    */
   static buildCollectionEndpoint(batchIndex, itemsPerBatch) {
     return COLLEGE_LIST_ENDPT.concat(

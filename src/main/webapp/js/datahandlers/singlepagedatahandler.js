@@ -26,7 +26,7 @@ class SinglePageDataHandler {
   /**
    * Fetch the scholarship/college data with the id and format it.
    * @param {string} id The uuid of the scholarship/college data.
-   * @return The formatted scholarship/college JS object map.
+   * @return {?Object} The formatted scholarship/college JS object map.
    */
   async fetchAndFormatData(id) {
     let data = undefined;
@@ -64,7 +64,7 @@ class SinglePageDataHandler {
    * This method converts from scholarship JSON object to a JS object map,
    *  which will be used to render the scholarship page soy template.
    * @param {*} data - The JSON object to be converted.
-   * @return {Object} - The object map representing a scholarship's data.
+   * @return {?Object} - The object map representing a scholarship's data.
    * @abstract
    * @protected
    */
@@ -74,7 +74,7 @@ class SinglePageDataHandler {
   /**
    * Fetch request to the data servlet and return the JSON response.
    * @param {string} id The uuid of the schedule.
-   * @return {Object} - The JSON response.
+   * @return {?Object} - The JSON response.
    * @private
    */
   async fetchJson_(id) {

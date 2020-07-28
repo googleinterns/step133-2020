@@ -15,9 +15,7 @@
 /** @fileoverview This class loads scholarship data from the servlet. */
 
 goog.module('datahandlers.scholarshipdatahandler');
-const {Map: SoyMap} = goog.require('soy.map');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
-const {addSpaceToCamelCase} = goog.require('datahandlers.utils');
 
 const NA = 'N/A';
 const REQUIREMENTS =
@@ -41,7 +39,7 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
    * This method converts from scholarship JSON object to a JS object map,
    *  which will be used to render the scholarship page soy template.
    * @param {*} data - The JSON object to be converted.
-   * @return {Object} - The object map representing a scholarship's data.
+   * @return {?Object} - The object map representing a scholarship's data.
    * @override
    * @protected
    */
@@ -58,12 +56,9 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
       }
     }
 
-    let key = undefined;
-    for (key in data) {
-      if (data.key == undefined) {
-        data.key = NA;
-      }
-    }
+    data = data.map((value) => {
+      return typeof element === undefined ? NA : element;
+    });
 
     return {
       scholarship: {

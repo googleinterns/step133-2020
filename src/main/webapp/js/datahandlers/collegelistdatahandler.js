@@ -19,9 +19,8 @@
 
 goog.module('datahandlers.collegelistdatahandler');
 
-const {CollegeQueryBuilder} = goog.require('datahandlers.collegequerybuilder');
+const {ACCEPTANCE_RATE, ACT_SCORE, CollegeQueryBuilder, ID, NAME} = goog.require('datahandlers.collegequerybuilder');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
-const {NAME, ACCEPTANCE_RATE, ACT_SCORE, ID} = goog.require('datahandlers.collegequerybuilder');
 
 /**
  * The data controller which fetches college data
@@ -29,11 +28,11 @@ const {NAME, ACCEPTANCE_RATE, ACT_SCORE, ID} = goog.require('datahandlers.colleg
  */
 class CollegeListDataHandler extends ListDataHandler {
   constructor() {
-    super()
+    super();
   }
 
   /**
-   * @returns {Promise<number>}
+   * @return {?Promise<number>}
    * The total number of scholarship stored in backend.
    */
   async getTotalNumber() {
@@ -42,8 +41,8 @@ class CollegeListDataHandler extends ListDataHandler {
 
   /**
    * Converts list items from Json to objects.
-   * @param {Object} element The college or scholarhsip list item data.
-   * @returns {!Array<string>}
+   * @param {?Object} element The college or scholarship list item data.
+   * @return {!Array<string>}
    * @override
    * @protected
    */
@@ -70,4 +69,4 @@ class CollegeListDataHandler extends ListDataHandler {
   }
 }
 
-exports = {CollegeListDataHandler}
+exports = {CollegeListDataHandler};

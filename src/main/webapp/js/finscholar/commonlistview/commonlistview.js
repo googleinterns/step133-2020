@@ -16,13 +16,14 @@
 
 goog.module('finscholar.commonlistview');
 
-const {BasicView} = goog.require('basicview');
 const JsactionActionFlow = goog.require('jsaction.ActionFlow');
 const JsactionDispatcher = goog.require('jsaction.Dispatcher');
 const JsactionEventContract = goog.require('jsaction.EventContract');
-const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
-const {commonlistview, listitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
 const googDom = goog.require('goog.dom');
+const googSoy = goog.require('goog.soy');
+const {BasicView} = goog.require('basicview');
+const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
+const {commonlistview, endoflist, listitems, loading} = goog.require('finscholar.commonlistview.templates');
 
 const EMPTY_STRING = '';
 const INVALID_RESPONSE = 'Invalid data from server.';
@@ -46,11 +47,7 @@ class CommonListView extends BasicView {
     this.optionTag_ = optionTag;
 
     /**
-     * @private @const {function({
-     *   batchofitems: {
-     *     type: string,
-     *     items: !Array<!Array<string>>,
-     * }}):goog.soy.data.SanitizedHtml}
+     * @private @const {function(!listitems.Params): !googSoy.data.SanitizedHtml}
      */
     this.template_ = listitems;
 
@@ -67,10 +64,10 @@ class CommonListView extends BasicView {
     /** @private {?Element} The container for all list items. */
     this.container_ = null;
 
-    /** @private @const {!function():Promise<undefined>} */
+    /** @private @const {function(): ?Promise<undefined>} */
     this.bindedScrollHandler_ = this.loadNextBatch_.bind(this);
 
-    /** @private @const {!function(number):Promise<undefined>} */
+    /** @private @const {function(number): ?Promise<undefined>} */
     this.bindedDataLoader_ = this.renderNextBatch_.bind(this);
 
     /** @private {number} Number of items to be added for each load. */
@@ -94,7 +91,7 @@ class CommonListView extends BasicView {
     /** @private @const {!JsactionDispatcher} */
     this.dispatcher_ = new JsactionDispatcher();
 
-    /** @private @const {function(!JsactionActionFlow): Promise<undefined>} */
+    /** @private @const {function(!JsactionActionFlow): ?Promise<undefined>} */
     this.bindedOnclickHandler_ = this.handleOnclickEvent_.bind(this);
   }
 

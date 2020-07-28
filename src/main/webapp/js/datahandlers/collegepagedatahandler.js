@@ -19,7 +19,7 @@
 
 goog.module('datahandlers.collegepage');
 
-const {CollegeQueryBuilder, ID, NAME, ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST, FIRST_NET_COST, SECOND_NET_COST, THIRD_NET_COST, FOURTH_NET_COST, FIFTH_NET_COST, MEDIAN_DEBT} = goog.require('datahandlers.collegequerybuilder');
+const {ACCEPTANCE_RATE, ACT_SCORE, CollegeQueryBuilder, FIFTH_NET_COST, FIRST_NET_COST, FOURTH_NET_COST, MEDIAN_DEBT, NAME, SECOND_NET_COST, THIRD_NET_COST} = goog.require('datahandlers.collegequerybuilder');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 
 const RESULTS = 'results';
@@ -70,24 +70,24 @@ class CollegeDataHandler extends SinglePageDataHandler {
    * This method converts from scholarship JSON object to a JS object map,
    *  which will be used to render the scholarship page soy template.
    * @param {*} element - The JSON object to be converted.
-   * @return {Object} - The object map representing a scholarship's data.
+   * @return {?Object} - The object map representing a scholarship's data.
    * @override
    * @protected
    */
   convertFromJsonToTemplate(element) {
     return {
       schoolName: element[NAME],
-          acceptanceRate: element[ACCEPTANCE_RATE].toString(),
-          averageACTScore: element[ACT_SCORE].toString(),
-          netCostForFirstQuintile: element[FIRST_NET_COST].toString(),
-          netCostForSecondQuintile: element[SECOND_NET_COST].toString(),
-          netCostForThirdQuintile: element[THIRD_NET_COST].toString(),
-          netCostForFourthQuintile: element[FOURTH_NET_COST].toString(),
-          netCostForFifthQuintile: element[FIFTH_NET_COST].toString(),
-          cumulativeMedianDebt: element[MEDIAN_DEBT].toString()
-    }
+      acceptanceRate: element[ACCEPTANCE_RATE].toString(),
+      averageACTScore: element[ACT_SCORE].toString(),
+      netCostForFirstQuintile: element[FIRST_NET_COST].toString(),
+      netCostForSecondQuintile: element[SECOND_NET_COST].toString(),
+      netCostForThirdQuintile: element[THIRD_NET_COST].toString(),
+      netCostForFourthQuintile: element[FOURTH_NET_COST].toString(),
+      netCostForFifthQuintile: element[FIFTH_NET_COST].toString(),
+      cumulativeMedianDebt: element[MEDIAN_DEBT].toString()
+    };
   }
-};
+}
 
 /**
  * Loads the error page.

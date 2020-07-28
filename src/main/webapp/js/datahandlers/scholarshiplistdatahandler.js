@@ -23,11 +23,8 @@ const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 
 const AMOUNT_PER_YEAR = 'amountPerYear';
 const ELLIPSIS = '...';
-const EMPTY_STRING = '';
 const END_OF_STRING = 23;
 const ID = 'id';
-const SCHOLARSHIP = 'scholarships';
-const SCHOLARSHIP_LIST_ENDPOINT = '/scholarship-list';
 const SCHOLARSHIP_NAME = 'scholarshipName';
 const UNKNOWN = 'unknown';
 
@@ -37,7 +34,7 @@ const UNKNOWN = 'unknown';
  */
 class ScholarshipListDataHandler extends ListDataHandler {
   /**
-   * @returns {Promise<number>}
+   * @return {?Promise<number>}
    * The total number of scholarship stored in backend.
    */
   async getTotalNumber() {
@@ -78,4 +75,4 @@ class ScholarshipListDataHandler extends ListDataHandler {
   }
 }
 
-exports = {ScholarshipListDataHandler}
+exports = {ScholarshipListDataHandler};
