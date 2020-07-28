@@ -45,10 +45,11 @@ class SinglePageDataHandler {
   }
 
   /**
+   * @param {string} id
    * @returns {string} path
    * @abstract
    */
-  getRequestPath_() {}
+  getRequestPath_(id) {}
 
     /**
    * This method converts from scholarship JSON object to a JS object map, 
@@ -66,7 +67,7 @@ class SinglePageDataHandler {
    * @return {*} - The JSON response.
    */
   async fetchJson_(id) {
-    const response = await fetch(`${this.getRequestPath_()}?id=${id}`);
+    const response = await fetch(this.getRequestPath_(id));
     let data = undefined;
     if (response.ok) {
       try {

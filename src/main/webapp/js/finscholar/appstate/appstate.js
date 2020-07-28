@@ -72,8 +72,7 @@ class AppState {
     }
     this.currentView_.setId(id);
     await this.currentView_.renderView();
-    this.navbarInstance_ = new NavBar();
-    this.navbarInstance_.registerListener(this.navbarUpdate.bind(this));
+    this.refreshNavbar_();
   }
 
   /**
@@ -89,6 +88,11 @@ class AppState {
       this.currentView_.registerListener(this.listViewUpdate_.bind(this));
     }
     this.currentView_.renderView();
+    this.refreshNavbar_();
+  }
+  
+  /** Updates the navbar instance and rebinds event listener. */
+  refreshNavbar_() {
     this.navbarInstance_ = new NavBar();
     this.navbarInstance_.registerListener(this.navbarUpdate.bind(this));
   }

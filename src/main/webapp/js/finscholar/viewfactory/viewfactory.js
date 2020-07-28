@@ -33,7 +33,7 @@ const navbarViewFactory = (index) => {
       view = new HomePageController();
       break;
     case 1:
-      view = new ScholarshipListView();
+      // College list view is not implemented in this branch.
       break;
     case 2:
       view = new ScholarshipListView();
