@@ -64,7 +64,7 @@ public class FirebaseStorageManager {
 
     // Access/create the new document.
     DocumentReference documentRef;
-    if (documentID.isEmpty()) {
+    if (!documentID.isPresent()) {
       documentRef = collectionRef.document();
     } else {
       documentRef = collectionRef.document(documentID.get());
@@ -95,7 +95,7 @@ public class FirebaseStorageManager {
     throws FirebaseException {
     for (Object object : objects) {
       try {
-        storeDocument(database, collectionToWriteTo, object, Optional.ofNullable(null));
+        storeDocument(database, collectionToWriteTo, object, Optional.empty());
       } catch (Exception e) {
         String message = String.format(EXCEPTION_COLLECTION_FORMATTER, collectionToWriteTo);
         throw new FirebaseException(message, e);
@@ -113,7 +113,7 @@ public class FirebaseStorageManager {
    */
   public static String getDocument(Firestore database, String collectionToGetFrom, Optional<String> documentID) 
       throws FirebaseException {
-    if (documentID.isEmpty()) {
+    if (!documentID.isPresent()) {
       throw new FirebaseException(CANNOT_RETRIEVE);
     }
     // Retrieve a reference to the document representing the datapoint I want to retrieve.
@@ -190,7 +190,7 @@ public class FirebaseStorageManager {
       Optional<Integer> batchSizeLimit,  Optional<String> lastDocID, Optional<String> parameterToSortBy) 
       throws FirebaseException {
     // A batch size limit needs to be specified in order to make any query.
-    if (batchSizeLimit.isEmpty() || batchSizeLimit.get() == 0) {
+    if (!batchSizeLimit.isPresent() || batchSizeLimit.get() == 0) {
       throw new FirebaseException(BATCH_SIZE_NOT_SPECIFIED);
     }
 
@@ -198,7 +198,7 @@ public class FirebaseStorageManager {
 
     // If the lastDocID is not present, then we know this is the first batch to send.
     // Else simply get the next batch in the collection.
-    return lastDocID.isEmpty() ? 
+    return !lastDocID.isPresent() ? 
         getFirstBatch(collectionReference, batchSizeLimit.get(), parameterToSortBy) :
         getNextBatch(collectionReference, batchSizeLimit.get(), 
             lastDocID.get(), parameterToSortBy);
@@ -219,7 +219,7 @@ public class FirebaseStorageManager {
     // We have the option here to sort the collection by specific parameter beforehand (great for supporting sort-type queries later on).
     // Setup the new Query.
     // If parameterToSortBy is null then don't sort the query.
-    Query page = (parameterToSortBy.isEmpty()) ? 
+    Query page = (!parameterToSortBy.isPresent()) ? 
       collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy.get()).limit(batchSizeLimit);
     return getCollectionQuery(page);
   }
@@ -256,7 +256,7 @@ public class FirebaseStorageManager {
     //   that occur after the last doc in the collection.
     // If parameterToSortBy is null, then don't sort the query.
     if (document.exists()) {
-      Query page = (parameterToSortBy.isEmpty()) ? 
+      Query page = (!parameterToSortBy.isPresent()) ? 
           collectionReference.startAfter(document).limit(batchSizeLimit) : 
           collectionReference.orderBy(parameterToSortBy.get()).startAfter(document).limit(batchSizeLimit);
       return getCollectionQuery(page);
