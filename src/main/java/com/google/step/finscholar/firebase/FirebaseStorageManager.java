@@ -39,9 +39,9 @@ public class FirebaseStorageManager {
   /** Formatters to use with String.format(). */
   private static final String ADDED_NEW_DOC_FORMATTER = "New document added to %s at %s.";
   private static final String BATCH_SIZE_NOT_SPECIFIED = "Batch size not specified, please send a batch size for query";
-  private static final String EXCEPTION_DNE_FORMATTER = "Document with id: %s does not exist.";
+  private static final String EXCEPTION_DOES_NOT_EXIST_FORMATTER = "Document with id: %s does not exist.";
   private static final String EXCEPTION_COLLECTION_FORMATTER = "Unable to write to this collection: %s.";
-
+  private static final String CANNOT_RETRIEVE = "Please specific a document ID, cannot retrieve document without ID.";
   /** Logger that sends logs to the Cloud Project console. */
   private static final Logger log = Logger.getLogger(FirebaseStorageManager.class.getName());
 
@@ -57,18 +57,17 @@ public class FirebaseStorageManager {
    *   There are no other requirements for the object.
    * @param documentID - The optional id for storing the document.
    */
-  public static void storeDocument(Firestore database, String collectionToWriteTo, Object object, String documentID) 
+  public static void storeDocument(Firestore database, String collectionToWriteTo, Object object, Optional<String> documentID) 
       throws FirebaseException {
     // Access the correct collection.
     CollectionReference collectionRef = database.collection(collectionToWriteTo);
 
     // Access/create the new document.
     DocumentReference documentRef;
-    Optional<String> optionalID = Optional.ofNullable(documentID);
-    if (!optionalID.isPresent()) {
+    if (!documentID.isPresent()) {
       documentRef = collectionRef.document();
     } else {
-      documentRef = collectionRef.document(optionalID.get());
+      documentRef = collectionRef.document(documentID.get());
     }
 
     // Update the document with a new object.
@@ -96,7 +95,7 @@ public class FirebaseStorageManager {
     throws FirebaseException {
     for (Object object : objects) {
       try {
-        storeDocument(database, collectionToWriteTo, object, null);
+        storeDocument(database, collectionToWriteTo, object, Optional.empty());
       } catch (Exception e) {
         String message = String.format(EXCEPTION_COLLECTION_FORMATTER, collectionToWriteTo);
         throw new FirebaseException(message, e);
@@ -112,10 +111,13 @@ public class FirebaseStorageManager {
    * @param documentID - The unique ID of the datapoint I want to retrieve.
    * @return - The JSON string representing the datapoint I just retrieved.
    */
-  public static String getDocument(Firestore database, String collectionToGetFrom, String documentID) 
+  public static String getDocument(Firestore database, String collectionToGetFrom, Optional<String> documentID) 
       throws FirebaseException {
+    if (!documentID.isPresent()) {
+      throw new FirebaseException(CANNOT_RETRIEVE);
+    }
     // Retrieve a reference to the document representing the datapoint I want to retrieve.
-    DocumentReference documentReference = database.collection(collectionToGetFrom).document(documentID);
+    DocumentReference documentReference = database.collection(collectionToGetFrom).document(documentID.get());
 
     // Get a "Future" for the document, which will be used to generate a DocumentSnapshot of the data point.
     ApiFuture<DocumentSnapshot> snapshotFuture = documentReference.get();
@@ -132,7 +134,7 @@ public class FirebaseStorageManager {
         return gson.toJson(objectFromDatabase);
       } else {
         // Throws a Firebase Exception if the document does not exist.
-        String message = String.format(EXCEPTION_DNE_FORMATTER, documentID);
+        String message = String.format(EXCEPTION_DOES_NOT_EXIST_FORMATTER, documentID);
         throw new FirebaseException(message);
       }
     } catch (Exception e) {
@@ -185,10 +187,10 @@ public class FirebaseStorageManager {
    * @throws FirebaseException
    */
   public static String getCollectionBatch(Firestore database, String collectionToGetFrom, 
-      int batchSizeLimit,  String lastDocID, String parameterToSortBy) 
+      Optional<Integer> batchSizeLimit,  Optional<String> lastDocID, Optional<String> parameterToSortBy) 
       throws FirebaseException {
     // A batch size limit needs to be specified in order to make any query.
-    if (batchSizeLimit == 0) {
+    if (!batchSizeLimit.isPresent() || batchSizeLimit.get() == 0) {
       throw new FirebaseException(BATCH_SIZE_NOT_SPECIFIED);
     }
 
@@ -196,12 +198,10 @@ public class FirebaseStorageManager {
 
     // If the lastDocID is not present, then we know this is the first batch to send.
     // Else simply get the next batch in the collection.
-    Optional<String> optionalID = Optional.ofNullable(lastDocID);
-    if (!optionalID.isPresent()) {
-      return getFirstBatch(collectionReference, batchSizeLimit, parameterToSortBy);
-    } else {
-      return getNextBatch(database, collectionReference, batchSizeLimit, optionalID.get(), parameterToSortBy);
-    }
+    return !lastDocID.isPresent() ? 
+        getFirstBatch(collectionReference, batchSizeLimit.get(), parameterToSortBy) :
+        getNextBatch(collectionReference, batchSizeLimit.get(), 
+            lastDocID.get(), parameterToSortBy);
   }
 
 
@@ -214,14 +214,13 @@ public class FirebaseStorageManager {
    * @return - The json string representing the first batch in a request for all of the documents in a collection.
    * @throws FirebaseException
    */
-  private static String getFirstBatch(CollectionReference collectionReference, int batchSizeLimit, String parameterToSortBy) 
+  private static String getFirstBatch(CollectionReference collectionReference, int batchSizeLimit, Optional<String> parameterToSortBy) 
       throws FirebaseException {
     // We have the option here to sort the collection by specific parameter beforehand (great for supporting sort-type queries later on).
     // Setup the new Query.
     // If parameterToSortBy is null then don't sort the query.
-    Optional<String> optionalSort = Optional.ofNullable(parameterToSortBy);
-    Query page = (!optionalSort.isPresent()) ? 
-      collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(optionalSort.get()).limit(batchSizeLimit);
+    Query page = (!parameterToSortBy.isPresent()) ? 
+      collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy.get()).limit(batchSizeLimit);
     return getCollectionQuery(page);
   }
 
@@ -229,7 +228,6 @@ public class FirebaseStorageManager {
   /**
    * Helper method for getCollectionBatch().
    * Retrieve the next batch in the collection collectionReference of size batchSizeLimit.
-   * @param database - The database to retrieve from.
    * @param collectionReference - A reference to the collection I want to retrieve from.
    * @param batchSizeLimit - The maximum size of the batch, which is the size of a new page of data in infinite scroll.
    * @param lastDocID - The ID of the last object I sent from the most recent batch.
@@ -237,8 +235,8 @@ public class FirebaseStorageManager {
    * @return - The json string representing the next batch in a request for all of the documents in a collection.
    * @throws FirebaseException
    */
-  private static String getNextBatch(Firestore database, CollectionReference collectionReference, 
-      int batchSizeLimit, String lastDocID, String parameterToSortBy) 
+  private static String getNextBatch(CollectionReference collectionReference, 
+      int batchSizeLimit, String lastDocID, Optional<String> parameterToSortBy) 
       throws FirebaseException {
     // First retrieve the last document I sent.
     DocumentReference documentReference = collectionReference.document(lastDocID);
@@ -258,15 +256,14 @@ public class FirebaseStorageManager {
     //   that occur after the last doc in the collection.
     // If parameterToSortBy is null, then don't sort the query.
     if (document.exists()) {
-      Optional<String> optionalSort = Optional.ofNullable(parameterToSortBy);
-      Query page = (!optionalSort.isPresent()) ? 
+      Query page = (!parameterToSortBy.isPresent()) ? 
           collectionReference.startAfter(document).limit(batchSizeLimit) : 
-          collectionReference.orderBy(optionalSort.get()).startAfter(document).limit(batchSizeLimit);
+          collectionReference.orderBy(parameterToSortBy.get()).startAfter(document).limit(batchSizeLimit);
       return getCollectionQuery(page);
 
     } else {
       // Throws a Firebase Exception if the document does not exist.
-      String message = String.format(EXCEPTION_DNE_FORMATTER, lastDocID);
+      String message = String.format(EXCEPTION_DOES_NOT_EXIST_FORMATTER, lastDocID);
       throw new FirebaseException(message);
     }
   }
