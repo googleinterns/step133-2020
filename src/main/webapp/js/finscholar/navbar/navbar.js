@@ -34,7 +34,7 @@ class NavBar {
     this.dispatcher_ = new JsactionDispatcher();
 
     /**
-     * @protected @type {!Array<function(number): undefined>}
+     * @protected @type {!Array<function(number): ?Promise<undefined>>}
      */
     this.listeners_ = [];
 
@@ -87,7 +87,7 @@ class NavBar {
 
   /**
    * Takes an event to update with navbar updates.
-   * @param {function(number): Promise<undefined>} listener
+   * @param {function(number): ?Promise<undefined>} listener
    */
   registerListener(listener) {
     this.listeners_.push(listener);
