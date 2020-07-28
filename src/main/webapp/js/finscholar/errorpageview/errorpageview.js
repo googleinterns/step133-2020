@@ -27,6 +27,15 @@ const {errorpage} = goog.require('finscholar.errorpageview.templates');
  */
 let ErrorData;
 
+/**
+ * @typedef {{
+ *   occurrence: string,
+ *   action: string,
+ *   errorMessage: string
+ * }}
+ */
+let ErrorData;
+
 /** Class for the error page view. */
 class ErrorPageView extends BasicView {
   /**
@@ -34,8 +43,12 @@ class ErrorPageView extends BasicView {
    */
   constructor(data) {
     super();
+
     /** @private @type {!ErrorData|undefined} */
     this.data_ = data;
+
+    const html = errorpage(/** @type {!ErrorData} */ (this.data_));
+    super.setCurrentContent(html);
   }
 
   /**
@@ -44,15 +57,6 @@ class ErrorPageView extends BasicView {
    */
   updateError(data) {
     this.data_ = data;
-  }
-
-  /**
-   * Render the error page.
-   */
-  async renderView() {
-    const html = errorpage(/** @type {!ErrorData} */ (this.data_));
-    super.setCurrentContent(html);
-    super.resetAndUpdate();
   }
 }
 

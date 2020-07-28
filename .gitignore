@@ -4,3 +4,4 @@ target/
 .factorypath
 .project
 .settings/
+src/main/webapp/js/datahandlers/config.js

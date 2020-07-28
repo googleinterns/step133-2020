@@ -16,23 +16,23 @@
 
 goog.module('datahandlers.scholarshipdatahandler');
 const {Map: SoyMap} = goog.require('soy.map');
+const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 const {addSpaceToCamelCase} = goog.require('datahandlers.utils');
 
 const NA = 'N/A';
-const ID_QUERY_PARAM = '?id=';
-const REQUIREMENTS = [
-  'academicRequirements', 'ethnicityRaceRequirements', 'financialRequirements',
-  'genderRequirements', 'locationRequirements', 'nationalOriginRequirements',
-  'otherRequirements'
-];
+const REQUIREMENTS = new Map().set('academicRequirements', 'Academic Requirements') 
+                              .set('ethnicityRaceRequirements', 'Ethnicity Race Requirements')
+                              .set('financialRequirements', 'Financial Requirements')
+                              .set('genderRequirements', 'Gender Requirements')
+                              .set('locationRequirements', 'Location Requirements')
+                              .set('nationalOriginRequirements', 'National Origin Requirements')
+                              .set('otherRequirements', 'Other Requirements');
 const SEPARATOR = ', ';
 const SCHOLARSHIP_ENDPOINT = '/scholarship-data';
 
-/**
- * This class loads scholarship data from the backend and formats it for soy
- * templates.
- */
-class ScholarshipDataHandler {
+/** This class loads scholarship data from the backend and formats it for soy templates.  */
+class ScholarshipDataHandler extends SinglePageDataHandler {
+
   /**
    * This method converts from scholarship JSON object to a JS object map,
    *  which will be used to render the scholarship page soy template.
@@ -41,16 +41,14 @@ class ScholarshipDataHandler {
    * @private
    */
   async convertFromJsonToTemplate_(data) {
-    const requirementsMap = new Map();
-
+    const requirementsAndValue = new Map();
+                           
     let requirement = undefined;
-    for (requirement of REQUIREMENTS) {
+    for (requirement in Array.from(REQUIREMENTS.keys())) {
       if (data[requirement] != undefined) {
-        requirementsMap.set(
-            addSpaceToCamelCase(requirement),
-            data[requirement].join(SEPARATOR));
+        requirementsAndValue.set(REQUIREMENTS.get(requirement), data[requirement].join(SEPARATOR));
       } else {
-        requirementsMap.set(addSpaceToCamelCase(requirement), NA);
+        requirementsAndValue.set(REQUIREMENTS.get(requirement), NA);
       }
     }
 
@@ -70,7 +68,7 @@ class ScholarshipDataHandler {
           introduction: data['introduction'],
           URL: data['URL'],
         },
-        requirements: requirementsMap,
+        requirements: requirementsAndValue,
         applicationNotes: {
           amountPerYear: data['amountPerYear'],
           applicationProcess: data['applicationProcess'],
@@ -82,49 +80,11 @@ class ScholarshipDataHandler {
   }
 
   /**
-   * Fetch the scholarship data with the specified uuid and format it.
-   * @param {string} id The uuid of the scholarship data.
-   * @return The formatted scholarship JS object map.
-   */
-  async fetchAndFormatData(id) {
-    let data = undefined;
-    try {
-      data = await this.fetchScholarshipJson_(id);
-
-      if (data === undefined) {
-        throw new Error('Cannot get data from remote.');
-      }
-
-      return this.convertFromJsonToTemplate_(data);
-    } catch (e) {
-      console.log(e);
-      throw (`Failed to fetch scholarship object ${e}`);
-    }
-  }
-
-  /**
-   * Fetch request to the data servlet and return the JSON response.
-   * @param {string} id The uuid of the schedule.
-   * @return {*} - The JSON response.
+   * @returns {string} path
    * @private
    */
-  async fetchScholarshipJson_(id) {
-    const response = await fetch(SCHOLARSHIP_ENDPOINT + ID_QUERY_PARAM + id);
-    let data = undefined;
-    if (response.ok) {
-      try {
-        data = await response.json();
-        return data;
-      } catch (e) {
-        console.log(e);
-        throw new Error(`Failed to parse response from server: ${e}`);
-      }
-    } else {
-      const warning = `Failed to get response from server: 
-          ${response.statusText}. Status: ${response.status}`;
-      console.log(warning);
-      throw new Error(warning);
-    }
+  getRequestPath_() {
+    return SCHOLARSHIP_ENDPOINT;
   }
 }
 

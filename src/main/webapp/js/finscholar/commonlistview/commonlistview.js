@@ -16,32 +16,37 @@
 
 goog.module('finscholar.commonlistview');
 
-const JsactionActionFlow = goog.require('jsaction.ActionFlow');
-const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
 const {BasicView} = goog.require('basicview');
-const {commonlistview, scholarshiplistitems, collegelistitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
-const googDom = goog.require('goog.dom');
+const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
+const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
+const {commonlistview, listitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
 
 const EMPTY_STRING = '';
+const INVALID_RESPONSE = 'Invalid data from server.';
+const ITEM = 'items';
 const ITEM_CONTAINER_ID = 'table-body';
 const STATUS_BAR_ID = 'status';
 
 /** The mini controller for scholarship list view. */
 class CommonListView extends BasicView {
-  /**
-   * @param {!ScholarshipListDataHandler} dataHandler
-   * @param {string} optionIndex
-   */
-  constructor(dataHandler, optionIndex) {
+  
+  constructor(dataHandler, optionTag) {
     super();
 
-    /**
-     * @private @const {!ScholarshipListDataHandler}
-     */
+    /** @private @const {!ListDataHandler} */
     this.dataHandler_ = dataHandler;
 
     /** @private @const {string} */
-    this.optionIndex_ = optionIndex;
+    this.optionTag_ = optionTag;
+
+    /** 
+     * @private @const {function({
+     *   batchofitems: {
+     *     type: string,
+     *     items: !Array<!Array<string>>,
+     * }}):goog.soy.data.SanitizedHtml} 
+     */
+    this.template_ = listitems;
 
     /**
      * @protected @type {!Array<function(!Element): undefined>}
@@ -50,7 +55,7 @@ class CommonListView extends BasicView {
 
     /** @private @const {function({scholarships : !Array<?>}):Element} */
     this.template_ =
-        this.optionIndex_ == '0' ? collegelistitems : scholarshiplistitems;
+        this.optionIndex_ = listitems;
 
     /**
      * @private @type {number} The number of batch of data has been loaded into the view.
@@ -66,7 +71,7 @@ class CommonListView extends BasicView {
     /** @private @const {!function(number):Promise<undefined>} */
     this.bindedDataLoader_ = this.renderNextBatch_.bind(this);
 
-     /** @private {number} Number of items to be added for each laod. */
+     /** @private {number} Number of items to be added for each load. */
     this.itemsPerBatch_ = 5;
 
     /** @private {string} The id of the last item in the list. */
@@ -75,20 +80,21 @@ class CommonListView extends BasicView {
     /** @private {?Element} */
     this.statusBar_ = null;
 
-    /** @private {number} */
+    /** @private {?number} */
     this.totalItemsNumber_ = 0;
 
     /** @private {boolean} */
     this.isLoading_ = false;
   }
 
-  /**
-   * Loads the first two batches of list item to page.
+  /** 
+   * Loads the first two batches of list item to page. 
    */
-  async init() {
-    super.setCurrentContent(commonlistview({pageIndex: this.optionIndex_}));
+  async renderView() {
+    super.setCurrentContent(commonlistview({pagetype: this.optionTag_}));
     super.resetAndUpdate();
-    this.container_ = googDom.getElement(ITEM_CONTAINER_ID);
+    // tableContainer.innerHTML = commonlistview({pagetype: this.optionTag_});
+    this.container_ = googDom.getElement(ITEM_CONTAINER_ID)
     this.statusBar_ = googDom.getElement(STATUS_BAR_ID);
     window.addEventListener('scroll', this.bindedScrollHandler_);
     try {
@@ -110,17 +116,23 @@ class CommonListView extends BasicView {
     this.statusBar_.innerHTML = loading();
     try {
       this.isLoading_ = true;
-      const dataList = await this.dataHandler_
-                        .getNextBatch(numberOfItems, this.idOfLastItem_);
+      const dataBatch = await this.dataHandler_
+                        .getNextBatch(this.optionTag_, this.batch_, 
+                                      numberOfItems, this.idOfLastItem_);
+      const dataList = dataBatch ? dataBatch[ITEM] : undefined;
       this.idOfLastItem_ = 
-          dataList ? dataList[dataList.length - 1].id : EMPTY_STRING;
-      this.container_.innerHTML += this.template_(dataList);
+          dataList ? dataList[dataList.length - 1][0] : EMPTY_STRING;
+      if (!dataBatch || !dataList) {
+        throw new Error(INVALID_RESPONSE);
+      }
+      this.container_.innerHTML += this.template_({batchofitems: dataBatch});
       this.statusBar_.innerHTML = endoflist();
       this.batch_ += 1;
-      this.isLoading_ = false;
     } catch (e) {
       console.log(e);
       throw e;
+    } finally {
+      this.isLoading_ = false;
     }
   }
 

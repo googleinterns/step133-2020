@@ -16,13 +16,14 @@
 
 goog.module('finscholar.appstate');
 
-const JsactionActionFlow = goog.require('jsaction.ActionFlow');
-const {HomePageController} = goog.require('finscholar.homepagecontroller');
-const {NavBar} = goog.require('finscholar.navbar');
-const {navbarViewFactory} = goog.require('finscholar.viewfactory');
-const {CommonListView} = goog.require('finscholar.commonlistview');
-const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 const {CollegePageView} = goog.require('finscholar.collegepageview');
+const {CommonListView} = goog.require('finscholar.commonlistview');
+const {HomePageController} = goog.require('finscholar.homepagecontroller');
+const JsactionActionFlow = goog.require('jsaction.ActionFlow');
+const {NavBar} = goog.require('finscholar.navbar');
+const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
+
+const {navbarViewFactory} = goog.require('finscholar.viewfactory');
 
 
 /** Class that keeps track of the app's state. */
@@ -37,6 +38,7 @@ class AppState {
 
     this.currentView_ = new HomePageController();
     this.currentView_.renderView();
+
     /** @private @type {!NavBar} Initializes the code for the nav bar. */
     this.navbarInstance_ = new NavBar();
     this.navbarInstance_.registerListener(this.navbarUpdate_.bind(this));
@@ -70,22 +72,19 @@ class AppState {
     }
     this.currentView_.setId(id);
     this.currentView_.renderView();
+    this.navbarInstance_ = new NavBar();
+    this.navbarInstance_.registerListener(this.navbarUpdate.bind(this));
   }
 
   /**
    * Handles updates from the nav bar.
    * @param {number} index The button mapped to the view that the user selected.
-   * @private
    */
-  navbarUpdate_(index) {
-    if (this.currentView_ instanceof CommonListView) {
-      this.currentView_.removeScrollHandler();
-    }
-    this.currentView_ =
-        navbarViewFactory(index, this.listViewUpdate_.bind(this));
+  navbarUpdate(index) {
+    this.currentView_ = navbarViewFactory(index);
     this.currentView_.renderView();
     this.navbarInstance_ = new NavBar();
-    this.navbarInstance_.registerListener(this.navbarUpdate_.bind(this));
+    this.navbarInstance_.registerListener(this.navbarUpdate.bind(this));
   }
 }
 

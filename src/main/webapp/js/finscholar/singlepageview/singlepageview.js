@@ -17,54 +17,44 @@
 goog.module('finscholar.singlepageview');
 
 const {BasicView} = goog.require('basicview');
-const {ScholarshipDataHandler} = goog.require('datahandlers.scholarshipdatahandler');
-const googSoy = goog.require('goog.soy');
-
+const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 
 /**
  * Class for single scholarship/college page view.
  * @public
  */
 class SinglePageView extends BasicView {
+
   constructor(dataHandler, template) {
     super();
-    /**
-     * @private @const {!ScholarshipDataHandler} dataHandler_
+    
+    /** 
+     * @private @const {!SinglePageDataHandler} dataHandler_ 
      * The object fetches and formats scholarship data.
      */
     this.dataHandler_ = dataHandler;
+
     /**
-     * @private @const {!function(?): googSoy.data.SanitizedHtml}
+     * @private @const {!function(Object): goog.soy.data.SanitizedHtml}
      */
     this.template_ = template;
-    /** @private @type {string} */
-    this.id_ = '';
   }
 
   /**
-   * Sets the id of the college or scholarship.
-   * @param {string} id
-   */
-  setId(id) {
-    this.id_ = id;
-  }
-
-  /**
-   * Render the single scholarship/college page.
-   * @override
-   */
-  async renderView() {
+    * @param {string} id The id of the scholarhsip/college.
+    */
+  async renderView(id) {
     let formattedData = undefined;
     try {
-      formattedData = await this.dataHandler_.fetchAndFormatData(this.id_);
+      formattedData = await this.dataHandler_.fetchAndFormatData(id);
     } catch (e) {
       console.log(e);
       throw new Error(`Cannot get data for object ${this.id_}, message: ${e}`);
     }
     try {
-      super.setCurrentContent(this.template_(formattedData));
+      super.setCurrentContent(this.template_(formattedData));      
       super.resetAndUpdate();
-    } catch (e) {
+    } catch(e) {
       console.log(e);
       throw new Error(`Failed to generate html: ${e}`);
     }
