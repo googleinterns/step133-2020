@@ -16,16 +16,19 @@
 
 goog.module('finscholar.collegepageview');
 
-const GoogDom = goog.require('goog.dom');
+const {SinglePageView} = goog.require('finscholar.singlepageview');
 const {loadCollegeData} = goog.require('datahandlers.collegepage');
 
 /** Class for the college page view. */
-class CollegePageView {
-  constructor() {}
+class CollegePageView extends SinglePageView {
+
+  constructor() {
+    super(undefined, undefined); // Place holder
+  }
 
   /** Render the college page. */
-  async renderView(element) {
-    await loadCollegeData(element);
+  async renderView(element, id) {
+    // await loadCollegeData(element);
   };
 }
 

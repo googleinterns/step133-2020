@@ -15,21 +15,17 @@
 /** @fileoverview The mini controller for scholarship list view. */
 
 goog.module('finscholar.scholarshiplistview');
-const {scholarshiplist} = goog.require('finscholar.scholarshiplistview.templates');
+
+const {CommonListView} = goog.require('finscholar.commonlistview');
+const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
+
+const SCHOLARSHIP_LIST_TAG = 'scholarships';
 
 /** The mini controller for scholarship list view. */
-class ScholarshipListView {
+class ScholarshipListView extends CommonListView {
   
   constructor() {
-    // TODO: In MVP, we'll add member variables such as pages, the array of scholarship etc.
-  }
-
-  /**
-   * Renders a scholarship list view to the container.
-   * @param {!Element} container The HTML container to load the view.
-   */
-  renderView(container) {
-    container.innerHTML = scholarshiplist();
+    super(new ScholarshipListDataHandler(), SCHOLARSHIP_LIST_TAG);
   }
 }
 
