@@ -38,6 +38,7 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
    *  which will be used to render the scholarship page soy template.
    * @param {Object} data - The JSON object to be converted.
    * @return {Object} - The object map representing a scholarship's data.
+   * @override
    * @private
    */
   async convertFromJsonToTemplate_(data) {
@@ -77,16 +78,16 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
         },
       },
     };
-  }
+  };
 
   /**
-   * @param {string} id 
+   * @param {string} id
    * @returns {string} path
    * @override
    * @private
    */
   getRequestPath_(id) {
-    return `SCHOLARSHIP_ENDPOINT?id=${id}`;
+    return `${SCHOLARSHIP_ENDPOINT}?id=${id}`;
   }
 }
 

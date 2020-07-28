@@ -36,6 +36,15 @@ let ErrorData;
  */
 let ErrorData;
 
+/**
+ * @typedef {{
+ *   occurrence: string,
+ *   action: string,
+ *   errorMessage: string
+ * }}
+ */
+let ErrorData;
+
 /** Class for the error page view. */
 class ErrorPageView extends BasicView {
   /**
@@ -43,27 +52,6 @@ class ErrorPageView extends BasicView {
    */
   constructor(data) {
     super();
-<<<<<<< HEAD
-    /** @private @type {!ErrorData|undefined} */
-    this.data_ = data;
-  }
-
-  /**
-   * Updates the data object. Useful for running before rendering view.
-   * @param {!ErrorData} data New error info.
-   */
-  updateError(data) {
-    this.data_ = data;
-  }
-
-  /**
-   * Render the error page.
-   */
-  async renderView() {
-    const html = errorpage(/** @type {!ErrorData} */ (this.data_));
-    super.setCurrentContent(html);
-    super.resetAndUpdate();
-=======
 
     /** @private @type {!ErrorData|undefined} */
     this.data_ = data;
@@ -77,8 +65,11 @@ class ErrorPageView extends BasicView {
    * @param {!ErrorData} data New error info.
    */
   updateError(data) {
+    /** @private @type {!ErrorData|undefined} */
     this.data_ = data;
->>>>>>> add-scholarship-page
+
+    const html = errorpage(/** @type {!ErrorData} */ (this.data_));
+    super.setCurrentContent(html);
   }
 }
 

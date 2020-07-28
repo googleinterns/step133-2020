@@ -35,11 +35,11 @@ class SinglePageView extends BasicView {
     this.dataHandler_ = dataHandler;
 
     /**
-     * @private @const {!function(?): googSoy.data.SanitizedHtml}
+     * @private @const {!function(Object): goog.soy.data.SanitizedHtml}
      */
     this.template_ = template;
 
-    /** @private @type {string} */
+    /** @private {string} The id of the scholarhsip/college. */
     this.id_ = '';
   }
 

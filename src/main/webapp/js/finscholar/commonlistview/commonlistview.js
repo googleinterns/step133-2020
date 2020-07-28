@@ -59,9 +59,6 @@ class CommonListView extends BasicView {
      */
     this.listeners_ = [];
 
-    /** @private @const {function({scholarships : !Array<?>}):Element} */
-    this.template_ = listitems;
-
     /**
      * @private @type {number} The number of batch of data has been loaded into the view.
      */
@@ -97,7 +94,7 @@ class CommonListView extends BasicView {
     /** @private @const {!JsactionDispatcher} */
     this.dispatcher_ = new JsactionDispatcher();
 
-    /** @private @const {function(!JsactionActionFlow): undefined} */
+    /** @private @const {function(!JsactionActionFlow): Promise<undefined>} */
     this.bindedOnclickHandler_ = this.handleOnclickEvent_.bind(this);
   }
 
@@ -212,7 +209,7 @@ class CommonListView extends BasicView {
 
   /**
    * Registers a listener for jsaction.
-   * @param {function(!Element): undefined} listener
+   * @param {function(!Element): Promise<undefined>} listener
    */
   registerListener(listener) {
     this.listeners_.push(listener);
