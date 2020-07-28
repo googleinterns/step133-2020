@@ -23,25 +23,9 @@ const {CollegeQueryBuilder, ID, NAME, ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST,
     FIRST_NET_COST, SECOND_NET_COST, THIRD_NET_COST, FOURTH_NET_COST, 
     FIFTH_NET_COST, MEDIAN_DEBT} = goog.require('datahandlers.collegequerybuilder');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
-
+const {integerWithCommas} = goog.require('datahandlers.utils');
 const RESULTS = 'results';
-
-/**
- * @typedef {{
- *   schoolName: string,
- *   institutionType: string,
- *   acceptanceRate: number,
- *   averageACTScore: number,
- *   totalCostAttendance: number,
- *   netCostForFirstQuintile: number,
- *   netCostForSecondQuintile: number,
- *   netCostForThirdQuintile: number,
- *   netCostForFourthQuintile: number,
- *   netCostForFifthQuintile: number,
- *   cumulativeMedianDebt: number
- * }}
- */
-let CollegeObject;
+const DOLLAR_SIGN = '$';
 
 class CollegeDataHandler extends SinglePageDataHandler {
   constructor() {
@@ -79,14 +63,21 @@ class CollegeDataHandler extends SinglePageDataHandler {
   convertFromJsonToTemplate_(element) {
     return {
       schoolName : element[NAME],
+      annualCost : DOLLAR_SIGN.concat(integerWithCommas(element[ANNUAL_COST])),
       acceptanceRate : element[ACCEPTANCE_RATE].toString(),
       averageACTScore : element[ACT_SCORE].toString(),
-      netCostForFirstQuintile : element[FIRST_NET_COST].toString(),
-      netCostForSecondQuintile : element[SECOND_NET_COST].toString(),
-      netCostForThirdQuintile : element[THIRD_NET_COST].toString(),
-      netCostForFourthQuintile : element[FOURTH_NET_COST].toString(),
-      netCostForFifthQuintile : element[FIFTH_NET_COST].toString(),
-      cumulativeMedianDebt : element[MEDIAN_DEBT].toString()
+      netCostForFirstQuintile : DOLLAR_SIGN.concat(
+          integerWithCommas(element[FIRST_NET_COST])),
+      netCostForSecondQuintile : DOLLAR_SIGN.concat(
+          integerWithCommas(element[SECOND_NET_COST])),
+      netCostForThirdQuintile : DOLLAR_SIGN.concat(
+          integerWithCommas(element[THIRD_NET_COST])),
+      netCostForFourthQuintile : DOLLAR_SIGN.concat(
+          integerWithCommas(element[FOURTH_NET_COST])),
+      netCostForFifthQuintile : DOLLAR_SIGN.concat(
+          integerWithCommas(element[FIFTH_NET_COST])),
+      cumulativeMedianDebt : DOLLAR_SIGN.concat(
+          integerWithCommas(element[MEDIAN_DEBT]))
     }
   }
 };

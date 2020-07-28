@@ -15,6 +15,7 @@
 {namespace finscholar.collegepageview.templates}
 {template .collegepage}
   {@param schoolName: string}
+  {@param annualCost: string}
   {@param acceptanceRate: string}
   {@param averageACTScore: string}
   {@param netCostForFirstQuintile: string}
@@ -38,30 +39,33 @@
     </div>
     <div class="mdl-card__supporting-text">
       <h2 class="mdl-card__title-text"><b>Financial Aid Information</b></h2>
-    </div> 
-    <div class="mdl-card__supporting-text">
-      <b>Net Cost for students with family incomes between
-        $0-$30,000:</b> ${$netCostForFirstQuintile}
-    </div> 
-    <div class="mdl-card__supporting-text">
-      <b>Net Cost for students with family incomes between
-        $30,001-$48,000:</b> ${$netCostForSecondQuintile}
     </div>
     <div class="mdl-card__supporting-text">
-      <b>Net Cost for students with family incomes between 
-        $48,001-$75,000:</b> ${$netCostForThirdQuintile}
+      <b>Average Annual Net Cost: </b> {$annualCost}
     </div>  
     <div class="mdl-card__supporting-text">
       <b>Net Cost for students with family incomes between
-        $75,001-$110,000:</b> ${$netCostForFourthQuintile}
+        $0-$30,000:</b> {$netCostForFirstQuintile}
+    </div> 
+    <div class="mdl-card__supporting-text">
+      <b>Net Cost for students with family incomes between
+        $30,001-$48,000:</b> {$netCostForSecondQuintile}
+    </div>
+    <div class="mdl-card__supporting-text">
+      <b>Net Cost for students with family incomes between 
+        $48,001-$75,000:</b> {$netCostForThirdQuintile}
+    </div>  
+    <div class="mdl-card__supporting-text">
+      <b>Net Cost for students with family incomes between
+        $75,001-$110,000:</b> {$netCostForFourthQuintile}
     </div> 
     <div class="mdl-card__supporting-text">
       <b>Net Cost for students with family incomes above 
-        $110,000:</b> ${$netCostForFifthQuintile}
+        $110,000:</b> {$netCostForFifthQuintile}
     </div>
     <div class="mdl-card__supporting-text">
       <b>Cumulative Median Student Debt right after 
-      graduation:</b> ${$cumulativeMedianDebt}
+      graduation:</b> {$cumulativeMedianDebt}
     </div>  
   </div>
 {/template}

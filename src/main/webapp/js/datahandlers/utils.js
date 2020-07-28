@@ -26,4 +26,13 @@ const addSpaceToCamelCase = (str) => {
   return result.charAt(0).toUpperCase() + result.slice(1);
 }
 
-exports = {addSpaceToCamelCase};
+/**
+ * This method returns a string representing a number with commas.
+ * @param {number} num - The number to convert.
+ * @returns {!string} - The string representation of the number with commas.
+ */
+const integerWithCommas = (num) => {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+exports = {addSpaceToCamelCase, integerWithCommas};
