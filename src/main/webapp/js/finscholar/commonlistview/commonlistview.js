@@ -20,6 +20,7 @@ const {BasicView} = goog.require('basicview');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
 const {commonlistview, listitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
+const googDom = goog.require('goog.dom');
 
 const EMPTY_STRING = '';
 const INVALID_RESPONSE = 'Invalid data from server.';

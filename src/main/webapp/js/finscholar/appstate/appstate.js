@@ -41,7 +41,7 @@ class AppState {
 
     /** @private @type {!NavBar} Initializes the code for the nav bar. */
     this.navbarInstance_ = new NavBar();
-    this.navbarInstance_.registerListener(this.navbarUpdate_.bind(this));
+    this.navbarInstance_.registerListener(this.navbarUpdate.bind(this));
   }
 
   /**
@@ -60,18 +60,18 @@ class AppState {
    * @param {!Element} node
    * @private
    */
-  listViewUpdate_(node) {
+  async listViewUpdate_(node) {
     if (this.currentView_ instanceof CommonListView) {
       this.currentView_.removeScrollHandler();
     }
     const id = node.id;
-    if (node.classList.contains('college')) {
+    if (node.classList.contains('colleges')) {
       this.currentView_ = new CollegePageView();
     } else {
       this.currentView_ = new ScholarshipPageView();
     }
     this.currentView_.setId(id);
-    this.currentView_.renderView();
+    await this.currentView_.renderView();
     this.navbarInstance_ = new NavBar();
     this.navbarInstance_.registerListener(this.navbarUpdate.bind(this));
   }

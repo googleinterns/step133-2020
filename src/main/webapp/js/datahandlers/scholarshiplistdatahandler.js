@@ -26,11 +26,10 @@ const ELLIPSIS = '...';
 const EMPTY_STRING = '';
 const END_OF_STRING = 23;
 const ID = 'id';
-const UNKNOWN = 'unknown';
 const SCHOLARSHIP = 'scholarships';
 const SCHOLARSHIP_LIST_ENDPOINT = '/scholarship-list';
 const SCHOLARSHIP_NAME = 'scholarshipName';
-const UNKNOWN = 'Unknown';
+const UNKNOWN = 'unknown';
 
 /**
  * The data controller which fetches scholarship data

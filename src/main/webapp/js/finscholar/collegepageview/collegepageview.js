@@ -23,14 +23,11 @@ class CollegePageView extends SinglePageView {
   constructor() {
     super(undefined, undefined); // Place holder
   }
-<<<<<<< HEAD
-=======
 
   /** Render the college page. */
   async renderView(element, id) {
     // await loadCollegeData(element);
   };
->>>>>>> devel
 }
 
 exports = {CollegePageView};

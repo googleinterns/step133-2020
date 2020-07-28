@@ -15,7 +15,6 @@
 /** @fileoverview The mini controller for college list view. */
 
 goog.module('finscholar.collegelistview');
-<<<<<<< HEAD
 
 const {ScholarshipListDataHandler} = goog.require('datahandlers.scholarshiplistdatahandler');
 const {CommonListView} = goog.require('finscholar.commonlistview');
@@ -32,17 +31,7 @@ class CollegeListView extends CommonListView {
    * @override
    */
   async renderView() {
-    super.init();
-=======
-const {BasicView} = goog.require('basicview');
-const {collegelist} = goog.require('finscholar.collegelistview.templates');
-
-/** The mini controller for college list view. */
-class CollegeListView extends BasicView {
-  constructor() {
-    super();
-    super.setCurrentContent(collegelist());
->>>>>>> devel
+    super.renderView();
   }
 }
 
