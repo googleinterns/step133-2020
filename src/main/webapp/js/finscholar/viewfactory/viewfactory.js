@@ -25,25 +25,23 @@ const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
 /**
  * Factory for the navbar listviews.
  * @param {number} index The index mapping to the tab.
- * @param {function(!Element): undefined} listener JSAction listener.
  * @return {!BasicView} Object with the view data.
  */
-const navbarViewFactory = (index, listener) => {
+const navbarViewFactory = (index) => {
   let view;
   switch (index) {
     case 0:
       view = new HomePageController();
       break;
     case 1:
-      view = new CollegeListView();
-      view.registerListener(listener);
+      view = new ScholarshipListView();
       break;
     case 2:
       view = new ScholarshipListView();
-      view.registerListener(listener);
       break;
     default:
-      view = new HomePageController();
+      throw new Error(
+          `Unexpected index received from navbar. Received index=${index}`);
       break;
   }
   return /** @type {!BasicView} */ (view);

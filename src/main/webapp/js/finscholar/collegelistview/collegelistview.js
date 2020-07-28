@@ -16,76 +16,16 @@
 
 goog.module('finscholar.collegelistview');
 
-const JsactionActionFlow = goog.require('jsaction.ActionFlow');
-const JsactionDispatcher = goog.require('jsaction.Dispatcher');
-const JsactionEventContract = goog.require('jsaction.EventContract');
 const {CollegeListDataHandler} = goog.require('datahandlers.collegelistdatahandler');
 const {CommonListView} = goog.require('finscholar.commonlistview');
+const {collegelist} = goog.require('finscholar.collegelistview.templates');
 
-const COLLEGE_LIST_INDEX = '0';
+const COLLEGE_LIST_TAG = 'colleges';
 
 /** The mini controller for college list view. */
 class CollegeListView extends CommonListView {
   constructor() {
-    super(new CollegeListDataHandler(), COLLEGE_LIST_INDEX);
-    /** @private @const {!JsactionEventContract} */
-    this.eventContract_ = new JsactionEventContract();
-
-    /** @private @const {!JsactionDispatcher} */
-    this.dispatcher_ = new JsactionDispatcher();
-
-    /** @private @const {function(!JsactionActionFlow): undefined} */
-    this.bindedOnclickHandler_ = this.handleOnclickEvent_.bind(this);
-  }
-
-  /**
-   * Sets up the event handlers for elements in the list.
-   * @private
-   */
-  initJsaction_() {
-    // Events will be handled for all elements under this container.
-    this.eventContract_.addContainer(
-        /** @type {!Element} */ (super.getCurrentContentElement()));
-    // Register the event types we care about.
-    this.eventContract_.addEvent('click');
-    this.eventContract_.addEvent('dblclick');
-    this.eventContract_.dispatchTo(
-        this.dispatcher_.dispatch.bind(this.dispatcher_));
-    this.dispatcher_.registerHandlers(
-        'collegelistview',      // the namespace
-        null,                   // handler object
-        {
-          // action map
-          'clickAction': this.bindedOnclickHandler_,
-          'doubleClickAction': this.bindedOnclickHandler_,
-        });
-  }
-
-  /**
-   * Renders a college list view to the container.
-   * @override
-   */
-  async renderView() {
-    try {
-      await super.init();
-      this.initJsaction_();
-    } catch(e) {
-      console.log(e);
-      throw e;
-    }
-  }
-
-  /**
-   * Handles click and double click events on navbar.
-   * @param {!JsactionActionFlow} flow Contains the data related to the action.
-   *     and more. See actionflow.js.
-   * @private
-   */
-  handleOnclickEvent_(flow) {
-    console.log('jsaction fired on list item.');
-    this.listeners.forEach((listener) => {
-      listener(/** @type {!Element} */ (flow.node()));
-    });
+    super(new CollegeListDataHandler, COLLEGE_LIST_TAG);
   }
 }
 

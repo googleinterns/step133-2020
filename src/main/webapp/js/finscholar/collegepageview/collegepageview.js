@@ -21,8 +21,16 @@ const {SinglePageView} = goog.require('finscholar.singlepageview');
 /** Class for the college page view. */
 class CollegePageView extends SinglePageView {
   constructor() {
-    super(undefined, undefined);
+    super(undefined, undefined); // Place holder
   }
+<<<<<<< HEAD
+=======
+
+  /** Render the college page. */
+  async renderView(element, id) {
+    // await loadCollegeData(element);
+  };
+>>>>>>> add-scholarship-page
 }
 
 exports = {CollegePageView};

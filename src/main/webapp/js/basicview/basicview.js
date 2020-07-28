@@ -28,6 +28,10 @@ class BasicView {
   constructor() {
     /** @private @type {string} */
     this.pageTitle_ = DEFAULT_PAGE_TITLE;
+<<<<<<< HEAD
+=======
+
+>>>>>>> add-scholarship-page
     /** @private @type {?googSoy.data.SanitizedHtml} */
     this.currentContent_ = null;
   }
@@ -83,7 +87,13 @@ class BasicView {
   /**
    * Public method for updating the current view.
    */
+<<<<<<< HEAD
   async renderView() {}
+=======
+  async renderView() {
+    this.resetAndUpdate();
+  }
+>>>>>>> add-scholarship-page
 }
 
 exports = {BasicView};
