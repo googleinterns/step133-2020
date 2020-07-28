@@ -46,6 +46,7 @@ class SinglePageDataHandler {
   /**
    * @param {Object} jsonResponse
    * @returns {Object} Json data needed for rendering page.
+   * @private
    */
   getJsonData_(jsonResponse) {
     return jsonResponse;
@@ -54,6 +55,7 @@ class SinglePageDataHandler {
   /**
    * @param {string} id 
    * @returns {string} path
+   * @private
    * @abstract
    */
   getRequestPath_(id) {}
@@ -63,6 +65,7 @@ class SinglePageDataHandler {
    *  which will be used to render the scholarship page soy template.
    * @param {*} data - The JSON object to be converted.
    * @return {Object} - The object map representing a scholarship's data.
+   * @private
    * @abstract
    */
   async convertFromJsonToTemplate_(data) {}

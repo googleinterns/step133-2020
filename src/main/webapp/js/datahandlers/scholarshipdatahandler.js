@@ -80,11 +80,12 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
   }
 
   /**
+   * @param {string} id 
    * @returns {string} path
    * @private
    */
-  getRequestPath_() {
-    return SCHOLARSHIP_ENDPOINT;
+  getRequestPath_(id) {
+    return `SCHOLARSHIP_ENDPOINT?id=${id}`;
   }
 }
 

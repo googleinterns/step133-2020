@@ -24,6 +24,8 @@ const {CollegeQueryBuilder, ID, NAME, ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST,
     FIFTH_NET_COST, MEDIAN_DEBT} = goog.require('datahandlers.collegequerybuilder');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 
+const RESULTS = 'results';
+
 /**
  * @typedef {{
  *   schoolName: string,
@@ -52,14 +54,25 @@ class CollegeDataHandler extends SinglePageDataHandler {
    * @override
    */
   getRequestPath_(id) {
-    console.log(CollegeQueryBuilder.buildSingleQueryEndpoint(id));
     return CollegeQueryBuilder.buildSingleQueryEndpoint(id);
   }
 
+  /**
+   * @param {Object} jsonResponse
+   * @returns {Object} Json data needed for rendering page.
+   * @private
+   */
   getJsonData_(json) {
-    return json['results'][0];
+    return json[RESULTS][0];
   }
 
+  /**
+   * This method converts from scholarship JSON object to a JS object map, 
+   *  which will be used to render the scholarship page soy template.
+   * @param {*} data - The JSON object to be converted.
+   * @return {Object} - The object map representing a scholarship's data.
+   * @private
+   */
   convertFromJsonToTemplate_(element) {
     return {
       schoolName : element[NAME],
