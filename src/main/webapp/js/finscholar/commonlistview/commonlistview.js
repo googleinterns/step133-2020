@@ -59,9 +59,6 @@ class CommonListView extends BasicView {
      */
     this.listeners_ = [];
 
-    /** @private @const {function({scholarships : !Array<?>}):Element} */
-    this.template_ = listitems;
-
     /**
      * @private @type {number} The number of batch of data has been loaded into the view.
      */
