@@ -149,8 +149,6 @@ class CommonListView extends BasicView {
       this.totalItemsNumber_ = await this.dataHandler_.getTotalNumber();
       await this.renderNextBatch_(this.itemsPerBatch_ * 2);
       this.batch_ = 2;
-      console.log(this.scrollDiv_.scrollHeight);
-      console.log(this.scrollDiv_.clientHeight);
       while (this.scrollDiv_.scrollHeight <= this.scrollDiv_.clientHeight) {
         await this.renderNextBatch_(this.itemsPerBatch_);
       }
@@ -172,7 +170,9 @@ class CommonListView extends BasicView {
       const dataBatch = await this.dataHandler_.getNextBatch(
           this.optionTag_, this.batch_, numberOfItems, this.idOfLastItem_);
       const dataList = dataBatch ? dataBatch[ITEM] : undefined;
-      if (!dataBatch || !dataList || dataList == []) {
+      if (!dataBatch || !dataList || dataList.length == 0) {
+        this.statusBar_.innerHTML = endoflist();
+        this.loading_ = false;
         throw new Error(INVALID_RESPONSE);
       }
       this.idOfLastItem_ = 
@@ -201,9 +201,6 @@ class CommonListView extends BasicView {
     const scrolledHeight = this.scrollDiv_.scrollTop;
     const innerHeight = this.scrollDiv_.clientHeight;
     const threshold = (this.batch_ - 1) * this.itemsPerBatch_ * cellHeight;
-    console.log(threshold);
-    console.log(scrolledHeight);
-    console.log(innerHeight);
     if (scrolledHeight + innerHeight > threshold &&
         this.batch_ * this.itemsPerBatch_ < this.totalItemsNumber_) {
       try {

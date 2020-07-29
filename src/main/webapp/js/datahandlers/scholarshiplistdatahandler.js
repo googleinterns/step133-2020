@@ -26,6 +26,7 @@ const ELLIPSIS = '...';
 const END_OF_STRING = 23;
 const ID = 'id';
 const SCHOLARSHIP_NAME = 'scholarshipName';
+const SCHOOL_NAME = 'school names';
 const UNKNOWN = 'unknown';
 
 /**
@@ -66,7 +67,7 @@ class ScholarshipListDataHandler extends ListDataHandler {
     return [
       item[ID],
       item[SCHOLARSHIP_NAME],
-      'school names place holder',
+      SCHOOL_NAME,
       amount,
     ];
   }
