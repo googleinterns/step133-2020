@@ -23,8 +23,7 @@ const {CollegeQueryBuilder} = goog.require('datahandlers.collegequerybuilder');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 const {NAME, ACCEPTANCE_RATE, ANNUAL_COST, ID} = 
   goog.require('datahandlers.collegequerybuilder');
-const {integerWithCommas} = goog.require('datahandlers.utils');
-const DOLLAR_SIGN = '$';
+const {convertToDollar} = goog.require('datahandlers.utils');
 
 /**
  * The data controller which fetches college data 
@@ -54,7 +53,7 @@ class CollegeListDataHandler extends ListDataHandler {
       element[ID].toString(),
       element[NAME],
       element[ACCEPTANCE_RATE].toString(),
-      DOLLAR_SIGN.concat(integerWithCommas(element[ANNUAL_COST])),
+      convertToDollar(element[ANNUAL_COST])
     ];
   }
 

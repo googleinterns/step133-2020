@@ -16,6 +16,8 @@
 
 goog.module('datahandlers.utils');
 
+const DOLLAR_SIGN = '$';
+
 /** 
  * Converts camelcase string to phrases.
  * @param {string} str The camelcase string.
@@ -35,4 +37,13 @@ const integerWithCommas = (num) => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-exports = {addSpaceToCamelCase, integerWithCommas};
+/**
+ * This method returns a string representing an integer in $ format with commas.
+ * @param {number} num - The number to convert.
+ * @returns {!string} - The string representation of the number with commas and $.
+ */
+const convertToDollar = (num) => {
+  return DOLLAR_SIGN.concat(integerWithCommas(num));
+}
+
+exports = {addSpaceToCamelCase, integerWithCommas, convertToDollar};
