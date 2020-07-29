@@ -17,51 +17,30 @@
 {template .commonlistview}
   {@param pagetype : string}
   <div id="scroll-div">
-  {if $pagetype == 'scholarships'}
-    {call .scholarshiplistheader /}
-  {elseif $pagetype == 'colleges'}
-    {call .collegelistheader /}
-  {/if}
-  <table class="mdl-data-table mdl-js-data-table 
-      mdl-data-table--selectable mdl-shadow--2dp">
-      <div id="table-body">
-      </div>
-  </table>
+    <ul id="table-body" class="mdl-list">
+    </ul>
   <div id="status">
     {call .endoflist /}
   </div>
   </div>
 {/template}
 
-{template .scholarshiplistheader}
-  <div class="table-row" id="table-header"> 
-    <div class="cell name-cell">Scholarship Name</div>
-    <div class="cell props-cell">Schools</div>
-    <div class="cell props-cell">Amount</div>
-  </div>
-{/template}
-
-{template .collegelistheader}
-  <tr class="table-row" id="table-header">
-    <th class="mdl-data-table__cell--non-numeric">College Name</th>
-    <th>Acceptance Rate</th>
-    <th>Average ACT</th>
-  </tr>
-{/template}
-
 {template .listitems}
   {@param batchofitems: [type: string,  
                          items: list<list<string>>]}
   {for $propsofoneitem in $batchofitems.items}
-    <div class="{$batchofitems.type} table-row {if $index == 1} name-cell {else} props-cell {/if}" id={$propsofoneitem[0]}
+    <li class="{$batchofitems.type} mdl-list__item mdl-list__item--three-line" id={$propsofoneitem[0]}
         jsaction="commonlistview.clickAction;
         dblclick:commonlistview.doubleClickAction">
-    {for $index in range(1, $propsofoneitem.length())}
-      <div class="cell">
-        {$propsofoneitem[$index]}
-      </div>
-    {/for}
-    </div>
+      <span class="mdl-list__item-primary-content">
+        <i class="material-icons mdl-list__item-avatar" id="avatar">star</i>
+        <span class="cell-name">{$propsofoneitem[1]}</span>
+        <span class="mdl-list__item-text-body">
+          {$propsofoneitem[3]}
+        </span>
+      </span>
+      <span class="mdl-list__item-secondary-content" id="side-prop">{$propsofoneitem[2]}</span>
+    </li>
   {/for}
 {/template}
 

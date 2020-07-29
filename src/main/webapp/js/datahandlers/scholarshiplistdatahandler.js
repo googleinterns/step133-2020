@@ -62,14 +62,11 @@ class ScholarshipListDataHandler extends ListDataHandler {
    * @override
    */
   formatListItem(item) {
-    let amount = (item[AMOUNT_PER_YEAR] || UNKNOWN);
-    amount = amount.length > END_OF_STRING ?
-        amount.substring(0, END_OF_STRING) + ELLIPSIS :
-        amount;
+    let amount = (item[AMOUNT_PER_YEAR] || UNKNOWN);  
     return [
       item[ID],
       item[SCHOLARSHIP_NAME],
-      ELLIPSIS,
+      'school names place holder',
       amount,
     ];
   }
