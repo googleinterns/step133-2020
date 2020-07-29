@@ -17,6 +17,11 @@
 goog.module('datahandlers.utils');
 
 const DOLLAR_SIGN = '$';
+/** 
+ * This regex is used to add commas in between each 3 digits of a integer.
+ * So 3000000 becomes --> 3,000,000.
+ */
+const NUM_REGEX = /\B(?=(\d{3})+(?!\d))/g;
 
 /** 
  * Converts camelcase string to phrases.
@@ -34,7 +39,7 @@ const addSpaceToCamelCase = (str) => {
  * @returns {!string} - The string representation of the number with commas.
  */
 const integerWithCommas = (num) => {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return num.toString().replace(NUM_REGEX, ',');
 }
 
 /**
