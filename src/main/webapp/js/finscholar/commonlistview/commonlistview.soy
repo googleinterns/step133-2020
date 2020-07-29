@@ -16,33 +16,33 @@
 
 {template .commonlistview}
   {@param pagetype : string}
+  <div id="scroll-div">
+  {if $pagetype == 'scholarships'}
+    {call .scholarshiplistheader /}
+  {elseif $pagetype == 'colleges'}
+    {call .collegelistheader /}
+  {/if}
   <table class="mdl-data-table mdl-js-data-table 
       mdl-data-table--selectable mdl-shadow--2dp">
-    <thead>
-      {if $pagetype == 'scholarships'}
-        {call .scholarshiplistheader /}
-      {elseif $pagetype == 'colleges'}
-        {call .collegelistheader /}
-      {/if}
-    </thead>
-    <tbody id="table-body">
-    </tbody>
+      <div id="table-body">
+      </div>
   </table>
   <div id="status">
     {call .endoflist /}
   </div>
+  </div>
 {/template}
 
 {template .scholarshiplistheader}
-  <tr id="table-header">
-    <th class="mdl-data-table__cell--non-numeric">Scholarship Name</th>
-    <th>Schools</th>
-    <th>Amount</th>
-  </tr>
+  <div class="table-row" id="table-header"> 
+    <div class="cell name-cell">Scholarship Name</div>
+    <div class="cell props-cell">Schools</div>
+    <div class="cell props-cell">Amount</div>
+  </div>
 {/template}
 
 {template .collegelistheader}
-  <tr id="table-header">
+  <tr class="table-row" id="table-header">
     <th class="mdl-data-table__cell--non-numeric">College Name</th>
     <th>Acceptance Rate</th>
     <th>Average ACT</th>
@@ -53,13 +53,15 @@
   {@param batchofitems: [type: string,  
                          items: list<list<string>>]}
   {for $propsofoneitem in $batchofitems.items}
-    <tr class={$batchofitems.type} id={$propsofoneitem[0]}
+    <div class="{$batchofitems.type} table-row {if $index == 1} name-cell {else} props-cell {/if}" id={$propsofoneitem[0]}
         jsaction="commonlistview.clickAction;
         dblclick:commonlistview.doubleClickAction">
     {for $index in range(1, $propsofoneitem.length())}
-      <td class="mdl-data-table__cell--non-numeric">{$propsofoneitem[$index]}</td>
+      <div class="cell">
+        {$propsofoneitem[$index]}
+      </div>
     {/for}
-    </tr>
+    </div>
   {/for}
 {/template}
 

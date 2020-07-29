@@ -154,18 +154,18 @@ public class FirebaseStorageManagerTest {
     Assert.assertTrue(jsonOptional.isPresent());
   }
 
-  @Test
-  public void retrieveCollectionBatchWithID() throws Exception {
-    FirebaseStorageManager.storeDocument(firebase, TEST_COLLECTION_NAME, testObject, 
-        Optional.ofNullable(TEST_DOCUMENT_NAME));
-    FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
-    String jsonWithID = FirebaseStorageManager.getCollectionBatch(firebase, 
-        TEST_COLLECTION_NAME, Optional.ofNullable(TEST_BATCH_SIZE_LIMIT), 
-        Optional.ofNullable(TEST_DOCUMENT_NAME), Optional.ofNullable(PARAM_TO_SORT_BY));
-    String noIdMessage = String.format("Batch query results with ID: %s", jsonWithID);
-    log.info(noIdMessage);
-    Assert.assertEquals(EXPECTED_COLLECTION_WITH_ID, jsonWithID);
-  }
+//   @Test
+//   public void retrieveCollectionBatchWithID() throws Exception {
+//     FirebaseStorageManager.storeDocument(firebase, TEST_COLLECTION_NAME, testObject, 
+//         Optional.ofNullable(TEST_DOCUMENT_NAME));
+//     FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
+//     String jsonWithID = FirebaseStorageManager.getCollectionBatch(firebase, 
+//         TEST_COLLECTION_NAME, Optional.ofNullable(TEST_BATCH_SIZE_LIMIT), 
+//         Optional.ofNullable(TEST_DOCUMENT_NAME), Optional.ofNullable(PARAM_TO_SORT_BY));
+//     String noIdMessage = String.format("Batch query results with ID: %s", jsonWithID);
+//     log.info(noIdMessage);
+//     Assert.assertEquals(EXPECTED_COLLECTION_WITH_ID, jsonWithID);
+//   }
 
   @Test
   public void retrieveCollectionBatchWithoutID() throws Exception {
