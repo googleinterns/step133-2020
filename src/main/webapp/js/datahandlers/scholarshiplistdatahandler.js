@@ -39,8 +39,8 @@ class ScholarshipListDataHandler extends ListDataHandler {
   async getTotalNumber() {
     try {
       const data = await fetch(DATA_SIZE_ENDPOINT);
-      const number = await data.text();
-      return parseInt(number);
+      const numberString = await data.text();
+      return parseInt(numberString, 10);
     } catch(e) {
       console.log(e);
       throw new Error(`Cannot get total number from server ${e}`);
