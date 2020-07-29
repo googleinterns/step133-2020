@@ -56,27 +56,21 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
       }
     }
 
-    for (let key in data) {
-      if (typeof data[key] === undefined) {
-        data[key] = NA;
-      }
-    }
-
     return {
       scholarship: {
         generalInfo: {
-          scholarshipName: data['scholarshipName'],
-          scholarshipUUID: data['scholarshipUUID'],
-          schoolsList: data['schoolsList'],
-          introduction: data['introduction'],
-          URL: data['URL'],
+          scholarshipName: data['scholarshipName'] || NA,
+          scholarshipUUID: data['scholarshipUUID'] || NA,
+          schoolsList: data['schoolsList'] || NA,
+          introduction: data['introduction'] || NA,
+          URL: data['URL'] || NA,
         },
         requirements: requirementsAndValue,
         applicationNotes: {
-          amountPerYear: data['amountPerYear'],
-          applicationProcess: data['applicationProcess'],
-          isRenewable: data['isRenewable'],
-          numberOfYears: data['numberOfYears'],
+          amountPerYear: data['amountPerYear'] || NA,
+          applicationProcess: data['applicationProcess'] || NA,
+          isRenewable: data['isRenewable'] || NA,
+          numberOfYears: data['numberOfYears'] || NA,
         },
       },
     };
