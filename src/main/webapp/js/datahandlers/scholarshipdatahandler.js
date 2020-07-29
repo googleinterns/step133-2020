@@ -56,9 +56,11 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
       }
     }
 
-    data = data.map((value) => {
-      return typeof element === undefined ? NA : element;
-    });
+    for (let key in data) {
+      if (typeof data[key] === undefined) {
+        data[key] = NA;
+      }
+    }
 
     return {
       scholarship: {
