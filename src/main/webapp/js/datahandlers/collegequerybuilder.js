@@ -40,7 +40,7 @@ const PUBLIC = 'school.ownership_peps=1';
 const PRIVATE = 'school.ownership_peps=2';
 const PUBLIC_OR_PRIVATE = 'school.ownership_peps=1,2';
 const ID = 'id';
-const NAME =  'school.name'
+const NAME =  'school.name';
 const ACCEPTANCE_RATE = '2018.admissions.admission_rate.overall';
 const ACT_SCORE = '2018.admissions.act_scores.midpoint.cumulative';
 const ACCEPTANCE_RANGE = '__range=0..0.50';

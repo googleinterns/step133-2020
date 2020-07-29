@@ -52,7 +52,7 @@ class ScholarshipListDataHandler extends ListDataHandler {
    * @param {string} lastIndex Index of the last item in the list.
    * @return {string} The url with query information.
    */
-  getPath_(batchIndex, itemsPerBatch, lastIndex) {
+  getPath_(batchIndex, itemsPerBatch, lastIndex, sortParam, sortDirection) {
     return `/scholarship-list?numberOfItems=${itemsPerBatch}&idOfLastItem=${lastIndex}`;	
   }
 

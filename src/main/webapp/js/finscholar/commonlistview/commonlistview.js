@@ -22,6 +22,8 @@ const JsactionDispatcher = goog.require('jsaction.Dispatcher');
 const JsactionEventContract = goog.require('jsaction.EventContract');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 const {commonlistview, listitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
+const {ASCENDING, DESCENDING, NAME, ANNUAL_COST, ACCEPTANCE_RATE} = 
+    goog.require('datahandlers.collegequerybuilder');
 const googDom = goog.require('goog.dom');
 
 const EMPTY_STRING = '';
@@ -78,6 +80,12 @@ class CommonListView extends BasicView {
 
     /** @private {string} The id of the last item in the list. */
     this.idOfLastItem_ = EMPTY_STRING;
+
+    /** @private {string} The sort parameter for the query. */
+    this.sortBy = NAME;
+
+    /** @private {string} The sort order for the query. */
+    this.sortOrder = ASCENDING;
     
     /** @private {?Element} */
     this.statusBar_ = null;
@@ -165,7 +173,8 @@ class CommonListView extends BasicView {
       this.isLoading_ = true;
       const dataBatch = await this.dataHandler_
                         .getNextBatch(this.optionTag_, this.batch_, 
-                                      numberOfItems, this.idOfLastItem_);
+                                      numberOfItems, this.idOfLastItem_, 
+                                      this.sortBy, this.sortOrder);
       const dataList = dataBatch ? dataBatch[ITEM] : undefined;
       this.idOfLastItem_ = 
           dataList ? dataList[dataList.length - 1][0] : EMPTY_STRING;

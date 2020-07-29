@@ -61,8 +61,8 @@ class CollegeListDataHandler extends ListDataHandler {
    * @param {string} lastIndex Index of the last item in the list.
    * @return The url with query information.
    */
-  getPath_(batchIndex, itemsPerBatch, lastIndex) {
-    return CollegeQueryBuilder.buildSortedCollectionEndpoint(batchIndex, itemsPerBatch, NAME, ASCENDING);
+  getPath_(batchIndex, itemsPerBatch, lastIndex, sortParam, sortDirection) {
+    return CollegeQueryBuilder.buildSortedCollectionEndpoint(batchIndex, itemsPerBatch, sortParam, sortDirection);
   }
 }
 
