@@ -33,7 +33,7 @@ const STATUS_BAR_ID = 'status';
 /** The mini controller for scholarship list view. */
 class CommonListView extends BasicView {
   /**
-   * @param {!ScholarshipListDataHandler} dataHandler
+   * @param {!ListDataHandler} dataHandler
    * @param {string} optionTag
    */
   constructor(dataHandler, optionTag) {

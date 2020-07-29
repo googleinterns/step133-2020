@@ -19,10 +19,9 @@
 
 goog.module('datahandlers.collegelistdatahandler');
 
-const {CollegeQueryBuilder} = goog.require('datahandlers.collegequerybuilder');
+const {CollegeQueryBuilder, NAME, ACCEPTANCE_RATE, ACT_SCORE, ID, ASCENDING, DESCENDING} = 
+    goog.require('datahandlers.collegequerybuilder');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
-const {NAME, ACCEPTANCE_RATE, ACT_SCORE, ID} = 
-  goog.require('datahandlers.collegequerybuilder');
 
 /**
  * The data controller which fetches college data 
@@ -63,7 +62,7 @@ class CollegeListDataHandler extends ListDataHandler {
    * @return The url with query information.
    */
   getPath_(batchIndex, itemsPerBatch, lastIndex) {
-    return CollegeQueryBuilder.buildCollectionEndpoint(batchIndex, itemsPerBatch);
+    return CollegeQueryBuilder.buildSortedCollectionEndpoint(batchIndex, itemsPerBatch, NAME, ASCENDING);
   }
 }
 
