@@ -15,11 +15,9 @@
 package com.google.step.finscholar.servlets;
 
 
-import static com.google.step.finscholar.data.ServletConstantValues.DEFAULT_VALUE;
-import static com.google.step.finscholar.data.ServletConstantValues.JSON_CONTENT_TYPE;
+import static com.google.step.finscholar.data.ServletConstantValues.HTML_CONTENT_TYPE;
 import static com.google.step.finscholar.data.ServletConstantValues.SCHOLARSHIP_COLLECTION_NAME;
-import static com.google.step.finscholar.data.ServletConstantValues.UNABLE_TO_LOAD_FIREBASE;
-import static com.google.step.finscholar.data.Utils.getStringParameter;
+import static com.google.step.finscholar.data.ServletConstantValues.UNABLE_TO_READ_FROM_FIRESTORE;
 import static com.google.step.finscholar.firebase.FirebaseStorageManager.getCollectionSize;
 
 import com.google.step.finscholar.firebase.FirebaseAppManager;
@@ -33,7 +31,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Enumeration;
 import java.util.Optional;
 
 /** The servlet handling all requests related to scholarships. */
@@ -47,11 +44,11 @@ public class DataSizeServlet extends HttpServlet {
     
     database = Optional.ofNullable(FirestoreClient.getFirestore(FirebaseAppManager.getApp().get()));
     if (database.isPresent()) {
-      response.setContentType("text/html");
+      response.setContentType(HTML_CONTENT_TYPE);
       try {
         response.getWriter().println(getCollectionSize(database.get(), SCHOLARSHIP_COLLECTION_NAME));
       } catch(FirebaseException e) {
-        response.sendError(HttpServletResponse.SC_NO_CONTENT, UNABLE_TO_LOAD_FIREBASE + e);  
+        response.sendError(HttpServletResponse.SC_NO_CONTENT, UNABLE_TO_READ_FROM_FIRESTORE + e);  
       }
     }
   }
