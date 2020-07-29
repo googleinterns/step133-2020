@@ -34,7 +34,7 @@
 {/template}
 
 {template .scholarshiplistheader}
-  <tr id="title">
+  <tr id="table-header">
     <th class="mdl-data-table__cell--non-numeric">Scholarship Name</th>
     <th>Schools</th>
     <th>Amount</th>
@@ -42,7 +42,7 @@
 {/template}
 
 {template .collegelistheader}
-  <tr id="title">
+  <tr id="table-header">
     <th class="mdl-data-table__cell--non-numeric">College Name</th>
     <th>Acceptance Rate</th>
     <th>Average ACT</th>
@@ -54,8 +54,8 @@
                          items: list<list<string>>]}
   {for $propsofoneitem in $batchofitems.items}
     <tr class={$batchofitems.type} id={$propsofoneitem[0]}
-        jsaction="scholarshiplistview.clickAction;
-        dblclick:scholarshiplistview.doubleClickAction">
+        jsaction="commonlistview.clickAction;
+        dblclick:commonlistview.doubleClickAction">
     {for $index in range(1, $propsofoneitem.length())}
       <td class="mdl-data-table__cell--non-numeric">{$propsofoneitem[$index]}</td>
     {/for}

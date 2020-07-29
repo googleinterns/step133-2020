@@ -16,8 +16,12 @@
 
 goog.module('finscholar.appstate');
 
+const {CollegePageView} = goog.require('finscholar.collegepageview');
+const {CommonListView} = goog.require('finscholar.commonlistview');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
+const JsactionActionFlow = goog.require('jsaction.ActionFlow');
 const {NavBar} = goog.require('finscholar.navbar');
+const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 const {navbarViewFactory} = goog.require('finscholar.viewfactory');
 
 
@@ -52,12 +56,43 @@ class AppState {
   }
 
   /**
+   * Handles updates from the list views.
+   * @param {!Element} node
+   * @private
+   */
+  async listViewUpdate_(node) {
+    if (this.currentView_ instanceof CommonListView) {
+      this.currentView_.removeScrollHandler();
+    }
+    const id = node.id;
+    if (node.classList.contains('colleges')) {
+      this.currentView_ = new CollegePageView();
+    } else {
+      this.currentView_ = new ScholarshipPageView();
+    }
+    this.currentView_.setId(id);
+    await this.currentView_.renderView();
+    this.refreshNavbar_();
+  }
+
+  /**
    * Handles updates from the nav bar.
    * @param {number} index The button mapped to the view that the user selected.
    */
   navbarUpdate(index) {
+    if (this.currentView_ instanceof CommonListView) {
+      this.currentView_.removeScrollHandler();
+    }
     this.currentView_ = navbarViewFactory(index);
+    if (this.currentView_ instanceof CommonListView) {
+      this.currentView_.registerListener(this.listViewUpdate_.bind(this));
+    }
     this.currentView_.renderView();
+    this.refreshNavbar_();
+  }
+  
+  /** Updates the navbar instance and rebinds event listener. */
+  refreshNavbar_() {
     this.navbarInstance_ = new NavBar();
     this.navbarInstance_.registerListener(this.navbarUpdate.bind(this));
   }

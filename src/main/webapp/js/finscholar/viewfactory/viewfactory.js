@@ -17,9 +17,9 @@
 goog.module('finscholar.viewfactory');
 
 const {BasicView} = goog.require('basicview');
+const {CollegeListView} = goog.require('finscholar.collegelistview');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
 const {ScholarshipListView} = goog.require('finscholar.scholarshiplistview');
-const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 
 
 /**
@@ -34,13 +34,10 @@ const navbarViewFactory = (index) => {
       view = new HomePageController();
       break;
     case 1:
-      view = new ScholarshipListView();
+      view = new CollegeListView();
       break;
     case 2:
       view = new ScholarshipListView();
-      break;
-    case 3:
-      view = new ScholarshipPageView();
       break;
     default:
       throw new Error(

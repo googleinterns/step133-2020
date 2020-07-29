@@ -12,73 +12,56 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** 
- * @fileoverview The data controller which fetches scholarship data 
- * from backend and reformats the data. 
+/**
+ * @fileoverview The data controller which fetches scholarship data
+ * from backend and reformats the data.
  */
 
 goog.module('datahandlers.scholarshiplistdatahandler');
+
+const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 
 const AMOUNT_PER_YEAR = 'amountPerYear';
 const ELLIPSIS = '...';
 const EMPTY_STRING = '';
 const END_OF_STRING = 23;
 const ID = 'id';
-const INDEX_OF_LAST_ITEM = 'indexOfLastItem';
-const UNKNOWN = 'unknown';
-const NUMBER_OF_ITEMS = 'numberOfItems';
-const SCHOLARSHIP = 'scholarship';
+const SCHOLARSHIP = 'scholarships';
 const SCHOLARSHIP_LIST_ENDPOINT = '/scholarship-list';
 const SCHOLARSHIP_NAME = 'scholarshipName';
+const UNKNOWN = 'unknown';
 
 /**
- * The data controller which fetches scholarship data 
- * from backend and reformats the data. 
+ * The data controller which fetches scholarship data
+ * from backend and reformats the data.
  */
-class ScholarshipListDataHandler {
-
-  constructor() {}
-
-  /** 
+class ScholarshipListDataHandler extends ListDataHandler {
+  
+    /** 
    * @returns {Promise<number>} 
    * The total number of scholarship stored in backend. 
    */
   async getTotalNumber() {
-    return 15; // Presetting page length not supported yet.
+    // TODO: fetch from backend.
+    return 35; // Presetting page length not supported yet.
   }
 
   /**
    * @param {number} batchIndex The index of last batch rendered.
    * @param {number} itemsPerBatch Number of items requested.
    * @param {string} lastIndex Index of the last item in the list.
-   * @return {Promise<{
-   *  type: string,
-   *  items: !Array<!Array<string>>
-   * }>}
+   * @return {string} The url with query information.
    */
-  async getNextBatch(batchIndex, itemsPerBatch, lastIndex) {
-    let scholarshipList = [];
-    const requestUrl = `${SCHOLARSHIP_LIST_ENDPOINT}?${NUMBER_OF_ITEMS}
-        =${itemsPerBatch}&${INDEX_OF_LAST_ITEM}=${lastIndex}`;
-    try {
-      let responseList = await fetch(requestUrl);
-      scholarshipList = await responseList.json();
-      scholarshipList = scholarshipList.map(e => this.formatListItem(e));
-    } catch(e) {
-      console.log(e);
-      throw e;
-    }	   
-    return {
-      type: SCHOLARSHIP,
-      items: scholarshipList,
-    };	
+  getPath_(batchIndex, itemsPerBatch, lastIndex) {
+    return `/scholarship-list?numberOfItems=${itemsPerBatch}&idOfLastItem=${lastIndex}`;	
   }
 
   /**
    * @param {Object} item The scholarship object.
-   * @returns {!Array<!Array<string>>} The formatted scholarship list item.
+   * @returns {!Array<string>} The formatted scholarship list item.
+   * @private
    */
-  formatListItem(item) {
+  formatListItem_(item) {
     let amount = (item[AMOUNT_PER_YEAR] || UNKNOWN);
     amount = amount.length > END_OF_STRING 
         ? amount.substring(0, END_OF_STRING) + ELLIPSIS 
@@ -86,10 +69,11 @@ class ScholarshipListDataHandler {
     return [
       item[ID], 
       item[SCHOLARSHIP_NAME],
-      amount,
       ELLIPSIS,
+      amount,
     ];
   }
+
 }
 
 exports = {ScholarshipListDataHandler}

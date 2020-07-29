@@ -18,6 +18,23 @@ goog.module('finscholar.errorpageview');
 
 const {BasicView} = goog.require('basicview');
 const {errorpage} = goog.require('finscholar.errorpageview.templates');
+/**
+ * @typedef {{
+ *   occurrence: string,
+ *   action: string,
+ *   errorMessage: string
+ * }}
+ */
+let ErrorData;
+
+/**
+ * @typedef {{
+ *   occurrence: string,
+ *   action: string,
+ *   errorMessage: string
+ * }}
+ */
+let ErrorData;
 
 /**
  * @typedef {{
@@ -48,7 +65,11 @@ class ErrorPageView extends BasicView {
    * @param {!ErrorData} data New error info.
    */
   updateError(data) {
+    /** @private @type {!ErrorData|undefined} */
     this.data_ = data;
+
+    const html = errorpage(/** @type {!ErrorData} */ (this.data_));
+    super.setCurrentContent(html);
   }
 }
 
