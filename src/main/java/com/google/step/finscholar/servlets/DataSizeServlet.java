@@ -24,6 +24,7 @@ import static com.google.step.finscholar.firebase.FirebaseStorageManager.getColl
 
 import com.google.step.finscholar.firebase.FirebaseAppManager;
 import com.google.cloud.firestore.Firestore;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.cloud.FirestoreClient;
 import java.io.IOException;
 import javax.servlet.ServletConfig;
@@ -33,6 +34,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
+import java.util.Optional;
 
 /** The servlet handling all requests related to scholarships. */
 @WebServlet("/data-size")
@@ -41,18 +43,14 @@ public class DataSizeServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    Firestore database = Optional.empty();
+    Optional<Firestore> database = Optional.empty();
     
-    try {
-      database = FirestoreClient.getFirestore(FirebaseAppManager.getApp().get());
-    } catch (Exception e) {
-      response.sendError(HttpServletResponse.SC_BAD_GATEWAY, UNABLE_TO_LOAD_FIREBASE + e);
-    }
+    database = Optional.ofNullable(FirestoreClient.getFirestore(FirebaseAppManager.getApp().get()));
     if (database.isPresent()) {
       response.setContentType("text/html");
       try {
         response.getWriter().println(getCollectionSize(database.get(), SCHOLARSHIP_COLLECTION_NAME));
-      } catch(Exception e) {
+      } catch(FirebaseException e) {
         response.sendError(HttpServletResponse.SC_NO_CONTENT, UNABLE_TO_LOAD_FIREBASE + e);  
       }
     }

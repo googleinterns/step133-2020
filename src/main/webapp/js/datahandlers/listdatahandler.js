@@ -67,6 +67,7 @@ class ListDataHandler {
           await fetch(this.getPath(batchIndex, itemsPerBatch, lastIndex));
       let listJson = await responseList.json();
       if (type == COLLEGES) {
+        console.log(listJson);
         listJson = listJson[RESULTS];
       }
       const listItems = listJson.map(e => this.formatListItem(e));
