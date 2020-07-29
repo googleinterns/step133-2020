@@ -19,7 +19,6 @@ goog.module('finscholar.appstate');
 const {CollegePageView} = goog.require('finscholar.collegepageview');
 const {CommonListView} = goog.require('finscholar.commonlistview');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
-const JsactionActionFlow = goog.require('jsaction.ActionFlow');
 const {NavBar} = goog.require('finscholar.navbar');
 const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 const {navbarViewFactory} = goog.require('finscholar.viewfactory');
@@ -79,7 +78,7 @@ class AppState {
    * Handles updates from the nav bar.
    * @param {number} index The button mapped to the view that the user selected.
    */
-  navbarUpdate(index) {
+  async navbarUpdate(index) {
     if (this.currentView_ instanceof CommonListView) {
       this.currentView_.removeScrollHandler();
     }
@@ -90,7 +89,7 @@ class AppState {
     this.currentView_.renderView();
     this.refreshNavbar_();
   }
-  
+
   /** Updates the navbar instance and rebinds event listener. */
   refreshNavbar_() {
     this.navbarInstance_ = new NavBar();
