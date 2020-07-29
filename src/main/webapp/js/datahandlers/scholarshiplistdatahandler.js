@@ -37,9 +37,14 @@ class ScholarshipListDataHandler extends ListDataHandler {
    * The total number of scholarship stored in backend.
    */
   async getTotalNumber() {
-    const data = await fetch(DATA_SIZE_ENDPOINT);
-    const number = await data.text();
-    return parseInt(number);
+    try {
+      const data = await fetch(DATA_SIZE_ENDPOINT);
+      const number = await data.text();
+      return parseInt(number);
+    } catch(e) {
+      console.log(e);
+      throw new Error(`Cannot get total number from server ${e}`);
+    }
   }
 
   /**
