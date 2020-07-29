@@ -21,7 +21,8 @@ const JsactionActionFlow = goog.require('jsaction.ActionFlow');
 const JsactionDispatcher = goog.require('jsaction.Dispatcher');
 const JsactionEventContract = goog.require('jsaction.EventContract');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
-const {commonlistview, listitems, loading, endoflist} = goog.require('finscholar.commonlistview.templates');
+const {commonlistview, listitems, loading, endoflist, sortByComponent, sortOrderComponent} = 
+    goog.require('finscholar.commonlistview.templates');
 const {ASCENDING, DESCENDING, NAME, ANNUAL_COST, ACCEPTANCE_RATE} = 
     goog.require('datahandlers.collegequerybuilder');
 const googDom = goog.require('goog.dom');
@@ -55,6 +56,8 @@ class CommonListView extends BasicView {
      * }}):goog.soy.data.SanitizedHtml} 
      */
     this.template_ = listitems;
+
+    /**  */
 
     /**
      * @private @type {!Array<function(!Element): undefined>}

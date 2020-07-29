@@ -71,3 +71,23 @@
 {template .endoflist}
   <p> This is the end of the list. </p>
 {/template}
+
+{template .sortByComponent}
+  {@param paramsToSortBy : map<string, string>}
+  <label for="sortBy">Choose Parameter to Sort By: </label>
+  <select name="sortBy" id="sortBy">
+    {for $key in mapKeys($paramsToSortBy)}
+      <option value={$key}>{$paramsToSortBy[$key]}</option>
+    {/for}
+  </select>
+{/template}
+
+{template .sortOrderComponent}
+  {@param ascending : string}
+  {@param descending : string}
+  <label for="sortOrder">Choose Sort Order: </label>
+  <select name="sortOrder" id="sortOrder">
+    <option value={$ascending}>Ascending</option>
+    <option value={$descending}>Descending</option>
+  </select>
+{/template}
