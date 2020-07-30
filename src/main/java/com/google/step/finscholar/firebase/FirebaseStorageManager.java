@@ -20,6 +20,7 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;
+import com.google.cloud.firestore.Query.Direction;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
@@ -184,12 +185,13 @@ public class FirebaseStorageManager {
    *   if null, then execute getFirstBatch().
    * @param parameterToSortBy - The parameter I want to presort my collection by, 
    *   if null then don't sort.
+   * @param sortOrder - The sort order (true for ascending and false for descending).
    * @return - The json string representing the new batch of documents to be sent to the frontend.
    * @throws FirebaseException
    */
   public static String getCollectionBatch(Firestore database, String collectionToGetFrom, 
-      Optional<Integer> batchSizeLimit,  Optional<String> lastDocID, Optional<String> parameterToSortBy) 
-      throws FirebaseException {
+      Optional<Integer> batchSizeLimit,  Optional<String> lastDocID, 
+      Optional<String> parameterToSortBy, Optional<Boolean> sortOrder) throws FirebaseException {
     // A batch size limit needs to be specified in order to make any query.
     if (!batchSizeLimit.isPresent() || batchSizeLimit.get() == 0) {
       throw new FirebaseException(BATCH_SIZE_NOT_SPECIFIED);
@@ -197,12 +199,18 @@ public class FirebaseStorageManager {
 
     CollectionReference collectionReference = database.collection(collectionToGetFrom);
 
+    Direction sortDirection = sortOrder.isPresent() 
+                                    ? sortOrder.get() 
+                                        ? Direction.ASCENDING 
+                                        : Direction.DESCENDING 
+                                    : Direction.DESCENDING;
+
     // If the lastDocID is not present, then we know this is the first batch to send.
     // Else simply get the next batch in the collection.
     return !lastDocID.isPresent() ? 
-        getFirstBatch(collectionReference, batchSizeLimit.get(), parameterToSortBy) :
+        getFirstBatch(collectionReference, batchSizeLimit.get(), parameterToSortBy, sortDirection) :
         getNextBatch(collectionReference, batchSizeLimit.get(), 
-            lastDocID.get(), parameterToSortBy);
+            lastDocID.get(), parameterToSortBy, sortDirection);
   }
 
 
@@ -212,16 +220,18 @@ public class FirebaseStorageManager {
    * @param collectionReference - A reference to the collection I want to retrieve from.
    * @param batchSizeLimit - The maximum size of the batch, which is the size of a new page of data in infinite scroll.
    * @param parameterToSortBy - The parameter to sort the list of documents by.
+   * @param sortOrder - The sort order (ascending or descending).
    * @return - The json string representing the first batch in a request for all of the documents in a collection.
    * @throws FirebaseException
    */
-  private static String getFirstBatch(CollectionReference collectionReference, int batchSizeLimit, Optional<String> parameterToSortBy) 
-      throws FirebaseException {
+  private static String getFirstBatch(CollectionReference collectionReference, int batchSizeLimit, 
+    Optional<String> parameterToSortBy, Direction sortOrder) throws FirebaseException {
     // We have the option here to sort the collection by specific parameter beforehand (great for supporting sort-type queries later on).
     // Setup the new Query.
     // If parameterToSortBy is null then don't sort the query.
-    Query page = (!parameterToSortBy.isPresent()) ? 
-      collectionReference.limit(batchSizeLimit) : collectionReference.orderBy(parameterToSortBy.get()).limit(batchSizeLimit);
+    Query page = (!parameterToSortBy.isPresent()) 
+                 ? collectionReference.limit(batchSizeLimit) 
+                 : collectionReference.orderBy(parameterToSortBy.get(), sortOrder).limit(batchSizeLimit);
     return getCollectionQuery(page);
   }
 
@@ -233,12 +243,13 @@ public class FirebaseStorageManager {
    * @param batchSizeLimit - The maximum size of the batch, which is the size of a new page of data in infinite scroll.
    * @param lastDocID - The ID of the last object I sent from the most recent batch.
    * @param parameterToSortBy - The parameter to sort the list of documents by.
+   * @param sortOrder - The sort order (ascending or descending).
    * @return - The json string representing the next batch in a request for all of the documents in a collection.
    * @throws FirebaseException
    */
   private static String getNextBatch(CollectionReference collectionReference, 
-      int batchSizeLimit, String lastDocID, Optional<String> parameterToSortBy) 
-      throws FirebaseException {
+      int batchSizeLimit, String lastDocID, Optional<String> parameterToSortBy, 
+      Direction sortOrder) throws FirebaseException {
     // First retrieve the last document I sent.
     DocumentReference documentReference = collectionReference.document(lastDocID);
 
@@ -257,9 +268,9 @@ public class FirebaseStorageManager {
     //   that occur after the last doc in the collection.
     // If parameterToSortBy is null, then don't sort the query.
     if (document.exists()) {
-      Query page = (!parameterToSortBy.isPresent()) ? 
-          collectionReference.startAfter(document).limit(batchSizeLimit) : 
-          collectionReference.orderBy(parameterToSortBy.get()).startAfter(document).limit(batchSizeLimit);
+      Query page = (!parameterToSortBy.isPresent()) 
+                    ? collectionReference.startAfter(document).limit(batchSizeLimit) 
+                    : collectionReference.orderBy(parameterToSortBy.get(), sortOrder).startAfter(document).limit(batchSizeLimit);
       return getCollectionQuery(page);
 
     } else {

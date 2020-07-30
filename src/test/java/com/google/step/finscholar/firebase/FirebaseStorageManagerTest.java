@@ -107,6 +107,12 @@ public class FirebaseStorageManagerTest {
     testList.add(testObjectTen);
   }
 
+  /** 
+   * The helper method which converts a list of 
+   * testObjects to array string in json format.
+   * @param ...tests Unknown number of test objects.
+   * @return TestObject in json array converted to string.
+   */
   private static String buildBatchString(TestObject ...tests) {
     StringBuilder listResult = new StringBuilder().append("[");
     for (TestObject testElement : tests) {
