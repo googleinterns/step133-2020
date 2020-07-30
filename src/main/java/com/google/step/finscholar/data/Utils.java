@@ -65,7 +65,7 @@ public class Utils {
     return paramValue.isPresent()
                     ? paramValue.get().isEmpty()
                         ? Optional.empty()
-                        : Optional.ofNullable(Boolean.parseBoolean(paramValue))
+                        : Optional.ofNullable(Boolean.parseBoolean(paramValue.get()))
                     : Optional.empty();
   }
 } 

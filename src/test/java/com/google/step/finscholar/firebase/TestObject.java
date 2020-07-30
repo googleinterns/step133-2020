@@ -15,6 +15,8 @@
 
 package com.google.step.finscholar.firebase;
 
+import com.google.gson.Gson;
+
 /** 
  * This simple object is used in testing our Firebase methods' behaviour. 
  * All objects stored in Firestore must be a POJO (Plain Old Java Object). This means they must have
@@ -28,6 +30,7 @@ public class TestObject {
 
   private String one;
   private String two;
+  private static Gson gson = new Gson();
 
   public TestObject() {}
 
@@ -76,4 +79,8 @@ public class TestObject {
     return this.two;
   }
 
+  @Override
+  public String toString() {
+    return gson.toJson(this);
+  }
 } 
