@@ -28,6 +28,7 @@ const {ASCENDING, DESCENDING, SORT_PARAMS_MAP} = goog.require('datahandlers.coll
 
 const EMPTY_STRING = '';
 const INVALID_RESPONSE = 'Invalid data from server.';
+const ISNAN_ERROR = 'Cannot get total number for list items';
 const ITEM = 'items';
 const ITEM_CONTAINER_ID = 'table-body';
 const STATUS_BAR_ID = 'status';
@@ -176,6 +177,9 @@ class CommonListView extends BasicView {
     this.scrollDiv_.addEventListener('scroll', this.bindedScrollHandler_);
     try {
       this.totalItemsNumber_ = await this.dataHandler_.getTotalNumber();
+      if (isNaN(this.totalItemsNumber_)) {
+        throw new Error(ISNAN_ERROR);
+      }
       await this.renderNextBatch_(this.itemsPerBatch_ * 2);
       this.batch_ = 2;
       while (this.scrollDiv_.scrollHeight <= this.scrollDiv_.clientHeight) {
