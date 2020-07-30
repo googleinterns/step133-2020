@@ -41,6 +41,8 @@ public class FirebaseStorageManagerTest {
   public static final int TEST_BATCH_SIZE_LIMIT = 10;
   public static final int TEST_BATCH_SIZE_LOWER = 3;
   public static final String PARAM_TO_SORT_BY = "one";
+  private static final boolean ASCENDING = true;
+  private static final boolean DESCENDING = false;
   private static Firestore firebase;
   public static String EXPECTED_DOCUMENT_RETRIEVABLE;
   public static String EXPECTED_COLLECTION_WITH_ID;
@@ -147,7 +149,7 @@ public class FirebaseStorageManagerTest {
     // Test the first batch with no previous ID.
     String jsonFirstBatch = FirebaseStorageManager.getCollectionBatch(firebase, 
         TEST_COLLECTION_NAME, Optional.ofNullable(TEST_BATCH_SIZE_LOWER), Optional.empty(), 
-        Optional.ofNullable(PARAM_TO_SORT_BY), Optional.of(true));
+        Optional.ofNullable(PARAM_TO_SORT_BY), Optional.of(ASCENDING));
     String idMessage = String.format("Batch query results for first batch: %s", jsonFirstBatch);
     log.info(idMessage);
     Assert.assertEquals(EXPECTED_FIRST_BATCH_ASCEND, jsonFirstBatch);
@@ -157,7 +159,7 @@ public class FirebaseStorageManagerTest {
     String jsonMiddleBatch = FirebaseStorageManager.getCollectionBatch(firebase, 
         TEST_COLLECTION_NAME, Optional.ofNullable(TEST_BATCH_SIZE_LOWER), 
         Optional.ofNullable(TEST_DOCUMENT_SIX_NAME), Optional.ofNullable(PARAM_TO_SORT_BY),
-        Optional.of(false));
+        Optional.of(DESCENDING));
     idMessage = String.format("Batch query results for second batch: %s", jsonMiddleBatch);
     log.info(idMessage);
     Assert.assertEquals(EXPECTED_SECOND_BATCH_DESCEND, jsonMiddleBatch);
@@ -166,7 +168,7 @@ public class FirebaseStorageManagerTest {
     String jsonLastBatch = FirebaseStorageManager.getCollectionBatch(firebase, 
         TEST_COLLECTION_NAME, Optional.ofNullable(TEST_BATCH_SIZE_LOWER), 
         Optional.ofNullable(TEST_DOCUMENT_THREE_NAME), Optional.ofNullable(PARAM_TO_SORT_BY),
-        Optional.of(false));
+        Optional.of(DESCENDING));
     idMessage = String.format("Batch query results for last batch: %s", jsonLastBatch);
     log.info(idMessage);
     Assert.assertEquals(EXPECTED_THIRD_BATCH_DESCEND, jsonLastBatch);
@@ -197,7 +199,7 @@ public class FirebaseStorageManagerTest {
     String jsonWithID = FirebaseStorageManager.getCollectionBatch(firebase, 
         TEST_COLLECTION_NAME, Optional.ofNullable(TEST_BATCH_SIZE_LIMIT), 
         Optional.ofNullable(TEST_DOCUMENT_NAME), Optional.ofNullable(PARAM_TO_SORT_BY), 
-        Optional.of(true));
+        Optional.of(ASCENDING));
     String noIdMessage = String.format("Batch query results with ID: %s", jsonWithID);
     log.info(noIdMessage);
     Assert.assertEquals(EXPECTED_COLLECTION_WITH_ID, jsonWithID);
@@ -209,7 +211,7 @@ public class FirebaseStorageManagerTest {
     String jsonWithoutID = FirebaseStorageManager.getCollectionBatch(firebase, 
         TEST_COLLECTION_NAME, Optional.ofNullable(TEST_BATCH_SIZE_LIMIT), 
         Optional.empty(), Optional.ofNullable(PARAM_TO_SORT_BY),
-        Optional.of(false));
+        Optional.of(DESCENDING));
     String idMessage = String.format("Batch query results without ID: %s", jsonWithoutID);
     log.info(idMessage);
     Assert.assertEquals(EXPECTED_COLLECTION_NO_ID, jsonWithoutID);
