@@ -16,6 +16,18 @@
 
 {template .commonlistview}
   {@param pagetype : string}
+  {@param sortParams : map<string, string>}
+  {@param asc : string}
+  {@param desc : string}
+  <div id = "sortComponents">
+    {call .sortByComponent}
+      {param paramsToSortBy : $sortParams /}
+    {/call}
+    {call .sortOrderComponent}
+      {param ascending : $asc /}
+      {param descending : $desc /}
+    {/call}
+  </div>
   <table class="mdl-data-table mdl-js-data-table 
       mdl-data-table--selectable mdl-shadow--2dp">
     <thead>

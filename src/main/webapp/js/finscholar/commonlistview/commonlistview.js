@@ -23,16 +23,16 @@ const googDom = goog.require('goog.dom');
 const googSoy = goog.require('goog.soy');
 const {BasicView} = goog.require('basicview');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
-const {commonlistview, endoflist, listitems, loading, sortByComponent, sortOrderComponent} = 
-    goog.require('finscholar.commonlistview.templates');
-const {ASCENDING, DESCENDING, NAME, ANNUAL_COST, ACCEPTANCE_RATE} = 
-    goog.require('datahandlers.collegequerybuilder');
+const {commonlistview, endoflist, listitems, loading} = goog.require('finscholar.commonlistview.templates');
+const {ASCENDING, DESCENDING, SORT_PARAMS_MAP} = goog.require('datahandlers.collegequerybuilder');
 
 const EMPTY_STRING = '';
 const INVALID_RESPONSE = 'Invalid data from server.';
 const ITEM = 'items';
 const ITEM_CONTAINER_ID = 'table-body';
 const STATUS_BAR_ID = 'status';
+const SORT_BY_SELECTOR_ID = 'sortBy';
+const SORT_ORDER_SELECTOR_ID = 'sortOrder';
 
 /** The mini controller for scholarship list view. */
 class CommonListView extends BasicView {
@@ -54,8 +54,6 @@ class CommonListView extends BasicView {
      */
     this.template_ = listitems;
 
-    /**  */
-
     /**
      * @private @type {!Array<function(!Element): ?Promise<undefined>>}
      */
@@ -75,6 +73,9 @@ class CommonListView extends BasicView {
     /** @private @const {function(number): ?Promise<undefined>} */
     this.bindedDataLoader_ = this.renderNextBatch_.bind(this);
 
+    /** @private @const {function(): ?Promise<undefined>} */
+    this.bindedSelectorHandler_ = this.changeSort_.bind(this);
+
     /** @private {number} Number of items to be added for each load. */
     this.itemsPerBatch_ = 5;
 
@@ -82,10 +83,16 @@ class CommonListView extends BasicView {
     this.idOfLastItem_ = EMPTY_STRING;
 
     /** @private {string} The sort parameter for the query. */
-    this.sortBy = NAME;
+    this.sortBy = Array.from(SORT_PARAMS_MAP)[0][0];
 
     /** @private {string} The sort order for the query. */
     this.sortOrder = ASCENDING;
+
+    /** @private {?Element} */
+    this.sortBySelector = null;
+
+    /** @private {?Element} */
+    this.sortOrderSelector = null;
     
     /** @private {?Element} */
     this.statusBar_ = null;
@@ -145,12 +152,22 @@ class CommonListView extends BasicView {
    * Loads the first two batches of list item to page.
    */
   async renderView() {
-    super.setCurrentContent(commonlistview({pagetype: this.optionTag_}));
+    super.setCurrentContent(commonlistview({
+      pagetype: this.optionTag_,
+      sortParams: SORT_PARAMS_MAP,
+      asc: ASCENDING,
+      desc: DESCENDING}));
     super.resetAndUpdate();
     this.initJsaction_();
     // tableContainer.innerHTML = commonlistview({pagetype: this.optionTag_});
     this.container_ = googDom.getElement(ITEM_CONTAINER_ID);
     this.statusBar_ = googDom.getElement(STATUS_BAR_ID);
+    this.sortBySelector = googDom.getElement(SORT_BY_SELECTOR_ID);
+    this.sortBySelector.value = this.sortBy;
+    this.sortBySelector.addEventListener('change', this.bindedSelectorHandler_);
+    this.sortOrderSelector = googDom.getElement(SORT_ORDER_SELECTOR_ID);
+    this.sortOrderSelector.value = this.sortOrder;
+    this.sortOrderSelector.addEventListener('change', this.bindedSelectorHandler_);
     window.addEventListener('scroll', this.bindedScrollHandler_);
     try {
       this.totalItemsNumber_ = await this.dataHandler_.getTotalNumber();
@@ -160,6 +177,17 @@ class CommonListView extends BasicView {
       console.log(e);
       throw e;
     }
+  }
+  
+  /** 
+   * Changes the sort values for the query and 
+   * rerenders using the new query parameters. 
+   */
+  async changeSort_() {
+    this.sortBy = googDom.getElement(SORT_BY_SELECTOR_ID).value;
+    this.sortOrder = googDom.getElement(SORT_ORDER_SELECTOR_ID).value;
+    this.batch_ = 0;
+    await this.renderView();
   }
 
   /**

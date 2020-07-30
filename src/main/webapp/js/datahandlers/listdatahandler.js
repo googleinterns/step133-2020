@@ -66,7 +66,7 @@ class ListDataHandler {
   async getNextBatch(type, batchIndex, itemsPerBatch, lastIndex, sortParam, sortDirection) {
     try {
       const responseList = 
-          await fetch(this.getPath_(batchIndex, itemsPerBatch, lastIndex, sortParam, sortDirection));
+          await fetch(this.getPath(batchIndex, itemsPerBatch, lastIndex, sortParam, sortDirection));
       let listJson = await responseList.json();
       if (type == COLLEGES) {
         listJson = listJson[RESULTS];

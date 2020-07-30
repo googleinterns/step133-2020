@@ -65,8 +65,8 @@ class CollegeListDataHandler extends ListDataHandler {
    * @override
    * @protected
    */
-  getPath(batchIndex, itemsPerBatch, lastIndex) {
-    return CollegeQueryBuilder.buildCollectionEndpoint(
+  getPath(batchIndex, itemsPerBatch, lastIndex, sortParam, sortDirection) {
+    return CollegeQueryBuilder.buildSortedCollectionEndpoint(
         batchIndex, itemsPerBatch,
         sortParam, sortDirection);
   }
