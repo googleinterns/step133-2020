@@ -22,6 +22,7 @@ goog.module('datahandlers.scholarshiplistdatahandler');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 
 const AMOUNT_PER_YEAR = 'amountPerYear';
+const DATA_SIZE_ENDPOINT = '/data-size';
 const ID = 'id';
 const SCHOLARSHIP_NAME = 'scholarshipName';
 const SCHOOL_NAME = 'school names';
