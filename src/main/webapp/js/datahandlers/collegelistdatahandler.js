@@ -37,7 +37,7 @@ class CollegeListDataHandler extends ListDataHandler {
    * The total number of scholarship stored in backend.
    */
   async getTotalNumber() {
-    return 250;
+    return 90;
   }
 
   /**
