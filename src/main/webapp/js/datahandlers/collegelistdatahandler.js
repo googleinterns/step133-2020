@@ -21,7 +21,6 @@ goog.module('datahandlers.collegelistdatahandler');
 
 const {ACCEPTANCE_RATE, ACT_SCORE, CollegeQueryBuilder, ID, NAME} = goog.require('datahandlers.collegequerybuilder');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
-const {convertToDollar} = goog.require('datahandlers.utils');
 
 const METADATA = 'metadata';
 const TOTAL = 'total';
@@ -60,8 +59,8 @@ class CollegeListDataHandler extends ListDataHandler {
     return [
       element[ID].toString(),
       element[NAME],
-      element[ACCEPTANCE_RATE].toString(),
-      convertToDollar(element[ANNUAL_COST])
+      element[ACT_SCORE].toString(),
+      element[ACCEPTANCE_RATE].toString()
     ];
   }
 
