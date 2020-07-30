@@ -22,6 +22,7 @@ goog.module('datahandlers.scholarshiplistdatahandler');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 
 const AMOUNT_PER_YEAR = 'amountPerYear';
+const DATA_SIZE_ENDPOINT = '/data-size';
 const ID = 'id';
 const SCHOLARSHIP_NAME = 'scholarshipName';
 const SCHOOL_NAME = 'school names';
@@ -37,8 +38,13 @@ class ScholarshipListDataHandler extends ListDataHandler {
    * The total number of scholarship stored in backend.
    */
   async getTotalNumber() {
-    // TODO: fetch from backend.
-    return 35;  // Presetting page length not supported yet.
+    try {
+      const data = await fetch(DATA_SIZE_ENDPOINT);
+      const numberString = await data.text();
+      return parseInt(numberString, /** radix= */ 10);
+    } catch(e) {
+      throw new Error(`Cannot get total number from server ${e}`);
+    }
   }
 
   /**
