@@ -21,10 +21,10 @@ const JsactionDispatcher = goog.require('jsaction.Dispatcher');
 const JsactionEventContract = goog.require('jsaction.EventContract');
 const googDom = goog.require('goog.dom');
 const googSoy = goog.require('goog.soy');
+const {ASCENDING, DESCENDING, SORT_PARAMS_MAP} = goog.require('datahandlers.collegequerybuilder');
 const {BasicView} = goog.require('basicview');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 const {commonlistview, endoflist, listitems, loading} = goog.require('finscholar.commonlistview.templates');
-const {ASCENDING, DESCENDING, SORT_PARAMS_MAP} = goog.require('datahandlers.collegequerybuilder');
 
 const EMPTY_STRING = '';
 const INVALID_RESPONSE = 'Invalid data from server.';
