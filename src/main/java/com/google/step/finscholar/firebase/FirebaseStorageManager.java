@@ -98,7 +98,6 @@ public class FirebaseStorageManager {
       try {
         storeDocument(database, collectionToWriteTo, object, Optional.empty());
       } catch (Exception e) {
-        System.out.println(e);
         String message = String.format(EXCEPTION_COLLECTION_FORMATTER, collectionToWriteTo);
         throw new FirebaseException(message, e);
       }
