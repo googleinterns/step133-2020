@@ -17,16 +17,16 @@
 goog.module('datahandlers.singlepagedatahandler');
 
 
-/** 
- * This class loads scholarship/college data from the backend and formats it for soy templates.  
+/**
+ * This class loads scholarship/college data from the backend and formats it for
+ * soy templates.
  * @abstract
  */
 class SinglePageDataHandler {
-
   /**
    * Fetch the scholarship/college data with the id and format it.
    * @param {string} id The uuid of the scholarship/college data.
-   * @return The formatted scholarship/college JS object map.
+   * @return {?Object} The formatted scholarship/college JS object map.
    */
   async fetchAndFormatData(id) {
     let data = undefined;
@@ -36,55 +36,54 @@ class SinglePageDataHandler {
         throw new Error('Cannot get data from remote.');
       }
 
-      return this.convertFromJsonToTemplate_(data);
+      return this.convertFromJsonToTemplate(data);
     } catch (e) {
       console.log(e);
-      throw(`Failed to fetch scholarship object ${e}`);
+      throw (`Failed to fetch scholarship object ${e}`);
     }
   }
 
   /**
-   * @param {Object} jsonResponse
-   * @returns {Object} Json data needed for rendering page.
-   * @private
+   * @param {*} jsonResponse
+   * @return {!Object} Json data needed for rendering page.
+   * @protected
    */
-  getJsonData_(jsonResponse) {
-    return jsonResponse;
+  getJsonData(jsonResponse) {
+    return /** @type {!Object} */ (jsonResponse);
   }
 
   /**
-   * @param {string} id 
+   * @param {string} id
    * @returns {string} path
    * @abstract
-   * @private
+   * @protected
    */
-  getRequestPath_(id) {}
+  getRequestPath(id) {}
 
-    /**
-   * This method converts from scholarship JSON object to a JS object map, 
+  /**
+   * This method converts from scholarship JSON object to a JS object map,
    *  which will be used to render the scholarship page soy template.
    * @param {*} data - The JSON object to be converted.
-   * @return {Object} - The object map representing a scholarship's data.
+   * @return {?Object} - The object map representing a scholarship's data.
    * @abstract
-   * @private
+   * @protected
    */
-  async convertFromJsonToTemplate_(data) {}
+  async convertFromJsonToTemplate(data) {}
 
 
   /**
    * Fetch request to the data servlet and return the JSON response.
    * @param {string} id The uuid of the schedule.
-   * @return {Object} - The JSON response.
-
+   * @return {?Object} - The JSON response.
    * @private
    */
   async fetchJson_(id) {
-    const response = await fetch(this.getRequestPath_(id));
+    const response = await fetch(this.getRequestPath(id));
     let data = undefined;
     if (response.ok) {
       try {
         data = await response.json();
-        return this.getJsonData_(data);
+        return this.getJsonData(data);
       } catch (e) {
         console.log(e);
         throw new Error(`Failed to parse response from server: ${e}`);

@@ -1,0 +1,27 @@
+:root {
+  --theme-color: rgb(255,82,82);
+}
+
+#avatar {
+  background-color: var(--theme-color); 
+}
+
+#scroll-div {
+  height: 80%;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+#table-body {
+  margin: auto;
+  overflow-y: scroll;
+  width: 75%;
+}
+
+.cell-name {
+  color: var(--theme-color);
+}
+
+.side-prop {
+  height: 100%;
+}

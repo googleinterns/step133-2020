@@ -19,15 +19,14 @@ goog.module('datahandlers.listdatahandler');
 const COLLEGES = 'colleges';
 const RESULTS = 'results';
 
-/** 
- * This class loads scholarship/college data from the backend and formats it for soy templates.  
+/**
+ * This class loads scholarship/college data from the backend and formats it for
+ * soy templates.
  * @abstract
  */
 class ListDataHandler {
-
-  /** 
-   * @returns {Promise<number>} 
-   * The total number of scholarship stored in backend. 
+  /**
+   * @return {?Promise<number>} The total number of scholarship stored in backend.
    */
   async getTotalNumber() {
     return 35;
@@ -37,48 +36,48 @@ class ListDataHandler {
    * @param {number} batchIndex The index of last batch rendered.
    * @param {number} itemsPerBatch Number of items requested.
    * @param {string} lastIndex Index of the last item in the list.
-   * @return The url with query information.
+   * @return {string} The url with query information.
    * @abstract
-   * @private
+   * @protected
    */
-  getPath_(batchIndex, itemsPerBatch, lastIndex) {}
+  getPath(batchIndex, itemsPerBatch, lastIndex) {}
 
   /**
    * Converts list items from Json to objects.
-   * @param {Object} jsonData The college or scholarhsip list item data.
+   * @param {!Object} jsonData The college or scholarhsip list item data.
    * @returns {!Array<string>}
    * @abstract
-   * @private
+   * @protected
    */
-  formatListItem_(jsonData){}
+  formatListItem(jsonData) {}
 
   /**
    * @param {string} type Could be either 'scholarships' or 'colleges'.
    * @param {number} batchIndex The index of last batch rendered.
    * @param {number} itemsPerBatch Number of items requested.
    * @param {string} lastIndex Index of the last item in the list.
-   * @return {Promise<{
+   * @return {?Promise<{
    *  type: string,
    *  items: !Array<!Array<string>>
    * }>}
    */
   async getNextBatch(type, batchIndex, itemsPerBatch, lastIndex) {
     try {
-      const responseList = 
-          await fetch(this.getPath_(batchIndex, itemsPerBatch, lastIndex));
+      const responseList =
+          await fetch(this.getPath(batchIndex, itemsPerBatch, lastIndex));
       let listJson = await responseList.json();
       if (type == COLLEGES) {
         listJson = listJson[RESULTS];
       }
-      const listItems = listJson.map(e => this.formatListItem_(e));
+      const listItems = listJson.map(e => this.formatListItem(e));
       return {
         type: type,
         items: listItems,
-      };	
-    } catch(e) {
+      };
+    } catch (e) {
       console.log(e);
       throw e;
-    }	   
+    }
   }
 }
 

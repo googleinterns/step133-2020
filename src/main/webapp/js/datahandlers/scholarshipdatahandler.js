@@ -15,66 +15,62 @@
 /** @fileoverview This class loads scholarship data from the servlet. */
 
 goog.module('datahandlers.scholarshipdatahandler');
-const {Map: SoyMap} = goog.require('soy.map');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
-const {addSpaceToCamelCase} = goog.require('datahandlers.utils');
 
 const NA = 'N/A';
-const REQUIREMENTS = new Map().set('academicRequirements', 'Academic Requirements') 
-                              .set('ethnicityRaceRequirements', 'Ethnicity Race Requirements')
-                              .set('financialRequirements', 'Financial Requirements')
-                              .set('genderRequirements', 'Gender Requirements')
-                              .set('locationRequirements', 'Location Requirements')
-                              .set('nationalOriginRequirements', 'National Origin Requirements')
-                              .set('otherRequirements', 'Other Requirements');
+const REQUIREMENTS =
+    new Map()
+        .set('academicRequirements', 'Academic Requirements')
+        .set('ethnicityRaceRequirements', 'Ethnicity Race Requirements')
+        .set('financialRequirements', 'Financial Requirements')
+        .set('genderRequirements', 'Gender Requirements')
+        .set('locationRequirements', 'Location Requirements')
+        .set('nationalOriginRequirements', 'National Origin Requirements')
+        .set('otherRequirements', 'Other Requirements');
 const SEPARATOR = ', ';
 const SCHOLARSHIP_ENDPOINT = '/scholarship-data';
 
-/** This class loads scholarship data from the backend and formats it for soy templates.  */
+/**
+ * This class loads scholarship data from the backend and formats it for soy
+ * templates.
+ */
 class ScholarshipDataHandler extends SinglePageDataHandler {
-
   /**
    * This method converts from scholarship JSON object to a JS object map,
    *  which will be used to render the scholarship page soy template.
-   * @param {Object} data - The JSON object to be converted.
-   * @return {Object} - The object map representing a scholarship's data.
+   * @param {*} data - The JSON object to be converted.
+   * @return {?Object} - The object map representing a scholarship's data.
    * @override
-   * @private
+   * @protected
    */
-  async convertFromJsonToTemplate_(data) {
+  async convertFromJsonToTemplate(data) {
     const requirementsAndValue = new Map();
-                           
+
     let requirement = undefined;
     for (requirement of Array.from(REQUIREMENTS.keys())) {
       if (data[requirement] != undefined) {
-        requirementsAndValue.set(REQUIREMENTS.get(requirement), data[requirement].join(SEPARATOR));
+        requirementsAndValue.set(
+            REQUIREMENTS.get(requirement), data[requirement].join(SEPARATOR));
       } else {
         requirementsAndValue.set(REQUIREMENTS.get(requirement), NA);
-      }
-    }
-
-    let key = undefined;
-    for (key in data) {
-      if (data.key == undefined) {
-        data.key = NA;
       }
     }
 
     return {
       scholarship: {
         generalInfo: {
-          scholarshipName: data['scholarshipName'],
-          scholarshipUUID: data['scholarshipUUID'],
-          schoolsList: data['schoolsList'],
-          introduction: data['introduction'],
-          URL: data['URL'],
+          scholarshipName: data['scholarshipName'] || NA,
+          scholarshipUUID: data['scholarshipUUID'] || NA,
+          schoolsList: data['schoolsList'] || NA,
+          introduction: data['introduction'] || NA,
+          URL: data['URL'] || NA,
         },
         requirements: requirementsAndValue,
         applicationNotes: {
-          amountPerYear: data['amountPerYear'],
-          applicationProcess: data['applicationProcess'],
-          isRenewable: data['isRenewable'],
-          numberOfYears: data['numberOfYears'],
+          amountPerYear: data['amountPerYear'] || NA,
+          applicationProcess: data['applicationProcess'] || NA,
+          isRenewable: data['isRenewable'] || NA,
+          numberOfYears: data['numberOfYears'] || NA,
         },
       },
     };
@@ -84,9 +80,9 @@ class ScholarshipDataHandler extends SinglePageDataHandler {
    * @param {string} id
    * @returns {string} path
    * @override
-   * @private
+   * @protected
    */
-  getRequestPath_(id) {
+  getRequestPath(id) {
     return `${SCHOLARSHIP_ENDPOINT}?id=${id}`;
   }
 }

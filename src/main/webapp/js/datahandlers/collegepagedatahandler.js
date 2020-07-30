@@ -19,9 +19,7 @@
 
 goog.module('datahandlers.collegepage');
 
-const {CollegeQueryBuilder, ID, NAME, ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST, 
-    FIRST_NET_COST, SECOND_NET_COST, THIRD_NET_COST, FOURTH_NET_COST, 
-    FIFTH_NET_COST, MEDIAN_DEBT} = goog.require('datahandlers.collegequerybuilder');
+const {ACCEPTANCE_RATE, ACT_SCORE, CollegeQueryBuilder, FIFTH_NET_COST, FIRST_NET_COST, FOURTH_NET_COST, MEDIAN_DEBT, NAME, SECOND_NET_COST, THIRD_NET_COST} = goog.require('datahandlers.collegequerybuilder');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 const {convertToDollar} = goog.require('datahandlers.utils');
 const RESULTS = 'results';
@@ -35,31 +33,31 @@ class CollegeDataHandler extends SinglePageDataHandler {
    * @param {string} id
    * @returns {string} path
    * @override
-   * @private
+   * @protected
    */
-  getRequestPath_(id) {
+  getRequestPath(id) {
     return CollegeQueryBuilder.buildSingleQueryEndpoint(id);
   }
 
   /**
-   * @param {Object} jsonResponse
-   * @returns {Object} Json data needed for rendering page.
+   * @param {*} json
+   * @return {!Object} Json data needed for rendering page.
    * @override
-   * @private
+   * @protected
    */
-  getJsonData_(json) {
-    return json[RESULTS][0];
+  getJsonData(json) {
+    return /** @type {!Object} */ (json[RESULTS][0]);
   }
 
   /**
-   * This method converts from scholarship JSON object to a JS object map, 
+   * This method converts from scholarship JSON object to a JS object map,
    *  which will be used to render the scholarship page soy template.
-   * @param {*} data - The JSON object to be converted.
-   * @return {Object} - The object map representing a scholarship's data.
+   * @param {*} element - The JSON object to be converted.
+   * @return {?Object} - The object map representing a scholarship's data.
    * @override
-   * @private
+   * @protected
    */
-  convertFromJsonToTemplate_(element) {
+  convertFromJsonToTemplate(element) {
     return {
       schoolName : element[NAME],
       annualCost : convertToDollar(element[ANNUAL_COST]),
@@ -79,7 +77,7 @@ class CollegeDataHandler extends SinglePageDataHandler {
           convertToDollar(element[MEDIAN_DEBT])
     }
   }
-};
+}
 
 /**
  * Loads the error page.

@@ -190,4 +190,19 @@ public class FirebaseStorageManagerTest {
     Optional<String> noSortOptional = Optional.ofNullable(jsonWithoutSort);
     Assert.assertTrue(noSortOptional.isPresent());
   }
+
+  @Test
+  public void testGettingTotalNumber() throws Exception {
+    FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
+    Assert.assertEquals(testObjectList.size(), 
+        FirebaseStorageManager.getCollectionSize(firebase, TEST_COLLECTION_NAME));
+
+    FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectListTwo);
+    Assert.assertEquals(testObjectListTwo.size() + testObjectList.size(),
+        FirebaseStorageManager.getCollectionSize(firebase, TEST_COLLECTION_NAME));
+
+    FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectListThree);
+    Assert.assertEquals(testObjectListTwo.size() + testObjectList.size() + testObjectListThree.size(),
+        FirebaseStorageManager.getCollectionSize(firebase, TEST_COLLECTION_NAME));
+  }
 }

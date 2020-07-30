@@ -22,13 +22,10 @@ goog.module('datahandlers.scholarshiplistdatahandler');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 
 const AMOUNT_PER_YEAR = 'amountPerYear';
-const ELLIPSIS = '...';
-const EMPTY_STRING = '';
-const END_OF_STRING = 23;
+const DATA_SIZE_ENDPOINT = '/data-size';
 const ID = 'id';
-const SCHOLARSHIP = 'scholarships';
-const SCHOLARSHIP_LIST_ENDPOINT = '/scholarship-list';
 const SCHOLARSHIP_NAME = 'scholarshipName';
+const SCHOOL_NAME = 'school names';
 const UNKNOWN = 'unknown';
 
 /**
@@ -36,14 +33,18 @@ const UNKNOWN = 'unknown';
  * from backend and reformats the data.
  */
 class ScholarshipListDataHandler extends ListDataHandler {
-  
-    /** 
-   * @returns {Promise<number>} 
-   * The total number of scholarship stored in backend. 
+  /**
+   * @return {?Promise<number>}
+   * The total number of scholarship stored in backend.
    */
   async getTotalNumber() {
-    // TODO: fetch from backend.
-    return 35; // Presetting page length not supported yet.
+    try {
+      const data = await fetch(DATA_SIZE_ENDPOINT);
+      const numberString = await data.text();
+      return parseInt(numberString, /** radix= */ 10);
+    } catch(e) {
+      throw new Error(`Cannot get total number from server ${e}`);
+    }
   }
 
   /**
@@ -51,29 +52,29 @@ class ScholarshipListDataHandler extends ListDataHandler {
    * @param {number} itemsPerBatch Number of items requested.
    * @param {string} lastIndex Index of the last item in the list.
    * @return {string} The url with query information.
+   * @override
+   * @protected
    */
-  getPath_(batchIndex, itemsPerBatch, lastIndex) {
-    return `/scholarship-list?numberOfItems=${itemsPerBatch}&idOfLastItem=${lastIndex}`;	
+  getPath(batchIndex, itemsPerBatch, lastIndex) {
+    return `/scholarship-list?numberOfItems=${itemsPerBatch}&idOfLastItem=${
+        lastIndex}`;
   }
 
   /**
-   * @param {Object} item The scholarship object.
-   * @returns {!Array<string>} The formatted scholarship list item.
-   * @private
+   * @param {!Object} item The scholarship object.
+   * @return {!Array<string>} The formatted scholarship list item.
+   * @protected
+   * @override
    */
-  formatListItem_(item) {
-    let amount = (item[AMOUNT_PER_YEAR] || UNKNOWN);
-    amount = amount.length > END_OF_STRING 
-        ? amount.substring(0, END_OF_STRING) + ELLIPSIS 
-        : amount;
+  formatListItem(item) {
+    let amount = (item[AMOUNT_PER_YEAR] || UNKNOWN);  
     return [
-      item[ID], 
+      item[ID],
       item[SCHOLARSHIP_NAME],
-      ELLIPSIS,
+      SCHOOL_NAME,
       amount,
     ];
   }
-
 }
 
-exports = {ScholarshipListDataHandler}
+exports = {ScholarshipListDataHandler};
