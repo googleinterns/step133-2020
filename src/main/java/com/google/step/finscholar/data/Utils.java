@@ -52,4 +52,20 @@ public class Utils {
                          : Optional.ofNullable(Integer.parseInt(paramValue.get()))
                       : Optional.empty();
   }
+
+  /**
+   * @param request       The current HTTP request being handled.
+   * @param name          The parameter name.
+   * @return the request parameter in Optional, or Optional.empty() if the parameter
+   *         was not specified by the client.
+   */
+  public static Optional<Boolean> getBooleanParameter(HttpServletRequest request, String name) {
+    Optional<String> paramValue = Optional.ofNullable(request.getParameter(name));
+    // If the parameter exists but the value is empty string, return optional.empty().
+    return paramValue.isPresent()
+                    ? paramValue.get().isEmpty()
+                        ? Optional.empty()
+                        : Optional.ofNullable(Boolean.parseBoolean(paramValue))
+                    : Optional.empty();
+  }
 } 
