@@ -356,6 +356,17 @@ public class FirebaseStorageManager {
     }
   }
 
+  /**
+   * Queries documents if one of their array fields contain a certain value.
+   * @param database
+   * @param collectionName
+   * @param arrayName
+   * @param arrayFieldValue
+   * @return All documents in database collection specified by collectionName that containes
+   * arrayFieldValue in their arrayName field, which is supposed to be an array.
+   * @throws FirebaseException
+   * @throws NoSuchElementException
+   */
   public static String queryByArrayField(Firestore database, String collectionName, String arrayName,  
       Optional<String> arrayFieldValue) throws FirebaseException, NoSuchElementException {
 
