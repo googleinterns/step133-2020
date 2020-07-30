@@ -42,9 +42,8 @@ class CollegeListDataHandler extends ListDataHandler {
     try {
       let data = await fetch(CollegeQueryBuilder.buildCollectionEndpoint(0, 1));
       let number = await data.json();
-      return number[METADATA][TOTAL];
+      return parseInt(number[METADATA][TOTAL], /** radix= */ 10);
     } catch(e) {
-      console.log(e);
       throw new Error(`Cannot get total number from server ${e}`);
     }
   }

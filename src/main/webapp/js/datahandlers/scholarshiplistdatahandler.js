@@ -40,9 +40,8 @@ class ScholarshipListDataHandler extends ListDataHandler {
     try {
       const data = await fetch(DATA_SIZE_ENDPOINT);
       const numberString = await data.text();
-      return parseInt(numberString, 10);
+      return parseInt(numberString, /** radix= */ 10);
     } catch(e) {
-      console.log(e);
       throw new Error(`Cannot get total number from server ${e}`);
     }
   }

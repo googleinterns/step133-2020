@@ -17,6 +17,7 @@ package com.google.step.finscholar.servlets;
 
 import static com.google.step.finscholar.data.ServletConstantValues.HTML_CONTENT_TYPE;
 import static com.google.step.finscholar.data.ServletConstantValues.SCHOLARSHIP_COLLECTION_NAME;
+import static com.google.step.finscholar.data.ServletConstantValues.UNABLE_TO_LOAD_FIREBASE;
 import static com.google.step.finscholar.data.ServletConstantValues.UNABLE_TO_READ_FROM_FIRESTORE;
 import static com.google.step.finscholar.firebase.FirebaseStorageManager.getCollectionSize;
 
@@ -50,6 +51,9 @@ public class DataSizeServlet extends HttpServlet {
       } catch(FirebaseException e) {
         response.sendError(HttpServletResponse.SC_NO_CONTENT, UNABLE_TO_READ_FROM_FIRESTORE + e);  
       }
+    } else {
+      response.sendError(HttpServletResponse.SC_BAD_GATEWAY, 
+          UNABLE_TO_LOAD_FIREBASE);
     }
   }
 }
