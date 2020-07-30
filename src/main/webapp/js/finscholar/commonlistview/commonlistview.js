@@ -195,14 +195,14 @@ class CommonListView extends BasicView {
     this.sortBy = googDom.getElement(SORT_BY_SELECTOR_ID).value;
     this.sortOrder = googDom.getElement(SORT_ORDER_SELECTOR_ID).value;
     this.batch_ = 0;
-    // googDom.getElement('table-body').innerHTML = '';
-    // super.setCurrentContent(commonlistview({
-    //   pagetype: this.optionTag_,
-    //   sortParams: SORT_PARAMS_MAP,
-    //   asc: ASCENDING,
-    //   desc: DESCENDING}));
-    // this.totalItemsNumber_ = await this.dataHandler_.getTotalNumber();
-    await this.renderView();
+    googDom.getElement('table-body').innerHTML = '';
+    super.setCurrentContent(commonlistview({
+      pagetype: this.optionTag_,
+      sortParams: SORT_PARAMS_MAP,
+      asc: ASCENDING,
+      desc: DESCENDING}));
+    this.totalItemsNumber_ = await this.dataHandler_.getTotalNumber();
+    await this.bindedScrollHandler_();
   }
 
   /**
