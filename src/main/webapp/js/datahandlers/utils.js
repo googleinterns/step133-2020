@@ -26,29 +26,29 @@ const NUM_REGEX = /\B(?=(\d{3})+(?!\d))/g;
 /** 
  * Converts camelcase string to phrases.
  * @param {string} str The camelcase string.
- * @returns The formatted string.
+ * @returns {string} The formatted string.
  */
 const addSpaceToCamelCase = (str) => {
   let result = str.replace( /([A-Z])/g, " $1" );
   return result.charAt(0).toUpperCase() + result.slice(1);
-}
+};
 
 /**
  * This method returns a string representing a number with commas.
  * @param {number} num - The number to convert.
- * @returns {!string} - The string representation of the number with commas.
+ * @returns {string} - The string representation of the number with commas.
  */
 const integerWithCommas = (num) => {
   return num.toString().replace(NUM_REGEX, ',');
-}
+};
 
 /**
  * This method returns a string representing an integer in $ format with commas.
  * @param {number} num - The number to convert.
- * @returns {!string} - The string representation of the number with commas and $.
+ * @returns {string} - The string representation of the number with commas and $.
  */
 const convertToDollar = (num) => {
   return DOLLAR_SIGN.concat(integerWithCommas(num));
-}
+};
 
 exports = {addSpaceToCamelCase, integerWithCommas, convertToDollar};

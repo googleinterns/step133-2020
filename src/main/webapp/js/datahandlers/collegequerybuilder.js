@@ -33,7 +33,7 @@ const QUERY_FIELDS = '_fields=';
 const COLLEGES = 'school.degrees_awarded.predominant=2,3';
 const PRIVATE = 'school.ownership_peps=2';
 const ID = 'id';
-const NAME =  'school.name'
+const NAME =  'school.name';
 const ACCEPTANCE_RATE = 'latest.admissions.admission_rate.overall';
 const ACT_SCORE = 'latest.admissions.act_scores.midpoint.cumulative';
 const ACCEPTANCE_RANGE = '__range=0..0.6';

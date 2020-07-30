@@ -63,27 +63,14 @@ class CollegeDataHandler extends SinglePageDataHandler {
       annualCost : convertToDollar(element[ANNUAL_COST]),
       acceptanceRate : element[ACCEPTANCE_RATE].toString(),
       averageACTScore : element[ACT_SCORE].toString(),
-      netCostForFirstQuintile : 
-          convertToDollar(element[FIRST_NET_COST]),
-      netCostForSecondQuintile : 
-          convertToDollar(element[SECOND_NET_COST]),
-      netCostForThirdQuintile : 
-          convertToDollar(element[THIRD_NET_COST]),
-      netCostForFourthQuintile : 
-          convertToDollar(element[FOURTH_NET_COST]),
-      netCostForFifthQuintile : 
-          convertToDollar(element[FIFTH_NET_COST]),
-      cumulativeMedianDebt : 
-          convertToDollar(element[MEDIAN_DEBT])
+      netCostForFirstQuintile : convertToDollar(element[FIRST_NET_COST]),
+      netCostForSecondQuintile : convertToDollar(element[SECOND_NET_COST]),
+      netCostForThirdQuintile : convertToDollar(element[THIRD_NET_COST]),
+      netCostForFourthQuintile : convertToDollar(element[FOURTH_NET_COST]),
+      netCostForFifthQuintile : convertToDollar(element[FIFTH_NET_COST]),
+      cumulativeMedianDebt : convertToDollar(element[MEDIAN_DEBT])
     }
   }
 }
-
-/**
- * Loads the error page.
- */
-const loadErrorPage_ = (element, occurrence, action, error) => {
-  // TODO: This is being rewritten.
-};
 
 exports = {CollegeDataHandler};
