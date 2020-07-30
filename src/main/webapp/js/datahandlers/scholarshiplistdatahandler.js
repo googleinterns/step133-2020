@@ -22,8 +22,6 @@ goog.module('datahandlers.scholarshiplistdatahandler');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 
 const AMOUNT_PER_YEAR = 'amountPerYear';
-const ELLIPSIS = '...';
-const END_OF_STRING = 23;
 const ID = 'id';
 const SCHOLARSHIP_NAME = 'scholarshipName';
 const SCHOOL_NAME = 'school names';

@@ -172,7 +172,7 @@ class CommonListView extends BasicView {
       const dataList = dataBatch ? dataBatch[ITEM] : undefined;
       if (!dataBatch || !dataList || dataList.length == 0) {
         this.statusBar_.innerHTML = endoflist();
-        this.loading_ = false;
+        this.isLoading_ = false;
         throw new Error(INVALID_RESPONSE);
       }
       this.idOfLastItem_ = 
