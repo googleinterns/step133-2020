@@ -36,8 +36,8 @@ class ListDataHandler {
    * @param {number} batchIndex The index of last batch rendered.
    * @param {number} itemsPerBatch Number of items requested.
    * @param {string} lastIndex Index of the last item in the list.
-   * @param {string} sortParam
-   * @param {string} sortDirection
+   * @param {string} sortParam The parameter to sort by.
+   * @param {string} sortDirection The sort direction/order.
    * @return {string} The url with query information.
    * @abstract
    * @protected
@@ -58,6 +58,8 @@ class ListDataHandler {
    * @param {number} batchIndex The index of last batch rendered.
    * @param {number} itemsPerBatch Number of items requested.
    * @param {string} lastIndex Index of the last item in the list.
+   * @param {string} sortParam The parameter to sort by.
+   * @param {string} sortDirection The direction to sort by.
    * @return {?Promise<{
    *  type: string,
    *  items: !Array<!Array<string>>

@@ -199,7 +199,6 @@ class CommonListView extends BasicView {
     this.statusBar_.innerHTML = loading();
     try {
       this.isLoading_ = true;
-
       const dataBatch = await this.dataHandler_.getNextBatch(
           this.optionTag_, this.batch_, 
           numberOfItems, this.idOfLastItem_,

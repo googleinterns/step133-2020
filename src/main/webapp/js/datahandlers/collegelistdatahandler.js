@@ -19,7 +19,6 @@
 
 goog.module('datahandlers.collegelistdatahandler');
 
-
 const {ACCEPTANCE_RATE, ACT_SCORE, ASCENDING, CollegeQueryBuilder, DESCENDING, ID, NAME} = 
     goog.require('datahandlers.collegequerybuilder');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
@@ -61,6 +60,8 @@ class CollegeListDataHandler extends ListDataHandler {
    * @param {number} batchIndex The index of last batch rendered.
    * @param {number} itemsPerBatch Number of items requested.
    * @param {string} lastIndex Index of the last item in the list.
+   * @param {string} sortParam The parameter to sort by.
+   * @param {string} sortDirection The sort direction/order.
    * @return {string} The url with query information.
    * @override
    * @protected
