@@ -54,11 +54,19 @@ class AppState {
     return new AppState();
   }
 
-  async listViewUpdateSorting() {
+  /**
+   * Renders the view once the sort params have been updated.
+   * @private
+   */
+  async listViewUpdateSorting_() {
     await this.currentView_.renderView();
   }
 
-  async listViewUpdateSingleItem(node) {
+  /**
+   * Renders a single page view whenever the main view is updated.
+   * @param {!Element} node
+   */
+  async listViewUpdateSingleItem_(node) {
     const id = node.id;
     if (node.classList.contains('colleges')) {
       this.currentView_ = new CollegePageView();
@@ -79,11 +87,10 @@ class AppState {
       this.currentView_.removeScrollHandler();
     }
     if (node.classList.contains('sort')) {
-      this.listViewUpdateSorting();
+      this.listViewUpdateSorting_();
     } else {
-      this.listViewUpdateSingleItem(node);
+      this.listViewUpdateSingleItem_(node);
     }
-    await this.currentView_.renderView();
     this.refreshNavbar_();
   }
 

@@ -19,7 +19,7 @@
 
 goog.module('datahandlers.collegelistdatahandler');
 
-const {ACCEPTANCE_RATE, ACT_SCORE, ASCENDING, CollegeQueryBuilder, DESCENDING, ID, NAME} = 
+const {ACCEPTANCE_RATE, ACT_SCORE, CollegeQueryBuilder, ID, NAME} = 
     goog.require('datahandlers.collegequerybuilder');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 

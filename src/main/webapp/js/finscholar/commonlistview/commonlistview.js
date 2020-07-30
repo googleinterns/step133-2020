@@ -83,16 +83,16 @@ class CommonListView extends BasicView {
     this.idOfLastItem_ = EMPTY_STRING;
 
     /** @private {string} The sort parameter for the query. */
-    this.sortBy = Array.from(SORT_PARAMS_MAP)[0][0];
+    this.sortBy_ = Array.from(SORT_PARAMS_MAP)[0][0];
 
     /** @private {string} The sort order for the query. */
-    this.sortOrder = ASCENDING;
+    this.sortOrder_ = ASCENDING;
 
     /** @private {?Element} */
-    this.sortBySelector = null;
+    this.sortBySelector_ = null;
 
     /** @private {?Element} */
-    this.sortOrderSelector = null;
+    this.sortOrderSelector_ = null;
     
     /** @private {?Element} */
     this.statusBar_ = null;
@@ -167,12 +167,10 @@ class CommonListView extends BasicView {
     // tableContainer.innerHTML = commonlistview({pagetype: this.optionTag_});
     this.container_ = googDom.getElement(ITEM_CONTAINER_ID);
     this.statusBar_ = googDom.getElement(STATUS_BAR_ID);
-    this.sortBySelector = googDom.getElement(SORT_BY_SELECTOR_ID);
-    this.sortBySelector.value = this.sortBy;
-    // this.sortBySelector.addEventListener('change', this.bindedSelectorHandler_);
-    this.sortOrderSelector = googDom.getElement(SORT_ORDER_SELECTOR_ID);
-    this.sortOrderSelector.value = this.sortOrder;
-    // this.sortOrderSelector.addEventListener('change', this.bindedSelectorHandler_);
+    this.sortBySelector_ = googDom.getElement(SORT_BY_SELECTOR_ID);
+    this.sortBySelector_.value = this.sortBy_;
+    this.sortOrderSelector_ = googDom.getElement(SORT_ORDER_SELECTOR_ID);
+    this.sortOrderSelector_.value = this.sortOrder_;
     window.addEventListener('scroll', this.bindedScrollHandler_);
     this.scrollDiv_ = googDom.getElement('scroll-div');
     this.scrollDiv_.addEventListener('scroll', this.bindedScrollHandler_);
@@ -192,20 +190,14 @@ class CommonListView extends BasicView {
   /** 
    * Changes the sort values for the query and 
    * rerenders using the new query parameters. 
-   * @param {!JsactionActionFlow} flow Contains the data related to the action.
+   * @param {!JsactionActionFlow} flow Contains the data related to the action of
+   *    changing sort params.
+   * @private
    */
   async changeSort_(flow) {
-    this.sortBy = googDom.getElement(SORT_BY_SELECTOR_ID).value;
-    this.sortOrder = googDom.getElement(SORT_ORDER_SELECTOR_ID).value;
+    this.sortBy_ = googDom.getElement(SORT_BY_SELECTOR_ID).value;
+    this.sortOrder_ = googDom.getElement(SORT_ORDER_SELECTOR_ID).value;
     this.batch_ = 0;
-    // googDom.getElement('table-body').innerHTML = '';
-    // super.setCurrentContent(commonlistview({
-    //   pagetype: this.optionTag_,
-    //   sortParams: SORT_PARAMS_MAP,
-    //   asc: ASCENDING,
-    //   desc: DESCENDING}));
-    // this.totalItemsNumber_ = await this.dataHandler_.getTotalNumber();
-    // await this.bindedScrollHandler_();
     this.listeners_.forEach(async (listener) => {
       await listener(/** @type {!Element} */ (flow.node()));
     });
@@ -223,7 +215,7 @@ class CommonListView extends BasicView {
       const dataBatch = await this.dataHandler_.getNextBatch(
           this.optionTag_, this.batch_, 
           numberOfItems, this.idOfLastItem_,
-          this.sortBy, this.sortOrder);
+          this.sortBy_, this.sortOrder_);
       const dataList = dataBatch ? dataBatch[ITEM] : undefined;
       if (!dataBatch || !dataList || dataList.length == 0) {
         this.statusBar_.innerHTML = endoflist();

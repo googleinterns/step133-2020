@@ -85,6 +85,7 @@ class CollegeQueryBuilder {
    * @param {number} itemsPerBatch - The number of colleges to retrieve.
    * @param {string} sortParam - The parameter to sortBy.
    * @param {string} sortDirection - Sort by ascending or descending.
+   * @return {string} - The sorted query endpoint.
    */
   static buildSortedCollectionEndpoint(batchIndex, itemsPerBatch, sortParam, sortDirection) {
     return COLLEGE_LIST_ENDPT.concat(COLLEGES, AND, PRIVATE, AND, QUERY_FIELDS, 
