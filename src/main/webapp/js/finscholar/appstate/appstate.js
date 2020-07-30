@@ -65,6 +65,7 @@ class AppState {
   /**
    * Renders a single page view whenever the main view is updated.
    * @param {!Element} node
+   * @private
    */
   async listViewUpdateSingleItem_(node) {
     const id = node.id;
@@ -87,9 +88,9 @@ class AppState {
       this.currentView_.removeScrollHandler();
     }
     if (node.classList.contains('sort')) {
-      this.listViewUpdateSorting_();
+      await this.listViewUpdateSorting_();
     } else {
-      this.listViewUpdateSingleItem_(node);
+      await this.listViewUpdateSingleItem_(node);
     }
     this.refreshNavbar_();
   }
