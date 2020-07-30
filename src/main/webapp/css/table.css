@@ -2,14 +2,6 @@
   --theme-color: rgb(255,82,82);
 }
 
-.cell-name {
-  color: var(--theme-color);
-}
-
-.side-prop {
-  height: 100%;
-}
-
 #avatar {
   background-color: var(--theme-color); 
 }
@@ -20,9 +12,16 @@
   overflow-y: auto;
 }
 
-
 #table-body {
   margin: auto;
   overflow-y: scroll;
   width: 75%;
+}
+
+.cell-name {
+  color: var(--theme-color);
+}
+
+.side-prop {
+  height: 100%;
 }
