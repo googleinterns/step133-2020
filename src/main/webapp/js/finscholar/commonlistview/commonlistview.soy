@@ -68,7 +68,7 @@
 {template .sortByComponent}
   {@param paramsToSortBy : map<string, string>}
   <label for="sortBy">Choose Parameter to Sort By: </label>
-  <select name="sortBy" id="sortBy" jsaction="change:commonlistview.change;">
+  <select name="sortBy" class="sort" id="sortBy" jsaction="change:commonlistview.change;">
     {for $key in mapKeys($paramsToSortBy)}
       <option value={$key}>{$paramsToSortBy[$key]}</option>
     {/for}
@@ -79,7 +79,7 @@
   {@param ascending : string}
   {@param descending : string}
   <label for="sortOrder">Choose Sort Order: </label>
-  <select name="sortOrder" id="sortOrder" jsaction="change:commonlistview.change;">
+  <select name="sortOrder" class="sort" id="sortOrder" jsaction="change:commonlistview.change;">
     <option value={$ascending}>Ascending</option>
     <option value={$descending}>Descending</option>
   </select>

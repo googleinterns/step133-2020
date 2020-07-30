@@ -73,7 +73,7 @@ class CommonListView extends BasicView {
     /** @private @const {function(number): ?Promise<undefined>} */
     this.bindedDataLoader_ = this.renderNextBatch_.bind(this);
 
-    /** @private @const {function(): ?Promise<undefined>} */
+    /** @private @const {function(!JsactionActionFlow): ?Promise<undefined>} */
     this.bindedSelectorHandler_ = this.changeSort_.bind(this);
 
     /** @private {number} Number of items to be added for each load. */
@@ -192,8 +192,9 @@ class CommonListView extends BasicView {
   /** 
    * Changes the sort values for the query and 
    * rerenders using the new query parameters. 
+   * @param {!JsactionActionFlow} flow Contains the data related to the action.
    */
-  async changeSort_() {
+  async changeSort_(flow) {
     this.sortBy = googDom.getElement(SORT_BY_SELECTOR_ID).value;
     this.sortOrder = googDom.getElement(SORT_ORDER_SELECTOR_ID).value;
     this.batch_ = 0;
@@ -205,7 +206,9 @@ class CommonListView extends BasicView {
     //   desc: DESCENDING}));
     // this.totalItemsNumber_ = await this.dataHandler_.getTotalNumber();
     // await this.bindedScrollHandler_();
-    this.renderView();
+    this.listeners_.forEach(async (listener) => {
+      await listener(/** @type {!Element} */ (flow.node()));
+    });
   }
 
   /**

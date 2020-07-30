@@ -54,6 +54,21 @@ class AppState {
     return new AppState();
   }
 
+  async listViewUpdateSorting() {
+    await this.currentView_.renderView();
+  }
+
+  async listViewUpdateSingleItem(node) {
+    const id = node.id;
+    if (node.classList.contains('colleges')) {
+      this.currentView_ = new CollegePageView();
+    } else {
+      this.currentView_ = new ScholarshipPageView();
+    }
+    this.currentView_.setId(id);
+    await this.currentView_.renderView();
+  }
+
   /**
    * Handles updates from the list views.
    * @param {!Element} node
@@ -63,13 +78,11 @@ class AppState {
     if (this.currentView_ instanceof CommonListView) {
       this.currentView_.removeScrollHandler();
     }
-    const id = node.id;
-    if (node.classList.contains('colleges')) {
-      this.currentView_ = new CollegePageView();
+    if (node.classList.contains('sort')) {
+      this.listViewUpdateSorting();
     } else {
-      this.currentView_ = new ScholarshipPageView();
+      this.listViewUpdateSingleItem(node);
     }
-    this.currentView_.setId(id);
     await this.currentView_.renderView();
     this.refreshNavbar_();
   }
