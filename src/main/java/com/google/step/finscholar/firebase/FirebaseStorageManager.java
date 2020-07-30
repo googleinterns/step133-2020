@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.step.finscholar.data.ServletConstantValues;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -352,5 +353,13 @@ public class FirebaseStorageManager {
     } catch (Exception e) {
       throw new FirebaseException(e.toString());
     }
+  }
+
+  public static String queryByArrayField(Firestore database, String collectionName, String arrayName,  
+      Optional<String> arrayFieldValue) throws FirebaseException, NoSuchElementException {
+
+    CollectionReference collectionReference = database.collection(collectionName);
+    Query itemsWithArrayField = collectionReference.whereArrayContains(arrayName, arrayFieldValue.get());
+    return getCollectionQuery(itemsWithArrayField);
   }
 }
