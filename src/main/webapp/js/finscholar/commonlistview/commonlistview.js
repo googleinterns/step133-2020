@@ -127,6 +127,7 @@ class CommonListView extends BasicView {
     // Register the event types we care about.
     this.eventContract_.addEvent('click');
     this.eventContract_.addEvent('dblclick');
+    this.eventContract_.addEvent('change');
     this.eventContract_.dispatchTo(
         this.dispatcher_.dispatch.bind(this.dispatcher_));
     this.dispatcher_.registerHandlers(
@@ -136,6 +137,7 @@ class CommonListView extends BasicView {
           // action map
           'clickAction': this.bindedOnclickHandler_,
           'doubleClickAction': this.bindedOnclickHandler_,
+          'change' : this.bindedSelectorHandler_
         });
   }
 
@@ -167,10 +169,10 @@ class CommonListView extends BasicView {
     this.statusBar_ = googDom.getElement(STATUS_BAR_ID);
     this.sortBySelector = googDom.getElement(SORT_BY_SELECTOR_ID);
     this.sortBySelector.value = this.sortBy;
-    this.sortBySelector.addEventListener('change', this.bindedSelectorHandler_);
+    // this.sortBySelector.addEventListener('change', this.bindedSelectorHandler_);
     this.sortOrderSelector = googDom.getElement(SORT_ORDER_SELECTOR_ID);
     this.sortOrderSelector.value = this.sortOrder;
-    this.sortOrderSelector.addEventListener('change', this.bindedSelectorHandler_);
+    // this.sortOrderSelector.addEventListener('change', this.bindedSelectorHandler_);
     window.addEventListener('scroll', this.bindedScrollHandler_);
     this.scrollDiv_ = googDom.getElement('scroll-div');
     this.scrollDiv_.addEventListener('scroll', this.bindedScrollHandler_);
