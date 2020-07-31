@@ -19,7 +19,7 @@
 
 goog.module('datahandlers.collegepage');
 
-const {ACCEPTANCE_RATE, ACT_SCORE, CollegeQueryBuilder, ANNUAL_COST, FIFTH_NET_COST, FIRST_NET_COST, FOURTH_NET_COST, MEDIAN_DEBT, NAME, SECOND_NET_COST, THIRD_NET_COST} = goog.require('datahandlers.collegequerybuilder');
+const {ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST, CollegeQueryBuilder, FIFTH_NET_COST, FIRST_NET_COST, FOURTH_NET_COST, MEDIAN_DEBT, NAME, SECOND_NET_COST, THIRD_NET_COST} = goog.require('datahandlers.collegequerybuilder');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 const {convertToDollar} = goog.require('datahandlers.utils');
 const RESULTS = 'results';
@@ -69,8 +69,8 @@ class CollegeDataHandler extends SinglePageDataHandler {
       netCostForFourthQuintile : convertToDollar(element[FOURTH_NET_COST]),
       netCostForFifthQuintile : convertToDollar(element[FIFTH_NET_COST]),
       cumulativeMedianDebt : convertToDollar(element[MEDIAN_DEBT])
-    }
-  }
+    };
+  };
 }
 
 exports = {CollegeDataHandler};
