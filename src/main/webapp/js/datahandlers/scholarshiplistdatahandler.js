@@ -25,7 +25,9 @@ const AMOUNT_PER_YEAR = 'amountPerYear';
 const DATA_SIZE_ENDPOINT = '/data-size';
 const ID = 'id';
 const SCHOLARSHIP_NAME = 'scholarshipName';
+const REQUIREMENT_PLACE_HOLDER = 'requirements place holder';
 const SCHOOL_NAME = 'school names';
+const SCHOOLS_LIST = 'schoolsList';
 const UNKNOWN = 'unknown';
 
 /**
@@ -73,8 +75,9 @@ class ScholarshipListDataHandler extends ListDataHandler {
     return [
       item[ID],
       item[SCHOLARSHIP_NAME],
-      SCHOOL_NAME,
-      amount,
+      REQUIREMENT_PLACE_HOLDER,
+      item[SCHOOL_NAME],
+      `Amount per year: ${amount}`,
     ];
   }
 }

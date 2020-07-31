@@ -27,10 +27,9 @@ const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 const {commonlistview, endoflist, listitems, loading} = goog.require('finscholar.commonlistview.templates');
 
 const EMPTY_STRING = '';
-const INVALID_RESPONSE = 'Invalid data from server.';
 const ISNAN_ERROR = 'Cannot get total number for list items';
 const ITEM = 'items';
-const ITEM_CONTAINER_ID = 'table-body';
+const ITEM_CONTAINER_ID = 'list-frame';
 const STATUS_BAR_ID = 'status';
 const SORT_BY_SELECTOR_ID = 'sortBy';
 const SORT_ORDER_SELECTOR_ID = 'sortOrder';
@@ -182,6 +181,7 @@ class CommonListView extends BasicView {
       }
       await this.renderNextBatch_(this.itemsPerBatch_ * 2);
       this.batch_ = 2;
+      this.setHeight_();
       while (this.scrollDiv_.scrollHeight <= this.scrollDiv_.clientHeight) {
         await this.renderNextBatch_(this.itemsPerBatch_);
       }
@@ -207,6 +207,12 @@ class CommonListView extends BasicView {
     });
   }
 
+  setHeight_() {
+    const listNodeHeight = 
+        googDom.getFirstElementChild(this.container_).clientHeight;
+    this.container_.style.height = `${listNodeHeight * this.totalItemsNumber_}px`;
+  }
+
   /**
    * Loads the next batch of data and render to the view.
    * @param {number} numberOfItems The number of objects to be loaded from server.
@@ -224,7 +230,7 @@ class CommonListView extends BasicView {
       if (!dataBatch || !dataList || dataList.length == 0) {
         this.statusBar_.innerHTML = endoflist();
         this.isLoading_ = false;
-        throw new Error(INVALID_RESPONSE);
+        return;
       }
       this.idOfLastItem_ = 
           dataList ? dataList[dataList.length - 1][0] : EMPTY_STRING;
