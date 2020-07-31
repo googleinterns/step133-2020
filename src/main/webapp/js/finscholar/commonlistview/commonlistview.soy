@@ -19,9 +19,9 @@
   <div id="scroll-div">
     <ul id="table-body" class="mdl-list">
     </ul>
+  </div>
   <div id="status">
     {call .endoflist /}
-  </div>
   </div>
 {/template}
 
@@ -33,9 +33,8 @@
         jsaction="commonlistview.clickAction;
         dblclick:commonlistview.doubleClickAction">
       <span class="mdl-list__item-primary-content">
-        <i class="material-icons mdl-list__item-avatar" id="avatar">star</i>
         <span class="cell-name">{$propsofoneitem[1]}</span>
-        <span class="mdl-list__item-text-body">
+        <span class="mdl-list__item text-body">
           {$propsofoneitem[3]}
         </span>
       </span>
@@ -45,10 +44,14 @@
 {/template}
 
 {template .loading}
-  <div class="mdl-spinner mdl-js-spinner is-active"></div>
-  <p> Loading more items ... </p>
+  <div class="body">
+    <div id="p2" class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+    <p class="body-text"> Loading more items ... </p>
+  </div>
 {/template}
 
 {template .endoflist}
-  <p> This is the end of the list. </p>
+  <div class="body">
+    <p class="body-text"> This is the end of the list. </p>
+  </div>
 {/template}

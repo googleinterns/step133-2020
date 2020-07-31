@@ -21,6 +21,7 @@ goog.module('datahandlers.collegepage');
 
 const {ACCEPTANCE_RATE, ACT_SCORE, CollegeQueryBuilder, FIFTH_NET_COST, FIRST_NET_COST, FOURTH_NET_COST, MEDIAN_DEBT, NAME, SECOND_NET_COST, THIRD_NET_COST} = goog.require('datahandlers.collegequerybuilder');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
+const {convertToPercent} = goog.require('datahandlers.utils');
 
 const RESULTS = 'results';
 
@@ -77,7 +78,7 @@ class CollegeDataHandler extends SinglePageDataHandler {
   convertFromJsonToTemplate(element) {
     return {
       schoolName: element[NAME],
-      acceptanceRate: element[ACCEPTANCE_RATE].toString(),
+      acceptanceRate: convertToPercent(element[ACCEPTANCE_RATE]),
       averageACTScore: element[ACT_SCORE].toString(),
       netCostForFirstQuintile: element[FIRST_NET_COST].toString(),
       netCostForSecondQuintile: element[SECOND_NET_COST].toString(),

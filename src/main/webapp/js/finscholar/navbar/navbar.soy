@@ -13,21 +13,23 @@
 // limitations under the License.
 {namespace finscholar.navbar.templates}
 {template .navbar}
-  <nav id="navbar">
-    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect 
-        mdl-button--accent" index="0" 
-        jsaction="navbar.clickAction;dblclick:navbar.doubleClickAction">
-      Home
-    </button>
-    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect
-        mdl-button--accent" index="1" 
-        jsaction="navbar.clickAction;dblclick:navbar.doubleClickAction">
-      College List
-    </button>
-    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect 
-        mdl-button--accent" index="2" 
-        jsaction="navbar.clickAction;dblclick:navbar.doubleClickAction">
-      Scholarship List
-    </button>
-  </nav>
+
+<header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">FINSCHOLAR</span>
+    </div>
+    <!-- Tabs -->
+    <nav id="navbar" class="mdl-layout__tab-bar mdl-js-ripple-effect">
+      <button class="mdl-layout__tab is-active" index="0" 
+        jsaction="navbar.clickAction;dblclick:navbar.doubleClickAction">Home
+      </button>
+      <button class="mdl-layout__tab" index="1" 
+        jsaction="navbar.clickAction;dblclick:navbar.doubleClickAction">Colleges
+      </button>
+      <button class="mdl-layout__tab" index="2" 
+        jsaction="navbar.clickAction;dblclick:navbar.doubleClickAction">Scholarships
+      </button>
+    </nav>
+  </header>
 {/template}

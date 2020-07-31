@@ -24,8 +24,8 @@
                                            applicationProcess: string,
                                            numberOfYears: int]
                         ]}
-  <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-    <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
+  <section class="body mdl-grid mdl-shadow--2dp">
+    <div class="mdl-card__supporting-text mdl-grid">
       <div class="page-content">
         {call .scholarshipIntroduction}
           {param generalInfo: $scholarship.generalInfo /}
@@ -48,9 +48,9 @@
                          URL: uri]}
   <div class="mdl-card mdl-cell mdl-cell--12-col">
     <div id="scholarship-header" class="mdl-card__title">
-      <h1 class="mdl-card__title-text scholarship-title">{$generalInfo.scholarshipName}</h1>
+      <h1 class="mdl-card__title-text scholarship-title title">{$generalInfo.scholarshipName}</h1>
     </div>
-    <div class="mdl-card__supporting-text">
+    <div class="mdl-card__supporting-text body-text">
       <p> <a href={$generalInfo.URL}>Visit official website</a></p>
       <p> Schools: {$generalInfo.schoolsList} </p>
       <p> Introduction: {$generalInfo.introduction}</p>
@@ -62,10 +62,10 @@
   {@param requirements:  map<string, string>}
   <div class="mdl-card mdl-cell mdl-cell--12-col">
     <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text scholarship-title">Requirements</h2>
+      <h2 class="mdl-card__title-text scholarship-title title">Requirements</h2>
     </div>
     {for $key in mapKeys($requirements)}
-      <div class="requirement mdl-card__supporting-text">
+      <div class="requirement mdl-card__supporting-text body-text">
         <p><b> {$key} : </b> {$requirements[$key]}</p>
       </div>
     {/for}
@@ -79,18 +79,18 @@
                               numberOfYears: int]}
   <div class="mdl-card mdl-cell mdl-cell--12-col">
     <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text scholarship-title"> Application Notes </h2>
+      <h2 class="mdl-card__title-text scholarship-title title"> Application Notes </h2>
     </div>
-    <div id="amount-and-duration" class ="mdl-card__supporting-text">
+    <div id="amount-and-duration" class ="mdl-card__supporting-text body-text">
       <p><b> Amount per year: </b> {$applicationNotes.amountPerYear} </p>
       <p><b> Duration: </b> {$applicationNotes.numberOfYears} 
         { $applicationNotes.numberOfYears > 1 ? " years" : " year"} 
       </p>
     </div>
-    <div id="application-process" class="mdl-card__supporting-text">
+    <div id="application-process" class="mdl-card__supporting-text body-text">
       <p><b> Application process: </b> {$applicationNotes.applicationProcess} </p>
     </div>
-    <div id="is-renewable" class="mdl-card__supporting-text">
+    <div id="is-renewable" class="mdl-card__supporting-text body-text">
       <p><b> Renewable: </b> {$applicationNotes.isRenewable}</p>
     </div>
   </div>
