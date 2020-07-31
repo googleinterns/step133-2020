@@ -172,7 +172,6 @@ class CommonListView extends BasicView {
     this.sortBySelector_.value = this.sortBy_;
     this.sortOrderSelector_ = googDom.getElement(SORT_ORDER_SELECTOR_ID);
     this.sortOrderSelector_.value = this.sortOrder_;
-    window.addEventListener('scroll', this.bindedScrollHandler_);
     this.scrollDiv_ = googDom.getElement('scroll-div');
     this.scrollDiv_.addEventListener('scroll', this.bindedScrollHandler_);
     try {
