@@ -33,7 +33,7 @@ const addSpaceToCamelCase = (str) => {
  */
 const convertToPercent = (num) => {
   num *= 100;
-  return round_(num, 2).toString().concat(' %');
+  return round_(num, 2).concat(' %');
 };
 
 /**
@@ -47,14 +47,14 @@ const convertToPercent = (num) => {
  }
 
 /**
- * Rounds a number to 'decimals' amount of decimal places
+ * Rounds a number to a specific amount of decimal places.
  * @param {number} value - The value to round.
- * @param {number} decimals - The number of decimals places to round to.
- * @returns {number} - The decimal
+ * @param {number} places - The number of decimals places to round to.
+ * @returns {string} - The decimal as a string.
  * @private
  */
-const round_ = (value, decimals) => {
-  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+const round_ = (value, places) => {
+  return Number(Math.round(value+'e'+places)+'e-'+places).toString();
 };
 
 exports = {addSpaceToCamelCase, convertToPercent, concatTitleToValue};
