@@ -21,7 +21,7 @@ goog.module('datahandlers.collegelistdatahandler');
 
 const {ACCEPTANCE_RATE, ACT_SCORE, CollegeQueryBuilder, ID, NAME} = goog.require('datahandlers.collegequerybuilder');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
-const {convertToPercent, concatTitleToValue} = goog.require('datahandlers.utils');
+const {concatTitleToValue, convertToPercent} = goog.require('datahandlers.utils');
 
 const METADATA = 'metadata';
 const TOTAL = 'total';

@@ -44,7 +44,7 @@ const convertToPercent = (num) => {
  */
  const concatTitleToValue = (title, value) => {
    return title.concat(` ${value}`);
- }
+ };
 
 /**
  * Rounds a number to a specific amount of decimal places.
