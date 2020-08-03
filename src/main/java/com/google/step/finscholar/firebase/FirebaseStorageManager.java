@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.step.finscholar.data.ServletConstantValues;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -352,5 +353,24 @@ public class FirebaseStorageManager {
     } catch (Exception e) {
       throw new FirebaseException(e.toString());
     }
+  }
+
+  /**
+   * Queries documents if one of their array fields contain a certain value.
+   * @param database
+   * @param collectionName
+   * @param arrayName
+   * @param arrayFieldValue
+   * @return All documents in database collection specified by collectionName that containes
+   * arrayFieldValue in their arrayName field, which is supposed to be an array.
+   * @throws FirebaseException
+   * @throws NoSuchElementException
+   */
+  public static String queryByArrayField(Firestore database, String collectionName, String arrayName,  
+      Optional<String> arrayFieldValue) throws FirebaseException, NoSuchElementException {
+
+    CollectionReference collectionReference = database.collection(collectionName);
+    Query itemsWithArrayField = collectionReference.whereArrayContains(arrayName, arrayFieldValue.get());
+    return getCollectionQuery(itemsWithArrayField);
   }
 }

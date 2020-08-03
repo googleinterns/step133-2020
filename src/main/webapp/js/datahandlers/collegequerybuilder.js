@@ -36,23 +36,24 @@ const DESCENDING = ':desc';
 const COLLEGES = 'school.degrees_awarded.predominant=2,3';
 const PRIVATE = 'school.ownership_peps=2';
 const ID = 'id';
-const NAME = 'school.name';
+const NAME =  'school.name';
 const ACCEPTANCE_RATE = 'latest.admissions.admission_rate.overall';
 const ACT_SCORE = 'latest.admissions.act_scores.midpoint.cumulative';
-const ACCEPTANCE_RANGE = '__range=0..0.50';
+const ACCEPTANCE_RANGE = '__range=0..0.6';
 const ACT_RANGE = '__range=25..36';
-const ANNUAL_COST =
+const ANNUAL_COST = 
     'latest.cost.avg_net_price.private';
-const FIRST_NET_COST = 'latest.cost.net_price.private.by_income_level.0-30000';
-const SECOND_NET_COST =
+const FIRST_NET_COST = 
+    'latest.cost.net_price.private.by_income_level.0-30000';
+const SECOND_NET_COST = 
     'latest.cost.net_price.private.by_income_level.30001-48000';
-const THIRD_NET_COST =
+const THIRD_NET_COST = 
     'latest.cost.net_price.private.by_income_level.48001-75000';
-const FOURTH_NET_COST =
+const FOURTH_NET_COST = 
     'latest.cost.net_price.private.by_income_level.75001-110000';
-const FIFTH_NET_COST =
+const FIFTH_NET_COST = 
     'latest.cost.net_price.private.by_income_level.110001-plus';
-const MEDIAN_DEBT = '2016.aid.median_debt.completers.overall';
+const MEDIAN_DEBT = 'latest.aid.median_debt.completers.overall';
 
 const SORT_PARAMS_MAP = 
     new Map()

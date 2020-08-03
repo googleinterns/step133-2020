@@ -5,6 +5,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.step.finscholar.data.ServletConstantValues;
 import com.google.step.finscholar.firebase.TestObject;
+import com.google.step.finscholar.firebase.TestObjectWithList;
+import java.lang.StringBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +25,7 @@ public class FirebaseStorageManagerTest {
   /** Logger that sends logs to the Cloud Project console. */
   private static final Logger log = Logger.getLogger(FirebaseStorageManager.class.getName());
   public static final String TEST_COLLECTION_NAME = "testObjects";
+  public static final String TEST_COLLECTION_WITH_ARRAYS = "testObjectWithArrays";
   public static final String TEST_DOCUMENT_NAME = "testDocument";
   public static final String TEST_DOCUMENT_TWO_NAME = "testDocument2";
   public static final String TEST_DOCUMENT_THREE_NAME = "testDocument3";
@@ -31,6 +34,10 @@ public class FirebaseStorageManagerTest {
   public static final String TEST_DOCUMENT_SIX_NAME = "testDocument6";
   public static final String TEST_DOCUMENT_SEVEN_NAME = "testDocument7";
   public static final String TEST_DOCUMENT_EIGHT_NAME = "testDocument8";
+  public static final String ARRAY_FIELD_1 = "field1";
+  public static final String ARRAY_FIELD_2 = "field2";
+  public static final String ARRAY_FIELD_3 = "field3";
+  public static final String ARRAY_FIELD_4 = "field4";
   public static final String EXPECTED_DOCUMENT_RETRIEVABLE = "{\"one\":\"testDocument\",\"two\":\"testObjects\"}";
   public static final String EXPECTED_COLLECTION_WITH_ID = "[{\"one\":\"testDocument2\",\"two\":\"testObjects\"}]";
   public static final String EXPECTED_COLLECTION_NO_ID = 
@@ -49,9 +56,12 @@ public class FirebaseStorageManagerTest {
   private static TestObject testObjectSix;
   private static TestObject testObjectSeven;
   private static TestObject testObjectEight;
+  private static TestObjectWithList testObjectNine;
+  private static TestObjectWithList testObjectTen;
   private static List<TestObject> testObjectList;
   private static List<TestObject> testObjectListTwo;
   private static List<TestObject> testObjectListThree;
+  private static List<TestObjectWithList> testList;
   public static String EXPECTED_FIRST_BATCH;
   public static String EXPECTED_SECOND_BATCH;
   public static String EXPECTED_THIRD_BATCH;
@@ -70,6 +80,7 @@ public class FirebaseStorageManagerTest {
     testObjectList = new ArrayList<TestObject>();
     testObjectListTwo = new ArrayList<TestObject>();
     testObjectListThree = new ArrayList<TestObject>();
+    testList = new ArrayList<TestObjectWithList>();
     testObjectList.add(testObject);
     testObjectList.add(testObjectTwo);
     testObjectListTwo.add(testObjectFour);
@@ -88,12 +99,26 @@ public class FirebaseStorageManagerTest {
     String thirdBatch = "[{\"one\":\"testDocument7\",\"two\":\"testObjects\"}";
     thirdBatch = thirdBatch.concat(",{\"one\":\"testDocument8\",\"two\":\"testObjects\"}]");
     EXPECTED_THIRD_BATCH = thirdBatch;
+    List<String> TEST_ARRAY_IN_LIST_1 = new ArrayList();
+    TEST_ARRAY_IN_LIST_1.add(ARRAY_FIELD_1); 
+    TEST_ARRAY_IN_LIST_1.add(ARRAY_FIELD_2);
+    List<String> TEST_ARRAY_IN_LIST_2 = new ArrayList();
+    TEST_ARRAY_IN_LIST_2.add(ARRAY_FIELD_3); 
+    TEST_ARRAY_IN_LIST_2.add(ARRAY_FIELD_2);
+    List<String> TEST_ARRAY_IN_LIST_3 = new ArrayList();
+    TEST_ARRAY_IN_LIST_3.add(ARRAY_FIELD_3); 
+    TEST_ARRAY_IN_LIST_3.add(ARRAY_FIELD_4);
+    testObjectNine = new TestObjectWithList(TEST_ARRAY_IN_LIST_1, TEST_ARRAY_IN_LIST_2);
+    testObjectTen = new TestObjectWithList(TEST_ARRAY_IN_LIST_2, TEST_ARRAY_IN_LIST_3);
+    testList.add(testObjectNine);
+    testList.add(testObjectTen);
   }
 
   @After
   public void tearDown() throws Exception {
     // Reset the collection after each test to ensure consistency.
     FirebaseStorageManager.deleteCollection(firebase, TEST_COLLECTION_NAME);
+    FirebaseStorageManager.deleteCollection(firebase, TEST_COLLECTION_WITH_ARRAYS);
   }
 
   @Test
@@ -204,5 +229,25 @@ public class FirebaseStorageManagerTest {
     FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectListThree);
     Assert.assertEquals(testObjectListTwo.size() + testObjectList.size() + testObjectListThree.size(),
         FirebaseStorageManager.getCollectionSize(firebase, TEST_COLLECTION_NAME));
+  }
+
+  public void queryByArrayFieldGetOneResult() throws Exception {
+    FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_WITH_ARRAYS, testList);
+    String queryResult = FirebaseStorageManager.queryByArrayField(firebase, 
+        TEST_COLLECTION_WITH_ARRAYS, "one", Optional.of(ARRAY_FIELD_1));
+    String expected = new StringBuilder().append("[")
+                                         .append(testObjectNine.toString())
+                                         .append("]")
+                                         .toString();
+    Assert.assertEquals(expected, queryResult);
+  }
+
+  @Test
+  public void queryByArrayFieldGetNoResult() throws Exception {
+    FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_WITH_ARRAYS, testList);
+    String queryResult = FirebaseStorageManager.queryByArrayField(firebase, 
+        TEST_COLLECTION_WITH_ARRAYS, "two", Optional.of(ARRAY_FIELD_1));
+    String expected = "[]";
+    Assert.assertEquals(expected, queryResult);
   }
 }
