@@ -78,7 +78,7 @@ class CommonListView extends BasicView {
     this.bindedSelectorHandler_ = this.changeSort_.bind(this);
 
     /** @private {number} Number of items to be added for each load. */
-    this.itemsPerBatch_ = 5;
+    this.itemsPerBatch_ = 10;
 
     /** @private {string} The id of the last item in the list. */
     this.idOfLastItem_ = EMPTY_STRING;
@@ -172,6 +172,7 @@ class CommonListView extends BasicView {
     this.sortBySelector_.value = this.sortBy_;
     this.sortOrderSelector_ = googDom.getElement(SORT_ORDER_SELECTOR_ID);
     this.sortOrderSelector_.value = this.sortOrder_;
+    window.addEventListener('scroll', this.bindedScrollHandler_);
     this.scrollDiv_ = googDom.getElement('scroll-div');
     this.scrollDiv_.addEventListener('scroll', this.bindedScrollHandler_);
     try {
