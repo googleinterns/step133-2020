@@ -46,15 +46,4 @@ const convertToPercent = (num) => {
    return title.concat(` ${value}`);
  };
 
-/**
- * Rounds a number to a specific amount of decimal places.
- * @param {number} value - The value to round.
- * @param {number} places - The number of decimals places to round to.
- * @returns {string} - The decimal as a string.
- * @private
- */
-const round_ = (value, places) => {
-  return Number(Math.round(value+'e'+places)+'e-'+places).toString();
-};
-
 exports = {addSpaceToCamelCase, convertToPercent, concatTitleToValue};
