@@ -42,7 +42,7 @@ class SinglePageView extends BasicView {
      */
     this.template_ = template;
 
-    /** @protected {string} The id of the scholarhsip/college. */
+    /** @protected {string} The id of the scholarship/college. */
     this.id = '';
 
     /**

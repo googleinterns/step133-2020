@@ -16,9 +16,9 @@
 
 goog.module('finscholar.collegepageview');
 
+const googDom = goog.require('goog.dom');
 const {CollegeDataHandler} = goog.require('datahandlers.collegepage');
 const {SinglePageView} = goog.require('finscholar.singlepageview');
-const googDom = goog.require('goog.dom');
 const {collegepage, scholarshiplist} = goog.require('finscholar.collegepageview.templates');
 
 const SCHOLARSHIP_DIV_NAME = 'scholarships';
@@ -43,10 +43,10 @@ class CollegePageView extends SinglePageView {
     }
   }
  
-  /** Rander buttons for each scholarship related to current college. */
+  /** @private Rander buttons for each scholarship related to current college. */
   async renderScholarships_() {
     try {
-      const nameAndIdList = await (/** @type {CollegeDataHandler} */(this.dataHandler))
+      const nameAndIdList = await (/** @type {!CollegeDataHandler} */(this.dataHandler))
                                 .findScholarships(this.id);
       this.scholarshipContainer_.innerHTML = 
           scholarshiplist({scholarships : nameAndIdList});

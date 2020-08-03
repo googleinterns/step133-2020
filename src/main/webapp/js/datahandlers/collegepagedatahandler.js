@@ -75,17 +75,25 @@ class CollegeDataHandler extends SinglePageDataHandler {
     };
   };
 
+  /**
+   * @param {string} id 
+   * Find all scholarships related to a college by college id.
+   */
   async findScholarships(id) {
     try {
       let scholarshipResponse = await fetch(`${FIND_SCHOLARSHIP_ENDPOINT}?id=${id}`);
       let scholarshipJson = await scholarshipResponse.json();
-      return scholarshipJson.map((e) => this.formatScholarshipListButton(e));
+      return scholarshipJson.map((e) => this.formatScholarshipListButton_(e));
     } catch(e) {
       throw new Error(`Cannot get scholarship json ${e}`);
     }
   }
 
-  formatScholarshipListButton(elem) {
+  /**
+   * @private
+   * @param {Object} elem The scholarship element to be formatted.
+   */
+  formatScholarshipListButton_(elem) {
     return {
       'name' : elem[SCHOLARSHIP_NAME],
       'id' : elem['id'],
