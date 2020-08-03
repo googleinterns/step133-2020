@@ -207,6 +207,9 @@ class CommonListView extends BasicView {
     });
   }
 
+  /**
+   * @private Preset the hight of the list.
+   */
   setHeight_() {
     const listNodeHeight = 
         googDom.getFirstElementChild(this.container_).clientHeight;
