@@ -24,13 +24,12 @@ const googSoy = goog.require('goog.soy');
 const {ASCENDING, DESCENDING, SORT_PARAMS_MAP} = goog.require('datahandlers.collegequerybuilder');
 const {BasicView} = goog.require('basicview');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
-const {commonlistview, endoflist, listitems, loading} = goog.require('finscholar.commonlistview.templates');
+const {commonlistview, listitems} = goog.require('finscholar.commonlistview.templates');
 
 const EMPTY_STRING = '';
 const ISNAN_ERROR = 'Cannot get total number for list items';
 const ITEM = 'items';
 const ITEM_CONTAINER_ID = 'list-frame';
-const STATUS_BAR_ID = 'status';
 const SORT_BY_SELECTOR_ID = 'sortBy';
 const SORT_ORDER_SELECTOR_ID = 'sortOrder';
 
@@ -166,7 +165,6 @@ class CommonListView extends BasicView {
     this.initJsaction_();
     // tableContainer.innerHTML = commonlistview({pagetype: this.optionTag_});
     this.container_ = googDom.getElement(ITEM_CONTAINER_ID);
-    this.statusBar_ = googDom.getElement(STATUS_BAR_ID);
     this.sortBySelector_ = googDom.getElement(SORT_BY_SELECTOR_ID);
     this.sortBySelector_.value = this.sortBy_;
     this.sortOrderSelector_ = googDom.getElement(SORT_ORDER_SELECTOR_ID);
@@ -220,7 +218,6 @@ class CommonListView extends BasicView {
    * @private
    */
   async renderNextBatch_(numberOfItems) {
-    this.statusBar_.innerHTML = loading();
     try {
       this.isLoading_ = true;
       const dataBatch = await this.dataHandler_.getNextBatch(
@@ -229,14 +226,12 @@ class CommonListView extends BasicView {
           this.sortBy_, this.sortOrder_);
       const dataList = dataBatch ? dataBatch[ITEM] : undefined;
       if (!dataBatch || !dataList || dataList.length == 0) {
-        this.statusBar_.innerHTML = endoflist();
         this.isLoading_ = false;
         return;
       }
       this.idOfLastItem_ = 
           dataList ? dataList[dataList.length - 1][0] : EMPTY_STRING;
       this.container_.innerHTML += this.template_({batchofitems: dataBatch});
-      this.statusBar_.innerHTML = endoflist();
       this.batch_ += 1;
     } catch (e) {
       console.log(e);

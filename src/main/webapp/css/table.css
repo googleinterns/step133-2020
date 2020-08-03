@@ -17,14 +17,6 @@
   width: 75%;
 }
 
-#end-of-list {
-  background-color: var(--theme-color);
-  color: white;
-  padding: 5px;
-  text-align: center;
-  width: 100%;
-}
-
 #loading {
   padding: 5px;
   width: 100%;
