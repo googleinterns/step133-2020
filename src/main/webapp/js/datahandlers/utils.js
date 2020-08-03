@@ -33,7 +33,7 @@ const addSpaceToCamelCase = (str) => {
  */
 const convertToPercent = (num) => {
   num *= 100;
-  return round_(num, 2).concat(' %');
+  return num.toFixed(/** precision= */ 2).concat(' %');
 };
 
 /**
