@@ -43,17 +43,18 @@ const ACT_SCORE = 'latest.admissions.act_scores.midpoint.cumulative';
 const ACCEPTANCE_RANGE = '__range=0..0.6';
 const ACT_RANGE = '__range=25..36';
 const ANNUAL_COST =
-    '2016.cost.program_reporter.program_1.cip_6_digit.annualized';
-const FIRST_NET_COST = '2016.cost.net_price.private.by_income_level.0-30000';
+    'latest.cost.avg_net_price.private';
+const FIRST_NET_COST = 
+    'latest.cost.net_price.private.by_income_level.0-30000';
 const SECOND_NET_COST =
-    '2016.cost.net_price.private.by_income_level.30001-48000';
+    'latest.cost.net_price.private.by_income_level.30001-48000';
 const THIRD_NET_COST =
-    '2016.cost.net_price.private.by_income_level.48001-75000';
+    'latest.cost.net_price.private.by_income_level.48001-75000';
 const FOURTH_NET_COST =
-    '2016.cost.net_price.private.by_income_level.75001-110000';
+    'latest.cost.net_price.private.by_income_level.75001-110000';
 const FIFTH_NET_COST =
-    '2016.cost.net_price.private.by_income_level.110001-plus';
-const MEDIAN_DEBT = '2016.aid.median_debt.completers.overall';
+    'latest.cost.net_price.private.by_income_level.110001-plus';
+const MEDIAN_DEBT = 'latest.aid.median_debt.completers.overall';
 const STATE = 'school.state';
 
 const SORT_PARAMS_MAP = 
