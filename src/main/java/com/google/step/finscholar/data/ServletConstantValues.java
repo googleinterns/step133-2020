@@ -30,6 +30,7 @@ public class ServletConstantValues {
 
     // Constants for exceptions when retrieving data from the Firestore Database.
     public static final String INVALID_INT_PARAMETER = "Unable to parse required integer from request: ";
+    public static final String UNABLE_TO_GET_ID = "Unable to get id from request: ";
     public static final String UNABLE_TO_WRITE_TO_FIRESTORE = "Unable to write new object to collection with name: ";
     public static final String UNABLE_TO_READ_FROM_FIRESTORE = "Unable to retrieve data from Firestore: ";
     public static final String UNKNOWN_ERROR = "Unknown error: ";
