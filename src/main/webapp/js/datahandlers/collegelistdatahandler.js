@@ -59,8 +59,8 @@ class CollegeListDataHandler extends ListDataHandler {
     return [
       element[ID].toString(),
       element[NAME],
-      element[ACCEPTANCE_RATE].toString(),
       element[ACT_SCORE].toString(),
+      element[ACCEPTANCE_RATE].toString()
     ];
   }
 
