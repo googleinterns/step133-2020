@@ -32,6 +32,7 @@ const ITEM = 'items';
 const ITEM_CONTAINER_ID = 'list-frame';
 const SORT_BY_SELECTOR_ID = 'sortBy';
 const SORT_ORDER_SELECTOR_ID = 'sortOrder';
+const ITEM_HEIGHT = 98;
 
 /** The mini controller for scholarship list view. */
 class CommonListView extends BasicView {
@@ -76,7 +77,7 @@ class CommonListView extends BasicView {
     this.bindedSelectorHandler_ = this.changeSort_.bind(this);
 
     /** @private {number} Number of items to be added for each load. */
-    this.itemsPerBatch_ = 12;
+    this.itemsPerBatch_ = 18;
 
     /** @private {string} The id of the last item in the list. */
     this.idOfLastItem_ = EMPTY_STRING;
@@ -174,12 +175,12 @@ class CommonListView extends BasicView {
     this.scrollDiv_.addEventListener('scroll', this.bindedScrollHandler_);
     try {
       this.totalItemsNumber_ = await this.dataHandler_.getTotalNumber();
+      this.setHeight_();
       if (isNaN(this.totalItemsNumber_)) {
         throw new Error(ISNAN_ERROR);
       }
       await this.renderNextBatch_(this.itemsPerBatch_ * 2);
       this.batch_ = 2;
-      this.setHeight_();
       while (this.scrollDiv_.scrollHeight <= this.scrollDiv_.clientHeight) {
         await this.renderNextBatch_(this.itemsPerBatch_);
       }
@@ -207,9 +208,7 @@ class CommonListView extends BasicView {
 
   /** @private Preset the hight of the list. */
   setHeight_() {
-    const listNodeHeight = 
-        googDom.getFirstElementChild(this.container_).clientHeight;
-    this.container_.style.height = `${listNodeHeight * this.totalItemsNumber_}px`;
+    this.container_.style.height = `${ITEM_HEIGHT * this.totalItemsNumber_}px`;
   }
 
   /**
