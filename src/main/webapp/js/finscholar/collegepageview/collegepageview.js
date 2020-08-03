@@ -18,12 +18,26 @@ goog.module('finscholar.collegepageview');
 
 const {CollegeDataHandler} = goog.require('datahandlers.collegepage');
 const {SinglePageView} = goog.require('finscholar.singlepageview');
-const {collegepage} = goog.require('finscholar.collegepageview.templates');
+const googDom = goog.require('goog.dom');
+const {collegepage, scholarshiplist} = goog.require('finscholar.collegepageview.templates');
 
 /** Class for the college page view. */
 class CollegePageView extends SinglePageView {
   constructor() {
     super(new CollegeDataHandler(), collegepage);
+    this.scholarshipContainer_ = null;
+  }
+
+  async renderView() {
+    await super.renderView();
+    this.scholarshipContainer_ = googDom.getElement('scholarships');
+    await this.renderScholarships_();
+  }
+
+  async renderScholarships_() {
+    const nameAndIdList = await (/** @type {CollegeDataHandler} */(this.dataHandler))
+                                .findScholarships(this.id);
+    this.scholarshipContainer_.innerHTML = scholarshiplist({ scholarships : nameAndIdList});
   }
 }
 

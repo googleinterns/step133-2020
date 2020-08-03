@@ -22,6 +22,8 @@ goog.module('datahandlers.collegepage');
 const {ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST, CollegeQueryBuilder, FIFTH_NET_COST, FIRST_NET_COST, FOURTH_NET_COST, MEDIAN_DEBT, NAME, SECOND_NET_COST, THIRD_NET_COST} = goog.require('datahandlers.collegequerybuilder');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 const {convertToDollar} = goog.require('datahandlers.utils');
+
+const FIND_SCHOLARSHIP_ENDPOINT = '/find-scholarship';
 const RESULTS = 'results';
 
 class CollegeDataHandler extends SinglePageDataHandler {
@@ -70,6 +72,23 @@ class CollegeDataHandler extends SinglePageDataHandler {
       netCostForFifthQuintile : convertToDollar(element[FIFTH_NET_COST]),
       cumulativeMedianDebt : convertToDollar(element[MEDIAN_DEBT])
     };
+  };
+
+  async findScholarships(id) {
+    try {
+      let scholarshipResponse = await fetch(`${FIND_SCHOLARSHIP_ENDPOINT}?id=${id}`);
+      let scholarshipJson = await scholarshipResponse.json();
+      return scholarshipJson.map((e) => this.formatScholarshipListButton(e));
+    } catch(e) {
+
+    }
+  }
+
+  formatScholarshipListButton(elem) {
+    return {
+      'name': elem['scholarshipName'],
+      'id' : elem['id'],
+    }
   };
 }
 

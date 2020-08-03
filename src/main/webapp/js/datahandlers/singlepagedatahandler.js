@@ -91,7 +91,6 @@ class SinglePageDataHandler {
     } else {
       const warning = `Failed to get response from server: 
           ${response.statusText}. Status: ${response.status}`;
-      console.log(warning);
       throw new Error(warning);
     }
   };
