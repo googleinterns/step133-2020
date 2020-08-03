@@ -30,6 +30,9 @@ const PAGE = 'page';
 const EQUAL = '=';
 const API_KEY_FIELD = 'api_key=';
 const QUERY_FIELDS = '_fields=';
+const SORT = 'sort=';
+const ASCENDING = ':asc';
+const DESCENDING = ':desc';
 const COLLEGES = 'school.degrees_awarded.predominant=2,3';
 const PRIVATE = 'school.ownership_peps=2';
 const ID = 'id';
@@ -52,6 +55,13 @@ const FIFTH_NET_COST =
     'latest.cost.net_price.private.by_income_level.110001-plus';
 const MEDIAN_DEBT = 'latest.aid.median_debt.completers.overall';
 
+const SORT_PARAMS_MAP = 
+    new Map()
+        .set(NAME, 'School Name')
+        .set(ACCEPTANCE_RATE, 'Acceptance Rate')
+        .set(ACT_SCORE, "Average ACT Score");
+
+
 class CollegeQueryBuilder {
   constructor() {}
 
@@ -68,6 +78,23 @@ class CollegeQueryBuilder {
         itemsPerBatch.toString(), AND, PAGE, EQUAL, batchIndex.toString(), AND,
         ACCEPTANCE_RATE, ACCEPTANCE_RANGE, AND, ACT_SCORE, ACT_RANGE, AND,
         API_KEY_FIELD, COLLEGE_API_KEY);
+  }
+
+  /**
+   * Query an entire set of colleges by batchIndex and itemsPerBatch.
+   * @param {number} batchIndex - The index of the next page to retrieve.
+   * @param {number} itemsPerBatch - The number of colleges to retrieve.
+   * @param {string} sortParam - The parameter to sortBy.
+   * @param {string} sortDirection - Sort by ascending or descending.
+   * @return {string} - The sorted query endpoint.
+   */
+  static buildSortedCollectionEndpoint(batchIndex, itemsPerBatch, sortParam, sortDirection) {
+    return COLLEGE_LIST_ENDPT.concat(COLLEGES, AND, PRIVATE, AND, QUERY_FIELDS, 
+      ID, COMMA, NAME, COMMA, ACCEPTANCE_RATE, COMMA, ACT_SCORE, AND, 
+      PAGE_SIZE_FIELD, EQUAL, itemsPerBatch.toString(), AND, PAGE, 
+      EQUAL, batchIndex.toString(), AND, ACCEPTANCE_RATE, ACCEPTANCE_RANGE, 
+      AND, ACT_SCORE, ACT_RANGE, AND, SORT, sortParam.toString(), sortDirection.toString(), 
+      AND, API_KEY_FIELD, COLLEGE_API_KEY);
   }
 
   /**
@@ -91,11 +118,14 @@ exports = {
   ACCEPTANCE_RATE,
   ACT_SCORE,
   ANNUAL_COST,
+  ASCENDING,
+  DESCENDING,
   FIRST_NET_COST,
   SECOND_NET_COST,
   THIRD_NET_COST,
   FOURTH_NET_COST,
   FIFTH_NET_COST,
   MEDIAN_DEBT,
+  SORT_PARAMS_MAP,
   CollegeQueryBuilder
 };

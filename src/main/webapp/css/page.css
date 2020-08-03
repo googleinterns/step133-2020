@@ -1,0 +1,13 @@
+:root {
+  --body-text: rgb(25, 25, 25);
+  --header-color: rgb(63, 81, 181);
+  --header-text: rgb(255, 255, 255);
+  --theme-color: rgb(255, 82, 82);
+}
+
+.sort {
+  background-color: var(--header-color);
+  color: var(--header-text);
+  margin-right: 20px;
+}
+

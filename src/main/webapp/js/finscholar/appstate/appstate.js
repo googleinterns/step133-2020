@@ -55,14 +55,19 @@ class AppState {
   }
 
   /**
-   * Handles updates from the list views.
+   * Renders the view once the sort params have been updated.
+   * @private
+   */
+  async listViewUpdateSorting_() {
+    await this.currentView_.renderView();
+  }
+
+  /**
+   * Renders a single page view whenever the main view is updated.
    * @param {!Element} node
    * @private
    */
-  async listViewUpdate_(node) {
-    if (this.currentView_ instanceof CommonListView) {
-      this.currentView_.removeScrollHandler();
-    }
+  async listViewUpdateSingleItem_(node) {
     const id = node.id;
     if (node.classList.contains('colleges')) {
       this.currentView_ = new CollegePageView();
@@ -71,6 +76,22 @@ class AppState {
     }
     this.currentView_.setId(id);
     await this.currentView_.renderView();
+  }
+
+  /**
+   * Handles updates from the list views.
+   * @param {!Element} node
+   * @private
+   */
+  async listViewUpdate_(node) {
+    if (this.currentView_ instanceof CommonListView) {
+      this.currentView_.removeScrollHandler();
+    }
+    if (node.classList.contains('sort')) {
+      await this.listViewUpdateSorting_();
+    } else {
+      await this.listViewUpdateSingleItem_(node);
+    }
     this.refreshNavbar_();
   }
 

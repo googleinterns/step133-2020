@@ -16,12 +16,24 @@
 
 {template .commonlistview}
   {@param pagetype : string}
+  {@param sortParams : map<string, string>}
+  {@param asc : string}
+  {@param desc : string}
+  <div id = "sortComponents">
+    {call .sortByComponent}
+      {param paramsToSortBy : $sortParams /}
+    {/call}
+    {call .sortOrderComponent}
+      {param ascending : $asc /}
+      {param descending : $desc /}
+    {/call}
+  </div>
   <div id="scroll-div">
     <ul id="table-body" class="mdl-list">
     </ul>
-  </div>
-  <div id="status">
-    {call .endoflist /}
+    <div id="status">
+      {call .endoflist /}
+    </div>
   </div>
 {/template}
 
@@ -51,4 +63,24 @@
 
 {template .endoflist}
   <p> This is the end of the list. </p>
+{/template}
+
+{template .sortByComponent}
+  {@param paramsToSortBy : map<string, string>}
+  <label for="sortBy">Sort By: </label>
+  <select name="sortBy" class="sort" id="sortBy" jsaction="change:commonlistview.change;">
+    {for $key in mapKeys($paramsToSortBy)}
+      <option value={$key}>{$paramsToSortBy[$key]}</option>
+    {/for}
+  </select>
+{/template}
+
+{template .sortOrderComponent}
+  {@param ascending : string}
+  {@param descending : string}
+  <label for="sortOrder">Order: </label>
+  <select name="sortOrder" class="sort" id="sortOrder" jsaction="change:commonlistview.change;">
+    <option value={$ascending}>Ascending</option>
+    <option value={$descending}>Descending</option>
+  </select>
 {/template}

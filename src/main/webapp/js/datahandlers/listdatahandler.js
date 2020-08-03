@@ -36,11 +36,13 @@ class ListDataHandler {
    * @param {number} batchIndex The index of last batch rendered.
    * @param {number} itemsPerBatch Number of items requested.
    * @param {string} lastIndex Index of the last item in the list.
+   * @param {string} sortParam The parameter to sort by.
+   * @param {string} sortDirection The sort direction/order.
    * @return {string} The url with query information.
    * @abstract
    * @protected
    */
-  getPath(batchIndex, itemsPerBatch, lastIndex) {}
+  getPath(batchIndex, itemsPerBatch, lastIndex, sortParam, sortDirection) {}
 
   /**
    * Converts list items from Json to objects.
@@ -56,15 +58,17 @@ class ListDataHandler {
    * @param {number} batchIndex The index of last batch rendered.
    * @param {number} itemsPerBatch Number of items requested.
    * @param {string} lastIndex Index of the last item in the list.
+   * @param {string} sortParam The parameter to sort by.
+   * @param {string} sortDirection The direction to sort by.
    * @return {?Promise<{
    *  type: string,
    *  items: !Array<!Array<string>>
    * }>}
    */
-  async getNextBatch(type, batchIndex, itemsPerBatch, lastIndex) {
+  async getNextBatch(type, batchIndex, itemsPerBatch, lastIndex, sortParam, sortDirection) {
     try {
-      const responseList =
-          await fetch(this.getPath(batchIndex, itemsPerBatch, lastIndex));
+      const responseList = 
+          await fetch(this.getPath(batchIndex, itemsPerBatch, lastIndex, sortParam, sortDirection));
       let listJson = await responseList.json();
       if (type == COLLEGES) {
         listJson = listJson[RESULTS];
