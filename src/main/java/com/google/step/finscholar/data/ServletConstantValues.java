@@ -21,6 +21,7 @@ public class ServletConstantValues {
     public static final String INDEX_PATH = "/index.html";	
     // The default value for undefined fields.	
     public static final String DEFAULT_VALUE = "";
+    public static final String ID = "id";
 
     // Constants for the different Firestore Collection names.
     public static final String SCHOLARSHIP_COLLECTION_NAME = "scholarships";

@@ -24,8 +24,6 @@ const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler
 const {convertToDollar} = goog.require('datahandlers.utils');
 
 const FIND_SCHOLARSHIP_ENDPOINT = '/find-scholarship';
-const ID = 'id';
-const NAME = 'name';
 const RESULTS = 'results';
 const SCHOLARSHIP_NAME = 'scholarshipName';
 
@@ -89,8 +87,8 @@ class CollegeDataHandler extends SinglePageDataHandler {
 
   formatScholarshipListButton(elem) {
     return {
-      NAME : elem[SCHOLARSHIP_NAME],
-      ID : elem[ID],
+      'name' : elem[SCHOLARSHIP_NAME],
+      'id' : elem['id'],
     }
   };
 }

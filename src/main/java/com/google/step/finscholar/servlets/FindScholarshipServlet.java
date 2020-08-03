@@ -14,7 +14,7 @@
 
 package com.google.step.finscholar.servlets;
 
-
+import static com.google.step.finscholar.data.ServletConstantValues.ID;
 import static com.google.step.finscholar.data.ServletConstantValues.JSON_CONTENT_TYPE;
 import static com.google.step.finscholar.data.ServletConstantValues.SCHOLARSHIP_COLLECTION_NAME;
 import static com.google.step.finscholar.data.ServletConstantValues.UNABLE_TO_GET_ID;
@@ -41,7 +41,6 @@ import java.util.Optional;
 @WebServlet("/find-scholarship")
 public class FindScholarshipServlet extends HttpServlet {
 
-  private static String ID = "id";
   private static String SCHOOL_ID_LIST = "schoolIdList";
 
   @Override
