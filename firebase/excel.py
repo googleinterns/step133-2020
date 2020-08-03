@@ -12,6 +12,10 @@ methodList = [ScholarshipBuilder.setId, ScholarshipBuilder.setSchoolsList,
               ScholarshipBuilder.setIsRenewable, ScholarshipBuilder.setApplicationProcess,
               ScholarshipBuilder.setURL, ScholarshipBuilder.setSchoolsNameToIDMap]
 
+#parse scholarship data from excel
+# sheet: the index of sheet from 0
+# start: the first row to parse
+# number: total number of scholarships needs to be parsed
 def parseDataFrom(sheet, start, number):
 
     scholarships = []

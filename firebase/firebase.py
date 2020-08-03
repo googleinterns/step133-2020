@@ -2,6 +2,17 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from DoE import get_id_list
+from DoE import get_id_map
+
+#gets the database.
+def get_cred():
+    cred = credentials.ApplicationDefault()
+    firebase_admin.initialize_app(cred, {
+        'projectId': 'viewing-step-2020-v2',
+    })
+
+    db = firestore.client()
+    return db
 
 # Delete all documents in a firestore collection.
 def delete_collection(coll_ref, batch_size):
@@ -16,37 +27,30 @@ def delete_collection(coll_ref, batch_size):
     if deleted >= batch_size:
         return delete_collection(coll_ref, batch_size)
 
-def update_array(collectionName, documentName, fieldName, value):
-    city_ref = db.collection(collectionName).document(documentName)
-
-    # Atomically add a new region to the 'regions' array field.
-    city_ref.update({fieldName: firestore.ArrayUnion([value])})
-
+#Delete the entire scholarship collection
 def delete_scholarship_collection():
-    cred = credentials.ApplicationDefault()
-    firebase_admin.initialize_app(cred, {
-        'projectId': 'viewing-step-2020-v2',
-    })
-
-    db = firestore.client()
+    db = get_cred()
     doc_ref = db.collection('scholarships')
 
     delete_collection(doc_ref, 5)
 
-def iterate_all_data():
-    cred = credentials.ApplicationDefault()
-    firebase_admin.initialize_app(cred, {
-        'projectId': 'viewing-step-2020-v2',
-    })
+def iterate_all_data_and_get_id_list():
+    db = get_cred()
+    docs = db.collection('scholarships').stream()
 
-    db = firestore.client()
+    for doc in docs:
+        doc_dict = doc.to_dict()
+        doc_ref = db.collection('scholarships').document(doc_dict['id'])
+        get_id_list(doc_ref, doc_dict)
+
+def iterate_all_data_and_get_id_map():
+    db = get_cred()
     docs = db.collection('scholarships').stream()
 
     for doc in docs:
         doc_dict = doc.to_dict()
         name_list = doc_dict['schoolsList']
         doc_ref = db.collection('scholarships').document(doc_dict['id'])
-        get_id_list(doc_ref, doc_dict)
+        get_id_map(name_list, doc_ref)
 
-iterate_all_data()
         
