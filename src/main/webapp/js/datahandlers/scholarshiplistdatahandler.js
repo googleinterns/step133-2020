@@ -27,7 +27,6 @@ const ID = 'id';
 const SCHOLARSHIP_NAME = 'scholarshipName';
 const REQUIREMENT_PLACE_HOLDER = '';
 const SCHOOL_NAME = 'school names';
-const SCHOOLS_LIST = 'schoolsList';
 const UNKNOWN = 'unknown';
 
 /**
