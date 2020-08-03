@@ -77,7 +77,7 @@ class CommonListView extends BasicView {
     this.bindedSelectorHandler_ = this.changeSort_.bind(this);
 
     /** @private {number} Number of items to be added for each load. */
-    this.itemsPerBatch_ = 10;
+    this.itemsPerBatch_ = 12;
 
     /** @private {string} The id of the last item in the list. */
     this.idOfLastItem_ = EMPTY_STRING;
@@ -258,7 +258,7 @@ class CommonListView extends BasicView {
     const scrolledHeight = this.scrollDiv_.scrollTop;
     const innerHeight = this.scrollDiv_.clientHeight;
     const threshold = (this.batch_ - 1) * this.itemsPerBatch_ * cellHeight;
-    if (scrolledHeight + innerHeight > threshold &&
+    while (scrolledHeight + innerHeight > threshold &&
         this.batch_ * this.itemsPerBatch_ < this.totalItemsNumber_) {
       try {
         await this.bindedDataLoader_(this.itemsPerBatch_);
