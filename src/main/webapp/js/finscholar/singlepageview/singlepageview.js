@@ -38,7 +38,7 @@ class SinglePageView extends BasicView {
     this.dataHandler = dataHandler;
 
     /**
-     * @private @const {!function(Object): goog.soy.data.SanitizedHtml}
+     * @private @const {function(!Object): !goog.soy.data.SanitizedHtml}
      */
     this.template_ = template;
 
