@@ -19,28 +19,11 @@
 
 goog.module('datahandlers.collegepage');
 
-const {ACCEPTANCE_RATE, ACT_SCORE, CollegeQueryBuilder, FIFTH_NET_COST, FIRST_NET_COST, FOURTH_NET_COST, MEDIAN_DEBT, NAME, SECOND_NET_COST, THIRD_NET_COST} = goog.require('datahandlers.collegequerybuilder');
+const {ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST, CollegeQueryBuilder, FIFTH_NET_COST, FIRST_NET_COST, FOURTH_NET_COST, MEDIAN_DEBT, NAME, SECOND_NET_COST, THIRD_NET_COST} = goog.require('datahandlers.collegequerybuilder');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
-const {convertToPercent} = goog.require('datahandlers.utils');
+const {convertToDollar, convertToPercent} = goog.require('datahandlers.utils');
 
 const RESULTS = 'results';
-
-/**
- * @typedef {{
- *   schoolName: string,
- *   institutionType: string,
- *   acceptanceRate: number,
- *   averageACTScore: number,
- *   totalCostAttendance: number,
- *   netCostForFirstQuintile: number,
- *   netCostForSecondQuintile: number,
- *   netCostForThirdQuintile: number,
- *   netCostForFourthQuintile: number,
- *   netCostForFifthQuintile: number,
- *   cumulativeMedianDebt: number
- * }}
- */
-let CollegeObject;
 
 class CollegeDataHandler extends SinglePageDataHandler {
   constructor() {
@@ -77,24 +60,18 @@ class CollegeDataHandler extends SinglePageDataHandler {
    */
   convertFromJsonToTemplate(element) {
     return {
-      schoolName: element[NAME],
-      acceptanceRate: convertToPercent(element[ACCEPTANCE_RATE]),
-      averageACTScore: element[ACT_SCORE].toString(),
-      netCostForFirstQuintile: element[FIRST_NET_COST].toString(),
-      netCostForSecondQuintile: element[SECOND_NET_COST].toString(),
-      netCostForThirdQuintile: element[THIRD_NET_COST].toString(),
-      netCostForFourthQuintile: element[FOURTH_NET_COST].toString(),
-      netCostForFifthQuintile: element[FIFTH_NET_COST].toString(),
-      cumulativeMedianDebt: element[MEDIAN_DEBT].toString()
+      schoolName : element[NAME],
+      annualCost : convertToDollar(element[ANNUAL_COST]),
+      acceptanceRate : convertToPercent(element[ACCEPTANCE_RATE]),
+      averageACTScore : element[ACT_SCORE].toString(),
+      netCostForFirstQuintile : convertToDollar(element[FIRST_NET_COST]),
+      netCostForSecondQuintile : convertToDollar(element[SECOND_NET_COST]),
+      netCostForThirdQuintile : convertToDollar(element[THIRD_NET_COST]),
+      netCostForFourthQuintile : convertToDollar(element[FOURTH_NET_COST]),
+      netCostForFifthQuintile : convertToDollar(element[FIFTH_NET_COST]),
+      cumulativeMedianDebt : convertToDollar(element[MEDIAN_DEBT])
     };
-  }
+  };
 }
-
-/**
- * Loads the error page.
- */
-const loadErrorPage_ = (element, occurrence, action, error) => {
-  // TODO: This is being rewritten.
-};
 
 exports = {CollegeDataHandler};

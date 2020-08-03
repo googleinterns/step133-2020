@@ -21,6 +21,7 @@ const JsactionDispatcher = goog.require('jsaction.Dispatcher');
 const JsactionEventContract = goog.require('jsaction.EventContract');
 const googDom = goog.require('goog.dom');
 const googSoy = goog.require('goog.soy');
+const {ASCENDING, DESCENDING, SORT_PARAMS_MAP} = goog.require('datahandlers.collegequerybuilder');
 const {BasicView} = goog.require('basicview');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 const {commonlistview, endoflist, listitems, loading} = goog.require('finscholar.commonlistview.templates');
@@ -31,6 +32,8 @@ const ISNAN_ERROR = 'Cannot get total number for list items';
 const ITEM = 'items';
 const ITEM_CONTAINER_ID = 'table-body';
 const STATUS_BAR_ID = 'status';
+const SORT_BY_SELECTOR_ID = 'sortBy';
+const SORT_ORDER_SELECTOR_ID = 'sortOrder';
 
 /** The mini controller for scholarship list view. */
 class CommonListView extends BasicView {
@@ -71,12 +74,27 @@ class CommonListView extends BasicView {
     /** @private @const {function(number): ?Promise<undefined>} */
     this.bindedDataLoader_ = this.renderNextBatch_.bind(this);
 
+    /** @private @const {function(!JsactionActionFlow): ?Promise<undefined>} */
+    this.bindedSelectorHandler_ = this.changeSort_.bind(this);
+
     /** @private {number} Number of items to be added for each load. */
-    this.itemsPerBatch_ = 5;
+    this.itemsPerBatch_ = 10;
 
     /** @private {string} The id of the last item in the list. */
     this.idOfLastItem_ = EMPTY_STRING;
 
+    /** @private {string} The sort parameter for the query. */
+    this.sortBy_ = Array.from(SORT_PARAMS_MAP)[0][0];
+
+    /** @private {string} The sort order for the query. */
+    this.sortOrder_ = ASCENDING;
+
+    /** @private {?Element} */
+    this.sortBySelector_ = null;
+
+    /** @private {?Element} */
+    this.sortOrderSelector_ = null;
+    
     /** @private {?Element} */
     this.statusBar_ = null;
 
@@ -110,6 +128,7 @@ class CommonListView extends BasicView {
     // Register the event types we care about.
     this.eventContract_.addEvent('click');
     this.eventContract_.addEvent('dblclick');
+    this.eventContract_.addEvent('change');
     this.eventContract_.dispatchTo(
         this.dispatcher_.dispatch.bind(this.dispatcher_));
     this.dispatcher_.registerHandlers(
@@ -119,6 +138,7 @@ class CommonListView extends BasicView {
           // action map
           'clickAction': this.bindedOnclickHandler_,
           'doubleClickAction': this.bindedOnclickHandler_,
+          'change' : this.bindedSelectorHandler_
         });
   }
 
@@ -138,12 +158,21 @@ class CommonListView extends BasicView {
    * Loads the first two batches of list item to page.
    */
   async renderView() {
-    super.setCurrentContent(commonlistview({pagetype: this.optionTag_}));
+    super.setCurrentContent(commonlistview({
+      pagetype: this.optionTag_,
+      sortParams: SORT_PARAMS_MAP,
+      asc: ASCENDING,
+      desc: DESCENDING}));
     super.resetAndUpdate();
     this.initJsaction_();
     // tableContainer.innerHTML = commonlistview({pagetype: this.optionTag_});
     this.container_ = googDom.getElement(ITEM_CONTAINER_ID);
     this.statusBar_ = googDom.getElement(STATUS_BAR_ID);
+    this.sortBySelector_ = googDom.getElement(SORT_BY_SELECTOR_ID);
+    this.sortBySelector_.value = this.sortBy_;
+    this.sortOrderSelector_ = googDom.getElement(SORT_ORDER_SELECTOR_ID);
+    this.sortOrderSelector_.value = this.sortOrder_;
+    window.addEventListener('scroll', this.bindedScrollHandler_);
     this.scrollDiv_ = googDom.getElement('scroll-div');
     this.scrollDiv_.addEventListener('scroll', this.bindedScrollHandler_);
     try {
@@ -161,6 +190,22 @@ class CommonListView extends BasicView {
       throw e;
     }
   }
+  
+  /** 
+   * Changes the sort values for the query and 
+   * rerenders using the new query parameters. 
+   * @param {!JsactionActionFlow} flow Contains the data related to the action of
+   *    changing sort params.
+   * @private
+   */
+  async changeSort_(flow) {
+    this.sortBy_ = googDom.getElement(SORT_BY_SELECTOR_ID).value;
+    this.sortOrder_ = googDom.getElement(SORT_ORDER_SELECTOR_ID).value;
+    this.batch_ = 0;
+    this.listeners_.forEach(async (listener) => {
+      await listener(/** @type {!Element} */ (flow.node()));
+    });
+  }
 
   /**
    * Loads the next batch of data and render to the view.
@@ -172,7 +217,9 @@ class CommonListView extends BasicView {
     try {
       this.isLoading_ = true;
       const dataBatch = await this.dataHandler_.getNextBatch(
-          this.optionTag_, this.batch_, numberOfItems, this.idOfLastItem_);
+          this.optionTag_, this.batch_, 
+          numberOfItems, this.idOfLastItem_,
+          this.sortBy_, this.sortOrder_);
       const dataList = dataBatch ? dataBatch[ITEM] : undefined;
       if (!dataBatch || !dataList || dataList.length == 0) {
         this.statusBar_.innerHTML = endoflist();

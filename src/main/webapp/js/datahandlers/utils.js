@@ -16,6 +16,13 @@
 
 goog.module('datahandlers.utils');
 
+const DOLLAR_SIGN = '$';
+/** 
+ * This regex is used to add commas in between each 3 digits of a integer.
+ * So 3000000 becomes --> 3,000,000.
+ */
+const NUM_REGEX = /\B(?=(\d{3})+(?!\d))/g;
+
 /** 
  * Converts camelcase string to phrases.
  * @param {string} str The camelcase string.
@@ -46,4 +53,22 @@ const convertToPercent = (num) => {
    return title.concat(` ${value}`);
  };
 
-exports = {addSpaceToCamelCase, convertToPercent, concatTitleToValue};
+/**
+ * This method returns a string representing a number with commas.
+ * @param {number} num - The number to convert.
+ * @returns {string} - The string representation of the number with commas.
+ */
+const integerWithCommas = (num) => {
+  return num.toString().replace(NUM_REGEX, ',');
+};
+
+/**
+ * This method returns a string representing an integer in $ format with commas.
+ * @param {number} num - The number to convert.
+ * @returns {string} - The string representation of the number with commas and $.
+ */
+const convertToDollar = (num) => {
+  return DOLLAR_SIGN.concat(integerWithCommas(num));
+};
+
+exports = {addSpaceToCamelCase, concatTitleToValue, convertToPercent, convertToDollar};

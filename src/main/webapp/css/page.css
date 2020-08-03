@@ -5,6 +5,7 @@
   --theme-color: rgb(255, 82, 82);
 }
 
+<<<<<<< HEAD
 .body {
   margin: auto;
   width: 75%;
@@ -29,3 +30,11 @@ button {
   background-color: var(--header-color);
   color: var(--header-text);
 }
+=======
+.sort {
+  background-color: var(--header-color);
+  color: var(--header-text);
+  margin-right: 20px;
+}
+
+>>>>>>> origin/devel
