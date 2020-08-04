@@ -22,7 +22,10 @@ goog.module('datahandlers.collegepage');
 const {ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST, CollegeQueryBuilder, FIFTH_NET_COST, FIRST_NET_COST, FOURTH_NET_COST, MEDIAN_DEBT, NAME, SECOND_NET_COST, THIRD_NET_COST} = goog.require('datahandlers.collegequerybuilder');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 const {convertToDollar} = goog.require('datahandlers.utils');
+
+const FIND_SCHOLARSHIP_ENDPOINT = '/find-scholarship';
 const RESULTS = 'results';
+const SCHOLARSHIP_NAME = 'scholarshipName';
 
 class CollegeDataHandler extends SinglePageDataHandler {
   constructor() {
@@ -71,6 +74,42 @@ class CollegeDataHandler extends SinglePageDataHandler {
       cumulativeMedianDebt : convertToDollar(element[MEDIAN_DEBT])
     };
   };
+
+  /**
+   * @param {string} id 
+   * @return {!Promise<!Array<{
+   * id: string,
+   * name: string
+   * }>>}
+   * Find all scholarships related to a college by college id.
+   */
+  async findScholarships(id) {
+    try {
+      let scholarshipResponse = await fetch(`${FIND_SCHOLARSHIP_ENDPOINT}?id=${id}`);
+      let scholarshipJson = await scholarshipResponse.json();
+      if (scholarshipJson == undefined || scholarshipJson == []) {
+        throw new Error('Scholarship Json is Empty');
+      }
+      return scholarshipJson.map((e) => this.formatScholarshipListButton_(e));
+    } catch(e) {
+      throw new Error(`Cannot get scholarship json ${e}`);
+    }
+  }
+
+  /**
+   * @param {!Object} elem
+   * @returns {{
+   * id: string,
+   * name: string
+   * }} elem The scholarship element to be formatted.
+   * @private
+   */
+  formatScholarshipListButton_(elem) {
+    return {
+      'name' : elem[SCHOLARSHIP_NAME],
+      'id' : elem['id'],
+    };
+  }
 }
 
 exports = {CollegeDataHandler};
