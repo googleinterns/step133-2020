@@ -16,10 +16,10 @@
 
 goog.module('finscholar.singlepageview');
 
-const {BasicView} = goog.require('basicview');
 const JsactionActionFlow = goog.require('jsaction.ActionFlow');
 const JsactionDispatcher = goog.require('jsaction.Dispatcher');
 const JsactionEventContract = goog.require('jsaction.EventContract');
+const {BasicView} = goog.require('basicview');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 
 /**

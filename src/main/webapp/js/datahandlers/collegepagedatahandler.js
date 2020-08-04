@@ -77,6 +77,7 @@ class CollegeDataHandler extends SinglePageDataHandler {
 
   /**
    * @param {string} id 
+   * @return {?Array<?Object>}
    * Find all scholarships related to a college by college id.
    */
   async findScholarships(id) {
@@ -90,15 +91,15 @@ class CollegeDataHandler extends SinglePageDataHandler {
   }
 
   /**
+   * @param {?Object} elem The scholarship element to be formatted.
    * @private
-   * @param {Object} elem The scholarship element to be formatted.
    */
   formatScholarshipListButton_(elem) {
     return {
       'name' : elem[SCHOLARSHIP_NAME],
       'id' : elem['id'],
-    }
-  };
+    };
+  }
 }
 
 exports = {CollegeDataHandler};
