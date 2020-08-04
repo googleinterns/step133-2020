@@ -199,11 +199,9 @@ public class FirebaseStorageManager {
 
     CollectionReference collectionReference = database.collection(collectionToGetFrom);
 
-    Direction sortDirection = sortOrder.isPresent() 
-                                    ? sortOrder.get() 
+    Direction sortDirection = sortOrder.orElse(false)  
                                         ? Direction.ASCENDING 
-                                        : Direction.DESCENDING 
-                                    : Direction.DESCENDING;
+                                        : Direction.DESCENDING;
 
     // If the lastDocID is not present, then we know this is the first batch to send.
     // Else simply get the next batch in the collection.
