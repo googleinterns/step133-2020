@@ -1,25 +1,53 @@
 :root {
   --theme-color: rgb(255,82,82);
+  --background-color: rgb(248, 248, 248);
+  --text-color: rgb(255, 119, 90);
 }
 
 #avatar {
-  background-color: var(--theme-color); 
+  background-color: white;
+  color: var(--theme-color); 
+}
+
+#list-frame {
+  overflow-y: auto;
+}
+
+#loading {
+  padding: 5px;
+  width: 100%;
 }
 
 #scroll-div {
+  background-color: var(--background-color);
   height: 80%;
   max-height: 70vh;
   overflow-y: auto;
 }
 
-#table-body {
-  margin: auto;
-  overflow-y: scroll;
-  width: 75%;
-}
-
 .cell-name {
   color: var(--theme-color);
+}
+
+.material-icons {
+  font-size: 15px;
+}
+
+.mdl-list {
+  background-color: white;
+}
+
+.mdl-list__item--three-line {
+  height: 98px;
+}
+
+.mdl-list__item--three-line .mdl-list__item-secondary-content {
+  background-color: var(--text-color);
+  border-radius: 6px;
+  color: white;
+  font-size: 12px;
+  height: auto;
+  padding: 3px 3px 3px 3px;
 }
 
 .side-prop {

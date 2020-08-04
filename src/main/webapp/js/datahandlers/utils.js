@@ -51,4 +51,13 @@ const convertToDollar = (num) => {
   return DOLLAR_SIGN.concat(integerWithCommas(num));
 };
 
-exports = {addSpaceToCamelCase, integerWithCommas, convertToDollar};
+/**
+ * This method returns a string representing a decimal inpercentage.
+ * @param {number} num - The number to convert.
+ * @returns {string} - The string representation of the number in percantage.
+ */
+const convertToPercentage = (num) => {
+  return `${(num*100).toFixed(/** precision= */ 2)}%`;
+};
+
+exports = {addSpaceToCamelCase, integerWithCommas, convertToDollar, convertToPercentage};

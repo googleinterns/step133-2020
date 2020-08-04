@@ -24,16 +24,15 @@ const googSoy = goog.require('goog.soy');
 const {ASCENDING, DESCENDING, SORT_PARAMS_MAP} = goog.require('datahandlers.collegequerybuilder');
 const {BasicView} = goog.require('basicview');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
-const {commonlistview, endoflist, listitems, loading} = goog.require('finscholar.commonlistview.templates');
+const {commonlistview, listitems} = goog.require('finscholar.commonlistview.templates');
 
 const EMPTY_STRING = '';
-const INVALID_RESPONSE = 'Invalid data from server.';
 const ISNAN_ERROR = 'Cannot get total number for list items';
 const ITEM = 'items';
-const ITEM_CONTAINER_ID = 'table-body';
-const STATUS_BAR_ID = 'status';
+const ITEM_CONTAINER_ID = 'list-frame';
 const SORT_BY_SELECTOR_ID = 'sortBy';
 const SORT_ORDER_SELECTOR_ID = 'sortOrder';
+const ITEM_HEIGHT = 98;
 
 /** The mini controller for scholarship list view. */
 class CommonListView extends BasicView {
@@ -78,7 +77,7 @@ class CommonListView extends BasicView {
     this.bindedSelectorHandler_ = this.changeSort_.bind(this);
 
     /** @private {number} Number of items to be added for each load. */
-    this.itemsPerBatch_ = 10;
+    this.itemsPerBatch_ = 18;
 
     /** @private {string} The id of the last item in the list. */
     this.idOfLastItem_ = EMPTY_STRING;
@@ -167,7 +166,6 @@ class CommonListView extends BasicView {
     this.initJsaction_();
     // tableContainer.innerHTML = commonlistview({pagetype: this.optionTag_});
     this.container_ = googDom.getElement(ITEM_CONTAINER_ID);
-    this.statusBar_ = googDom.getElement(STATUS_BAR_ID);
     this.sortBySelector_ = googDom.getElement(SORT_BY_SELECTOR_ID);
     this.sortBySelector_.value = this.sortBy_;
     this.sortOrderSelector_ = googDom.getElement(SORT_ORDER_SELECTOR_ID);
@@ -177,6 +175,7 @@ class CommonListView extends BasicView {
     this.scrollDiv_.addEventListener('scroll', this.bindedScrollHandler_);
     try {
       this.totalItemsNumber_ = await this.dataHandler_.getTotalNumber();
+      this.setHeight_();
       if (isNaN(this.totalItemsNumber_)) {
         throw new Error(ISNAN_ERROR);
       }
@@ -207,13 +206,17 @@ class CommonListView extends BasicView {
     });
   }
 
+  /** @private Preset the hight of the list. */
+  setHeight_() {
+    this.container_.style.height = `${ITEM_HEIGHT * this.totalItemsNumber_}px`;
+  }
+
   /**
    * Loads the next batch of data and render to the view.
    * @param {number} numberOfItems The number of objects to be loaded from server.
    * @private
    */
   async renderNextBatch_(numberOfItems) {
-    this.statusBar_.innerHTML = loading();
     try {
       this.isLoading_ = true;
       const dataBatch = await this.dataHandler_.getNextBatch(
@@ -222,14 +225,12 @@ class CommonListView extends BasicView {
           this.sortBy_, this.sortOrder_);
       const dataList = dataBatch ? dataBatch[ITEM] : undefined;
       if (!dataBatch || !dataList || dataList.length == 0) {
-        this.statusBar_.innerHTML = endoflist();
         this.isLoading_ = false;
-        throw new Error(INVALID_RESPONSE);
+        return;
       }
       this.idOfLastItem_ = 
           dataList ? dataList[dataList.length - 1][0] : EMPTY_STRING;
       this.container_.innerHTML += this.template_({batchofitems: dataBatch});
-      this.statusBar_.innerHTML = endoflist();
       this.batch_ += 1;
     } catch (e) {
       console.log(e);
@@ -248,11 +249,10 @@ class CommonListView extends BasicView {
     if (this.isLoading_) {
       return;
     }
-    const cellHeight = googDom.getFirstElementChild(this.container_).offsetHeight;
     const scrolledHeight = this.scrollDiv_.scrollTop;
     const innerHeight = this.scrollDiv_.clientHeight;
-    const threshold = (this.batch_ - 1) * this.itemsPerBatch_ * cellHeight;
-    if (scrolledHeight + innerHeight > threshold &&
+    const threshold = (this.batch_ - 1) * this.itemsPerBatch_ * ITEM_HEIGHT;
+    while (scrolledHeight + innerHeight > threshold &&
         this.batch_ * this.itemsPerBatch_ < this.totalItemsNumber_) {
       try {
         await this.bindedDataLoader_(this.itemsPerBatch_);
