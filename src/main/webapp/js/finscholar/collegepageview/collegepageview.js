@@ -43,11 +43,14 @@ class CollegePageView extends SinglePageView {
     }
   }
  
-  /** @private Rander buttons for each scholarship related to current college. */
+  /** @private Render buttons for each scholarship related to current college. */
   async renderScholarships_() {
     try {
       const nameAndIdList = await (/** @type {!CollegeDataHandler} */(this.dataHandler))
                                 .findScholarships(this.id);
+      if (nameAndIdList === []) {
+        this.scholarshipContainer_.classList.remove('default-none');
+      }
       this.scholarshipContainer_.innerHTML = 
           scholarshiplist({scholarships : nameAndIdList});
     } catch(e) {

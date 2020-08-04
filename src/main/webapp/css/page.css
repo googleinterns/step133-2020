@@ -42,14 +42,18 @@
   color: var(--body-text);
 }
 
+.college-title {
+  padding-bottom : 0px;
+}
+
+.default-none {
+  display: none;
+}
+
 .header {
   color : var(--theme-color);
   margin: auto;
   width: 75%;
-}
-
-.material-icons {
-  
 }
 
 .mdl-layout__header-row {
