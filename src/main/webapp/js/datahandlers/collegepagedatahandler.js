@@ -77,13 +77,19 @@ class CollegeDataHandler extends SinglePageDataHandler {
 
   /**
    * @param {string} id 
-   * @return {?Array<?Object>}
+   * @return {!Array<{
+   * id: string,
+   * name: string
+   * }}
    * Find all scholarships related to a college by college id.
    */
   async findScholarships(id) {
     try {
       let scholarshipResponse = await fetch(`${FIND_SCHOLARSHIP_ENDPOINT}?id=${id}`);
       let scholarshipJson = await scholarshipResponse.json();
+      if (scholarshipJson == undefined || scholarshipJson == []) {
+        throw new Error('Scholarship Json is Empty');
+      }
       return scholarshipJson.map((e) => this.formatScholarshipListButton_(e));
     } catch(e) {
       throw new Error(`Cannot get scholarship json ${e}`);
@@ -91,7 +97,11 @@ class CollegeDataHandler extends SinglePageDataHandler {
   }
 
   /**
-   * @param {?Object} elem The scholarship element to be formatted.
+   * @param {!Object}
+   * @returns {{
+   * id: string,
+   * name: string
+   * }} elem The scholarship element to be formatted.
    * @private
    */
   formatScholarshipListButton_(elem) {
