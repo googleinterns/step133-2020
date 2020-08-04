@@ -10,11 +10,7 @@
 }
 
 #list-frame {
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1), 
-              0 6px 20px 0 rgba(0, 0, 0, 0.1);
-  margin: auto;
-  overflow-y: scroll;
-  width: 75%;
+  overflow-y: auto;
 }
 
 #loading {
@@ -24,8 +20,6 @@
 
 #scroll-div {
   background-color: var(--background-color);
-  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1), 
-              0 2px 20px 0 rgba(0, 0, 0, 0.1) inset;
   height: 80%;
   max-height: 70vh;
   overflow-y: auto;

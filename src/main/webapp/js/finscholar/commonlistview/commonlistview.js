@@ -249,10 +249,9 @@ class CommonListView extends BasicView {
     if (this.isLoading_) {
       return;
     }
-    const cellHeight = googDom.getFirstElementChild(this.container_).offsetHeight;
     const scrolledHeight = this.scrollDiv_.scrollTop;
     const innerHeight = this.scrollDiv_.clientHeight;
-    const threshold = (this.batch_ - 1) * this.itemsPerBatch_ * cellHeight;
+    const threshold = (this.batch_ - 1) * this.itemsPerBatch_ * ITEM_HEIGHT;
     while (scrolledHeight + innerHeight > threshold &&
         this.batch_ * this.itemsPerBatch_ < this.totalItemsNumber_) {
       try {
