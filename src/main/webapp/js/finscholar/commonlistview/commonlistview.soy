@@ -19,7 +19,7 @@
   {@param sortParams : map<string, string>}
   {@param asc : string}
   {@param desc : string}
-  <div id = "sortComponents">
+  <div id ="sortComponents" class="body">
     {call .sortByComponent}
       {param paramsToSortBy : $sortParams /}
     {/call}
@@ -56,6 +56,19 @@
       {/if}
     </li>
   {/for}
+{/template}
+
+{template .loading}
+  <div class="body">
+    <div id="p2" class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+    <p class="body-text"> Loading more items ... </p>
+  </div>
+{/template}
+
+{template .endoflist}
+  <div class="body">
+    <p class="body-text"> This is the end of the list. </p>
+  </div>
 {/template}
 
 {template .sortByComponent}

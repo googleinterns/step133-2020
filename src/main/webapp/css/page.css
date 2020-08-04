@@ -2,12 +2,87 @@
   --body-text: rgb(25, 25, 25);
   --header-color: rgb(63, 81, 181);
   --header-text: rgb(255, 255, 255);
+  --secondary-color: rgb(91, 109, 214);
   --theme-color: rgb(255, 82, 82);
+}
+
+#content {
+  animation: fade-in ease 3s;
+  border: medium none var(--body-text);
+  margin: 30px 40px;
+  -webkit-animation: fade-in ease 3s;
+  height: 80%;
+  width: 75%;
+}
+
+#navbar {
+  padding: 0 0 0 28px;
+}
+
+#navbar button {
+  background-color: var(--header-color);
+  color: var(--header-text);
+}
+
+#navbar button.active {
+  background-color: var(--secondary-color);
+}
+
+#navbar button:hover {
+  background-color: var(--secondary-color);
+}
+
+#sort-components {
+  margin-bottom: 15px;
+  position: absolute;
+  right: 0px;
+}
+
+.body-text {
+  color: var(--body-text);
+}
+
+.header {
+  color : var(--theme-color);
+  margin: auto;
+  width: 75%;
+}
+
+.mdl-layout__header-row {
+  padding-left: 40px;
 }
 
 .sort {
   background-color: var(--header-color);
   color: var(--header-text);
-  margin-right: 20px;
+  margin-right: 60px;
 }
 
+.netcost-list-item {
+  padding-top: 0px;
+  padding-bottom: 16px;
+}
+
+.title {
+  color : var(--theme-color);
+  font : bold;
+}
+
+
+@keyframes fade-in { 
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

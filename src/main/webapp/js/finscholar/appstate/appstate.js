@@ -18,11 +18,18 @@ goog.module('finscholar.appstate');
 
 const {CollegePageView} = goog.require('finscholar.collegepageview');
 const {CommonListView} = goog.require('finscholar.commonlistview');
+const {CollegeListView} = goog.require('finscholar.collegelistview');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
 const {NavBar} = goog.require('finscholar.navbar');
 const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
+const googDom = goog.require('goog.dom');
 const {navbarViewFactory} = goog.require('finscholar.viewfactory');
 
+const NAVBAR_MAP = {
+  0 : 'home',
+  1 : 'collegesList',
+  2 : 'scholarshipsList'
+};
 
 /** Class that keeps track of the app's state. */
 class AppState {
@@ -36,11 +43,11 @@ class AppState {
 
     this.currentView_ = new HomePageController();
     this.currentView_.renderView();
-
+    this.currentIndex_ = 0;
     /** @private @type {!NavBar} Initializes the code for the nav bar. */
     this.navbarInstance_ = new NavBar();
-
     this.navbarInstance_.registerListener(this.navbarUpdate.bind(this));
+    this.selectTab_();
   }
 
   /**
@@ -109,13 +116,27 @@ class AppState {
       this.currentView_.registerListener(this.listViewUpdate_.bind(this));
     }
     this.currentView_.renderView();
+    this.currentIndex_ = index;
     this.refreshNavbar_();
+  }
+
+  /** 
+   * Updates the classlist of navbar buttons to indicate 
+   * to users which tab has been selected. 
+   * @private
+   */
+  selectTab_() {
+    googDom.getElementsByClass('navbar-button').forEach((element) => {
+      element.classList.remove('active');
+    });
+    googDom.getElement(NAVBAR_MAP[this.currentIndex_]).classList.add('active');
   }
 
   /** Updates the navbar instance and rebinds event listener. */
   refreshNavbar_() {
     this.navbarInstance_ = new NavBar();
     this.navbarInstance_.registerListener(this.navbarUpdate.bind(this));
+    this.selectTab_();
   }
 }
 

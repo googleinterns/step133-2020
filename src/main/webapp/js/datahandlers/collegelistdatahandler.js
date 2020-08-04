@@ -21,10 +21,12 @@ goog.module('datahandlers.collegelistdatahandler');
 
 const {ACCEPTANCE_RATE, ACT_SCORE, CITY, CollegeQueryBuilder, ID, NAME, STATE} = goog.require('datahandlers.collegequerybuilder');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
-const {convertToPercentage} = goog.require('datahandlers.utils');
+const {concatTitleToValue, convertToPercent} = goog.require('datahandlers.utils');
 
 const METADATA = 'metadata';
 const TOTAL = 'total';
+const ACCEPTANCE_TITLE = 'Acceptance Rate:';
+const ACT_TITLE = 'Average ACT Score:';
 
 /**
  * The data controller which fetches college data
@@ -60,9 +62,9 @@ class CollegeListDataHandler extends ListDataHandler {
     return [
       element[ID].toString(),
       element[NAME],
-      `Acceptance rate: ${convertToPercentage(element[ACCEPTANCE_RATE])}`,
+      concatTitleToValue(ACCEPTANCE_TITLE, convertToPercent(element[ACCEPTANCE_RATE])),
       `${element[CITY]}, ${element[STATE]}`,
-      `Average ACT Score: ${element[ACT_SCORE]}`,
+       concatTitleToValue(ACT_TITLE, element[ACT_SCORE].toString()),
     ];
   }
 

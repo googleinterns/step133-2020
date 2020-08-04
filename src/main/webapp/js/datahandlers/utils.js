@@ -34,6 +34,26 @@ const addSpaceToCamelCase = (str) => {
 };
 
 /**
+ * Converts decimal to a string representing a percent.
+ * @param {number} num - The decimal to convert.
+ * @returns {string} - The string representation of the number as a percent.
+ */
+const convertToPercent = (num) => {
+  num *= 100;
+  return num.toFixed(/** precision= */ 2).concat('%');
+};
+
+/**
+ * Concatenates a title to a value: used to format fields in list view.
+ * @param {string} title - The title to concatenate.
+ * @param {string} value - The value to concatenate.
+ * @returns {string} - The formatted string.
+ */
+ const concatTitleToValue = (title, value) => {
+   return title.concat(` ${value}`);
+ };
+
+/**
  * This method returns a string representing a number with commas.
  * @param {number} num - The number to convert.
  * @returns {string} - The string representation of the number with commas.
@@ -51,13 +71,4 @@ const convertToDollar = (num) => {
   return DOLLAR_SIGN.concat(integerWithCommas(num));
 };
 
-/**
- * This method returns a string representing a decimal inpercentage.
- * @param {number} num - The number to convert.
- * @returns {string} - The string representation of the number in percantage.
- */
-const convertToPercentage = (num) => {
-  return `${(num*100).toFixed(/** precision= */ 2)}%`;
-};
-
-exports = {addSpaceToCamelCase, integerWithCommas, convertToDollar, convertToPercentage};
+exports = {addSpaceToCamelCase, concatTitleToValue, convertToPercent, convertToDollar};
