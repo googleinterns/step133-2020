@@ -11,6 +11,10 @@
   border: medium none var(--body-text);
   margin: 25px 25px 25px 25px;
   -webkit-animation: fade-in ease 3s;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1), 
+              0 2px 20px 0 rgba(0, 0, 0, 0.1) inset;
+  height: 80%;
+  max-height: 70vh;
 }
 
 #navbar button {
@@ -26,11 +30,6 @@
   background-color: var(--secondary-color);
 }
 
-.body {
-  margin: auto;
-  width: 75%;
-}
-
 .body-text {
   color: var(--body-text);
 }
@@ -40,6 +39,11 @@
   margin: auto;
   width: 75%;
 }
+
+/* .mdl-grid {
+  margin: auto;
+  width: 75%;
+} */
 
 .sort {
   background-color: var(--header-color);
