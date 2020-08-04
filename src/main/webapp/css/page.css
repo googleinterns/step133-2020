@@ -7,10 +7,8 @@
 }
 
 #content {
-  animation: fade-in ease 3s;
   border: medium none var(--body-text);
   margin: 30px 40px;
-  -webkit-animation: fade-in ease 3s;
   height: 80%;
   width: 75%;
 }
@@ -66,23 +64,4 @@
 .title {
   color : var(--theme-color);
   font : bold;
-}
-
-
-@keyframes fade-in { 
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
 }
