@@ -7,6 +7,9 @@
 }
 
 #scroll-div {
+  background-color: var(--background-color);
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1), 
+              0 2px 20px 0 rgba(0, 0, 0, 0.1) inset;
   height: 80%;
   max-height: 70vh;
   overflow-y: auto;
