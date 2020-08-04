@@ -35,11 +35,10 @@ class SinglePageDataHandler {
       if (data === undefined) {
         throw new Error('Cannot get data from remote.');
       }
-
       return this.convertFromJsonToTemplate(data);
     } catch (e) {
       console.log(e);
-      throw (`Failed to fetch scholarship object ${e}`);
+      throw (`Failed to fetch object ${id}, error: ${e}`);
     }
   }
 

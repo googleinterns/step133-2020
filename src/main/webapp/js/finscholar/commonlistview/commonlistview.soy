@@ -28,12 +28,9 @@
       {param descending : $desc /}
     {/call}
   </div>
-  <div id="scroll-div">
-    <ul id="table-body" class="mdl-list">
+  <div id="scroll-div"  class="mdl-shadow--2dp">
+    <ul id="list-frame" class="mdl-list">
     </ul>
-    <div id="status">
-      {call .endoflist /}
-    </div>
   </div>
 {/template}
 
@@ -45,12 +42,18 @@
         jsaction="commonlistview.clickAction;
         dblclick:commonlistview.doubleClickAction">
       <span class="mdl-list__item-primary-content">
+        <i class="material-icons mdl-list__item-avatar" id="avatar">school</i>
         <span class="cell-name">{$propsofoneitem[1]}</span>
-        <span class="mdl-list__item text-body">
-          {$propsofoneitem[3]}
+        <span class="mdl-list__item-text-body">
+          <i class="material-icons">place</i>{$propsofoneitem[3]} <br/>
+          {$propsofoneitem[4]}
         </span>
       </span>
-      <span class="mdl-list__item-secondary-content side-prop">{$propsofoneitem[2]}</span>
+      {if $batchofitems.type == "colleges"}
+        <span class="mdl-list__item-secondary-content">
+          {$propsofoneitem[2]}
+        </span>
+      {/if}
     </li>
   {/for}
 {/template}
@@ -87,3 +90,4 @@
     <option value={$descending}>Descending</option>
   </select>
 {/template}
+
