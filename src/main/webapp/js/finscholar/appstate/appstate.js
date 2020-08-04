@@ -25,6 +25,12 @@ const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
 const googDom = goog.require('goog.dom');
 const {navbarViewFactory} = goog.require('finscholar.viewfactory');
 
+const NAVBAR_MAP = {
+  0 : 'home',
+  1 : 'collegesList',
+  2 : 'scholarshipsList'
+};
+
 /** Class that keeps track of the app's state. */
 class AppState {
   constructor() {
@@ -119,27 +125,10 @@ class AppState {
    * @private
    */
   selectTab_() {
-    switch (this.currentIndex_) {
-      case 0:
-        googDom.getElement('home').classList.add('active');
-        googDom.getElement('collegesList').classList.remove('active');
-        googDom.getElement('scholarshipsList').classList.remove('active');
-        break;
-      case 1:
-        googDom.getElement('collegesList').classList.add('active');
-        googDom.getElement('home').classList.remove('active');
-        googDom.getElement('scholarshipsList').classList.remove('active');
-        break;
-      case 2:
-        googDom.getElement('scholarshipsList').classList.add('active');
-        googDom.getElement('collegesList').classList.remove('active');
-        googDom.getElement('home').classList.remove('active');
-        break;
-      default:
-        throw new Error(
-            `Unexpected index received from navbar. Received index=${this.currentIndex_}`);
-        break;
-    }
+    googDom.getElementsByClass('navbar-button').forEach((element) => {
+      element.classList.remove('active');
+    });
+    googDom.getElement(NAVBAR_MAP[this.currentIndex_]).classList.add('active');
   }
 
   /** Updates the navbar instance and rebinds event listener. */

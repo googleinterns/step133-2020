@@ -9,11 +9,14 @@
 #content {
   animation: fade-in ease 3s;
   border: medium none var(--body-text);
-  margin: 25px 25px 25px 25px;
+  margin: 30px 40px;
   -webkit-animation: fade-in ease 3s;
-  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1), 
-              0 2px 20px 0 rgba(0, 0, 0, 0.1) inset;
   height: 80%;
+  width: 75%;
+}
+
+#navbar {
+  padding: 0 0 0 28px;
 }
 
 #navbar button {
@@ -29,6 +32,12 @@
   background-color: var(--secondary-color);
 }
 
+#sort-components {
+  margin-bottom: 15px;
+  position: absolute;
+  right: 0px;
+}
+
 .body-text {
   color: var(--body-text);
 }
@@ -39,15 +48,19 @@
   width: 75%;
 }
 
-/* .mdl-grid {
-  margin: auto;
-  width: 75%;
-} */
+.mdl-layout__header-row {
+  padding-left: 40px;
+}
 
 .sort {
   background-color: var(--header-color);
   color: var(--header-text);
   margin-right: 60px;
+}
+
+.netcost-list-item {
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 .title {

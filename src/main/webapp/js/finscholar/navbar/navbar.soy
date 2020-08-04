@@ -17,21 +17,22 @@
     <div class="mdl-layout__header-row">
       <!-- Title -->
       <span class="mdl-layout-title">FINSCHOLAR</span>
+      <nav id="navbar" class="mdl-js-ripple-effect">
+        <button class="navbar-button mdl-button mdl-js-button 
+          mdl-js-ripple-effect mdl-button--accent" index="0" id="home"
+          jsaction="navbar.clickAction;dblclick:navbar.doubleClickAction">Home
+        </button>
+        <button class="navbar-button mdl-button mdl-js-button 
+          mdl-js-ripple-effect mdl-button--accent" index="1" id="collegesList"
+          jsaction="navbar.clickAction;dblclick:navbar.doubleClickAction">Colleges
+        </button>
+        <button class="navbar-button mdl-button mdl-js-button 
+          mdl-js-ripple-effect mdl-button--accent" index="2" id="scholarshipsList"
+          jsaction="navbar.clickAction;dblclick:navbar.doubleClickAction">Scholarships
+        </button>
+      </nav>
     </div>
     <!-- Tabs -->
-    <nav id="navbar" class="mdl-layout__tab-bar mdl-js-ripple-effect">
-      <button class="mdl-button mdl-js-button 
-        mdl-js-ripple-effect mdl-button--accent" index="0" id="home"
-        jsaction="navbar.clickAction;dblclick:navbar.doubleClickAction">Home
-      </button>
-      <button class="mdl-button mdl-js-button 
-        mdl-js-ripple-effect mdl-button--accent" index="1" id="collegesList"
-        jsaction="navbar.clickAction;dblclick:navbar.doubleClickAction">Colleges
-      </button>
-      <button class="mdl-button mdl-js-button 
-        mdl-js-ripple-effect mdl-button--accent" index="2" id="scholarshipsList"
-        jsaction="navbar.clickAction;dblclick:navbar.doubleClickAction">Scholarships
-      </button>
-    </nav>
+    
   </header>
 {/template}
