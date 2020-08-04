@@ -13,6 +13,7 @@
     <include path="/js/bundle.min.map.js" expiration="0s" />
   </static-files>
   <system-properties>
-    <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+    <property name="java.util.logging.config.file"
+        value="WEB-INF/logging.properties" />
   </system-properties>
 </appengine-web-app>
