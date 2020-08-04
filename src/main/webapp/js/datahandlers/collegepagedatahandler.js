@@ -77,7 +77,7 @@ class CollegeDataHandler extends SinglePageDataHandler {
 
   /**
    * @param {string} id 
-   * @return {Promise<!Array<{
+   * @return {!Promise<!Array<{
    * id: string,
    * name: string
    * }>>}
