@@ -19,12 +19,17 @@
 
 goog.module('datahandlers.collegepage');
 
-const {ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST, CollegeQueryBuilder, FIFTH_NET_COST, FIRST_NET_COST, FOURTH_NET_COST, MEDIAN_DEBT, NAME, SECOND_NET_COST, THIRD_NET_COST} = goog.require('datahandlers.collegequerybuilder');
+const {ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST, ANNUAL_COST_PUBLIC, 
+    CollegeQueryBuilder, FIFTH_NET_COST, FIFTH_NET_COST_PUBLIC, FIRST_NET_COST, 
+    FIRST_NET_COST_PUBLIC, FOURTH_NET_COST, FOURTH_NET_COST_PUBLIC, MEDIAN_DEBT, NAME, 
+    SECOND_NET_COST, SECOND_NET_COST_PUBLIC, THIRD_NET_COST, THIRD_NET_COST_PUBLIC, TYPE} = 
+        goog.require('datahandlers.collegequerybuilder');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 const {convertToDollar, convertToPercent} = goog.require('datahandlers.utils');
 const FIND_SCHOLARSHIP_ENDPOINT = '/find-scholarship';
 const RESULTS = 'results';
 const SCHOLARSHIP_NAME = 'scholarshipName';
+const PUBLIC = 1;
 
 class CollegeDataHandler extends SinglePageDataHandler {
   constructor() {
@@ -62,14 +67,26 @@ class CollegeDataHandler extends SinglePageDataHandler {
   convertFromJsonToTemplate(element) {
     return {
       schoolName : element[NAME],
-      annualCost : convertToDollar(element[ANNUAL_COST]),
+      annualCost : (element[TYPE] == PUBLIC) ? 
+          convertToDollar(element[ANNUAL_COST_PUBLIC]) : 
+          convertToDollar(element[ANNUAL_COST]),
       acceptanceRate : convertToPercent(element[ACCEPTANCE_RATE]),
       averageACTScore : element[ACT_SCORE].toString(),
-      netCostForFirstQuintile : convertToDollar(element[FIRST_NET_COST]),
-      netCostForSecondQuintile : convertToDollar(element[SECOND_NET_COST]),
-      netCostForThirdQuintile : convertToDollar(element[THIRD_NET_COST]),
-      netCostForFourthQuintile : convertToDollar(element[FOURTH_NET_COST]),
-      netCostForFifthQuintile : convertToDollar(element[FIFTH_NET_COST]),
+      netCostForFirstQuintile : (element[TYPE] == PUBLIC) ? 
+          convertToDollar(element[FIRST_NET_COST_PUBLIC]) :
+          convertToDollar(element[FIRST_NET_COST]),
+      netCostForSecondQuintile : (element[TYPE] == PUBLIC) ?
+          convertToDollar(element[SECOND_NET_COST_PUBLIC]) :
+          convertToDollar(element[SECOND_NET_COST]),
+      netCostForThirdQuintile : (element[TYPE] == PUBLIC) ?
+          convertToDollar(element[THIRD_NET_COST_PUBLIC]) :
+          convertToDollar(element[THIRD_NET_COST]),
+      netCostForFourthQuintile : (element[TYPE] == PUBLIC) ?
+          convertToDollar(element[FOURTH_NET_COST_PUBLIC]) :
+          convertToDollar(element[FOURTH_NET_COST]),
+      netCostForFifthQuintile : (element[TYPE] == PUBLIC) ?
+          convertToDollar(element[FIFTH_NET_COST_PUBLIC]) :
+          convertToDollar(element[FIFTH_NET_COST]),
       cumulativeMedianDebt : convertToDollar(element[MEDIAN_DEBT])
     };
   };
