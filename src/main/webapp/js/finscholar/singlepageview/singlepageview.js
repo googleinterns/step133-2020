@@ -118,7 +118,8 @@ class SinglePageView extends BasicView {
       throw new Error(`Cannot get data for object ${this.id}, message: ${e}`);
     }
     try {
-      super.setCurrentContent(this.template_(formattedData));      
+      super.setCurrentContent(
+          this.template_(/** @type {!Object} */(formattedData)));      
       super.resetAndUpdate();
       this.initJsaction_();
     } catch(e) {

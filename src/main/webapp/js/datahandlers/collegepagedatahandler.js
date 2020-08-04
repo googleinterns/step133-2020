@@ -77,10 +77,10 @@ class CollegeDataHandler extends SinglePageDataHandler {
 
   /**
    * @param {string} id 
-   * @return {!Array<{
+   * @return {Promise<!Array<{
    * id: string,
    * name: string
-   * }}
+   * }>>}
    * Find all scholarships related to a college by college id.
    */
   async findScholarships(id) {
@@ -97,7 +97,7 @@ class CollegeDataHandler extends SinglePageDataHandler {
   }
 
   /**
-   * @param {!Object}
+   * @param {!Object} elem
    * @returns {{
    * id: string,
    * name: string
