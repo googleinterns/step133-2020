@@ -48,11 +48,11 @@ class CollegePageView extends SinglePageView {
     try {
       const nameAndIdList = await (/** @type {!CollegeDataHandler} */(this.dataHandler))
                                 .findScholarships(this.id);
-      if (nameAndIdList === []) {
+      if (nameAndIdList.length != 0) {
         this.scholarshipContainer_.classList.remove('default-none');
-      }
-      this.scholarshipContainer_.innerHTML = 
+        this.scholarshipContainer_.innerHTML = 
           scholarshiplist({scholarships : nameAndIdList});
+      }
     } catch(e) {
       throw new Error(`Cannot get scholarship data or render scholarship buttons ${e}`);
     }
