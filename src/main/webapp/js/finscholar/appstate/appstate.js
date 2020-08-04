@@ -78,6 +78,7 @@ class AppState {
     const id = node.id;
     if (node.classList.contains('colleges')) {
       this.currentView_ = new CollegePageView();
+      this.currentView_.registerListener(this.listViewUpdate_.bind(this));
     } else {
       this.currentView_ = new ScholarshipPageView();
     }

@@ -24,30 +24,31 @@ public class FirebaseStorageManagerTest {
   // Constants for FirebaseStorageManagerTest.
   /** Logger that sends logs to the Cloud Project console. */
   private static final Logger log = Logger.getLogger(FirebaseStorageManager.class.getName());
-  public static final String TEST_COLLECTION_NAME = "testObjects";
-  public static final String TEST_COLLECTION_WITH_ARRAYS = "testObjectWithArrays";
-  public static final String TEST_DOCUMENT_NAME = "testDocument";
-  public static final String TEST_DOCUMENT_TWO_NAME = "testDocument2";
-  public static final String TEST_DOCUMENT_THREE_NAME = "testDocument3";
-  public static final String TEST_DOCUMENT_FOUR_NAME = "testDocument4";
-  public static final String TEST_DOCUMENT_FIVE_NAME = "testDocument5";
-  public static final String TEST_DOCUMENT_SIX_NAME = "testDocument6";
-  public static final String TEST_DOCUMENT_SEVEN_NAME = "testDocument7";
-  public static final String TEST_DOCUMENT_EIGHT_NAME = "testDocument8";
-  public static final String ARRAY_FIELD_1 = "field1";
-  public static final String ARRAY_FIELD_2 = "field2";
-  public static final String ARRAY_FIELD_3 = "field3";
-  public static final String ARRAY_FIELD_4 = "field4";
-  public static final String EXPECTED_DOCUMENT_RETRIEVABLE = "{\"one\":\"testDocument\",\"two\":\"testObjects\"}";
-  public static final String EXPECTED_COLLECTION_WITH_ID = "[{\"one\":\"testDocument2\",\"two\":\"testObjects\"}]";
-  public static final String EXPECTED_COLLECTION_NO_ID = 
-    "[{\"one\":\"testDocument\",\"two\":\"testObjects\"},{\"one\":\"testDocument2\",\"two\":\"testObjects\"}]";
-  public static final String EXPECTED_COLLECTION_NO_SORT =
-    "[{\"one\":\"testDocument2\",\"two\":\"testObjects\"},{\"one\":\"testDocument\",\"two\":\"testObjects\"}]";
-  public static final int TEST_BATCH_SIZE_LIMIT = 10;
-  public static final int TEST_BATCH_SIZE_LOWER = 3;
-  public static final String PARAM_TO_SORT_BY = "one";
+  private static final String TEST_COLLECTION_NAME = "testObjects";
+  private static final String TEST_COLLECTION_WITH_ARRAYS = "testObjectWithArrays";
+  private static final String TEST_DOCUMENT_NAME = "testDocument1";
+  private static final String TEST_DOCUMENT_TWO_NAME = "testDocument2";
+  private static final String TEST_DOCUMENT_THREE_NAME = "testDocument3";
+  private static final String TEST_DOCUMENT_FOUR_NAME = "testDocument4";
+  private static final String TEST_DOCUMENT_FIVE_NAME = "testDocument5";
+  private static final String TEST_DOCUMENT_SIX_NAME = "testDocument6";
+  private static final String TEST_DOCUMENT_SEVEN_NAME = "testDocument7";
+  private static final String TEST_DOCUMENT_EIGHT_NAME = "testDocument8";
+  private static final String ARRAY_FIELD_1 = "field1";
+  private static final String ARRAY_FIELD_2 = "field2";
+  private static final String ARRAY_FIELD_3 = "field3";
+  private static final String ARRAY_FIELD_4 = "field4";
+  private static final int TEST_BATCH_SIZE_LIMIT = 10;
+  private static final int TEST_BATCH_SIZE_LOWER = 3;
+  private static final String PARAM_TO_SORT_BY = "one";
+  private static final boolean ASCENDING = true;
+  private static final boolean DESCENDING = false;
   private static Firestore firebase;
+  private static String EXPECTED_DOCUMENT_RETRIEVABLE;
+  private static String EXPECTED_COLLECTION_WITH_ID;
+  private static String EXPECTED_COLLECTION_NO_ID;
+  private static String FLAKY_ALT;
+  private static String EXPECTED_COLLECTION_NO_SORT;
   private static TestObject testObject;
   private static TestObject testObjectTwo;
   private static TestObject testObjectThree;
@@ -62,9 +63,9 @@ public class FirebaseStorageManagerTest {
   private static List<TestObject> testObjectListTwo;
   private static List<TestObject> testObjectListThree;
   private static List<TestObjectWithList> testList;
-  public static String EXPECTED_FIRST_BATCH;
-  public static String EXPECTED_SECOND_BATCH;
-  public static String EXPECTED_THIRD_BATCH;
+  private static String EXPECTED_FIRST_BATCH_ASCEND;
+  private static String EXPECTED_SECOND_BATCH_DESCEND;
+  private static String EXPECTED_THIRD_BATCH_DESCEND;
 
   @BeforeClass
   public static void setUp() throws Exception {
@@ -87,18 +88,14 @@ public class FirebaseStorageManagerTest {
     testObjectListTwo.add(testObjectFive);
     testObjectListThree.add(testObjectSeven);
     testObjectListThree.add(testObjectEight);
-    // Using string concat here since the expected output string is so large.
-    String firstBatch = "[{\"one\":\"testDocument\",\"two\":\"testObjects\"}";
-    firstBatch = firstBatch.concat(",{\"one\":\"testDocument2\",\"two\":\"testObjects\"},");
-    firstBatch = firstBatch.concat("{\"one\":\"testDocument3\",\"two\":\"testObjects\"}]");
-    EXPECTED_FIRST_BATCH = firstBatch;
-    String secondBatch = "[{\"one\":\"testDocument4\",\"two\":\"testObjects\"}";
-    secondBatch = secondBatch.concat(",{\"one\":\"testDocument5\",\"two\":\"testObjects\"},");
-    secondBatch = secondBatch.concat("{\"one\":\"testDocument6\",\"two\":\"testObjects\"}]");
-    EXPECTED_SECOND_BATCH = secondBatch;
-    String thirdBatch = "[{\"one\":\"testDocument7\",\"two\":\"testObjects\"}";
-    thirdBatch = thirdBatch.concat(",{\"one\":\"testDocument8\",\"two\":\"testObjects\"}]");
-    EXPECTED_THIRD_BATCH = thirdBatch;
+    EXPECTED_DOCUMENT_RETRIEVABLE = testObject.toString();
+    EXPECTED_COLLECTION_WITH_ID = buildBatchString(testObjectTwo);
+    EXPECTED_FIRST_BATCH_ASCEND = buildBatchString(testObject, testObjectTwo, testObjectThree);
+    EXPECTED_SECOND_BATCH_DESCEND = buildBatchString(testObjectFive, testObjectFour, testObjectThree);
+    EXPECTED_THIRD_BATCH_DESCEND = buildBatchString(testObjectTwo, testObject);
+    EXPECTED_COLLECTION_NO_SORT = EXPECTED_THIRD_BATCH_DESCEND;
+    EXPECTED_COLLECTION_NO_ID = EXPECTED_THIRD_BATCH_DESCEND;
+    FLAKY_ALT = buildBatchString(testObject, testObjectTwo);
     List<String> TEST_ARRAY_IN_LIST_1 = new ArrayList();
     TEST_ARRAY_IN_LIST_1.add(ARRAY_FIELD_1); 
     TEST_ARRAY_IN_LIST_1.add(ARRAY_FIELD_2);
@@ -112,6 +109,20 @@ public class FirebaseStorageManagerTest {
     testObjectTen = new TestObjectWithList(TEST_ARRAY_IN_LIST_2, TEST_ARRAY_IN_LIST_3);
     testList.add(testObjectNine);
     testList.add(testObjectTen);
+  }
+
+  /** 
+   * The helper method which converts a list of 
+   * testObjects to array string in json format.
+   * @param ...tests Unknown number of test objects.
+   * @return TestObject in json array converted to string.
+   */
+  private static String buildBatchString(TestObject ...tests) {
+    StringBuilder listResult = new StringBuilder().append("[");
+    for (TestObject testElement : tests) {
+        listResult = listResult.append(testElement).append(",");
+    }
+    return listResult.deleteCharAt(listResult.length() - 1).append("]").toString();
   }
 
   @After
@@ -140,26 +151,29 @@ public class FirebaseStorageManagerTest {
     // Test the first batch with no previous ID.
     String jsonFirstBatch = FirebaseStorageManager.getCollectionBatch(firebase, 
         TEST_COLLECTION_NAME, Optional.ofNullable(TEST_BATCH_SIZE_LOWER), Optional.empty(), 
-        Optional.ofNullable(PARAM_TO_SORT_BY));
+        Optional.ofNullable(PARAM_TO_SORT_BY), Optional.of(ASCENDING));
     String idMessage = String.format("Batch query results for first batch: %s", jsonFirstBatch);
     log.info(idMessage);
-    Assert.assertEquals(EXPECTED_FIRST_BATCH, jsonFirstBatch);
+    Assert.assertEquals(EXPECTED_FIRST_BATCH_ASCEND, jsonFirstBatch);
+
 
     // Test second batch with last accessed ID and matching batch size limit.
     String jsonMiddleBatch = FirebaseStorageManager.getCollectionBatch(firebase, 
         TEST_COLLECTION_NAME, Optional.ofNullable(TEST_BATCH_SIZE_LOWER), 
-        Optional.ofNullable(TEST_DOCUMENT_THREE_NAME), Optional.ofNullable(PARAM_TO_SORT_BY));
+        Optional.ofNullable(TEST_DOCUMENT_SIX_NAME), Optional.ofNullable(PARAM_TO_SORT_BY),
+        Optional.of(DESCENDING));
     idMessage = String.format("Batch query results for second batch: %s", jsonMiddleBatch);
     log.info(idMessage);
-    Assert.assertEquals(EXPECTED_SECOND_BATCH, jsonMiddleBatch);
+    Assert.assertEquals(EXPECTED_SECOND_BATCH_DESCEND, jsonMiddleBatch);
 
     // Test second batch with last accessed ID but with size < batch size limit.
     String jsonLastBatch = FirebaseStorageManager.getCollectionBatch(firebase, 
         TEST_COLLECTION_NAME, Optional.ofNullable(TEST_BATCH_SIZE_LOWER), 
-        Optional.ofNullable(TEST_DOCUMENT_SIX_NAME), Optional.ofNullable(PARAM_TO_SORT_BY));
+        Optional.ofNullable(TEST_DOCUMENT_THREE_NAME), Optional.ofNullable(PARAM_TO_SORT_BY),
+        Optional.of(DESCENDING));
     idMessage = String.format("Batch query results for last batch: %s", jsonLastBatch);
     log.info(idMessage);
-    Assert.assertEquals(EXPECTED_THIRD_BATCH, jsonLastBatch);
+    Assert.assertEquals(EXPECTED_THIRD_BATCH_DESCEND, jsonLastBatch);
   }
 
   @Test
@@ -186,7 +200,8 @@ public class FirebaseStorageManagerTest {
     FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
     String jsonWithID = FirebaseStorageManager.getCollectionBatch(firebase, 
         TEST_COLLECTION_NAME, Optional.ofNullable(TEST_BATCH_SIZE_LIMIT), 
-        Optional.ofNullable(TEST_DOCUMENT_NAME), Optional.ofNullable(PARAM_TO_SORT_BY));
+        Optional.ofNullable(TEST_DOCUMENT_NAME), Optional.ofNullable(PARAM_TO_SORT_BY), 
+        Optional.of(ASCENDING));
     String noIdMessage = String.format("Batch query results with ID: %s", jsonWithID);
     log.info(noIdMessage);
     Assert.assertEquals(EXPECTED_COLLECTION_WITH_ID, jsonWithID);
@@ -197,10 +212,12 @@ public class FirebaseStorageManagerTest {
     FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
     String jsonWithoutID = FirebaseStorageManager.getCollectionBatch(firebase, 
         TEST_COLLECTION_NAME, Optional.ofNullable(TEST_BATCH_SIZE_LIMIT), 
-        Optional.empty(), Optional.ofNullable(PARAM_TO_SORT_BY));
+        Optional.empty(), Optional.ofNullable(PARAM_TO_SORT_BY),
+        Optional.of(DESCENDING));
     String idMessage = String.format("Batch query results without ID: %s", jsonWithoutID);
     log.info(idMessage);
-    Assert.assertEquals(EXPECTED_COLLECTION_NO_ID, jsonWithoutID);
+    Assert.assertTrue(jsonWithoutID.equals(EXPECTED_COLLECTION_NO_ID) 
+        || jsonWithoutID.equals(FLAKY_ALT));
   }
 
   @Test
@@ -208,7 +225,7 @@ public class FirebaseStorageManagerTest {
     FirebaseStorageManager.storeMultipleDocuments(firebase, TEST_COLLECTION_NAME, testObjectList);
     String jsonWithoutSort = FirebaseStorageManager.getCollectionBatch(firebase, 
         TEST_COLLECTION_NAME, Optional.ofNullable(TEST_BATCH_SIZE_LIMIT), 
-        Optional.empty(), Optional.empty());
+        Optional.empty(), Optional.empty(), Optional.empty());
     String idMessage = 
         String.format("Batch query results with no sort parameter: %s", jsonWithoutSort);
     log.info(idMessage);

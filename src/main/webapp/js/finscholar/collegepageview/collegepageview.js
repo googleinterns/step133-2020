@@ -16,14 +16,43 @@
 
 goog.module('finscholar.collegepageview');
 
+const googDom = goog.require('goog.dom');
 const {CollegeDataHandler} = goog.require('datahandlers.collegepage');
 const {SinglePageView} = goog.require('finscholar.singlepageview');
-const {collegepage} = goog.require('finscholar.collegepageview.templates');
+const {collegepage, scholarshiplist} = goog.require('finscholar.collegepageview.templates');
+
+const SCHOLARSHIP_DIV_NAME = 'scholarships';
 
 /** Class for the college page view. */
 class CollegePageView extends SinglePageView {
   constructor() {
     super(new CollegeDataHandler(), collegepage);
+
+    /** @private {?Element} The container for scholarship buttons. */
+    this.scholarshipContainer_ = null;
+  }
+
+  /** @override */
+  async renderView() {
+    try {
+      await super.renderView();
+      this.scholarshipContainer_ = googDom.getElement(SCHOLARSHIP_DIV_NAME);
+      await this.renderScholarships_();
+    } catch(e) {
+      throw new Error(`Error rendering views for colleges ${e}`);
+    }
+  }
+ 
+  /** @private Rander buttons for each scholarship related to current college. */
+  async renderScholarships_() {
+    try {
+      const nameAndIdList = await (/** @type {!CollegeDataHandler} */(this.dataHandler))
+                                .findScholarships(this.id);
+      this.scholarshipContainer_.innerHTML = 
+          scholarshiplist({scholarships : nameAndIdList});
+    } catch(e) {
+      throw new Error(`Cannot get scholarship data or render scholarship buttons ${e}`);
+    }
   }
 }
 
