@@ -8,12 +8,12 @@
 
 #content {
   animation: fade-in ease 3s;
-  border: medium none var(--body-text);
-  margin: 25px 25px 25px 25px;
-  -webkit-animation: fade-in ease 3s;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1), 
               0 2px 20px 0 rgba(0, 0, 0, 0.1) inset;
+  border: medium none var(--body-text);
   height: 80%;
+  margin: 25px 25px 25px 25px;
+  -webkit-animation: fade-in ease 3s;
 }
 
 #navbar button {
