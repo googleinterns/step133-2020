@@ -19,7 +19,7 @@
 
 goog.module('datahandlers.collegepage');
 
-const {ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST, CollegeQueryBuilder, FIFTH_NET_COST, FIRST_NET_COST, FOURTH_NET_COST, MEDIAN_DEBT, NAME, SECOND_NET_COST, THIRD_NET_COST} = goog.require('datahandlers.collegequerybuilder');
+const {ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST, CITY, CollegeQueryBuilder, FIFTH_NET_COST, FIRST_NET_COST, FOURTH_NET_COST, MEDIAN_DEBT, NAME, SECOND_NET_COST, STATE, THIRD_NET_COST} = goog.require('datahandlers.collegequerybuilder');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 const {convertToDollar, convertToPercent} = goog.require('datahandlers.utils');
 const FIND_SCHOLARSHIP_ENDPOINT = '/find-scholarship';
@@ -63,6 +63,7 @@ class CollegeDataHandler extends SinglePageDataHandler {
     return {
       schoolName : element[NAME],
       annualCost : convertToDollar(element[ANNUAL_COST]),
+      location : `${element[CITY]}, ${element[STATE]}`,
       acceptanceRate : convertToPercent(element[ACCEPTANCE_RATE]),
       averageACTScore : element[ACT_SCORE].toString(),
       netCostForFirstQuintile : convertToDollar(element[FIRST_NET_COST]),
