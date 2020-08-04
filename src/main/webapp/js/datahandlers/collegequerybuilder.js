@@ -76,7 +76,7 @@ class CollegeQueryBuilder {
   static buildCollectionEndpoint(batchIndex, itemsPerBatch) {
     return COLLEGE_LIST_ENDPT.concat(
         COLLEGES, AND, PRIVATE, AND, QUERY_FIELDS, ID, COMMA, NAME, COMMA,
-        ACCEPTANCE_RATE, COMMA, ACT_SCORE,COMMA, CITY, COMMA, STATE, AND, 
+        ACCEPTANCE_RATE, COMMA, ACT_SCORE, COMMA, CITY, COMMA, STATE, AND, 
         PAGE_SIZE_FIELD, EQUAL, itemsPerBatch.toString(), AND, PAGE, EQUAL, 
         batchIndex.toString(), AND, ACCEPTANCE_RATE, ACCEPTANCE_RANGE, AND, 
         ACT_SCORE, ACT_RANGE, AND, API_KEY_FIELD, COLLEGE_API_KEY);
@@ -92,8 +92,8 @@ class CollegeQueryBuilder {
    */
   static buildSortedCollectionEndpoint(batchIndex, itemsPerBatch, sortParam, sortDirection) {
     return COLLEGE_LIST_ENDPT.concat(COLLEGES, AND, PRIVATE, AND, QUERY_FIELDS, 
-      ID, COMMA, NAME, COMMA, ACCEPTANCE_RATE, COMMA, ACT_SCORE, AND, 
-      PAGE_SIZE_FIELD, EQUAL, itemsPerBatch.toString(), AND, PAGE, 
+      ID, COMMA, NAME, COMMA, ACCEPTANCE_RATE, COMMA, ACT_SCORE, COMMA, CITY, 
+      COMMA, STATE, AND, PAGE_SIZE_FIELD, EQUAL, itemsPerBatch.toString(), AND, PAGE, 
       EQUAL, batchIndex.toString(), AND, ACCEPTANCE_RATE, ACCEPTANCE_RANGE, 
       AND, ACT_SCORE, ACT_RANGE, AND, SORT, sortParam.toString(), sortDirection.toString(), 
       AND, API_KEY_FIELD, COLLEGE_API_KEY);
