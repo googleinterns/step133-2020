@@ -18,11 +18,12 @@ goog.module('finscholar.appstate');
 
 const {CollegePageView} = goog.require('finscholar.collegepageview');
 const {CommonListView} = goog.require('finscholar.commonlistview');
+const {CollegeListView} = goog.require('finscholar.collegelistview');
 const {HomePageController} = goog.require('finscholar.homepagecontroller');
 const {NavBar} = goog.require('finscholar.navbar');
 const {ScholarshipPageView} = goog.require('finscholar.scholarshippageview');
+const googDom = goog.require('goog.dom');
 const {navbarViewFactory} = goog.require('finscholar.viewfactory');
-
 
 /** Class that keeps track of the app's state. */
 class AppState {
@@ -36,11 +37,11 @@ class AppState {
 
     this.currentView_ = new HomePageController();
     this.currentView_.renderView();
-
+    this.currentIndex_ = 0;
     /** @private @type {!NavBar} Initializes the code for the nav bar. */
     this.navbarInstance_ = new NavBar();
-
     this.navbarInstance_.registerListener(this.navbarUpdate.bind(this));
+    this.selectTab_();
   }
 
   /**
@@ -108,13 +109,44 @@ class AppState {
       this.currentView_.registerListener(this.listViewUpdate_.bind(this));
     }
     this.currentView_.renderView();
+    this.currentIndex_ = index;
     this.refreshNavbar_();
+  }
+
+  /** 
+   * Updates the classlist of navbar buttons to indicate 
+   * to users which tab has been selected. 
+   * @private
+   */
+  selectTab_() {
+    switch (this.currentIndex_) {
+      case 0:
+        googDom.getElement('home').classList.add('active');
+        googDom.getElement('collegesList').classList.remove('active');
+        googDom.getElement('scholarshipsList').classList.remove('active');
+        break;
+      case 1:
+        googDom.getElement('collegesList').classList.add('active');
+        googDom.getElement('home').classList.remove('active');
+        googDom.getElement('scholarshipsList').classList.remove('active');
+        break;
+      case 2:
+        googDom.getElement('scholarshipsList').classList.add('active');
+        googDom.getElement('collegesList').classList.remove('active');
+        googDom.getElement('home').classList.remove('active');
+        break;
+      default:
+        throw new Error(
+            `Unexpected index received from navbar. Received index=${this.currentIndex_}`);
+        break;
+    }
   }
 
   /** Updates the navbar instance and rebinds event listener. */
   refreshNavbar_() {
     this.navbarInstance_ = new NavBar();
     this.navbarInstance_.registerListener(this.navbarUpdate.bind(this));
+    this.selectTab_();
   }
 }
 
