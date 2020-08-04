@@ -49,9 +49,11 @@
           {$propsofoneitem[4]}
         </span>
       </span>
-      <span class="mdl-list__item-secondary-content">
-        {$propsofoneitem[2]}
-      </span>
+      {if $batchofitems.type == "colleges"}
+        <span class="mdl-list__item-secondary-content">
+          {$propsofoneitem[2]}
+        </span>
+      {/if}
     </li>
   {/for}
 {/template}
