@@ -2,6 +2,7 @@
   --theme-color: rgb(255,82,82);
   --background-color: rgb(248, 248, 248);
   --text-color: rgb(255, 119, 90);
+  --high-light: rgb(255, 237, 237);
 }
 
 #avatar {
@@ -10,6 +11,8 @@
 }
 
 #list-frame {
+  margin: 0;
+  padding: 0;
   overflow-y: auto;
 }
 
@@ -21,12 +24,14 @@
 #scroll-div {
   background-color: var(--background-color);
   height: 80%;
+  margin-top:10px;
   max-height: 70vh;
   overflow-y: auto;
 }
 
 .cell-name {
   color: var(--theme-color);
+  margin: 0;
 }
 
 .material-icons {
@@ -35,6 +40,10 @@
 
 .mdl-list {
   background-color: white;
+}
+
+.mdl-list__item-text-body {
+  margin-left: 60px;
 }
 
 .mdl-list__item--three-line {
@@ -48,6 +57,11 @@
   font-size: 12px;
   height: auto;
   padding: 3px 3px 3px 3px;
+}
+
+.list-item:hover {
+  background-color: var(--high-light);
+  cursor: pointer;
 }
 
 .side-prop {

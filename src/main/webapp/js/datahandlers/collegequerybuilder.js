@@ -41,8 +41,8 @@ const ID = 'id';
 const NAME =  'school.name';
 const ACCEPTANCE_RATE = 'latest.admissions.admission_rate.overall';
 const ACT_SCORE = 'latest.admissions.act_scores.midpoint.cumulative';
-const ACCEPTANCE_RANGE = '__range=0..0.6';
-const ACT_RANGE = '__range=25..36';
+const ACCEPTANCE_RANGE = '__range=0..1.0';
+const ACT_RANGE = '__range=0..36';
 const ANNUAL_COST =
     'latest.cost.avg_net_price.private';
 const FIRST_NET_COST = 
@@ -90,7 +90,7 @@ class CollegeQueryBuilder {
   static buildCollectionEndpoint(batchIndex, itemsPerBatch) {
     return COLLEGE_LIST_ENDPT.concat(
         COLLEGES, AND, PUBLIC_AND_PRIVATE, AND, QUERY_FIELDS, ID, COMMA, NAME, COMMA,
-        ACCEPTANCE_RATE, COMMA, ACT_SCORE,COMMA, CITY, COMMA, STATE, AND, 
+        ACCEPTANCE_RATE, COMMA, ACT_SCORE, COMMA, CITY, COMMA, STATE, AND, 
         PAGE_SIZE_FIELD, EQUAL, itemsPerBatch.toString(), AND, PAGE, EQUAL, 
         batchIndex.toString(), AND, ACCEPTANCE_RATE, ACCEPTANCE_RANGE, AND, 
         ACT_SCORE, ACT_RANGE, AND, API_KEY_FIELD, COLLEGE_API_KEY);
@@ -106,8 +106,8 @@ class CollegeQueryBuilder {
    */
   static buildSortedCollectionEndpoint(batchIndex, itemsPerBatch, sortParam, sortDirection) {
     return COLLEGE_LIST_ENDPT.concat(COLLEGES, AND, PUBLIC_AND_PRIVATE, AND, QUERY_FIELDS, 
-      ID, COMMA, NAME, COMMA, ACCEPTANCE_RATE, COMMA, ACT_SCORE, AND, 
-      PAGE_SIZE_FIELD, EQUAL, itemsPerBatch.toString(), AND, PAGE, 
+      ID, COMMA, NAME, COMMA, ACCEPTANCE_RATE, COMMA, ACT_SCORE, COMMA, CITY, 
+      COMMA, STATE, AND, PAGE_SIZE_FIELD, EQUAL, itemsPerBatch.toString(), AND, PAGE, 
       EQUAL, batchIndex.toString(), AND, ACCEPTANCE_RATE, ACCEPTANCE_RANGE, 
       AND, ACT_SCORE, ACT_RANGE, AND, SORT, sortParam.toString(), sortDirection.toString(), 
       AND, API_KEY_FIELD, COLLEGE_API_KEY);
