@@ -19,10 +19,10 @@
 
 goog.module('datahandlers.collegepage');
 
-const {ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST, ANNUAL_COST_PUBLIC, 
+const {ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST, ANNUAL_COST_PUBLIC, CITY,
     CollegeQueryBuilder, FIFTH_NET_COST, FIFTH_NET_COST_PUBLIC, FIRST_NET_COST, 
     FIRST_NET_COST_PUBLIC, FOURTH_NET_COST, FOURTH_NET_COST_PUBLIC, MEDIAN_DEBT, NAME, 
-    SECOND_NET_COST, SECOND_NET_COST_PUBLIC, THIRD_NET_COST, THIRD_NET_COST_PUBLIC, TYPE} = 
+    SECOND_NET_COST, SECOND_NET_COST_PUBLIC, STATE, THIRD_NET_COST, THIRD_NET_COST_PUBLIC, TYPE} = 
         goog.require('datahandlers.collegequerybuilder');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 const {convertToDollar, convertToPercent} = goog.require('datahandlers.utils');
@@ -70,6 +70,7 @@ class CollegeDataHandler extends SinglePageDataHandler {
       annualCost : (element[TYPE] == PUBLIC) ? 
           convertToDollar(element[ANNUAL_COST_PUBLIC]) : 
           convertToDollar(element[ANNUAL_COST]),
+      location : `${element[CITY]}, ${element[STATE]}`,
       acceptanceRate : convertToPercent(element[ACCEPTANCE_RATE]),
       averageACTScore : element[ACT_SCORE].toString(),
       netCostForFirstQuintile : (element[TYPE] == PUBLIC) ? 

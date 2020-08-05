@@ -16,6 +16,7 @@
 {template .collegepage}
   {@param schoolName: string}
   {@param annualCost: string}
+  {@param location: string}
   {@param acceptanceRate: string}
   {@param averageACTScore: string}
   {@param netCostForFirstQuintile: string}
@@ -25,10 +26,14 @@
   {@param netCostForFifthQuintile: string}
   {@param cumulativeMedianDebt: string}
   <div class="mdl-grid mdl-shadow--2dp">
-    <div class="mdl-card__supporting-text">
+    <div class="mdl-card__supporting-text college-title">
       <h2 class="mdl-card__title-text title"><b>{$schoolName}</b></h2>
+      <div id="college-location" class="mdl-card__supporting-text 
+          body-text college-title">
+        <i class="material-icons">place</i> {$location}
+      </div> 
     </div>
-    <div id="scholarships" class="mdl-card__supporting-text">
+    <div id="scholarships" class="mdl-card__supporting-text default-none">
     </div>
     <div class="mdl-card__supporting-text">
       <h2 class="mdl-card__title-text title">Academic Information</h2>
@@ -45,7 +50,7 @@
     <div class="mdl-card__supporting-text body-text">
       <b>Average Annual Net Cost: </b> {$annualCost}
     </div>  
-    <div class="mdl-card__supporting-text body-text netcost-list-item">
+    <div class="mdl-card__supporting-text body-text">
       <b>Net Cost by family incomes between: </b> 
     </div>
     <ul>

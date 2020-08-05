@@ -6,10 +6,18 @@
   --theme-color: rgb(255, 82, 82);
 }
 
+#college-location {
+  padding-left: 0px;
+}
+
 #content {
   border: medium none var(--body-text);
   margin: 30px 40px;
   height: 80%;
+}
+
+#home-title {
+  padding-left: 16px;
 }
 
 #navbar {
@@ -41,6 +49,14 @@
 
 .body-text {
   color: var(--body-text);
+}
+
+.college-title {
+  padding-bottom : 0px;
+}
+
+.default-none {
+  display: none;
 }
 
 .header {
