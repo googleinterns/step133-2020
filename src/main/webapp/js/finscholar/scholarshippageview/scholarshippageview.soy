@@ -64,11 +64,13 @@
     <div class="mdl-card__title">
       <h2 class="mdl-card__title-text scholarship-title title">Requirements</h2>
     </div>
-    {for $key in mapKeys($requirements)}
-      <div class="requirement mdl-card__supporting-text body-text">
-        <p><b> {$key} : </b> {$requirements[$key]}</p>
-      </div>
-    {/for}
+    <ul id="requirements-list">
+      {for $key in mapKeys($requirements)}
+        <li class="mdl-card__supporting-text body-text netcost-list-item">
+          <p><b> {$key} : </b> {$requirements[$key]}</p>
+        </li> 
+      {/for}
+    </ul>
   </div>
 {/template}
 
