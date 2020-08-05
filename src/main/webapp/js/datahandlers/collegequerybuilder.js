@@ -36,9 +36,7 @@ const ASCENDING = ':asc';
 const DESCENDING = ':desc';
 const COLLEGES = 'school.degrees_awarded.predominant=2,3';
 const TYPE = 'school.ownership_peps';
-const PRIVATE = 'school.ownership_peps=2';
-const PUBLIC = 'school.ownership_peps=1';
-const PUBLIC_AND_PRIVATE = 'school.ownership_peps=1,2'
+const PUBLIC_AND_PRIVATE = 'school.ownership_peps=1,2';
 const ID = 'id';
 const NAME =  'school.name';
 const ACCEPTANCE_RATE = 'latest.admissions.admission_rate.overall';
