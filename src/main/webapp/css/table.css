@@ -24,6 +24,7 @@
 #scroll-div {
   background-color: var(--background-color);
   height: 80%;
+  margin-top:10px;
   max-height: 70vh;
   overflow-y: auto;
 }
@@ -39,6 +40,10 @@
 
 .mdl-list {
   background-color: white;
+}
+
+.mdl-list__item-text-body {
+  margin-left: 60px;
 }
 
 .mdl-list__item--three-line {
