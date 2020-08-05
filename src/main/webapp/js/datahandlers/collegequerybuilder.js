@@ -40,8 +40,8 @@ const ID = 'id';
 const NAME =  'school.name';
 const ACCEPTANCE_RATE = 'latest.admissions.admission_rate.overall';
 const ACT_SCORE = 'latest.admissions.act_scores.midpoint.cumulative';
-const ACCEPTANCE_RANGE = '__range=0..0.6';
-const ACT_RANGE = '__range=25..36';
+const ACCEPTANCE_RANGE = '__range=0..1.0';
+const ACT_RANGE = '__range=0..36';
 const ANNUAL_COST =
     'latest.cost.avg_net_price.private';
 const FIRST_NET_COST = 
