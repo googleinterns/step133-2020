@@ -6,6 +6,10 @@
   --theme-color: rgb(255, 82, 82);
 }
 
+#college-location {
+  padding-left: 0px;
+}
+
 #content {
   animation: fade-in ease 3s;
   border: medium none var(--body-text);
@@ -13,6 +17,10 @@
   -webkit-animation: fade-in ease 3s;
   height: 80%;
   width: 75%;
+}
+
+#home-title {
+  padding-left: 16px;
 }
 
 #navbar {
