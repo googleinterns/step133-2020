@@ -29,6 +29,10 @@
   background-color: var(--secondary-color);
 }
 
+#requirements-list {
+  padding-inline-start: 0px;
+}
+
 #sort-components {
   margin-bottom: 15px;
   position: absolute;
