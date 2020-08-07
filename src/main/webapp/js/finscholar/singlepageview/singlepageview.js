@@ -16,6 +16,9 @@
 
 goog.module('finscholar.singlepageview');
 
+const JsactionActionFlow = goog.require('jsaction.ActionFlow');
+const JsactionDispatcher = goog.require('jsaction.Dispatcher');
+const JsactionEventContract = goog.require('jsaction.EventContract');
 const {BasicView} = goog.require('basicview');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
 
@@ -29,18 +32,32 @@ class SinglePageView extends BasicView {
     super();
 
     /** 
-     * @private @const {!SinglePageDataHandler} dataHandler_ 
+     * @protected @const {!SinglePageDataHandler} dataHandler
      * The object fetches and formats scholarship data.
      */
-    this.dataHandler_ = dataHandler;
+    this.dataHandler = dataHandler;
 
     /**
-     * @private @const {!function(Object): goog.soy.data.SanitizedHtml}
+     * @private @const {function(!Object): !goog.soy.data.SanitizedHtml}
      */
     this.template_ = template;
 
-    /** @private {string} The id of the scholarhsip/college. */
-    this.id_ = '';
+    /** @protected {string} The id of the scholarship/college. */
+    this.id = '';
+
+    /**
+     * @private @type {!Array<function(!Element): ?Promise<undefined>>}
+     */
+    this.listeners_ = [];
+
+    /** @private @const {!JsactionEventContract} */
+    this.eventContract_ = new JsactionEventContract();
+
+    /** @private @const {!JsactionDispatcher} */
+    this.dispatcher_ = new JsactionDispatcher();
+
+    /** @private @const {function(!JsactionActionFlow): ?Promise<undefined>} */
+    this.bindedOnclickHandler_ = this.handleOnclickEvent_.bind(this);
   }
 
   /**
@@ -48,7 +65,43 @@ class SinglePageView extends BasicView {
    * @param {string} id
    */
   setId(id) {
-    this.id_ = id;
+    this.id = id;
+  }
+
+    /**
+   * Sets up the event handlers for elements in the list.
+   * @private
+   */
+  initJsaction_() {
+    // Events will be handled for all elements under this container.
+    this.eventContract_.addContainer(
+        /** @type {!Element} */ (super.getCurrentContentElement()));
+    // Register the event types we care about.
+    this.eventContract_.addEvent('click');
+    this.eventContract_.addEvent('dblclick');
+    this.eventContract_.dispatchTo(
+        this.dispatcher_.dispatch.bind(this.dispatcher_));
+    this.dispatcher_.registerHandlers(
+        'singlepageview',  // the namespace
+        null,              // handler object
+        {
+          // action map
+          'clickAction': this.bindedOnclickHandler_,
+          'doubleClickAction': this.bindedOnclickHandler_,
+        });
+  }
+
+
+  /**
+   * Handles click and double click events on navbar.
+   * @param {!JsactionActionFlow} flow Contains the data related to the action.
+   *     and more. See actionflow.js.
+   * @private
+   */
+  async handleOnclickEvent_(flow) {
+    this.listeners_.forEach(async (listener) => {
+      await listener(/** @type {!Element} */ (flow.node()));
+    });
   }
 
 
@@ -59,18 +112,28 @@ class SinglePageView extends BasicView {
   async renderView() {
     let formattedData = undefined;
     try {
-      formattedData = await this.dataHandler_.fetchAndFormatData(this.id_);
+      formattedData = await this.dataHandler.fetchAndFormatData(this.id);
     } catch (e) {
       console.log(e);
-      throw new Error(`Cannot get data for object ${this.id_}, message: ${e}`);
+      throw new Error(`Cannot get data for object ${this.id}, message: ${e}`);
     }
     try {
-      super.setCurrentContent(this.template_(formattedData));      
+      super.setCurrentContent(
+          this.template_(/** @type {!Object} */(formattedData)));      
       super.resetAndUpdate();
+      this.initJsaction_();
     } catch(e) {
       console.log(e);
       throw new Error(`Failed to generate html: ${e}`);
     }
+  }
+
+  /**
+   * Registers a listener for jsaction.
+   * @param {function(!Element): ?Promise<undefined>} listener
+   */
+  registerListener(listener) {
+    this.listeners_.push(listener);
   }
 }
 

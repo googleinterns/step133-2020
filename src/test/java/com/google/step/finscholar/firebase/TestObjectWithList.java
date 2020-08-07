@@ -16,6 +16,7 @@
 package com.google.step.finscholar.firebase;
 
 import com.google.gson.Gson;
+import java.util.List;
 
 /** 
  * This simple object is used in testing our Firebase methods' behaviour. 
@@ -26,19 +27,17 @@ import com.google.gson.Gson;
  *   other POJO object the same way. This also applies to POJO objects that are instantiated 
  *   using the builder pattern.
  */
-public class TestObject {
+public class TestObjectWithList {
 
-  private String one;
-  private String two;
+  private List<String> one;
+  private List<String> two;
   private static Gson gson = new Gson();
 
-  public TestObject() {}
-
   /**
-   * @param one - An arbitrary string for the first private instance variable.
-   * @param two - An arbitrary string for the second private instance variable.
+   * @param one - An arbitrary string list for the first private instance variable.
+   * @param two - An arbitrary string list for the second private instance variable.
    */
-  public TestObject(String one, String two) {
+  public TestObjectWithList(List<String> one, List<String> two) {
     this.one = one;
     this.two = two;
   }
@@ -48,7 +47,7 @@ public class TestObject {
    * @param newOne
    * @return - This object.
    */
-  public TestObject setOne(String newOne) {
+  public TestObjectWithList setOne(List<String> newOne) {
     this.one = newOne;
     return this;
   }
@@ -58,7 +57,7 @@ public class TestObject {
    * @param newOne
    * @return This object.
    */
-  public TestObject setTwo(String newTwo) {
+  public TestObjectWithList setTwo(List<String> newTwo) {
     this.two = newTwo;
     return this;
   }
@@ -67,7 +66,7 @@ public class TestObject {
    * The required getter for "one" to make this object into a POJO.
    * @return - The value of the "one" private instance variable.
    */
-  public String getOne() {
+  public List<String> getOne() {
     return this.one;
   }
 
@@ -75,7 +74,7 @@ public class TestObject {
    * The required getter for "two" to make this object into a POJO.
    * @return - The value of the "two" private instance variable.
    */
-  public String getTwo() {
+  public List<String> getTwo() {
     return this.two;
   }
 

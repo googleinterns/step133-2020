@@ -25,14 +25,15 @@
           href="https://fonts.googleapis.com/icon?family=Material+Icons">
       <link rel="stylesheet"
           href="https://code.getmdl.io/1.3.0/material.indigo-red.min.css">
+      <link rel="stylesheet" href="../../css/table.css">
+      <link rel="stylesheet" href="../../css/page.css">
       <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
       <script type="module" src="js/bundle.min.js"></script>
       <title>{$pageTitle}</title>
     </head>
     <body>
-      {call Navbar.navbar}{/call}
-      <div class="mdl-card__supporting-text">
-        <h1>FINSCHOLAR</h1>
+      <div id="top-page">
+        {call Navbar.navbar}{/call}
       </div>
       <main id="content">
         {$content}

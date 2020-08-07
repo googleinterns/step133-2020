@@ -22,10 +22,11 @@ goog.module('datahandlers.scholarshiplistdatahandler');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
 
 const AMOUNT_PER_YEAR = 'amountPerYear';
-const ELLIPSIS = '...';
-const END_OF_STRING = 23;
+const DATA_SIZE_ENDPOINT = '/data-size';
 const ID = 'id';
 const SCHOLARSHIP_NAME = 'scholarshipName';
+const REQUIREMENT_PLACE_HOLDER = '';
+const SCHOOLS_LIST = 'schoolsList';
 const UNKNOWN = 'unknown';
 
 /**
@@ -38,19 +39,26 @@ class ScholarshipListDataHandler extends ListDataHandler {
    * The total number of scholarship stored in backend.
    */
   async getTotalNumber() {
-    // TODO: fetch from backend.
-    return 35;  // Presetting page length not supported yet.
+    try {
+      const data = await fetch(DATA_SIZE_ENDPOINT);
+      const numberString = await data.text();
+      return parseInt(numberString, /** radix= */ 10);
+    } catch(e) {
+      throw new Error(`Cannot get total number from server ${e}`);
+    }
   }
 
   /**
    * @param {number} batchIndex The index of last batch rendered.
    * @param {number} itemsPerBatch Number of items requested.
    * @param {string} lastIndex Index of the last item in the list.
+   * @param {string} sortParam The parameter to sort by.
+   * @param {string} sortDirection The direction to sort by.
    * @return {string} The url with query information.
    * @override
    * @protected
    */
-  getPath(batchIndex, itemsPerBatch, lastIndex) {
+  getPath(batchIndex, itemsPerBatch, lastIndex, sortParam, sortDirection) {
     return `/scholarship-list?numberOfItems=${itemsPerBatch}&idOfLastItem=${
         lastIndex}`;
   }
@@ -62,15 +70,13 @@ class ScholarshipListDataHandler extends ListDataHandler {
    * @override
    */
   formatListItem(item) {
-    let amount = (item[AMOUNT_PER_YEAR] || UNKNOWN);
-    amount = amount.length > END_OF_STRING ?
-        amount.substring(0, END_OF_STRING) + ELLIPSIS :
-        amount;
+    let amount = (item[AMOUNT_PER_YEAR] || UNKNOWN);  
     return [
       item[ID],
       item[SCHOLARSHIP_NAME],
-      ELLIPSIS,
-      amount,
+      REQUIREMENT_PLACE_HOLDER,
+      item[SCHOOLS_LIST],
+      `Amount per year: ${amount}`,
     ];
   }
 }

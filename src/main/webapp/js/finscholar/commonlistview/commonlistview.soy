@@ -16,58 +16,79 @@
 
 {template .commonlistview}
   {@param pagetype : string}
-  <table class="mdl-data-table mdl-js-data-table 
-      mdl-data-table--selectable mdl-shadow--2dp">
-    <thead>
-      {if $pagetype == 'scholarships'}
-        {call .scholarshiplistheader /}
-      {elseif $pagetype == 'colleges'}
-        {call .collegelistheader /}
-      {/if}
-    </thead>
-    <tbody id="table-body">
-    </tbody>
-  </table>
-  <div id="status">
-    {call .endoflist /}
+  {@param sortParams : map<string, string>}
+  {@param asc : string}
+  {@param desc : string}
+  <div id ="sortComponents" class="body">
+    {call .sortByComponent}
+      {param paramsToSortBy : $sortParams /}
+    {/call}
+    {call .sortOrderComponent}
+      {param ascending : $asc /}
+      {param descending : $desc /}
+    {/call}
   </div>
-{/template}
-
-{template .scholarshiplistheader}
-  <tr id="table-header">
-    <th class="mdl-data-table__cell--non-numeric">Scholarship Name</th>
-    <th>Schools</th>
-    <th>Amount</th>
-  </tr>
-{/template}
-
-{template .collegelistheader}
-  <tr id="table-header">
-    <th class="mdl-data-table__cell--non-numeric">College Name</th>
-    <th>Acceptance Rate</th>
-    <th>Average ACT</th>
-  </tr>
+  <div id="scroll-div"  class="mdl-shadow--2dp">
+    <ul id="list-frame" class="mdl-list">
+    </ul>
+  </div>
 {/template}
 
 {template .listitems}
   {@param batchofitems: [type: string,  
                          items: list<list<string>>]}
   {for $propsofoneitem in $batchofitems.items}
-    <tr class={$batchofitems.type} id={$propsofoneitem[0]}
+    <li class="{$batchofitems.type} mdl-list__item mdl-list__item--three-line list-item" 
+        id={$propsofoneitem[0]}
         jsaction="commonlistview.clickAction;
         dblclick:commonlistview.doubleClickAction">
-    {for $index in range(1, $propsofoneitem.length())}
-      <td class="mdl-data-table__cell--non-numeric">{$propsofoneitem[$index]}</td>
-    {/for}
-    </tr>
+      <span class="mdl-list__item-primary-content">
+        <i class="material-icons mdl-list__item-avatar" id="avatar">school</i>
+        <h6 class="cell-name">{$propsofoneitem[1]}</h6>
+        <span class="mdl-list__item-text-body">
+          <i class="material-icons">place</i>{$propsofoneitem[3]} <br/>
+          {$propsofoneitem[4]}
+        </span>
+      </span>
+      {if $batchofitems.type == "colleges"}
+        <span class="mdl-list__item-secondary-content">
+          {$propsofoneitem[2]}
+        </span>
+      {/if}
+    </li>
   {/for}
 {/template}
 
 {template .loading}
-  <div class="mdl-spinner mdl-js-spinner is-active"></div>
-  <p> Loading more items ... </p>
+  <div class="body">
+    <div id="p2" class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+    <p class="body-text"> Loading more items ... </p>
+  </div>
 {/template}
 
 {template .endoflist}
-  <p> This is the end of the list. </p>
+  <div class="body">
+    <p class="body-text"> This is the end of the list. </p>
+  </div>
 {/template}
+
+{template .sortByComponent}
+  {@param paramsToSortBy : map<string, string>}
+  <label for="sortBy">Sort By: </label>
+  <select name="sortBy" class="sort" id="sortBy" jsaction="change:commonlistview.change;">
+    {for $key in mapKeys($paramsToSortBy)}
+      <option value={$key}>{$paramsToSortBy[$key]}</option>
+    {/for}
+  </select>
+{/template}
+
+{template .sortOrderComponent}
+  {@param ascending : string}
+  {@param descending : string}
+  <label for="sortOrder">Order: </label>
+  <select name="sortOrder" class="sort" id="sortOrder" jsaction="change:commonlistview.change;">
+    <option value={$ascending}>Ascending</option>
+    <option value={$descending}>Descending</option>
+  </select>
+{/template}
+

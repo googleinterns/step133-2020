@@ -1,0 +1,86 @@
+:root {
+  --body-text: rgb(25, 25, 25);
+  --header-color: rgb(63, 81, 181);
+  --header-text: rgb(255, 255, 255);
+  --secondary-color: rgb(91, 109, 214);
+  --theme-color: rgb(255, 82, 82);
+}
+
+#college-location {
+  padding-left: 0px;
+}
+
+#content {
+  border: medium none var(--body-text);
+  margin: 30px 40px;
+  height: 80%;
+}
+
+#home-title {
+  padding-left: 16px;
+}
+
+#navbar {
+  padding: 0 0 0 28px;
+}
+
+#navbar button {
+  background-color: var(--header-color);
+  color: var(--header-text);
+}
+
+#navbar button.active {
+  background-color: var(--secondary-color);
+}
+
+#navbar button:hover {
+  background-color: var(--secondary-color);
+}
+
+#requirements-list {
+  padding-inline-start: 0px;
+}
+
+#sort-components {
+  margin-bottom: 15px;
+  position: absolute;
+  right: 0px;
+}
+
+.body-text {
+  color: var(--body-text);
+}
+
+.college-title {
+  padding-bottom : 0px;
+}
+
+.default-none {
+  display: none;
+}
+
+.header {
+  color : var(--theme-color);
+  margin: auto;
+  width: 75%;
+}
+
+.mdl-layout__header-row {
+  padding-left: 40px;
+}
+
+.sort {
+  background-color: var(--header-color);
+  color: var(--header-text);
+  margin-right: 60px;
+}
+
+.netcost-list-item {
+  padding-top: 0px;
+  padding-bottom: 16px;
+}
+
+.title {
+  color : var(--theme-color);
+  font : bold;
+}

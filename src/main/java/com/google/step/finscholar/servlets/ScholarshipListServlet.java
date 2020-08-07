@@ -21,6 +21,7 @@ import static com.google.step.finscholar.data.ServletConstantValues.SCHOLARSHIP_
 import static com.google.step.finscholar.data.ServletConstantValues.UNABLE_TO_LOAD_FIREBASE;
 import static com.google.step.finscholar.data.ServletConstantValues.UNABLE_TO_READ_FROM_FIRESTORE;
 
+import static com.google.step.finscholar.data.Utils.getBooleanParameter;
 import static com.google.step.finscholar.data.Utils.getIntParameter;
 import static com.google.step.finscholar.data.Utils.getStringParameter;
 import static com.google.step.finscholar.firebase.FirebaseStorageManager.getCollectionBatch;
@@ -45,6 +46,7 @@ public class ScholarshipListServlet extends HttpServlet {
   private static String ITEMS_PER_BATCH = "numberOfItems";
   private static String ID_OF_LAST_ITEM = "idOfLastItem";
   private static String SORT_BY = "sortBy";
+  private static String  SORT_ORDER = "sortOrder";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -62,10 +64,11 @@ public class ScholarshipListServlet extends HttpServlet {
       try {
         Optional<String> idOfLastItem = getStringParameter(request, ID_OF_LAST_ITEM);
         Optional<String> sortBy = getStringParameter(request, SORT_BY);
+        Optional<Boolean> sortOrder = getBooleanParameter(request, SORT_ORDER);
         response.setContentType(JSON_CONTENT_TYPE);
         response.getWriter().println(
             getCollectionBatch(database.get(), SCHOLARSHIP_COLLECTION_NAME, 
-                               itemsPerBatch, idOfLastItem, sortBy));
+                               itemsPerBatch, idOfLastItem, sortBy, sortOrder));
       } catch (FirebaseException firebaseException) {
         response.sendError(HttpServletResponse.SC_NO_CONTENT, 
             UNABLE_TO_READ_FROM_FIRESTORE + firebaseException);

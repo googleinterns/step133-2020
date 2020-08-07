@@ -19,27 +19,17 @@
 
 goog.module('datahandlers.collegepage');
 
-const {ACCEPTANCE_RATE, ACT_SCORE, CollegeQueryBuilder, FIFTH_NET_COST, FIRST_NET_COST, FOURTH_NET_COST, MEDIAN_DEBT, NAME, SECOND_NET_COST, THIRD_NET_COST} = goog.require('datahandlers.collegequerybuilder');
+const {ACCEPTANCE_RATE, ACT_SCORE, ANNUAL_COST, ANNUAL_COST_PUBLIC, CITY,
+    CollegeQueryBuilder, FIFTH_NET_COST, FIFTH_NET_COST_PUBLIC, FIRST_NET_COST, 
+    FIRST_NET_COST_PUBLIC, FOURTH_NET_COST, FOURTH_NET_COST_PUBLIC, MEDIAN_DEBT, NAME, 
+    SECOND_NET_COST, SECOND_NET_COST_PUBLIC, STATE, THIRD_NET_COST, THIRD_NET_COST_PUBLIC, TYPE} = 
+        goog.require('datahandlers.collegequerybuilder');
 const {SinglePageDataHandler} = goog.require('datahandlers.singlepagedatahandler');
-
+const {convertToDollar, convertToPercent} = goog.require('datahandlers.utils');
+const FIND_SCHOLARSHIP_ENDPOINT = '/find-scholarship';
 const RESULTS = 'results';
-
-/**
- * @typedef {{
- *   schoolName: string,
- *   institutionType: string,
- *   acceptanceRate: number,
- *   averageACTScore: number,
- *   totalCostAttendance: number,
- *   netCostForFirstQuintile: number,
- *   netCostForSecondQuintile: number,
- *   netCostForThirdQuintile: number,
- *   netCostForFourthQuintile: number,
- *   netCostForFifthQuintile: number,
- *   cumulativeMedianDebt: number
- * }}
- */
-let CollegeObject;
+const SCHOLARSHIP_NAME = 'scholarshipName';
+const PUBLIC = 1;
 
 class CollegeDataHandler extends SinglePageDataHandler {
   constructor() {
@@ -76,24 +66,67 @@ class CollegeDataHandler extends SinglePageDataHandler {
    */
   convertFromJsonToTemplate(element) {
     return {
-      schoolName: element[NAME],
-      acceptanceRate: element[ACCEPTANCE_RATE].toString(),
-      averageACTScore: element[ACT_SCORE].toString(),
-      netCostForFirstQuintile: element[FIRST_NET_COST].toString(),
-      netCostForSecondQuintile: element[SECOND_NET_COST].toString(),
-      netCostForThirdQuintile: element[THIRD_NET_COST].toString(),
-      netCostForFourthQuintile: element[FOURTH_NET_COST].toString(),
-      netCostForFifthQuintile: element[FIFTH_NET_COST].toString(),
-      cumulativeMedianDebt: element[MEDIAN_DEBT].toString()
+      schoolName : element[NAME],
+      annualCost : (element[TYPE] == PUBLIC) ? 
+          convertToDollar(element[ANNUAL_COST_PUBLIC]) : 
+          convertToDollar(element[ANNUAL_COST]),
+      location : `${element[CITY]}, ${element[STATE]}`,
+      acceptanceRate : convertToPercent(element[ACCEPTANCE_RATE]),
+      averageACTScore : element[ACT_SCORE].toString(),
+      netCostForFirstQuintile : (element[TYPE] == PUBLIC) ? 
+          convertToDollar(element[FIRST_NET_COST_PUBLIC]) :
+          convertToDollar(element[FIRST_NET_COST]),
+      netCostForSecondQuintile : (element[TYPE] == PUBLIC) ?
+          convertToDollar(element[SECOND_NET_COST_PUBLIC]) :
+          convertToDollar(element[SECOND_NET_COST]),
+      netCostForThirdQuintile : (element[TYPE] == PUBLIC) ?
+          convertToDollar(element[THIRD_NET_COST_PUBLIC]) :
+          convertToDollar(element[THIRD_NET_COST]),
+      netCostForFourthQuintile : (element[TYPE] == PUBLIC) ?
+          convertToDollar(element[FOURTH_NET_COST_PUBLIC]) :
+          convertToDollar(element[FOURTH_NET_COST]),
+      netCostForFifthQuintile : (element[TYPE] == PUBLIC) ?
+          convertToDollar(element[FIFTH_NET_COST_PUBLIC]) :
+          convertToDollar(element[FIFTH_NET_COST]),
+      cumulativeMedianDebt : convertToDollar(element[MEDIAN_DEBT])
+    };
+  };
+
+  /**
+   * @param {string} id 
+   * @return {!Promise<!Array<{
+   * id: string,
+   * name: string
+   * }>>}
+   * Find all scholarships related to a college by college id.
+   */
+  async findScholarships(id) {
+    try {
+      let scholarshipResponse = await fetch(`${FIND_SCHOLARSHIP_ENDPOINT}?id=${id}`);
+      let scholarshipJson = await scholarshipResponse.json();
+      if (scholarshipJson == undefined || scholarshipJson == []) {
+        throw new Error('Scholarship Json is Empty');
+      }
+      return scholarshipJson.map((e) => this.formatScholarshipListButton_(e));
+    } catch(e) {
+      throw new Error(`Cannot get scholarship json ${e}`);
+    }
+  }
+
+  /**
+   * @param {!Object} elem
+   * @returns {{
+   * id: string,
+   * name: string
+   * }} elem The scholarship element to be formatted.
+   * @private
+   */
+  formatScholarshipListButton_(elem) {
+    return {
+      'name' : elem[SCHOLARSHIP_NAME],
+      'id' : elem['id'],
     };
   }
 }
-
-/**
- * Loads the error page.
- */
-const loadErrorPage_ = (element, occurrence, action, error) => {
-  // TODO: This is being rewritten.
-};
 
 exports = {CollegeDataHandler};

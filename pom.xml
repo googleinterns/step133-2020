@@ -26,7 +26,7 @@
       <groupId>com.google.auth</groupId>
       <artifactId>google-auth-library-appengine</artifactId>
       <version>0.21.0</version>
-    </dependency>
+   </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
@@ -62,7 +62,7 @@
             <id>default-minify</id>
             <configuration>
               <!-- Set below to false before deploying. -->
-              <closureCreateSourceMap>false</closureCreateSourceMap>
+              <closureCreateSourceMap>true</closureCreateSourceMap>
               <encoding>UTF-8</encoding>
               <includes>**/*.js</includes>
               <closureCompilationLevel>ADVANCED_OPTIMIZATIONS
@@ -80,8 +80,7 @@
                 </closureSourceMapLocationMapping>
               </closureSourceMapLocationMappings>
               <closureSourceMapName>bundle.min.map.js</closureSourceMapName>
-              <closureUseTypesForOptimization>true
-              </closureUseTypesForOptimization>
+              <closureUseTypesForOptimization>true</closureUseTypesForOptimization>
             </configuration>
             <goals>
               <goal>minify</goal>

@@ -19,8 +19,14 @@
 
 goog.module('datahandlers.collegelistdatahandler');
 
-const {ACCEPTANCE_RATE, ACT_SCORE, CollegeQueryBuilder, ID, NAME} = goog.require('datahandlers.collegequerybuilder');
+const {ACCEPTANCE_RATE, ACT_SCORE, CITY, CollegeQueryBuilder, ID, NAME, STATE} = goog.require('datahandlers.collegequerybuilder');
 const {ListDataHandler} = goog.require('datahandlers.listdatahandler');
+const {concatTitleToValue, convertToPercent} = goog.require('datahandlers.utils');
+
+const METADATA = 'metadata';
+const TOTAL = 'total';
+const ACCEPTANCE_TITLE = 'Acceptance Rate:';
+const ACT_TITLE = 'Average ACT Score:';
 
 /**
  * The data controller which fetches college data
@@ -36,7 +42,13 @@ class CollegeListDataHandler extends ListDataHandler {
    * The total number of scholarship stored in backend.
    */
   async getTotalNumber() {
-    return 250;
+    try {
+      let data = await fetch(CollegeQueryBuilder.buildCollectionEndpoint(0, 1));
+      let number = await data.json();
+      return parseInt(number[METADATA][TOTAL], /** radix= */ 10);
+    } catch(e) {
+      throw new Error(`Cannot get total number from server ${e}`);
+    }
   }
 
   /**
@@ -50,8 +62,9 @@ class CollegeListDataHandler extends ListDataHandler {
     return [
       element[ID].toString(),
       element[NAME],
-      element[ACCEPTANCE_RATE].toString(),
-      element[ACT_SCORE].toString(),
+      concatTitleToValue(ACCEPTANCE_TITLE, convertToPercent(element[ACCEPTANCE_RATE])),
+      `${element[CITY]}, ${element[STATE]}`,
+       concatTitleToValue(ACT_TITLE, element[ACT_SCORE].toString()),
     ];
   }
 
@@ -59,13 +72,16 @@ class CollegeListDataHandler extends ListDataHandler {
    * @param {number} batchIndex The index of last batch rendered.
    * @param {number} itemsPerBatch Number of items requested.
    * @param {string} lastIndex Index of the last item in the list.
+   * @param {string} sortParam The parameter to sort by.
+   * @param {string} sortDirection The sort direction/order.
    * @return {string} The url with query information.
    * @override
    * @protected
    */
-  getPath(batchIndex, itemsPerBatch, lastIndex) {
-    return CollegeQueryBuilder.buildCollectionEndpoint(
-        batchIndex, itemsPerBatch);
+  getPath(batchIndex, itemsPerBatch, lastIndex, sortParam, sortDirection) {
+    return CollegeQueryBuilder.buildSortedCollectionEndpoint(
+        batchIndex, itemsPerBatch,
+        sortParam, sortDirection);
   }
 }
 
