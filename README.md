@@ -1,6 +1,6 @@
 # STEP Capstone Project - Finscholar
 
-# Objective:
+## Objective:
 
 There exists a significant gap in information that many high school students face when it 
 comes to college financial aid and scholarships. 
@@ -20,7 +20,7 @@ financial aid and college-specific scholarships.
 We collected and stored this information and presented it in a way that is easy to 
 navigate and digest. 
 
-# What we used:
+## What we used:
 
 - We used soy closure templates, CSS, and Closure JavaScript for our frontend. 
 
@@ -30,7 +30,7 @@ navigate and digest.
 
 - We used Material Design Lite as our primary CSS source. 
 
-# How to Build:
+## How to Build:
 
 - Must be run in Google Cloud Appengine console.
 - Fork this repository.
