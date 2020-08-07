@@ -40,11 +40,12 @@ navigate and digest.
 - You must also obtain an API key from here: https://api.data.gov/signup/
 - Once you've obtained the API key, create a file called config.js.
 - Paste this code into the file:
-``goog.module('datahandlers.config');
+``goog.module('datahandlers.config');``
 
-const COLLEGE_API_KEY = '**YOUR API KEY HERE**';
+``const COLLEGE_API_KEY = '**YOUR API KEY HERE**';``
 
-exports = {COLLEGE_API_KEY};``
+``exports = {COLLEGE_API_KEY};``
+
 - The project is ready to be run locally or deployed.
 `./run` to run locally.
 -`./deploy` to deploy to your Appengine project.
