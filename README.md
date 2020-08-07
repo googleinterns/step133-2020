@@ -1,4 +1,5 @@
 STEP Capstone Project - Finscholar
+
 There exists a significant gap in information that many high school students face when it 
 comes to college financial aid and scholarships. Unfortunately, a lot of the information 
 available is not easily accessible, locked behind a pay wall, or simply presented in a 
