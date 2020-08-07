@@ -1,4 +1,4 @@
-STEP Capstone Project - Finscholar
+# STEP Capstone Project - Finscholar
 
 # Objective:
 
