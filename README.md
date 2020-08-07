@@ -37,7 +37,7 @@ navigate and digest.
 - Navigate to the root directory of this repository
 - In the pom.xml file, find `<deploy.projectId>**YOUR PROJECT ID HERE**</deploy.projectId>`.
    and replace the project id with the id of your Appengine project.
-- You must also obtain an API key from here: https://api.data.gov/signup/
+- You must also obtain an API key from here: https://api.data.gov/signup/.
 - Once you've obtained the API key, create a file called config.js.
 - Paste this code into the file:
 
@@ -48,5 +48,5 @@ navigate and digest.
 ``exports = {COLLEGE_API_KEY};``
 
 - The project is ready to be run locally or deployed.
-`./run` to run locally.
+-`./run` to run locally.
 -`./deploy` to deploy to your Appengine project.
