@@ -1,6 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <!--
+    Copyright 2019 Google LLC. All Rights Reserved.
+
+    Use of this source code is governed by the Apache License, Version 2.0.
+    See the LICENSE file for details.
+  -->
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.google.step.finscholar</groupId>
@@ -26,7 +32,7 @@
       <groupId>com.google.auth</groupId>
       <artifactId>google-auth-library-appengine</artifactId>
       <version>0.21.0</version>
-   </dependency>
+    </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
@@ -62,7 +68,7 @@
             <id>default-minify</id>
             <configuration>
               <!-- Set below to false before deploying. -->
-              <closureCreateSourceMap>true</closureCreateSourceMap>
+              <closureCreateSourceMap>false</closureCreateSourceMap>
               <encoding>UTF-8</encoding>
               <includes>**/*.js</includes>
               <closureCompilationLevel>ADVANCED_OPTIMIZATIONS
@@ -80,7 +86,8 @@
                 </closureSourceMapLocationMapping>
               </closureSourceMapLocationMappings>
               <closureSourceMapName>bundle.min.map.js</closureSourceMapName>
-              <closureUseTypesForOptimization>true</closureUseTypesForOptimization>
+              <closureUseTypesForOptimization>true
+              </closureUseTypesForOptimization>
             </configuration>
             <goals>
               <goal>minify</goal>
