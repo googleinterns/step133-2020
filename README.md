@@ -48,5 +48,5 @@ navigate and digest.
 ``exports = {COLLEGE_API_KEY};``
 
 - The project is ready to be run locally or deployed.
--`./run` to run locally.
--`./deploy` to deploy to your Appengine project.
+- `./run` to run locally.
+- `./deploy` to deploy to your Appengine project.
