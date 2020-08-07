@@ -16,14 +16,59 @@
 
 goog.module('datahandlers.utils');
 
+const DOLLAR_SIGN = '$';
+/** 
+ * This regex is used to add commas in between each 3 digits of a integer.
+ * So 3000000 becomes --> 3,000,000.
+ */
+const NUM_REGEX = /\B(?=(\d{3})+(?!\d))/g;
+
 /** 
  * Converts camelcase string to phrases.
  * @param {string} str The camelcase string.
- * @returns The formatted string.
+ * @returns {string} The formatted string.
  */
 const addSpaceToCamelCase = (str) => {
   let result = str.replace( /([A-Z])/g, " $1" );
   return result.charAt(0).toUpperCase() + result.slice(1);
-}
+};
 
-exports = {addSpaceToCamelCase};
+/**
+ * Converts decimal to a string representing a percent.
+ * @param {number} num - The decimal to convert.
+ * @returns {string} - The string representation of the number as a percent.
+ */
+const convertToPercent = (num) => {
+  num *= 100;
+  return num.toFixed(/** precision= */ 2).concat('%');
+};
+
+/**
+ * Concatenates a title to a value: used to format fields in list view.
+ * @param {string} title - The title to concatenate.
+ * @param {string} value - The value to concatenate.
+ * @returns {string} - The formatted string.
+ */
+ const concatTitleToValue = (title, value) => {
+   return title.concat(` ${value}`);
+ };
+
+/**
+ * This method returns a string representing a number with commas.
+ * @param {number} num - The number to convert.
+ * @returns {string} - The string representation of the number with commas.
+ */
+const integerWithCommas = (num) => {
+  return num.toString().replace(NUM_REGEX, ',');
+};
+
+/**
+ * This method returns a string representing an integer in $ format with commas.
+ * @param {number} num - The number to convert.
+ * @returns {string} - The string representation of the number with commas and $.
+ */
+const convertToDollar = (num) => {
+  return DOLLAR_SIGN.concat(integerWithCommas(num));
+};
+
+exports = {addSpaceToCamelCase, concatTitleToValue, convertToPercent, convertToDollar};
